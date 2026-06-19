@@ -1,0 +1,27 @@
+# Private local settings
+local-settings.properties
+
+# Private runtime files
+.botc-startup-history.json
+data/logs/
+data/saves/
+data/world/
+data/world_backup_wrong/
+data/.cache/
+data/.fabric/
+data/libraries/
+data/versions/
+data/.rcon-cli.env
+data/.rcon-cli.yaml
+data/server.properties
+data/ops.json
+data/usercache.json
+data/banned-ips.json
+data/banned-players.json
+data/whitelist.json
+data/eula.txt
+data/fabric-server-*.jar
+
+# Local backups
+*.bak-*
+backups/

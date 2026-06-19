@@ -1,0 +1,1 @@
+execute as @a run function ct:admin/reset_st_variables_2
