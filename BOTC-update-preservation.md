@@ -37,6 +37,19 @@ function ct:admin/init/yawp_reset
 function ct:admin/init/yawp_regions
 ```
 
+`Start.bat` now runs the preservation backup automatically before it starts
+Docker. That means the backup is created before Docker checks or downloads
+modpack files.
+
+Each automatic pre-start backup creates:
+
+```text
+backups/BOTC-world-<timestamp>.zip
+backups/BOTC-custom-files-<timestamp>.zip
+backups/BOTC-customizations-<timestamp>.gitbundle
+backups/BOTC-backup-<timestamp>.json
+```
+
 ## Custom File Areas
 
 These areas contain custom work and must be preserved across updates:

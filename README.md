@@ -111,10 +111,14 @@ there.
 
 The launcher will:
 
-1. Start the Docker Minecraft server.
-2. Start playit.gg if enabled.
-3. Wait until Minecraft is ready.
-4. Show a Minecraft command prompt.
+1. Create a pre-start backup in `backups`.
+2. Start the Docker Minecraft server.
+3. Start playit.gg if enabled.
+4. Wait until Minecraft is ready.
+5. Show a Minecraft command prompt.
+
+The pre-start backup happens before Docker checks or downloads modpack files.
+It includes the world, the custom BOTC files, and a Git restore bundle.
 
 When you see this, the server is ready:
 
@@ -169,6 +173,7 @@ so Minecraft can save properly.
 Do not share these files or folders from a live server:
 
 - `local-settings.properties`
+- `backups`
 - `data/logs`
 - `data/saves`
 - `data/world`
