@@ -277,6 +277,125 @@ function Save-Startup-Duration($start) {
     } | ConvertTo-Json | Set-Content -LiteralPath $path -Encoding ASCII
 }
 
+function Get-FileSha256($path) {
+    if(-not (Test-Path -LiteralPath $path)) {
+        return $null
+    }
+
+    try {
+        return (Get-FileHash -Algorithm SHA256 -LiteralPath $path).Hash
+    } catch {
+        return $null
+    }
+}
+
+function Test-DockerContainerRunning($name) {
+    try {
+        $running = docker inspect -f '{{.State.Running}}' $name 2>$null
+        return ($LASTEXITCODE -eq 0 -and $running -eq 'true')
+    } catch {
+        return $false
+    }
+}
+
+function Remove-DirectoryInsideBackups($path) {
+    $backupRoot = [IO.Path]::GetFullPath((Join-Path $d 'backups'))
+    $target = [IO.Path]::GetFullPath($path)
+
+    if($target.StartsWith($backupRoot, [StringComparison]::OrdinalIgnoreCase) -and (Test-Path -LiteralPath $target)) {
+        Remove-Item -LiteralPath $target -Recurse -Force
+    }
+}
+
+function Backup-BotcBeforeStart {
+    $backupRoot = Join-Path $d 'backups'
+    New-Item -ItemType Directory -Path $backupRoot -Force | Out-Null
+
+    $timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+    $worldPath = Join-Path $d 'data\world'
+    $staging = Join-Path $backupRoot "world-staging-$timestamp"
+    $stagingWorld = Join-Path $staging 'world'
+    $worldZip = Join-Path $backupRoot "BOTC-world-$timestamp.zip"
+    $customZip = Join-Path $backupRoot "BOTC-custom-files-$timestamp.zip"
+    $bundle = Join-Path $backupRoot "BOTC-customizations-$timestamp.gitbundle"
+    $manifest = Join-Path $backupRoot "BOTC-backup-$timestamp.json"
+    $created = New-Object System.Collections.Generic.List[string]
+    $saveWasDisabled = $false
+
+    Write-Host "Creating pre-start backup before Docker checks for modpack updates..." -ForegroundColor Yellow
+
+    try {
+        if(Test-DockerContainerRunning $c) {
+            docker exec -i $c rcon-cli "save-off" *> $null
+            if($LASTEXITCODE -eq 0) {
+                $saveWasDisabled = $true
+                docker exec -i $c rcon-cli "save-all flush" *> $null
+            } else {
+                Write-Host "WARNING: Server is running, but RCON save-off failed. Backup will continue with current files." -ForegroundColor Yellow
+            }
+        }
+
+        if(Test-Path -LiteralPath $worldPath) {
+            New-Item -ItemType Directory -Path $stagingWorld -Force | Out-Null
+            Copy-Item -Path (Join-Path $worldPath '*') -Destination $stagingWorld -Recurse -Force -Exclude 'session.lock'
+            Compress-Archive -Path $stagingWorld -DestinationPath $worldZip -CompressionLevel Optimal -Force
+            $created.Add($worldZip) | Out-Null
+        }
+
+        $customPaths = @(
+            (Join-Path $d '.gitignore'),
+            (Join-Path $d 'README.md'),
+            (Join-Path $d 'Start.bat'),
+            (Join-Path $d 'compose.yml'),
+            (Join-Path $d 'startup-script.ps1'),
+            (Join-Path $d 'local-settings.example.properties'),
+            (Join-Path $d 'BOTC-command-block-notes.md'),
+            (Join-Path $d 'BOTC-plugin-todo.md'),
+            (Join-Path $d 'BOTC-update-preservation.md'),
+            (Join-Path $d 'data\resources\datapack\required\ct')
+        ) | Where-Object { Test-Path -LiteralPath $_ }
+
+        if($customPaths.Count -gt 0) {
+            Compress-Archive -Path $customPaths -DestinationPath $customZip -CompressionLevel Optimal -Force
+            $created.Add($customZip) | Out-Null
+        }
+
+        if(Test-Path -LiteralPath (Join-Path $d '.git')) {
+            git bundle create $bundle --all *> $null
+            if($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $bundle)) {
+                $created.Add($bundle) | Out-Null
+            }
+        }
+
+        [ordered]@{
+            createdAt = (Get-Date).ToString('s')
+            reason = 'pre-start backup before Docker/modpack update check'
+            modpack = 'Modrinth BOTC'
+            composeSha256 = Get-FileSha256 (Join-Path $d 'compose.yml')
+            startupScriptSha256 = Get-FileSha256 (Join-Path $d 'startup-script.ps1')
+            files = @($created)
+        } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $manifest -Encoding ASCII
+        $created.Add($manifest) | Out-Null
+
+        Write-Host "Pre-start backup created:" -ForegroundColor Green
+        foreach($file in $created) {
+            $item = Get-Item -LiteralPath $file -ErrorAction SilentlyContinue
+            if($item) {
+                $mb = [Math]::Round($item.Length / 1MB, 2)
+                Write-Host "  $($item.Name) ($mb MB)"
+            }
+        }
+    } catch {
+        Write-Host "WARNING: Pre-start backup failed. Docker startup will continue." -ForegroundColor Yellow
+        Write-Host $_
+    } finally {
+        if($saveWasDisabled) {
+            docker exec -i $c rcon-cli "save-on" *> $null
+        }
+        Remove-DirectoryInsideBackups $staging
+    }
+}
+
 function Set-PropertiesFileValues($path, $values) {
     $dir = Split-Path -Parent $path
     if(-not (Test-Path -LiteralPath $dir)) {
@@ -550,6 +669,7 @@ function Wait-For-Minecraft-Ready($name) {
 
 Read-BotcLocalSettings
 Ensure-VoiceChatConfig
+Backup-BotcBeforeStart
 Write-Host "Starting BOTC Minecraft server..." -ForegroundColor Green
 docker compose up -d | Out-Host
 Ensure-Playit
