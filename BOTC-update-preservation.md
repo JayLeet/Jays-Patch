@@ -24,7 +24,8 @@ normally.
 Before any modpack update:
 
 1. Save the server.
-2. Make a world backup from `data/world`.
+2. Start through `Start.bat` so the automatic backup runs before Docker checks
+   the modpack.
 3. Commit or copy all custom code/config files.
 4. Update the Modrinth version in `compose.yml`.
 5. Start the server and check whether custom files were overwritten.
@@ -41,14 +42,40 @@ function ct:admin/init/yawp_regions
 Docker. That means the backup is created before Docker checks or downloads
 modpack files.
 
-Each automatic pre-start backup creates:
+The launcher keeps two backup slots:
 
 ```text
-backups/BOTC-world-<timestamp>.zip
-backups/BOTC-custom-files-<timestamp>.zip
-backups/BOTC-customizations-<timestamp>.gitbundle
-backups/BOTC-backup-<timestamp>.json
+backups/latest
+backups/standard
 ```
+
+`backups/latest` is overwritten every time `Start.bat` runs. It is the newest
+pre-start safety copy.
+
+`backups/standard` is not overwritten automatically. It is the known-good
+baseline. The first startup creates it if it does not exist.
+
+Each slot contains:
+
+```text
+BOTC-world.zip
+BOTC-custom-files.zip
+BOTC-customizations.gitbundle
+BOTC-backup.json
+```
+
+To approve the latest backup as the new standard, type this in the launcher
+console after testing:
+
+```text
+promote-backup
+```
+
+The launcher asks for `YES` before replacing `backups/standard`.
+
+If the pre-start backup fails, startup stops before Docker can check for a
+modpack update. This is intentional: continuing after a failed preservation
+backup would make updates harder to reason about.
 
 ## Custom File Areas
 
