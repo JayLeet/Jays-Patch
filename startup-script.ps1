@@ -84,10 +84,11 @@ function Help-Menu {
     Write-Host "  function ct:admin/init/yawp_regions"
     Write-Host ""
     Write-Host "Special commands:"
-    Write-Host "  help  = show this menu"
-    Write-Host "  cls   = clear the screen"
-    Write-Host "  stop  = stop the Minecraft server and close this window"
-    Write-Host "  exit  = close this window without stopping the server"
+    Write-Host "  help           = show this menu"
+    Write-Host "  cls            = clear the screen"
+    Write-Host "  promote-backup = ask before replacing standard backup with latest backup"
+    Write-Host "  stop           = stop the Minecraft server and close this window"
+    Write-Host "  exit           = close this window without stopping the server"
     Write-Host ""
 }
 
@@ -300,29 +301,126 @@ function Test-DockerContainerRunning($name) {
 
 function Remove-DirectoryInsideBackups($path) {
     $backupRoot = [IO.Path]::GetFullPath((Join-Path $d 'backups'))
+    $backupRootPrefix = $backupRoot.TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
     $target = [IO.Path]::GetFullPath($path)
 
-    if($target.StartsWith($backupRoot, [StringComparison]::OrdinalIgnoreCase) -and (Test-Path -LiteralPath $target)) {
-        Remove-Item -LiteralPath $target -Recurse -Force
+    if($target.StartsWith($backupRootPrefix, [StringComparison]::OrdinalIgnoreCase) -and (Test-Path -LiteralPath $target)) {
+        Remove-Item -LiteralPath $target -Recurse -Force -ErrorAction Stop
+    }
+}
+
+function Get-BotcBackupSlotPath($slotName) {
+    return (Join-Path (Join-Path $d 'backups') $slotName)
+}
+
+function Get-BotcCustomBackupPaths {
+    return @(
+        (Join-Path $d '.gitignore'),
+        (Join-Path $d 'README.md'),
+        (Join-Path $d 'Start.bat'),
+        (Join-Path $d 'compose.yml'),
+        (Join-Path $d 'startup-script.ps1'),
+        (Join-Path $d 'local-settings.example.properties'),
+        (Join-Path $d 'BOTC-command-block-notes.md'),
+        (Join-Path $d 'BOTC-plugin-todo.md'),
+        (Join-Path $d 'BOTC-update-preservation.md'),
+        (Join-Path $d 'data\resources\datapack\required\ct')
+    ) | Where-Object { Test-Path -LiteralPath $_ }
+}
+
+function Copy-DirectoryContents($source, $destination) {
+    New-Item -ItemType Directory -Path $destination -Force -ErrorAction Stop | Out-Null
+    $children = @(Get-ChildItem -LiteralPath $source -Force -ErrorAction Stop)
+    foreach($child in $children) {
+        Copy-Item -LiteralPath $child.FullName -Destination $destination -Recurse -Force -ErrorAction Stop
+    }
+}
+
+function Write-BotcBackupSlot($slotName, $reason) {
+    $backupRoot = Join-Path $d 'backups'
+    New-Item -ItemType Directory -Path $backupRoot -Force -ErrorAction Stop | Out-Null
+
+    $slotPath = Get-BotcBackupSlotPath $slotName
+    $staging = Join-Path $backupRoot "$slotName-staging"
+    $worldPath = Join-Path $d 'data\world'
+    $stagingWorld = Join-Path $staging 'world'
+    $worldZip = Join-Path $staging 'BOTC-world.zip'
+    $customZip = Join-Path $staging 'BOTC-custom-files.zip'
+    $bundle = Join-Path $staging 'BOTC-customizations.gitbundle'
+    $manifest = Join-Path $staging 'BOTC-backup.json'
+    $created = New-Object System.Collections.Generic.List[string]
+
+    Remove-DirectoryInsideBackups $staging
+    New-Item -ItemType Directory -Path $staging -Force -ErrorAction Stop | Out-Null
+
+    try {
+        if(Test-Path -LiteralPath $worldPath) {
+            New-Item -ItemType Directory -Path $stagingWorld -Force -ErrorAction Stop | Out-Null
+            $worldChildren = @(Get-ChildItem -LiteralPath $worldPath -Force -ErrorAction Stop | Where-Object { $_.Name -ne 'session.lock' })
+            foreach($child in $worldChildren) {
+                Copy-Item -LiteralPath $child.FullName -Destination $stagingWorld -Recurse -Force -ErrorAction Stop
+            }
+            Compress-Archive -Path $stagingWorld -DestinationPath $worldZip -CompressionLevel Optimal -Force -ErrorAction Stop
+            Remove-DirectoryInsideBackups $stagingWorld
+            $created.Add('BOTC-world.zip') | Out-Null
+        }
+
+        $customPaths = @(Get-BotcCustomBackupPaths)
+
+        if($customPaths.Count -gt 0) {
+            Compress-Archive -Path $customPaths -DestinationPath $customZip -CompressionLevel Optimal -Force -ErrorAction Stop
+            $created.Add('BOTC-custom-files.zip') | Out-Null
+        }
+
+        if(Test-Path -LiteralPath (Join-Path $d '.git')) {
+            git bundle create $bundle --all *> $null
+            if($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $bundle)) {
+                $created.Add('BOTC-customizations.gitbundle') | Out-Null
+            } else {
+                Write-Host "WARNING: Git backup bundle could not be created. The custom file zip was still created." -ForegroundColor Yellow
+            }
+        }
+
+        [ordered]@{
+            createdAt = (Get-Date).ToString('s')
+            slot = $slotName
+            reason = $reason
+            modpack = 'Modrinth BOTC'
+            composeSha256 = Get-FileSha256 (Join-Path $d 'compose.yml')
+            startupScriptSha256 = Get-FileSha256 (Join-Path $d 'startup-script.ps1')
+            files = @($created)
+        } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $manifest -Encoding ASCII -ErrorAction Stop
+        $created.Add('BOTC-backup.json') | Out-Null
+
+        Remove-DirectoryInsideBackups $slotPath
+        Move-Item -LiteralPath $staging -Destination $slotPath -ErrorAction Stop
+
+        return [pscustomobject]@{
+            Path = $slotPath
+            Files = @($created)
+        }
+    } catch {
+        Remove-DirectoryInsideBackups $staging
+        throw
+    }
+}
+
+function Show-BotcBackupSlot($label, $backup) {
+    Write-Host "$label backup: $($backup.Path)" -ForegroundColor Green
+    foreach($file in $backup.Files) {
+        $path = Join-Path $backup.Path $file
+        $item = Get-Item -LiteralPath $path -ErrorAction SilentlyContinue
+        if($item) {
+            $mb = [Math]::Round($item.Length / 1MB, 2)
+            Write-Host "  $file ($mb MB)"
+        }
     }
 }
 
 function Backup-BotcBeforeStart {
-    $backupRoot = Join-Path $d 'backups'
-    New-Item -ItemType Directory -Path $backupRoot -Force | Out-Null
-
-    $timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
-    $worldPath = Join-Path $d 'data\world'
-    $staging = Join-Path $backupRoot "world-staging-$timestamp"
-    $stagingWorld = Join-Path $staging 'world'
-    $worldZip = Join-Path $backupRoot "BOTC-world-$timestamp.zip"
-    $customZip = Join-Path $backupRoot "BOTC-custom-files-$timestamp.zip"
-    $bundle = Join-Path $backupRoot "BOTC-customizations-$timestamp.gitbundle"
-    $manifest = Join-Path $backupRoot "BOTC-backup-$timestamp.json"
-    $created = New-Object System.Collections.Generic.List[string]
     $saveWasDisabled = $false
 
-    Write-Host "Creating pre-start backup before Docker checks for modpack updates..." -ForegroundColor Yellow
+    Write-Host "Creating latest pre-start backup before Docker checks for modpack updates..." -ForegroundColor Yellow
 
     try {
         if(Test-DockerContainerRunning $c) {
@@ -331,68 +429,87 @@ function Backup-BotcBeforeStart {
                 $saveWasDisabled = $true
                 docker exec -i $c rcon-cli "save-all flush" *> $null
             } else {
-                Write-Host "WARNING: Server is running, but RCON save-off failed. Backup will continue with current files." -ForegroundColor Yellow
+                throw "Server is running, but RCON save-off failed. Startup stopped so an unsafe backup is not used."
             }
         }
 
-        if(Test-Path -LiteralPath $worldPath) {
-            New-Item -ItemType Directory -Path $stagingWorld -Force | Out-Null
-            Copy-Item -Path (Join-Path $worldPath '*') -Destination $stagingWorld -Recurse -Force -Exclude 'session.lock'
-            Compress-Archive -Path $stagingWorld -DestinationPath $worldZip -CompressionLevel Optimal -Force
-            $created.Add($worldZip) | Out-Null
-        }
+        $latest = Write-BotcBackupSlot 'latest' 'automatic pre-start backup before Docker/modpack update check'
+        Show-BotcBackupSlot 'Latest' $latest
 
-        $customPaths = @(
-            (Join-Path $d '.gitignore'),
-            (Join-Path $d 'README.md'),
-            (Join-Path $d 'Start.bat'),
-            (Join-Path $d 'compose.yml'),
-            (Join-Path $d 'startup-script.ps1'),
-            (Join-Path $d 'local-settings.example.properties'),
-            (Join-Path $d 'BOTC-command-block-notes.md'),
-            (Join-Path $d 'BOTC-plugin-todo.md'),
-            (Join-Path $d 'BOTC-update-preservation.md'),
-            (Join-Path $d 'data\resources\datapack\required\ct')
-        ) | Where-Object { Test-Path -LiteralPath $_ }
-
-        if($customPaths.Count -gt 0) {
-            Compress-Archive -Path $customPaths -DestinationPath $customZip -CompressionLevel Optimal -Force
-            $created.Add($customZip) | Out-Null
-        }
-
-        if(Test-Path -LiteralPath (Join-Path $d '.git')) {
-            git bundle create $bundle --all *> $null
-            if($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $bundle)) {
-                $created.Add($bundle) | Out-Null
-            }
-        }
-
-        [ordered]@{
-            createdAt = (Get-Date).ToString('s')
-            reason = 'pre-start backup before Docker/modpack update check'
-            modpack = 'Modrinth BOTC'
-            composeSha256 = Get-FileSha256 (Join-Path $d 'compose.yml')
-            startupScriptSha256 = Get-FileSha256 (Join-Path $d 'startup-script.ps1')
-            files = @($created)
-        } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $manifest -Encoding ASCII
-        $created.Add($manifest) | Out-Null
-
-        Write-Host "Pre-start backup created:" -ForegroundColor Green
-        foreach($file in $created) {
-            $item = Get-Item -LiteralPath $file -ErrorAction SilentlyContinue
-            if($item) {
-                $mb = [Math]::Round($item.Length / 1MB, 2)
-                Write-Host "  $($item.Name) ($mb MB)"
-            }
+        $standardPath = Get-BotcBackupSlotPath 'standard'
+        if(-not (Test-Path -LiteralPath $standardPath)) {
+            $standard = Write-BotcBackupSlot 'standard' 'initial standard backup; only replaced by promote-backup'
+            Show-BotcBackupSlot 'Standard' $standard
+        } else {
+            Write-Host "Standard backup kept unchanged: $standardPath" -ForegroundColor Cyan
+            Write-Host 'Use "promote-backup" in this console after testing if latest should become the new standard.'
         }
     } catch {
-        Write-Host "WARNING: Pre-start backup failed. Docker startup will continue." -ForegroundColor Yellow
+        Write-Host "ERROR: Pre-start backup failed. Startup stopped before Docker could check for updates." -ForegroundColor Red
         Write-Host $_
+        throw
     } finally {
         if($saveWasDisabled) {
             docker exec -i $c rcon-cli "save-on" *> $null
         }
+    }
+}
+
+function Promote-LatestBackupToStandard {
+    $latestPath = Get-BotcBackupSlotPath 'latest'
+    $standardPath = Get-BotcBackupSlotPath 'standard'
+    $backupRoot = Join-Path $d 'backups'
+    $staging = Join-Path $backupRoot 'standard-promote-staging'
+    $oldStandard = Join-Path $backupRoot 'standard-old-staging'
+
+    if(-not (Test-Path -LiteralPath $latestPath)) {
+        Write-Host "No latest backup exists yet. Start the server once first so latest can be created." -ForegroundColor Yellow
+        return
+    }
+
+    Write-Host ""
+    Write-Host "This will replace the standard backup with the current latest backup." -ForegroundColor Yellow
+    Write-Host "Latest:   $latestPath"
+    Write-Host "Standard: $standardPath"
+    $answer = Read-Host 'Type YES to confirm'
+
+    if($answer -cne 'YES') {
+        Write-Host "Cancelled. Standard backup was not changed."
+        return
+    }
+
+    Remove-DirectoryInsideBackups $staging
+    Remove-DirectoryInsideBackups $oldStandard
+    New-Item -ItemType Directory -Path $staging -Force -ErrorAction Stop | Out-Null
+
+    try {
+        Copy-DirectoryContents $latestPath $staging
+
+        $manifest = Join-Path $staging 'BOTC-backup.json'
+        if(Test-Path -LiteralPath $manifest) {
+            try {
+                $json = Get-Content -LiteralPath $manifest -Raw | ConvertFrom-Json
+                $json | Add-Member -NotePropertyName promotedToStandardAt -NotePropertyValue (Get-Date).ToString('s') -Force
+                $json | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $manifest -Encoding ASCII -ErrorAction Stop
+            } catch {
+                Write-Host "WARNING: Backup manifest could not be updated, but the backup files were copied." -ForegroundColor Yellow
+            }
+        }
+
+        if(Test-Path -LiteralPath $standardPath) {
+            Move-Item -LiteralPath $standardPath -Destination $oldStandard -ErrorAction Stop
+        }
+        Move-Item -LiteralPath $staging -Destination $standardPath -ErrorAction Stop
+        Remove-DirectoryInsideBackups $oldStandard
+        Write-Host "Latest backup is now the standard backup." -ForegroundColor Green
+    } catch {
+        if((Test-Path -LiteralPath $oldStandard) -and -not (Test-Path -LiteralPath $standardPath)) {
+            Move-Item -LiteralPath $oldStandard -Destination $standardPath -ErrorAction SilentlyContinue
+        }
         Remove-DirectoryInsideBackups $staging
+        Remove-DirectoryInsideBackups $oldStandard
+        Write-Host "ERROR: Could not promote latest backup to standard." -ForegroundColor Red
+        Write-Host $_
     }
 }
 
@@ -731,6 +848,12 @@ try {
                 if($cmd -ieq 'cls' -or $cmd -ieq 'clear') {
                     Clear-Host
                     Header
+                    [Console]::Write("Minecraft command > ")
+                    continue
+                }
+
+                if($cmd -ieq 'promote-backup') {
+                    Promote-LatestBackupToStandard
                     [Console]::Write("Minecraft command > ")
                     continue
                 }

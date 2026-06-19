@@ -111,7 +111,7 @@ there.
 
 The launcher will:
 
-1. Create a pre-start backup in `backups`.
+1. Create or update the pre-start backups in `backups`.
 2. Start the Docker Minecraft server.
 3. Start playit.gg if enabled.
 4. Wait until Minecraft is ready.
@@ -119,6 +119,21 @@ The launcher will:
 
 The pre-start backup happens before Docker checks or downloads modpack files.
 It includes the world, the custom BOTC files, and a Git restore bundle.
+If that backup fails, startup stops before Docker can check for updates.
+
+There are two backup slots:
+
+- `backups/latest`: overwritten every time `Start.bat` starts.
+- `backups/standard`: kept unchanged until you approve replacing it.
+
+After you test that the current server state is good, type this in the launcher
+console to make `latest` become the new `standard`:
+
+```text
+promote-backup
+```
+
+The launcher will ask you to type `YES` before it replaces `standard`.
 
 When you see this, the server is ready:
 
@@ -142,6 +157,7 @@ Special launcher commands:
 
 - `help`: show help.
 - `cls`: clear the window.
+- `promote-backup`: ask before replacing the standard backup with the latest backup.
 - `exit`: close the console window but leave the Minecraft server running.
 - `stop`: stop the Minecraft server and close playit.gg if the launcher manages it.
 
