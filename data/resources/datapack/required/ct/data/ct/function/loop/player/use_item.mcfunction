@@ -13,5 +13,7 @@ execute if data entity @s[scores={use_carrot=1}] SelectedItem.components."minecr
 
 # Player stuff
 execute if data entity @s[scores={use_carrot=1}] SelectedItem.components."minecraft:custom_model_data"{strings:["script"]} run function ct:item/script
+execute if data entity @s[scores={use_carrot=1}] SelectedItem.components."minecraft:custom_model_data"{strings:["raise_hand"]} run tag @s add raising_hand
+execute if data entity @s[scores={use_carrot=1}] SelectedItem.components."minecraft:custom_model_data"{strings:["lower_hand"]} run tag @s remove raising_hand
 
 scoreboard players set @s use_carrot 0

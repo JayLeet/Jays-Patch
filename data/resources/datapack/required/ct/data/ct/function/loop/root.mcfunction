@@ -1,5 +1,6 @@
 execute as @a at @s run function ct:loop/player/join_vc
 execute as @a[scores={use_carrot=1..}] run function ct:loop/player/use_item
+function ct:loop/hand_item
 
 execute as @a unless score @s join_game matches 0 run function ct:loop/player/join_game
 
