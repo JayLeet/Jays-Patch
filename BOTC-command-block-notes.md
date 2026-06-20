@@ -277,6 +277,8 @@ Current intended behavior:
 - Storytellers keep whatever gamemode they already had.
 - Storytellers do not have global YAWP bypass.
 - Storytellers can use only the two local YAWP button regions listed above.
+- Storyteller UI actions that need elevated server permissions now go through
+  guarded Melius command bridges instead of requiring the Storyteller to be OP.
 
 Former hidden gamemode command block:
 
@@ -285,6 +287,39 @@ Former hidden gamemode command block:
 ```
 
 This block is disabled. It used to force storytellers into adventure mode.
+
+Melius command bridge:
+
+```text
+data/config/melius-commands/commands/setupbag.json
+data/config/melius-commands/commands/st.json
+```
+
+These commands are intentionally narrow:
+
+- `/setupbag ...` is used by the setup bag to import scripts, choose roles,
+  and apply the setup menu.
+- `/st ...` is used by Storyteller UI buttons for game start/advance, timer,
+  grimoire actions, execution markers, reset, and Storyteller gamemode toggles.
+- Each command action checks `tag=storyteller` before running the elevated
+  function or scoreboard command.
+- This avoids changing `function-permission-level` globally.
+
+Related menu files now call those bridge commands instead of protected raw
+`/function`, `/scoreboard`, `/execute`, `/gamemode`, or `/openguiscreen`
+commands:
+
+```text
+data/config/fancymenu/customization/ct-bag_import.txt
+data/config/fancymenu/customization/ct-bag_layout.txt
+data/config/fancymenu/customization/chat_screen_layout.txt
+data/config/fancymenu/customization/ct-confirm_reset_layout.txt
+data/config/fancymenu/customization/ct-grimoire_actions.txt
+data/config/fancymenu/customization/ct-grimoire_background.txt
+data/config/fancymenu/customization/ct-settings_layout.txt
+data/config/fancymenu/customization/ct-st_actions_layout.txt
+data/config/fancymenu/customization/ct-timer_layout.txt
+```
 
 YAWP local button regions:
 

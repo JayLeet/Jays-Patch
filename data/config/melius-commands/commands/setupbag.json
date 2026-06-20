@@ -1,0 +1,117 @@
+{
+  "id": "setupbag",
+  "literals": [
+    {
+      "id": "initial_load",
+      "arguments": [
+        {
+          "id": "script",
+          "type": "brigadier:string greedy",
+          "executes": [
+            {
+              "command": "execute as @s[tag=storyteller] run function ct:admin/setup/initial_load {script:${script}}",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "convert_to_ids",
+      "arguments": [
+        {
+          "id": "script",
+          "type": "brigadier:string greedy",
+          "executes": [
+            {
+              "command": "execute as @s[tag=storyteller] run function ct:admin/setup/convert_to_ids {script:${script}}",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reminder_tokens",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:admin/setup/reminder_tokens",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "characters",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:admin/setup/characters",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "night_order",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:admin/setup/night_order",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "set_from_menu",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:admin/setup/set_from_menu",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "reset_role_list",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run scoreboard players reset * role_list",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "role",
+      "arguments": [
+        {
+          "id": "character",
+          "type": "brigadier:string word",
+          "arguments": [
+            {
+              "id": "state",
+              "type": "brigadier:string greedy",
+              "executes": [
+                {
+                  "command": "execute as @s[tag=storyteller] run scoreboard players set ${character} role_list ${state}",
+                  "as_console": false,
+                  "silent": true,
+                  "op_level": 4
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
