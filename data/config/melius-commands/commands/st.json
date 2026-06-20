@@ -1,0 +1,245 @@
+{
+  "id": "st",
+  "literals": [
+    {
+      "id": "start",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:start_game/setup",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "reveal_roles",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:start_game/roles/youare",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "advance_phase",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:item/advance_phase",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "open_timer",
+      "executes": [
+        {
+          "command": "execute if entity @s[tag=storyteller] run openguiscreen ct-timer @s",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "day_start",
+      "arguments": [
+        {
+          "id": "time",
+          "type": "brigadier:string word",
+          "executes": [
+            {
+              "command": "execute if entity @s[tag=storyteller] as @a run fmvariable set day_start false ${time}",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "force_chairs",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:admin/force_chairs",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "reset_game",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:admin/reset_game",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "mark_execution",
+      "executes": [
+        {
+          "command": "execute if entity @s[tag=storyteller] as @a[tag=last_nom] run function ct:kill/execute/mark",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "remove_execution_mark",
+      "executes": [
+        {
+          "command": "execute as @s[tag=storyteller] run function ct:kill/execute/remove_mark",
+          "as_console": false,
+          "silent": true,
+          "op_level": 4
+        }
+      ]
+    },
+    {
+      "id": "gamemode",
+      "literals": [
+        {
+          "id": "creative",
+          "executes": [
+            {
+              "command": "execute as @s[tag=storyteller] run gamemode creative @s",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        },
+        {
+          "id": "spectator",
+          "executes": [
+            {
+              "command": "execute as @s[tag=storyteller] run gamemode spectator @s",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "die",
+      "arguments": [
+        {
+          "id": "target",
+          "type": "minecraft:entity players",
+          "executes": [
+            {
+              "command": "execute if entity @s[tag=storyteller] as ${target} run function ct:kill/die",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "revive",
+      "arguments": [
+        {
+          "id": "target",
+          "type": "minecraft:entity players",
+          "executes": [
+            {
+              "command": "execute if entity @s[tag=storyteller] as ${target} run function ct:kill/revive",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "light_pyre",
+      "arguments": [
+        {
+          "id": "target",
+          "type": "minecraft:entity players",
+          "executes": [
+            {
+              "command": "execute if entity @s[tag=storyteller] as ${target} run function ct:kill/execute/light_pyre",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nomination",
+      "arguments": [
+        {
+          "id": "target",
+          "type": "minecraft:entity players",
+          "executes": [
+            {
+              "command": "execute if entity @s[tag=storyteller] as ${target} run function ct:admin/nomination",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "execute_target",
+      "arguments": [
+        {
+          "id": "target",
+          "type": "minecraft:entity players",
+          "executes": [
+            {
+              "command": "execute if entity @s[tag=storyteller] as ${target} run function ct:kill/execute/execute",
+              "as_console": false,
+              "silent": true,
+              "op_level": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "timer",
+      "arguments": [
+        {
+          "id": "min",
+          "type": "brigadier:string word",
+          "arguments": [
+            {
+              "id": "sec",
+              "type": "brigadier:string word",
+              "executes": [
+                {
+                  "command": "execute as @s[tag=storyteller] run function ct:loop/timer/start {min:${min},sec:${sec}}",
+                  "as_console": false,
+                  "silent": true,
+                  "op_level": 4
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
