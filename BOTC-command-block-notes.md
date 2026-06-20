@@ -234,11 +234,14 @@ ct:phase/dusk
 
 ## Raise/Lower Hand System
 
-Objective:
+Current owner:
 
-```mcfunction
-scoreboard objectives add hand_click minecraft.used:minecraft.carrot_on_a_stick
-```
+- The datapack handles the hand item in `ct:loop/hand_item`.
+- Right-clicks are read through the existing `use_carrot` objective in
+  `ct:loop/player/use_item`.
+- The old hidden command blocks at `118 -60 68` through `121 -60 68` and
+  `118 -60 70` through `126 -60 70` are disabled so a click is not processed
+  twice.
 
 Player item:
 
@@ -249,6 +252,10 @@ Player item:
 - Uses custom model data strings:
   - `raise_hand`
   - `lower_hand`
+- Any copied hand item in another inventory slot is cleared.
+- Any dropped hand item entity is killed.
+- After cleanup, the correct single hand item is immediately restored to
+  `hotbar.4`.
 
 State:
 
@@ -267,23 +274,17 @@ Lamp behavior:
 
 Current intended behavior:
 
-- Storytellers are kept in adventure mode.
-- Storytellers cannot break blocks through normal Minecraft mechanics.
-- Storytellers cannot place blocks through normal Minecraft mechanics.
+- Storytellers keep whatever gamemode they already had.
 - Storytellers do not have global YAWP bypass.
 - Storytellers can use only the two local YAWP button regions listed above.
 
-Hidden command block:
-
-```mcfunction
-execute as @a[tag=storyteller,gamemode=!adventure] run gamemode adventure @s
-```
-
-Location:
+Former hidden gamemode command block:
 
 ```text
 118 -60 76
 ```
+
+This block is disabled. It used to force storytellers into adventure mode.
 
 YAWP local button regions:
 
@@ -312,7 +313,7 @@ Check Jay's storyteller state:
 tag Jayify420 list
 team list 99_storyteller
 data get entity Jayify420 playerGameType
-execute if entity @a[name=Jayify420,tag=storyteller,team=99_storyteller,gamemode=adventure]
+execute if entity @a[name=Jayify420,tag=storyteller,team=99_storyteller]
 ```
 
 Check global YAWP is not granting broad access:
@@ -349,6 +350,13 @@ click text uses the `setup_sign` trigger objective:
 ```text
 123 73 93 -> become the Storyteller
 123 73 95 -> sit down as a player
+```
+
+The sign functions now call the same command functions used by:
+
+```text
+/storyteller add
+/storyteller remove
 ```
 
 YAWP local sign regions:

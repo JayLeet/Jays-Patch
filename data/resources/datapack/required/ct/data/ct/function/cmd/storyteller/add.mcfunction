@@ -2,6 +2,8 @@ $execute if entity @s[tag=!storyteller] run tellraw @a[tag=storyteller] "$(targe
 execute if entity @s[tag=!storyteller] run tellraw @s "You are now a Storyteller."
 $execute if entity @s[tag=storyteller] run tellraw @a[tag=storyteller] "$(target) is already a Storyteller."
 
+execute if entity @s[tag=!storyteller] run tag @s remove spectator
+execute if entity @s[tag=!storyteller] run team leave @s[team=00_spectator]
 execute if entity @s[tag=!storyteller] run team join 99_storyteller @s
 fmvariable set storyteller false true
 tag @s add storyteller
