@@ -89,7 +89,7 @@ player state, and log excerpt, then fix that one issue before continuing.
   Expected: night-only tools appear only at night, teleport messages are short,
   and sounds play where intended.
 - [x] Nomination phase: test Nominate, Start Vote, Mark, Pyre, Execute, Timer,
-  and post-execution Kill/Next Phase.
+  and post-execution Kill/Advance Phase.
   Expected: nomination tools do not leak into other phases and execute/kill run
   once.
 

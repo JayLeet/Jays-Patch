@@ -161,6 +161,21 @@ if ($items.Count -eq 0) {
     throw "Tool item registry has no items."
 }
 
+$phaseAdvanceItems = @($items | Where-Object { [string] $_.id -eq "storyteller_advance_phase" })
+if ($phaseAdvanceItems.Count -ne 1) {
+    throw "Tool item registry must define exactly one storyteller_advance_phase item."
+}
+$phaseAdvanceItem = $phaseAdvanceItems[0]
+if ([string] $phaseAdvanceItem.label -ne "Advance Phase") {
+    throw "storyteller_advance_phase must use the canonical label 'Advance Phase'."
+}
+$phaseAdvanceVariants = @($phaseAdvanceItem.liveTool) + @($phaseAdvanceItem.postExecutionTool)
+foreach ($variant in $phaseAdvanceVariants) {
+    if ([string] $variant.customNameComponent -notmatch 'text:\"Advance Phase\"') {
+        throw "Every storyteller_advance_phase variant must display the canonical label 'Advance Phase'."
+    }
+}
+
 $requiredItemProperties = @("id", "modelString", "itemModel", "item", "label", "owner", "phase", "slot", "source", "status")
 foreach ($item in $items) {
     foreach ($prop in $requiredItemProperties) {

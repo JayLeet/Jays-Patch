@@ -23,5 +23,5 @@ function botc_patch:storyteller_tools/kill_menu/clear_items
 function botc_patch:storyteller_tools/nomination_menu/clear_items
 function ct:admin/give_script
 item replace entity @s hotbar.0 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_post_kill"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Kill",color:"dark_red",bold:true,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}]]
-item replace entity @s hotbar.1 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_advance_phase"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Next Phase",color:"aqua",bold:true,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}]]
+item replace entity @s hotbar.1 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_advance_phase"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Advance Phase",color:"aqua",bold:true,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}]]
 item replace entity @s hotbar.6 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["grim_reveal_menu"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Reveal Grimoire",color:"gold",bold:true,italic:false}]]

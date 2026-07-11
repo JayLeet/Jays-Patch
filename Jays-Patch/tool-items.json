@@ -604,7 +604,7 @@
                       "postExecutionTool":  {
                                                 "order":  2,
                                                 "slot":  "hotbar.1",
-                                                "customNameComponent":  "[{text:\"Next Phase\",color:\"aqua\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                                "customNameComponent":  "[{text:\"Advance Phase\",color:\"aqua\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
                                             },
                       "itemModel":  "minecraft:clock"
                   },
