@@ -1,0 +1,1527 @@
+{
+    "model":  {
+                  "type":  "minecraft:select",
+                  "property":  "minecraft:component",
+                  "component":  "minecraft:custom_model_data",
+                  "cases":  [
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_acrobat"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/acrobat"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_al_hadikhia"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/al_hadikhia"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_alchemist"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/alchemist"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_alsaahir"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/alsaahir"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_amnesiac"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/amnesiac"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_artist"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/artist"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_assassin"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/assassin"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_atheist"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/atheist"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_balloonist"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/balloonist"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_banshee"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/banshee"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_barber"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/barber"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_baron"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/baron"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_boffin"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/boffin"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_boomdandy"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/boomdandy"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_bounty_hunter"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/bounty_hunter"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_butler"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/butler"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_cannibal"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/cannibal"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_cerenovus"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/cerenovus"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_chambermaid"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/chambermaid"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_chef"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/chef"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_choirboy"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/choirboy"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_clockmaker"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/clockmaker"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_courtier"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/courtier"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_cult_leader"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/cult_leader"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_damsel"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/damsel"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_devils_advocate"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/devils_advocate"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_dreamer"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/dreamer"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_drunk"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/drunk"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_empath"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/empath"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_engineer"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/engineer"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_evil_twin"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/evil_twin"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_exorcist"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/exorcist"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_fang_gu"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/fang_gu"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_farmer"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/farmer"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_fearmonger"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/fearmonger"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_fisherman"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/fisherman"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_flowergirl"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/flowergirl"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_fool"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/fool"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_fortune_teller"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/fortune_teller"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_gambler"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/gambler"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_general"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/general"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_goblin"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/goblin"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_godfather"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/godfather"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_golem"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/golem"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_goon"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/goon"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_gossip"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/gossip"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_grandmother"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/grandmother"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_harpy"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/harpy"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_hatter"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/hatter"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_heretic"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/heretic"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_hermit"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/hermit"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_high_priestess"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/high_priestess"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_huntsman"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/huntsman"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_imp"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/imp"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_innkeeper"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/innkeeper"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_investigator"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/investigator"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_juggler"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/juggler"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_kazali"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/kazali"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_king"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/king"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_klutz"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/klutz"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_knight"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/knight"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_legion"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/legion"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_leviathan"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/leviathan"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_librarian"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/librarian"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_lil_monsta"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/lil_monsta"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_lleech"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/lleech"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_lord_of_typhon"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/lord_of_typhon"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_lunatic"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/lunatic"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_lycanthrope"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/lycanthrope"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_magician"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/magician"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_marionette"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/marionette"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_mastermind"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/mastermind"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_mathematician"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/mathematician"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_mayor"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/mayor"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_mezepheles"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/mezepheles"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_minstrel"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/minstrel"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_monk"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/monk"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_moonchild"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/moonchild"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_mutant"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/mutant"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_nightwatchman"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/nightwatchman"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_no_dashii"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/no_dashii"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_noble"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/noble"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_none"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/none"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_ogre"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/ogre"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_ojo"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/ojo"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_oracle"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/oracle"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_organ_grinder"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/organ_grinder"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_pacifist"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/pacifist"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_philosopher"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/philosopher"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_pit_hag"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/pit_hag"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_pixie"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/pixie"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_plague_doctor"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/plague_doctor"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_po"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/po"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_poisoner"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/poisoner"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_politician"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/politician"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_poppy_grower"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/poppy_grower"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_preacher"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/preacher"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_princess"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/princess"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_professor"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/professor"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_psychopath"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/psychopath"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_pukka"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/pukka"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_puzzlemaster"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/puzzlemaster"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_ravenkeeper"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/ravenkeeper"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_recluse"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/recluse"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_riot"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/riot"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_sage"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/sage"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_sailor"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/sailor"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_saint"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/saint"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_savant"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/savant"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_scarlet_woman"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/scarlet_woman"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_seamstress"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/seamstress"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_shabaloth"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/shabaloth"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_shugenja"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/shugenja"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_slayer"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/slayer"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_snake_charmer"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/snake_charmer"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_snitch"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/snitch"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_soldier"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/soldier"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_spy"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/spy"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_steward"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/steward"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_summoner"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/summoner"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_sweetheart"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/sweetheart"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_tea_lady"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/tea_lady"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_tinker"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/tinker"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_town_crier"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/town_crier"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_undertaker"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/undertaker"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_vigormortis"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/vigormortis"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_village_idiot"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/village_idiot"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_virgin"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/virgin"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_vizier"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/vizier"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_vortox"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/vortox"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_washerwoman"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/washerwoman"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_widow"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/widow"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_witch"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/witch"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_wizard"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/wizard"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_xaan"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/xaan"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_yaggababble"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/yaggababble"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_zealot"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/zealot"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_zombuul"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/zombuul"
+                                              }
+                                }
+                            ]
+              }
+}

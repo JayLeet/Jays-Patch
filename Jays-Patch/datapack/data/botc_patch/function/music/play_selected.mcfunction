@@ -1,0 +1,105 @@
+# Play one selected night track to the current player with a low randomized variant.
+tag @s remove botc_music_off
+tag @s add botc_music_manual_selected
+tag @s add botc_music_target
+stopsound @s record
+stopsound @s music
+execute store result score @s botc_music_variant run random value 0..5
+execute if score @s botc_music_pick matches 0 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.11",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 0 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.11",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 0 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.11",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 0 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.11",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 0 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.11",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 0 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.11",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 1 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.13",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 1 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.13",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 1 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.13",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 1 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.13",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 1 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.13",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 1 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.13",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 2 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.5",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 2 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.5",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 2 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.5",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 2 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.5",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 2 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.5",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 2 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.5",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 3 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.ward",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 3 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.ward",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 3 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.ward",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 3 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.ward",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 3 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.ward",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 3 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.ward",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 4 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.mellohi",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 4 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.mellohi",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 4 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.mellohi",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 4 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.mellohi",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 4 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.mellohi",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 4 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.mellohi",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 5 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.stal",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 5 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.stal",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 5 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.stal",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 5 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.stal",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 5 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.stal",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 5 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.stal",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 6 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.pigstep",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 6 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.pigstep",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 6 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.pigstep",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 6 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.pigstep",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 6 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.pigstep",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 6 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.pigstep",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 7 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.relic",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 7 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.relic",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 7 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.relic",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 7 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.relic",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 7 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.relic",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 7 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.relic",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 8 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.creator_music_box",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 8 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.creator_music_box",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 8 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.creator_music_box",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 8 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.creator_music_box",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 8 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.creator_music_box",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 8 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.creator_music_box",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 9 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.tears",volume:0.20,pitch:0.42}
+execute if score @s botc_music_pick matches 9 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.tears",volume:0.22,pitch:0.45}
+execute if score @s botc_music_pick matches 9 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.tears",volume:0.24,pitch:0.48}
+execute if score @s botc_music_pick matches 9 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.tears",volume:0.26,pitch:0.52}
+execute if score @s botc_music_pick matches 9 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.tears",volume:0.28,pitch:0.56}
+execute if score @s botc_music_pick matches 9 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music_disc.tears",volume:0.30,pitch:0.60}
+execute if score @s botc_music_pick matches 10 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.deep_dark",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 10 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.deep_dark",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 10 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.deep_dark",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 10 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.deep_dark",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 10 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.deep_dark",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 10 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.deep_dark",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 11 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.dripstone_caves",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 11 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.dripstone_caves",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 11 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.dripstone_caves",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 11 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.dripstone_caves",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 11 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.dripstone_caves",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 11 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music.overworld.dripstone_caves",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 12 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.basalt_deltas",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 12 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.basalt_deltas",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 12 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.basalt_deltas",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 12 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.basalt_deltas",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 12 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.basalt_deltas",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 12 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.basalt_deltas",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 13 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.soul_sand_valley",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 13 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.soul_sand_valley",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 13 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.soul_sand_valley",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 13 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.soul_sand_valley",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 13 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.soul_sand_valley",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 13 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.soul_sand_valley",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 14 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.crimson_forest",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 14 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.crimson_forest",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 14 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.crimson_forest",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 14 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.crimson_forest",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 14 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.crimson_forest",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 14 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.crimson_forest",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 15 if score @s botc_music_variant matches 0 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.nether_wastes",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 15 if score @s botc_music_variant matches 1 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.nether_wastes",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 15 if score @s botc_music_variant matches 2 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.nether_wastes",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 15 if score @s botc_music_variant matches 3 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.nether_wastes",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 15 if score @s botc_music_variant matches 4 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.nether_wastes",volume:1.0,pitch:1.0}
+execute if score @s botc_music_pick matches 15 if score @s botc_music_variant matches 5 run function botc_patch:music/play_to_selected {sound:"minecraft:music.nether.nether_wastes",volume:1.0,pitch:1.0}
+tag @s remove botc_music_target
+tellraw @s [{"text":"Night music changed.","color":"aqua"}]

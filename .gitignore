@@ -1,27 +1,27 @@
 # Private local settings
 local-settings.properties
+launcher/local-settings.properties
 
 # Private runtime files
 .botc-startup-history.json
-data/logs/
-data/saves/
-data/world/
-data/world_backup_wrong/
-data/.cache/
-data/.fabric/
-data/libraries/
-data/versions/
-data/.rcon-cli.env
-data/.rcon-cli.yaml
-data/server.properties
-data/ops.json
-data/usercache.json
-data/banned-ips.json
-data/banned-players.json
-data/whitelist.json
-data/eula.txt
-data/fabric-server-*.jar
+launcher/.botc-startup-history.json
+launcher/.botc-managed-services.state
+/data/
 
 # Local backups
 *.bak-*
 backups/
+
+# Generated binaries and Jay's Patch packages
+BOTC.exe
+Jays-Patch/dist/
+
+# World state is released through the validated public package and protected by
+# explicit backups, not committed as ordinary Git source.
+Jays-Patch/world-template/
+
+# Local audit and investigation output
+audit_results/
+.codex_audit_*
+.tmp_*
+temp_import_sanity.txt

@@ -1,0 +1,4 @@
+# Handle story teller grimoire menu input only when the player is using a hand tool.
+execute as @a[tag=storyteller,scores={botc_hand_use=1..}] if score grim_active botc_patch matches 1 if score grim_sweep_timer botc_patch matches 0.. if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["grim_reveal_menu"]} run tellraw @s {"text":"Wait for the reveal sweep to finish.","color":"gold"}
+execute as @a[tag=storyteller,scores={botc_hand_use=1..}] if score grim_active botc_patch matches 1 unless score grim_sweep_timer botc_patch matches 0.. if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["grim_reveal_menu"]} run function botc_patch:grim/dialog
+execute as @a[tag=storyteller,scores={botc_hand_use=1..}] unless score grim_active botc_patch matches 1 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["grim_reveal_menu"]} run function botc_patch:grim/confirm
