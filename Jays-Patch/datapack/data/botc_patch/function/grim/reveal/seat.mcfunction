@@ -1,0 +1,7 @@
+# Reveal a seat from the grimoire-start snapshot, so disconnects do not hide roles.
+dialog clear @s
+$execute if entity @s[tag=storyteller] if score grim_seat_$(seat)_occupied botc_patch matches 1 if score grim_seat_$(seat)_revealed botc_patch matches 1 run tellraw @s {"text":"That seat has already been revealed.","color":"gray"}
+$execute if entity @s[tag=storyteller] if score grim_seat_$(seat)_occupied botc_patch matches 1 if score grim_seat_$(seat)_revealed botc_patch matches 0 if score grim_sweep_timer botc_patch matches 0.. run tellraw @s {"text":"Wait for the current reveal to finish.","color":"gold"}
+$execute if entity @s[tag=storyteller] if score grim_seat_$(seat)_occupied botc_patch matches 1 if score grim_seat_$(seat)_revealed botc_patch matches 0 unless score grim_sweep_timer botc_patch matches 0.. unless entity @e[type=minecraft:item_display,tag=vote_marker,scores={id=$(seat)},limit=1] run tellraw @s {"text":"No reveal marker exists for that seat.","color":"red"}
+$execute if entity @s[tag=storyteller] if score grim_seat_$(seat)_occupied botc_patch matches 1 if score grim_seat_$(seat)_revealed botc_patch matches 0 unless score grim_sweep_timer botc_patch matches 0.. at @e[type=minecraft:item_display,tag=vote_marker,scores={id=$(seat)},limit=1] run function botc_patch:grim/reveal/from_snapshot {seat:$(seat)}
+$execute if entity @s[tag=storyteller] unless score grim_seat_$(seat)_occupied botc_patch matches 1 run tellraw @s {"text":"No player is seated there.","color":"red"}

@@ -1,0 +1,2 @@
+execute unless score phase game_data matches 1.. run tellraw @s {"text":"Grimoire reveal can only be started during an active game.","color":"red"}
+execute if score phase game_data matches 1.. run dialog show @s {type:"multi_action",title:"Reveal Grimoire?",actions:[{label:"Reveal Grimoire",action:{type:"run_command",command:"/botc grimoire start"}},{label:"Change Characters",action:{type:"run_command",command:"/botc grimoire change_characters"}},{label:"Cancel",action:{type:"run_command",command:"/botc grimoire cancel"}}]}

@@ -1,0 +1,7 @@
+# Restore normal Jay's Patch held tools and setup-room bag behavior.
+scoreboard players set patch_items_enabled botc_patch 1
+scoreboard players set patch_setup_bag_enabled botc_patch 1
+clear @a[tag=storyteller] minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["ct_bag"]}]
+function botc_patch:patch_toggle/item_checks
+scoreboard players set botc_item_maintenance_pending botc_patch 1
+tellraw @s [{"text":"OK ","color":"green","bold":true},{"text":"Jay's Patch items and setup bag are enabled.","color":"gray","bold":false}]

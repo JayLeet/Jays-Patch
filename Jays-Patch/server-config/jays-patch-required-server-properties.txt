@@ -1,0 +1,26 @@
+﻿# Jay's Patch required server.properties lines.
+# Thanks for installing Jay's Patch.
+#
+# Install:
+# 1. Stop the server and back up its existing world.
+# 2. Replace the server's existing world folder with this package's world folder.
+#    Do not merge the two world folders; stale region/datapack files can survive.
+# 3. Put the remaining package folders and files into your server root folder.
+#    Your server root is the folder that contains server.properties, world, and config.
+# 4. Update the keys below in your existing server.properties.
+# 5. Restart the server.
+# 6. Done. Jay's Patch should be ready to use.
+#
+# Resource pack note:
+# The resource-pack URL below is the official hosted Jay's Patch pack.
+# If that URL ever stops working, upload resourcepack/Jays-Patch-resourcepack.zip
+# somewhere yourself, such as MC-Packs, then replace resource-pack,
+# resource-pack-sha1, and resource-pack-id with the new hosted values.
+
+function-permission-level=3
+spawn-protection=0
+resource-pack=https://download.mc-packs.net/pack/8b79575eeabb9e6dbb7dbd4554b4d36331ca99de.zip
+resource-pack-sha1=8b79575eeabb9e6dbb7dbd4554b4d36331ca99de
+resource-pack-id=67f91471-3342-49d4-9d1d-7e1d040ab095
+require-resource-pack=false
+resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resourcepack","color"\:"gold","bold"\:false},{"text"\:"\\nIt is recommended to use this resourcepack","color"\:"gray","bold"\:false}]}
