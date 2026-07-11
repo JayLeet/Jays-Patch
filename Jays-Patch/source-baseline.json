@@ -1,6 +1,6 @@
 {
     "schema":  1,
-    "version":  "1.1.0",
+    "version":  "1.1.1",
     "files":  [
                   {
                       "path":  "Console.bat",
@@ -2544,8 +2544,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/storyteller_tools/post_execution/replace_items.mcfunction",
-                      "bytes":  2038,
-                      "sha256":  "0551e3d74fffd801bbc2d1e3d86e41123a4add7f09d717274bce7d757b1262b1"
+                      "bytes":  2041,
+                      "sha256":  "20db2e228e83cfc6f85e9af9d5e5c5473e2efc3c3f8fdad78f49fc3e311ab99b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/storyteller_tools/replace_items.mcfunction",
@@ -4899,8 +4899,8 @@
                   },
                   {
                       "path":  "Jays-Patch/tool-items.json",
-                      "bytes":  63733,
-                      "sha256":  "f1f1aabf71960524524cae02645f3198cab7ce845d62c59428e1e16e899c998c"
+                      "bytes":  63735,
+                      "sha256":  "f44e3259a81e04814c322fe1ac5f09b33ac5c6f3baa2a534205385a01f320343"
                   },
                   {
                       "path":  "Jays-Patch/upstream-contract.json",
@@ -4910,7 +4910,7 @@
                   {
                       "path":  "Jays-Patch/version.txt",
                       "bytes":  6,
-                      "sha256":  "1575e1af4a95f12f70b4ee6a6adce8160953d93ea17dc2611b90883ccc3ad3b8"
+                      "sha256":  "cc52f678848b814373757b460383bf61960e4943c203735adde0a350b3e50989"
                   },
                   {
                       "path":  "launcher/branding.txt",
@@ -5174,8 +5174,8 @@
                   },
                   {
                       "path":  "tools/tests/test-tool-item-registry.ps1",
-                      "bytes":  10952,
-                      "sha256":  "45007df1a1892d7007ff4d336a6b10d5d3d5303214944e7d5ca3a193c97ef9e0"
+                      "bytes":  11704,
+                      "sha256":  "1504c68c2583de7cfb83d6fc85875e33277bd3909814e99ef424b434e9d4ef46"
                   },
                   {
                       "path":  "tools/tests/test-upstream-contract.ps1",
