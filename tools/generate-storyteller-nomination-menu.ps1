@@ -7,8 +7,9 @@ $NominationModelRoot = Join-Path $RepoRoot "Jays-Patch\resourcepack\assets\botc_
 $NominationTextureRoot = Join-Path $RepoRoot "Jays-Patch\resourcepack\assets\botc_patch\textures\item\nomination"
 $ToolRegistryLib = Join-Path $PSScriptRoot "lib\tool-registry.ps1"
 $PlayerDialogLib = Join-Path $PSScriptRoot "lib\player-dialog-generator.ps1"
+$SeatColorsLib = Join-Path $PSScriptRoot "lib\seat-colors.ps1"
 
-foreach ($library in @($ToolRegistryLib, $PlayerDialogLib)) {
+foreach ($library in @($ToolRegistryLib, $PlayerDialogLib, $SeatColorsLib)) {
     if (-not (Test-Path -LiteralPath $library -PathType Leaf)) {
         throw "Missing generator helper: $library"
     }
@@ -16,23 +17,7 @@ foreach ($library in @($ToolRegistryLib, $PlayerDialogLib)) {
 }
 
 $toolRegistryContext = Read-BotcToolRegistry -RepoRoot $RepoRoot
-$seatColors = @(
-    [pscustomobject]@{ Name = "red"; Hex = "#e6194B" },
-    [pscustomobject]@{ Name = "orange"; Hex = "#f58231" },
-    [pscustomobject]@{ Name = "yellow"; Hex = "#ffe119" },
-    [pscustomobject]@{ Name = "lime"; Hex = "#bfef45" },
-    [pscustomobject]@{ Name = "green"; Hex = "#3cb44b" },
-    [pscustomobject]@{ Name = "mint"; Hex = "#aaffc3" },
-    [pscustomobject]@{ Name = "cyan"; Hex = "#42d4f4" },
-    [pscustomobject]@{ Name = "blue"; Hex = "#4363d8" },
-    [pscustomobject]@{ Name = "navy"; Hex = "#000075" },
-    [pscustomobject]@{ Name = "purple"; Hex = "#911eb4" },
-    [pscustomobject]@{ Name = "magenta"; Hex = "#f032e6" },
-    [pscustomobject]@{ Name = "lavender"; Hex = "#dcbeff" },
-    [pscustomobject]@{ Name = "white"; Hex = "#ffffff" },
-    [pscustomobject]@{ Name = "gray"; Hex = "#a9a9a9" },
-    [pscustomobject]@{ Name = "black"; Hex = "#000000" }
-)
+$seatColors = @(Get-BotcSeatColors)
 
 $nomBackTool = Get-BotcToolItem -Context $toolRegistryContext -Id "storyteller_nom_back" -MetadataProperty "submenuTool" -RequiredMetadataProperties @("slot", "customNameComponent")
 $nomStartVoteTool = Get-BotcToolItem -Context $toolRegistryContext -Id "storyteller_nom_start_vote" -MetadataProperty "submenuTool" -RequiredMetadataProperties @("slot", "customNameComponent")
@@ -80,12 +65,13 @@ function Write-Lines {
         [System.Collections.Generic.List[string]] $Lines
     )
 
-    [System.IO.File]::WriteAllText($Path, (($Lines -join [Environment]::NewLine) + [Environment]::NewLine), $utf8NoBom)
+    [System.IO.File]::WriteAllText($Path, (($Lines -join "`n") + "`n"), $utf8NoBom)
 }
 
 function Write-JsonFile {
     param([string] $Path, [object] $Value)
-    [System.IO.File]::WriteAllText($Path, (($Value | ConvertTo-Json -Depth 100) + [Environment]::NewLine), $utf8NoBom)
+    $json = ($Value | ConvertTo-Json -Depth 100).Replace("`r`n", "`n")
+    [System.IO.File]::WriteAllText($Path, ($json + "`n"), $utf8NoBom)
 }
 
 function Write-SolidColorPng {
@@ -216,6 +202,7 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $lines.Add("tag @a remove botc_st_nom_selected")
     $lines.Add("execute if entity $targetSelector run tag $targetSelector add botc_st_nom_selected")
     $lines.Add("execute if entity $targetSelector as $targetSelector run function ct:admin/nomination")
+    $lines.Add("execute if entity $targetSelector as $targetSelector run function botc_patch:seat_layout/sync_nominee_name")
     $lines.Add(('execute if entity {0} run clear @a[tag=storyteller] minecraft:carrot_on_a_stick[minecraft:custom_model_data={{strings:["start_vote"]}}]' -f $targetSelector))
     $lines.Add("execute if entity $targetSelector run function botc_patch:storyteller_tools/nomination_menu/action_menu")
     $lines.Add(('execute unless entity {0} run tellraw @s [{{text:"That player is no longer available.",color:"red"}}]' -f $targetSelector))
@@ -228,6 +215,7 @@ $startVote.Add('execute unless entity @a[tag=botc_st_nom_selected,limit=1] run r
 $startVote.Add("execute if entity @s[tag=botc_st_nom_vote_started] run function botc_patch:storyteller_tools/nomination_menu/cancel_vote")
 $startVote.Add("execute if entity @s[tag=botc_st_nom_vote_started] as @a[tag=botc_st_nom_selected,limit=1] run function ct:admin/nomination")
 $startVote.Add('execute unless entity @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run return run tellraw @s [{text:"The selected player could not be nominated.",color:"red"}]')
+$startVote.Add("execute as @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run function botc_patch:seat_layout/sync_nominee_name")
 $startVote.Add("tag @s add botc_st_nom_vote_started")
 $startVote.Add("tag @s remove botc_st_nom_vote_finished")
 $startVote.Add(('clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={{strings:["{0}"]}}]' -f [string] $nomMarkTool.modelString))

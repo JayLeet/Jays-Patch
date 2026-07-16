@@ -33,6 +33,8 @@ Assert-File $HelperPath "shared filtered player-dialog generator"
 Assert-File $TickPath "Storyteller tool click router"
 Assert-File $BotcCommandPath "/botc command overlay"
 Assert-File (Join-Path $ToolsRoot "dialog_cancel.mcfunction") "shared dialog cancel function"
+$dialogBackText = Get-Content -LiteralPath (Join-Path $ToolsRoot "dialog_cancel.mcfunction") -Raw
+Assert-Contains $dialogBackText 'patch_dialog_mode botc_patch matches 1.*storyteller_tools/dashboard/open' "dialog-mode Back return to Storyteller Tools"
 
 $menus = @(
     @{
@@ -70,8 +72,11 @@ foreach ($menu in $menus) {
     Assert-File $selectPath "$($menu.Name) guarded seat dispatcher"
 
     $countFiles = @(Get-ChildItem -LiteralPath $dialogRoot -Filter "count_*.mcfunction" -File)
-    if ($countFiles.Count -ne 16) {
-        throw "Expected 16 $($menu.Name) count dialogs, found $($countFiles.Count)."
+    if ($countFiles.Count -ne 15) {
+        throw "Expected 15 non-empty $($menu.Name) count dialogs, found $($countFiles.Count)."
+    }
+    if (Test-Path -LiteralPath (Join-Path $dialogRoot "count_0.mcfunction")) {
+        throw "$($menu.Name) must use the shared empty-menu response instead of count_0.mcfunction."
     }
 
     $dialogText = Get-Content -LiteralPath $dialogPath -Raw
@@ -82,9 +87,13 @@ foreach ($menu in $menus) {
     Assert-NotContains $dialogText $menu.ForbiddenSelector "$($menu.Name) opposite dead-state selector"
     Assert-Contains $dialogText 'grim/editor/refresh_live_roles' "$($menu.Name) current role refresh"
     Assert-Contains $dialogText 'grim/editor/player_labels/prepare' "$($menu.Name) shared Player (Role) labels"
-    Assert-Contains $countThreeText 'text:"\$\(e1_name\) \(\$\(e1_role\)\)"' "$($menu.Name) Player (Role) label"
-    Assert-Contains $countThreeText 'color:"\$\(e1_color\)"' "$($menu.Name) role-category label color"
+    Assert-Contains $countThreeText 'text:" \$\(e1_name\)",font:"minecraft:default",color:"white"' "$($menu.Name) white player name"
+    Assert-NotContains $countThreeText '_name_color' "$($menu.Name) retired player-name color macro"
+    Assert-Contains $countThreeText 'text:" \(\$\(e1_role\)\)",font:"minecraft:default",color:"\$\(e1_color\)"' "$($menu.Name) alignment-colored role suffix"
+    Assert-Contains $countThreeText 'text:"\$\(e1_glyph\)",font:"botc_patch:role_icons",color:"white"' "$($menu.Name) role icon glyph"
     Assert-Contains $countThreeText "/botc $($menu.Action) \$\(e1_seat\)" "$($menu.Name) seat action"
+    Assert-Contains $countThreeText 'exit_action:\{label:"Back"' "$($menu.Name) Back navigation label"
+    Assert-NotContains $countThreeText 'exit_action:\{label:"Cancel"' "$($menu.Name) stale Cancel navigation label"
     Assert-NotContains $countThreeText 'after_action:"wait_for_response"' "$($menu.Name) terminal action wait state"
     Assert-Contains $selectText 'dialog clear @s' "$($menu.Name) terminal dialog close"
     Assert-Contains $selectText 'entity @s\[tag=storyteller\]' "$($menu.Name) Storyteller guard"

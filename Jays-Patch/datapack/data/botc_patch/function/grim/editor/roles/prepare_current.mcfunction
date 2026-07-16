@@ -3,3 +3,4 @@
 # Resolves the selected snapshot role through the trusted score catalog.
 $data modify storage botc_patch:grim editor.dialog.current_role set from storage botc_patch:grim editor.score_catalog.s$(score).id
 $data modify storage botc_patch:grim editor.dialog.current_role_name set from storage botc_patch:grim editor.score_catalog.s$(score).name
+$data modify storage botc_patch:grim editor.dialog.current_role_glyph set from storage botc_patch:grim editor.score_catalog.s$(score).glyph

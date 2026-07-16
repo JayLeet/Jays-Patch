@@ -8,7 +8,7 @@ $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
 if ([string]::IsNullOrWhiteSpace($ServerModsPath)) {
-    $ServerModsPath = Join-Path $RepoRoot "../data/mods"
+    $ServerModsPath = Join-Path $RepoRoot "data/mods"
 }
 
 $modPatterns = [ordered]@{

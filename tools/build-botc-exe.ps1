@@ -4,7 +4,7 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $SourceRoot = Join-Path $RepoRoot "launcher/exe"
 $Source = Join-Path $SourceRoot "BotcLauncher.cs"
-$DataRoot = [IO.Path]::GetFullPath((Join-Path $RepoRoot "..\data"))
+$DataRoot = [IO.Path]::GetFullPath((Join-Path $RepoRoot "data"))
 $IconPng = Join-Path $DataRoot "server-icon.png"
 $Icon = Join-Path $RepoRoot "launcher/exe/BOTC.ico"
 $Output = Join-Path $RepoRoot "BOTC.exe"
@@ -76,5 +76,5 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host "Built $Output" -ForegroundColor Green
 if (-not $useCustomIcon) {
-    Write-Host "Used the default Windows application icon because ../data/server-icon.png was missing." -ForegroundColor Yellow
+    Write-Host "Used the default Windows application icon because data/server-icon.png was missing." -ForegroundColor Yellow
 }

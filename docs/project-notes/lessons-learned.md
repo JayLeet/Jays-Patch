@@ -23,6 +23,33 @@ Keep entries short, evidence-based, and useful for future Codex sessions.
 
 ## Entries
 
+- **Date:** 2026-07-13
+- **Area:** Jay's Patch / cross-role permission regressions
+- **What happened:** A permission change accidentally prevented normal players
+  from changing another player's displayed character through their personal
+  Sybillian grimoire, even though that existing player-facing capability was
+  meant to remain available.
+- **Evidence:** The failure occurred during a real multiplayer game. A complete
+  caller audit later proved all 73 upstream `/character` calls come from the
+  standard and Traveler personal-player grimoire layouts; the Storyteller
+  grimoire uses client-local `set_variable` actions instead.
+- **Root cause or best inference:** The permission design focused on protecting
+  Storyteller authority but did not initially model every existing caller and
+  user role. An action that appeared privileged was also intentionally used by
+  Sybillian's player-facing grimoire.
+- **Fix:** Make active-game `/character` a single player-facing display route to
+  `ct:cmd/character`. Remove the unused Storyteller mutation wrapper and keep
+  server-authoritative role edits in Jay's guarded Change Characters editor.
+- **Verification:** Jay confirmed the player-facing interaction in live
+  multiplayer use. `test-upstream-caller-policy.ps1` now locks all 224 upstream
+  command callers, the 73 `/character` actions, the display-only upstream
+  function, and the absence of the retired mutation path.
+- **Future rule:** Permission and cleanup changes require a role/capability
+  regression matrix. Verify players, spectators, Storytellers, and relevant
+  offline/rejoin paths retain every intended old capability while still being
+  denied unintended powers. Inspect all upstream UI and command callers before
+  treating an action as Storyteller-only.
+
 - **Date:** 2026-07-01
 - **Area:** Resource pack / Minecraft 1.21.10 selector rollback
 - **What happened:** Jay-owned custom tool textures worked before the Toggle
@@ -166,7 +193,7 @@ Keep entries short, evidence-based, and useful for future Codex sessions.
 - **Area:** Resource pack / launcher deployment
 - **What happened:** Jay still saw vanilla `carrot_on_a_stick` after a corrected
   resourcepack was uploaded and the source settings were changed.
-- **Evidence:** Live `../data/server.properties` had been rewritten to the stale
+- **Evidence:** Live `data/server.properties` had been rewritten to the stale
   hosted pack `202689e28a25a47c20be40cc619c5ca127701869` with pack id
   `f775da9c-828d-4aae-ada2-bf206c83eea9`. The client cache did not contain the
   new `a7ee2e2c89e5023af24c6a78a3271921adc68fcf` pack under the new id. Client
@@ -269,6 +296,9 @@ Keep entries short, evidence-based, and useful for future Codex sessions.
 
 - **Date:** 2026-07-11
 - **Area:** Jay's Patch / FancyMenu grimoire boundary
+- **Status:** The later cross-role caller audit retired the direct Storyteller
+  `/character` synchronization branch. `/character` is now player-facing and
+  display-only; Jay's Change Characters editor owns Storyteller mutations.
 - **What happened:** We expected the Storyteller's visible FancyMenu character
   edits to pass through the existing server-side `/character` bridge and become
   available to Reveal Grimoire.
@@ -282,13 +312,15 @@ Keep entries short, evidence-based, and useful for future Codex sessions.
 - **Root cause:** `p1_role..p15_role` in the Storyteller grimoire are local
   client memory. A datapack, Melius command overlay, or server-only mod cannot
   observe a local variable change when the client sends no command or packet.
-- **Fix:** Keep the `/character` bridge for paths that genuinely reach the
-  server, but do not claim it captures standard Storyteller grimoire edits.
-  Reveal Grimoire continues to snapshot server-authoritative role data.
+- **Fix:** The initial investigation kept the bridge for direct tests. The later
+  caller audit proved that upstream serverbound `/character` actions are all
+  player-grimoire actions, so the Storyteller mutation branch was removed.
+  Reveal Grimoire uses its explicit server-authoritative Change Characters
+  editor instead.
 - **Verification:** The unchanged-client Scarlet Woman click produced no bridge
-  invocation and left seat 2 at its existing server role. Directly invoking the
-  registered `/character` root as the Storyteller context did update the same
-  role and reveal scores, proving the bridge itself is healthy.
+  invocation and left seat 2 at its existing server role. The follow-up caller
+  policy test proves the Storyteller picker remains client-local while the
+  personal-player pickers retain their display-only command path.
 - **Future rule:** Inspect the exact active FancyMenu layout and action type
   before designing a server bridge. `set_variable` is client-only;
   `sendmessage = /command ...` is serverbound. If the required state exists only
@@ -358,3 +390,113 @@ Keep entries short, evidence-based, and useful for future Codex sessions.
 - **Future rule:** Launcher acceptance must cover both major branches: server
   already online and server offline. Every cursor/window API belongs behind a
   proven interactive-console guard.
+- **Date:** 2026-07-12
+- **Area:** Tick performance / cleanup ownership
+- **What happened:** Non-participants with a missing or different `game_id` ran
+  the full stale-role cleanup every tick throughout a live game.
+- **Evidence:** `botc_patch:tick` directly dispatched a 21-command cleanup for
+  every matching online player without recording completion.
+- **Fix:** Record `active_game game_id` in the Jay-owned
+  `botc_outsider_seen` objective after cleanup and dispatch only when that
+  generation differs.
+- **Future rule:** Persistent cleanup should be event- or generation-driven.
+  Do not put idempotent multi-command cleanup on an unbounded per-player tick
+  path merely because repeating it is functionally harmless.
+
+- **Date:** 2026-07-12
+- **Area:** Release metadata / resource packs
+- **What happened:** BOTC.exe and public package instructions each owned copies
+  of the hosted pack URL and cache UUID, while raw ZIP SHA comparison could not
+  distinguish changed files from different archive metadata.
+- **Fix:** Use the required server-properties file as canonical metadata, keep
+  the launcher diagnostic ZIP separate from the exact hosted fallback, and
+  compare extracted entry hashes.
+- **Future rule:** A hosted artifact's URL, SHA, and cache identity must have one
+  source of truth. Compare semantic contents when archive encodings can differ.
+
+- **Date:** 2026-07-12
+- **Area:** Public release / ignored world input
+- **What happened:** Git tags could not identify the exact ignored world
+  template copied into a public package.
+- **Fix:** Track `world-template-manifest.json` with SHA-256 hashes and make
+  public builds fail on unreviewed world drift.
+- **Future rule:** Ignored binary release inputs still need a tracked identity
+  manifest so a source tag describes the artifact it produces.
+
+- **Date:** 2026-07-13
+- **Area:** Launcher deployment / shared upstream configuration
+- **What happened:** Jay's launcher treated the complete Melius commands folder
+  as Jay-owned and deleted every JSON file absent from Jay's eight-file overlay.
+- **Evidence:** Sybillian 1.5.4's manifest owns additional commands such as
+  `alhadikhia`, `boomdandy`, `fearmonger`, `hand`, `point`, `rps`, `script`, and
+  `spectator`, while the launcher cleanup enumerated and removed all unmatched
+  runtime JSON files.
+- **Root cause:** File-overlay ownership was modeled at directory level even
+  though Jay and Sybillian share that directory.
+- **Fix:** Protect Jay-owned command files individually in Compose and record
+  deployed Jay-owned filenames in a launcher manifest. On later runs, delete
+  only names present in the previous Jay ownership manifest but absent from the
+  current Jay source. Retire server-side Jay FancyMenu copies because those
+  layouts are client-owned.
+- **Future rule:** Never clean or exclude an entire upstream-owned directory to
+  deploy an overlay. Track exact owned paths, preserve unknown files, and require
+  a static ownership test for retirement behavior.
+- **Date:** 2026-07-13
+- **Area:** Jay's Patch / resource-pack dialog icons
+- **What happened:** A one-role proof was needed before replacing text-only
+  dialog buttons with role icons and literal player names.
+- **Evidence:** Sybillian already uses a 16-pixel bitmap font for its `ct:icons`
+  microphone glyph. A live Pukka proof then rendered that role texture beside
+  the literal seat-one player name and `(Pukka)` suffix in a vanilla dialog
+  action button.
+- **Fix:** Generate one `botc_patch:role_icons` bitmap-font provider per role,
+  put normal label text back on `minecraft:default`, and derive glyphs from the
+  stable Sybillian role score instead of alphabetical position.
+- **Future rule:** Keep the text name and role suffix alongside every glyph so
+  optional-resource-pack users retain an understandable action. Never assign
+  glyphs by list position, because inserting a role would shift later icons for
+  older clients.
+- **Date:** 2026-07-16
+- **Area:** Standalone launcher / Docker Desktop readiness
+- **What happened:** `BOTC.exe` accepted `docker info` as proof that Docker was
+  ready, but two Minecraft starts immediately failed while the container could
+  not send DNS queries to Docker's resolver for `api.modrinth.com`.
+- **Evidence:** The container exited with code `1`; `mc-image-helper` reported
+  `Network is unreachable` for `192.168.65.7:53`. The Docker engine itself was
+  responsive, and a later isolated container resolved the same host normally.
+- **Root cause:** Docker engine readiness and Docker container-network readiness
+  are separate startup conditions.
+- **Fix:** Before starting Minecraft, the launcher now resolves Modrinth from a
+  temporary container using the exact pinned Compose image and waits for a
+  bounded configurable timeout.
+- **Future rule:** A launcher that depends on outbound container traffic must
+  probe that traffic from inside a container. A successful host lookup or
+  `docker info` is not sufficient evidence.
+
+## Live Server Data Root
+
+- **Evidence:** The server previously used sibling `../data`, while an accidental
+  repo-local `data` duplicate could receive an apparently successful deployment
+  without changing the running server. Jay chose to move the live server into
+  the repository so source and runtime share one unambiguous project boundary.
+- **Lesson:** The only supported live server folder is repo-local `data`, which
+  resolves to `BOTC/data`. Never deploy to or recreate the sibling `../data`.
+- **Guard:** `tools/tests/test-data-root.ps1` fails if the parent data folder
+  exists, if active tooling references `../data`, or if launcher/Compose path
+  ownership drifts away from repo-local `data`.
+
+- **Date:** 2026-07-17
+- **Area:** Public release / live-world synchronization
+- **What happened:** The public-package builder correctly used the reviewed
+  world template, but that template was older than the live map. Copying the
+  live folder directly would also have published a session lock, private player
+  folders, real usernames, UUID score holders, stress-test identities, and a
+  development-only role-icon proof storage.
+- **Fix:** Stop Minecraft, clean an isolated clone of the live world back to
+  pre-game state, remove private/runtime/test state, promote that clone to the
+  world template with rollback protection, refresh its manifest, and build only
+  from the verified template.
+- **Future rule:** The live world is the source for current map geometry; the
+  sanitized world template is the source for release packaging. Never package
+  an actively written live world, and never call a package current until the
+  template has been deliberately refreshed after the latest map changes.

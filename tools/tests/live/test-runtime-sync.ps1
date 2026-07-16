@@ -2,7 +2,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
-$ServerDataRoot = [System.IO.Path]::GetFullPath((Join-Path $RepoRoot "..\data"))
+$ServerDataRoot = [System.IO.Path]::GetFullPath((Join-Path $RepoRoot "data"))
 
 function Assert-PathInsideData {
     param([string] $Path)
@@ -136,12 +136,9 @@ $datapackSource = Join-Path $RepoRoot "Jays-Patch/datapack"
 $datapackRuntime = Join-Path $ServerDataRoot "world/datapacks/jays_patch"
 $commandsSource = Join-Path $RepoRoot "Jays-Patch/melius-commands/commands"
 $commandsRuntime = Join-Path $ServerDataRoot "config/melius-commands/commands"
-$fancymenuSource = Join-Path $RepoRoot "Jays-Patch/fancymenu/customization"
-$fancymenuRuntime = Join-Path $ServerDataRoot "config/fancymenu/customization"
 
 Assert-MirroredTree -SourceRoot $datapackSource -RuntimeRoot $datapackRuntime -Description "Jay's Patch datapack"
 Assert-GeneratedGrimDialogMasks -SourceRoot $datapackSource -RuntimeRoot $datapackRuntime
-Assert-MirroredTree -SourceRoot $commandsSource -RuntimeRoot $commandsRuntime -Description "Melius command overlay"
-Assert-MirroredTree -SourceRoot $fancymenuSource -RuntimeRoot $fancymenuRuntime -Description "Jay-owned FancyMenu overlay" -AllowRuntimeExtras
+Assert-MirroredTree -SourceRoot $commandsSource -RuntimeRoot $commandsRuntime -Description "Jay-owned Melius command overlay" -AllowRuntimeExtras
 
-Write-Host "Runtime sync checks passed for Jay's Patch datapack, Melius commands, and owned FancyMenu files." -ForegroundColor Green
+Write-Host "Runtime sync checks passed for Jay's Patch datapack and owned Melius command files." -ForegroundColor Green

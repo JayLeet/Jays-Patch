@@ -1,0 +1,463 @@
+{
+    "providers":  [
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/reveal_roles.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/writable_book.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/back.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/reset_game.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/music_selector.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:block/jukebox_side.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/goat_horn.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/barrier.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/setup_queue_status.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/setup_wall_use_bag.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:block/diamond_block.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:block/redstone_block.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/storyteller_tp_evil.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/clock_00.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/storyteller_tp_seats.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/storyteller_tp_home.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/ender_pearl.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/storyteller_post_kill.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/storyteller_revive.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/storyteller_nominate.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/storyteller_nom_pyre.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/storyteller_nom_execute.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/setup_become_player.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/boomdandy.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_11.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_13.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_5.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_blocks.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_cat.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_chirp.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_creator.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_creator_music_box.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_far.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_lava_chicken.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_mall.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_mellohi.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_otherside.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_pigstep.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_precipice.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_relic.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_stal.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_strad.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_tears.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_wait.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/music_disc_ward.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:block/sculk_shrieker_top.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:item/pointed_dripstone.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:block/basalt_top.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:block/soul_sand.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:block/crimson_nylium.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "minecraft:block/netherrack.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      }
+                  ]
+}

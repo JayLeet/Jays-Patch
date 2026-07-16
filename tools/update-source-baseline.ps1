@@ -20,7 +20,8 @@ function Get-BaselineFiles {
         "Jays-Patch/melius-commands",
         "Jays-Patch/resourcepack",
         "Jays-Patch/config",
-        "Jays-Patch/server-config"
+        "Jays-Patch/server-config",
+        "Jays-Patch/public-package"
     )) {
         $path = Join-Path $RepoRoot $root
         if (Test-Path -LiteralPath $path -PathType Container) {
@@ -37,11 +38,16 @@ function Get-BaselineFiles {
     $launcherSourceRoot = Join-Path $RepoRoot "launcher/exe"
     $files.AddRange([System.IO.FileInfo[]] @(Get-ChildItem -LiteralPath $launcherSourceRoot -File -Filter "*.cs" -Force))
     foreach ($relative in @(
+        ".gitattributes",
         "launcher/compose.yml",
         "launcher/branding.txt",
         "launcher/local-settings.example.properties",
         "Start.bat",
-        "Console.bat"
+        "Console.bat",
+        "LICENSE",
+        "ASSET_LICENSE.md",
+        "BRANDING.md",
+        "NOTICE.md"
     )) {
         $path = Join-Path $RepoRoot $relative
         if (Test-Path -LiteralPath $path -PathType Leaf) {
@@ -134,5 +140,5 @@ finally {
 
 $current = New-BaselineDocument
 $json = $current | ConvertTo-Json -Depth 5
-[System.IO.File]::WriteAllText($OutputPath, $json + [Environment]::NewLine, [System.Text.UTF8Encoding]::new($false))
+[System.IO.File]::WriteAllText($OutputPath, $json.Replace("`r`n", "`n") + "`n", [System.Text.UTF8Encoding]::new($false))
 Write-Host "Updated known-good source baseline for $($current.files.Count) owned files." -ForegroundColor Green

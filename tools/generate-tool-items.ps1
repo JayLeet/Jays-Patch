@@ -122,6 +122,59 @@ function New-SelectorFromEntityCondition {
     return '@a' + [string] $Matches.suffix
 }
 
+function Get-ToolMode {
+    param(
+        [object] $Row,
+        [string] $Description
+    )
+
+    $mode = "both"
+    if ($Row.PSObject.Properties["mode"] -and -not [string]::IsNullOrWhiteSpace([string] $Row.mode)) {
+        $mode = [string] $Row.mode
+    }
+
+    if ($mode -notin @("item", "dialog", "both")) {
+        throw "$Description has unsupported mode '$mode'. Use item, dialog, or both."
+    }
+
+    return $mode
+}
+
+function Get-ModeConditionFragment {
+    param(
+        [object] $Row,
+        [string] $Description,
+        [switch] $Inverse
+    )
+
+    $mode = Get-ToolMode -Row $Row -Description $Description
+    if ($mode -eq "both") {
+        return ""
+    }
+
+    $keyword = if ($mode -eq "dialog") { "if" } else { "unless" }
+    if ($Inverse) {
+        $keyword = if ($keyword -eq "if") { "unless" } else { "if" }
+    }
+
+    return "$keyword score patch_dialog_mode botc_patch matches 1"
+}
+
+function Add-ModeCondition {
+    param(
+        [string] $Condition,
+        [object] $Row,
+        [string] $Description
+    )
+
+    $modeCondition = Get-ModeConditionFragment -Row $Row -Description $Description
+    if ([string]::IsNullOrWhiteSpace($modeCondition)) {
+        return $Condition
+    }
+
+    return "$Condition $modeCondition"
+}
+
 function Add-RepairCheckLines {
     param(
         [System.Collections.Generic.List[string]] $Lines,
@@ -132,20 +185,22 @@ function Add-RepairCheckLines {
         [string] $RepairTag = "botc_st_tool_repair"
     )
 
+    $description = "tool item '$($Entry.Item.id)'"
+    $effectivePhaseCondition = Add-ModeCondition -Condition $PhaseCondition -Row $Entry.Row -Description $description
     $selector = New-StackSelector -Item $Entry.Item -Row $Entry.Row
     $inventoryPredicate = New-InventoryComponentPredicate -Item $Entry.Item -Row $Entry.Row
     $Lines.Add(('execute if {0} as {1} store result score @s {2} run clear @s {3} 0' -f `
-        $PhaseCondition,
+        $effectivePhaseCondition,
         $PlayerSelector,
         $ScoreName,
         $selector))
     $Lines.Add(('execute if {0} as {1} unless score @s {2} matches 1 run tag @s add {3}' -f `
-        $PhaseCondition,
+        $effectivePhaseCondition,
         $PlayerSelector,
         $ScoreName,
         $RepairTag))
     $Lines.Add(('execute if {0} as {1} unless data entity @s {2} run tag @s add {3}' -f `
-        $PhaseCondition,
+        $effectivePhaseCondition,
         $PlayerSelector,
         $inventoryPredicate,
         $RepairTag))
@@ -197,7 +252,7 @@ function Write-OrCheckFile {
         [System.Collections.Generic.List[string]] $Lines
     )
 
-    $content = ($Lines -join [Environment]::NewLine) + [Environment]::NewLine
+    $content = ($Lines -join "`n") + "`n"
     if ($Check) {
         if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
             throw "Generated file is missing: $Path"
@@ -267,10 +322,18 @@ foreach ($item in $setupItems) {
 $replaceLines = New-GeneratedHeader "Replace setup-phase queue and Storyteller utility items."
 $replaceLines.Add("function botc_patch:setup_tools/clear_items")
 foreach ($item in $setupItems) {
+    $customDataMarker = $markerText
+    if ($item.setupTool.PSObject.Properties["customDataMarker"]) {
+        $customDataMarker = [string] $item.setupTool.customDataMarker
+    }
+    $setupCondition = Add-ModeCondition `
+        -Condition ([string] $item.setupTool.condition) `
+        -Row $item.setupTool `
+        -Description "setupTool '$($item.id)'"
     $replaceLines.Add(('execute if {0} run item replace entity @s {1} with {2}' -f `
-        [string] $item.setupTool.condition,
+        $setupCondition,
         [string] $item.setupTool.slot,
-        (New-ItemStack -Item $item -CustomDataMarker $markerText -CustomNameComponent ([string] $item.setupTool.customNameComponent))))
+        (New-ItemStack -Item $item -CustomDataMarker $customDataMarker -CustomNameComponent ([string] $item.setupTool.customNameComponent))))
 }
 Write-OrCheckFile -Path (Join-Path $SetupToolsRoot "replace_items.mcfunction") -Lines $replaceLines
 
@@ -292,6 +355,23 @@ foreach ($line in @(
     "execute unless score phase game_data matches 0 as @a[tag=storyteller] run function botc_patch:setup_tools/clear_non_queue_items"
 )) {
     $setupItemCheckLines.Add($line)
+}
+
+foreach ($item in $setupItems) {
+    $inverseModeCondition = Get-ModeConditionFragment `
+        -Row $item.setupTool `
+        -Description "setupTool '$($item.id)'" `
+        -Inverse
+    if (-not [string]::IsNullOrWhiteSpace($inverseModeCondition)) {
+        $setupItemCheckLines.Add(('execute if score phase game_data matches 0 {0} run clear @a {1}' -f `
+            $inverseModeCondition,
+            (New-ClearStack -Item $item)))
+    }
+
+    if ($item.setupTool.PSObject.Properties["customDataMarker"]) {
+        $setupItemCheckLines.Add(('execute unless score phase game_data matches 0 run clear @a {0}' -f `
+            (New-StackSelector -Item $item -Row $item.setupTool)))
+    }
 }
 
 $setupPhaseClearRules = @(
@@ -601,8 +681,12 @@ foreach ($entry in @($liveToolRows | Sort-Object { [int] $_.Row.order })) {
         $loreComponent = [string] $entry.Row.loreComponent
     }
 
+    $liveCondition = Add-ModeCondition `
+        -Condition ([string] $entry.Row.condition) `
+        -Row $entry.Row `
+        -Description "liveTool '$($entry.Item.id)'"
     $liveLines.Add(('execute if {0} run item replace entity @s {1} with {2}' -f `
-        [string] $entry.Row.condition,
+        $liveCondition,
         [string] $entry.Row.slot,
         (New-ItemStack -Item $entry.Item -CustomDataMarker $customDataMarker -CustomNameComponent ([string] $entry.Row.customNameComponent) -LoreComponent $loreComponent)))
 }
@@ -623,6 +707,11 @@ foreach ($item in @($registry.items | Where-Object { $_.PSObject.Properties["pos
 
     if ([string] $item.postExecutionTool.slot -notmatch '^hotbar\.[0-8]$') {
         throw "postExecutionTool '$($item.id)' must use a hotbar slot, got '$($item.postExecutionTool.slot)'."
+    }
+
+    if ($item.postExecutionTool.PSObject.Properties["inPlaySelector"] -and
+        [string] $item.postExecutionTool.inPlaySelector -notmatch '^@a(?:\[.*\])?$') {
+        throw "postExecutionTool '$($item.id)' inPlaySelector must be an @a selector."
     }
 
     $postExecutionRows.Add([pscustomobject]@{
@@ -670,9 +759,23 @@ foreach ($entry in @($postExecutionRows | Sort-Object { [int] $_.Row.order })) {
     }
     $seenPostExecutionOrders[$order] = [string] $entry.Item.id
 
-    $postExecutionLines.Add(('item replace entity @s {0} with {1}' -f `
+    $replaceCommand = ('item replace entity @s {0} with {1}' -f `
         [string] $entry.Row.slot,
-        (New-ItemStack -Item $entry.Item -CustomDataMarker $markerText -CustomNameComponent ([string] $entry.Row.customNameComponent))))
+        (New-ItemStack -Item $entry.Item -CustomDataMarker $markerText -CustomNameComponent ([string] $entry.Row.customNameComponent)))
+    $conditions = [System.Collections.Generic.List[string]]::new()
+    if ($entry.Row.PSObject.Properties["inPlaySelector"]) {
+        $conditions.Add(('if entity {0}' -f [string] $entry.Row.inPlaySelector))
+    }
+    $modeCondition = Get-ModeConditionFragment `
+        -Row $entry.Row `
+        -Description "postExecutionTool '$($entry.Item.id)'"
+    if (-not [string]::IsNullOrWhiteSpace($modeCondition)) {
+        $conditions.Add($modeCondition)
+    }
+    if ($conditions.Count -gt 0) {
+        $replaceCommand = 'execute {0} run {1}' -f ($conditions -join ' '), $replaceCommand
+    }
+    $postExecutionLines.Add($replaceCommand)
 }
 
 Write-OrCheckFile `
@@ -698,6 +801,61 @@ foreach ($entry in @($liveClearRows | Sort-Object { [int] $_.Row.order })) {
 $storytellerItemCheckLines.Add("")
 foreach ($entry in @($liveClearRows | Sort-Object { [int] $_.Row.order })) {
     $storytellerItemCheckLines.Add(('execute unless score phase game_data matches 1.. run clear @a {0}' -f (New-StackSelector -Item $entry.Item -Row $entry.Row)))
+}
+
+$modeCoverage = @{}
+foreach ($entry in @($liveToolRows) + @($postExecutionRows)) {
+    $itemId = [string] $entry.Item.id
+    $mode = Get-ToolMode -Row $entry.Row -Description "tool '$itemId'"
+    if (-not $modeCoverage.ContainsKey($itemId)) {
+        $modeCoverage[$itemId] = @{}
+    }
+    $modeCoverage[$itemId][$mode] = $true
+}
+
+$seenModeCleanup = @{}
+foreach ($entry in @($liveToolRows | Sort-Object { [int] $_.Row.order })) {
+    $mode = Get-ToolMode -Row $entry.Row -Description "liveTool '$($entry.Item.id)'"
+    $itemModes = @($modeCoverage[[string] $entry.Item.id].Keys)
+    if ($itemModes -contains "both" -or $itemModes.Count -gt 1) {
+        continue
+    }
+
+    $cleanupKey = "{0}:{1}" -f [string] $entry.Item.id, $mode
+    if ($seenModeCleanup.ContainsKey($cleanupKey)) {
+        continue
+    }
+    $seenModeCleanup[$cleanupKey] = $true
+
+    $inverseModeCondition = Get-ModeConditionFragment `
+        -Row $entry.Row `
+        -Description "liveTool '$($entry.Item.id)'" `
+        -Inverse
+    $storytellerItemCheckLines.Add(('execute {0} run clear @a {1}' -f `
+        $inverseModeCondition,
+        (New-StackSelector -Item $entry.Item -Row $entry.Row)))
+}
+
+foreach ($entry in @($postExecutionRows | Sort-Object { [int] $_.Row.order })) {
+    $mode = Get-ToolMode -Row $entry.Row -Description "postExecutionTool '$($entry.Item.id)'"
+    $itemModes = @($modeCoverage[[string] $entry.Item.id].Keys)
+    if ($itemModes -contains "both" -or $itemModes.Count -gt 1) {
+        continue
+    }
+
+    $cleanupKey = "{0}:{1}" -f [string] $entry.Item.id, $mode
+    if ($seenModeCleanup.ContainsKey($cleanupKey)) {
+        continue
+    }
+    $seenModeCleanup[$cleanupKey] = $true
+
+    $inverseModeCondition = Get-ModeConditionFragment `
+        -Row $entry.Row `
+        -Description "postExecutionTool '$($entry.Item.id)'" `
+        -Inverse
+    $storytellerItemCheckLines.Add(('execute {0} run clear @a {1}' -f `
+        $inverseModeCondition,
+        (New-StackSelector -Item $entry.Item -Row $entry.Row)))
 }
 
 $phaseClearRules = @(
@@ -809,25 +967,34 @@ foreach ($entry in (Get-LiveToolRowsForPhaseGroup -Group "night_house")) {
         -Entry $entry
 }
 
-$postExecutionSelector = "@a[tag=storyteller,tag=botc_st_post_execution,tag=!botc_st_tp_menu,tag=!botc_st_nom_menu]"
-$postKillEntry = @($postExecutionRows | Where-Object { [string] $_.Item.id -eq "storyteller_post_kill" })
-if ($postKillEntry.Count -ne 1) {
-    throw "Expected one postExecutionTool row for storyteller_post_kill, found $($postKillEntry.Count)."
-}
+$activeRevealSelector = "@a[tag=storyteller,tag=!botc_st_tp_menu,tag=!botc_st_nom_menu,tag=!botc_st_post_execution]"
 $storytellerItemCheckLines.Add("")
-Add-RepairCheckLines `
-    -Lines $storytellerItemCheckLines `
-    -PhaseCondition "score phase game_data matches 3" `
-    -PlayerSelector $postExecutionSelector `
-    -Entry $postKillEntry[0]
-
-$postAdvanceEntry = @($postExecutionRows | Where-Object { [string] $_.Item.id -eq "storyteller_advance_phase" })
-if ($postAdvanceEntry.Count -ne 1) {
-    throw "Expected one postExecutionTool row for storyteller_advance_phase, found $($postAdvanceEntry.Count)."
+foreach ($entry in @($liveToolRows | Where-Object { $_.Row.PSObject.Properties["repairGroup"] -and [string] $_.Row.repairGroup -eq "active_reveal" } | Sort-Object { [int] $_.Row.order })) {
+    Add-RepairCheckLines `
+        -Lines $storytellerItemCheckLines `
+        -PhaseCondition "score phase game_data matches 4 if score grim_active botc_patch matches 1" `
+        -PlayerSelector $activeRevealSelector `
+        -Entry $entry
 }
-$storytellerItemCheckLines.Add(('execute if score phase game_data matches 3 as {0} unless data entity @s {1} run tag @s add botc_st_tool_repair' -f `
-    $postExecutionSelector,
-    (New-InventoryComponentPredicate -Item $postAdvanceEntry[0].Item -Row $postAdvanceEntry[0].Row)))
+
+$postExecutionSelector = "@a[tag=storyteller,tag=botc_st_post_execution,tag=!botc_st_tp_menu,tag=!botc_st_nom_menu]"
+$storytellerItemCheckLines.Add("")
+foreach ($entry in @($postExecutionRows | Sort-Object { [int] $_.Row.order })) {
+    $phaseCondition = "score phase game_data matches 3"
+    if ($entry.Row.PSObject.Properties["inPlaySelector"]) {
+        $inPlaySelector = [string] $entry.Row.inPlaySelector
+        $phaseCondition += " if entity $inPlaySelector"
+        $storytellerItemCheckLines.Add(('execute if score phase game_data matches 3 as {0} unless entity {1} run clear @s {2}' -f `
+            $postExecutionSelector,
+            $inPlaySelector,
+            (New-StackSelector -Item $entry.Item -Row $entry.Row)))
+    }
+    Add-RepairCheckLines `
+        -Lines $storytellerItemCheckLines `
+        -PhaseCondition $phaseCondition `
+        -PlayerSelector $postExecutionSelector `
+        -Entry $entry
+}
 
 foreach ($line in @(
     "",

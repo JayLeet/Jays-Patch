@@ -1,4 +1,4 @@
-﻿# Jay's Patch Shelf
+# Jay's Patch Shelf
 
 Use this shelf for datapack functions, `/botc`, Melius command overlays,
 Sybillian wrapping, and custom gameplay behavior.
@@ -9,23 +9,25 @@ Sybillian wrapping, and custom gameplay behavior.
 - Datapack source: `Jays-Patch/datapack`
 - Command overlay source: `Jays-Patch/melius-commands`
 - Code library: `docs/code-library/README.md`
-- Runtime deployment output: `../data/world/datapacks/jays_patch`,
-  `../data/config/melius-commands/commands`,
-  `../data/config/fancymenu/customization`, and
-  `../data/resources/resourcepack/required/Jays-Patch`
+- Runtime deployment output: `data/world/datapacks/jays_patch`,
+  `data/config/melius-commands/commands`,
+  `data/resources/resourcepack/required/Jays-Patch`
 - Project notes: `docs/project-notes/`
 - Retired setup-sign history: `docs/project-notes/command-block-notes.md`
 
 ## Rules
 
-- Treat `Jays-Patch/` as source and the deployed copies under `../data` as
+- Treat `Jays-Patch/` as source and the deployed copies under `data` as
   output.
 - Prefer calling or wrapping Sybillian `ct:` behavior before duplicating it.
 - Keep custom functions under namespace `botc_patch`.
 - Keep Jay-owned non-setup features under `/botc`.
 - Use Sybillian-style command roots such as `/st`, `/setupbag`, `/settings`,
-  `/tpchurch`, `/tpallhome`, and `/character` for Storyteller/setup broker
-  paths when that better preserves upstream behavior.
+  `/tpchurch`, and `/tpallhome` for Storyteller/setup broker paths when that
+  better preserves upstream behavior.
+- Keep `/character` player-facing and display-only during active games. Do not
+  route Storyteller role mutations through it; use the guarded Change
+  Characters editor.
 - Classify UI/control work as server-side, client-side, or client-required
   before implementing. FancyMenu layout files are client-side; do not present
   them as reliable server-side controls unless every client will install the
@@ -45,8 +47,9 @@ Sybillian wrapping, and custom gameplay behavior.
 ## Verification
 
 - Deploy source into the runtime folder before live testing.
-- If command or FancyMenu overlays disappear after restart, check
-  `launcher/compose.yml` Modrinth overwrite exclusions before patching symptoms.
+- If a Jay-owned command overlay disappears after restart, check the exact-file
+  exclusions in `launcher/compose.yml` and the launcher ownership manifest.
+  Unrelated Sybillian Melius commands must remain upstream-owned and preserved.
 - Run `/reload` after datapack changes.
 - Check logs for parse errors, unknown functions, and command failures.
 - Run `tools/tests/test-command-overlays.ps1` after Melius command-overlay changes.

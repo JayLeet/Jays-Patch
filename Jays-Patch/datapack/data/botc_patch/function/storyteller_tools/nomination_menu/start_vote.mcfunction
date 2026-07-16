@@ -6,6 +6,7 @@ execute unless entity @a[tag=botc_st_nom_selected,limit=1] run return run tellra
 execute if entity @s[tag=botc_st_nom_vote_started] run function botc_patch:storyteller_tools/nomination_menu/cancel_vote
 execute if entity @s[tag=botc_st_nom_vote_started] as @a[tag=botc_st_nom_selected,limit=1] run function ct:admin/nomination
 execute unless entity @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run return run tellraw @s [{text:"The selected player could not be nominated.",color:"red"}]
+execute as @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run function botc_patch:seat_layout/sync_nominee_name
 tag @s add botc_st_nom_vote_started
 tag @s remove botc_st_nom_vote_finished
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_nom_mark"]}]

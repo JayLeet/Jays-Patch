@@ -16,7 +16,7 @@ small settings file, and double-click `BOTC.exe`.
   `BOTC.exe`.
 - `launcher/compose.yml`: tells Docker what Minecraft server to create.
 - `launcher/branding.txt`: editable server name, MOTD, and resource-pack prompt.
-- `../data/server-icon.png`: the normal Minecraft server icon. The launcher
+- `data/server-icon.png`: the normal Minecraft server icon. The launcher
   also uses this file as the EXE icon source when rebuilt.
 - `Jays-Patch`: Jay's server-side add-on. Custom BOTC behavior goes here.
 - `launcher/local-settings.example.properties`: example settings file.
@@ -88,6 +88,7 @@ Your `launcher/local-settings.properties` file should look like this:
 ```properties
 BOTC_MANAGE_DOCKER=true
 BOTC_DOCKER_START_TIMEOUT_SECONDS=180
+BOTC_DOCKER_NETWORK_TIMEOUT_SECONDS=90
 BOTC_DOCKER_DESKTOP_EXE=
 BOTC_MANAGE_PLAYIT=true
 BOTC_PLAYIT_SERVICE=playitd
@@ -98,6 +99,10 @@ BOTC_VOICE_BIND_ADDRESS=*
 
 Use `BOTC_MANAGE_DOCKER=true` if you want `BOTC.exe` to open Docker Desktop
 when Docker is installed but not running yet.
+
+`BOTC_DOCKER_NETWORK_TIMEOUT_SECONDS` controls how long the launcher waits for
+the Minecraft Compose network to gain DNS access before starting the Modrinth
+install.
 
 Leave `BOTC_DOCKER_DESKTOP_EXE` blank unless Docker Desktop is installed in an
 unusual folder.
@@ -122,10 +127,10 @@ Do not use someone else's value here. Everyone has their own playit address.
 Edit `launcher/branding.txt` in Notepad to change the visible server name,
 server-list MOTD, and resource-pack prompt.
 
-Edit `../data/server-icon.png` to change the logo. This is Minecraft's normal
+Edit `data/server-icon.png` to change the logo. This is Minecraft's normal
 server icon file. Use a square PNG, preferably 64x64.
 
-If `../data/server-icon.png` is missing, Minecraft uses its default server icon.
+If `data/server-icon.png` is missing, Minecraft uses its default server icon.
 If you rebuild `BOTC.exe` while that file is missing, Windows uses the default
 application icon.
 
@@ -158,6 +163,11 @@ If the server is offline, the launcher will:
 
 If the server is already online, `BOTC.exe` skips startup and opens the console
 without restarting or updating the server.
+
+The Minecraft startup row uses the SMP-style centered progress bar. Its percent
+is based on elapsed time learned from recent successful BOTC startups, while log
+stages provide minimum progress evidence. The detail and stats rows show the
+current stage, ETA, and elapsed time without scrolling repeated status lines.
 
 The normal backup point is now when you stop the server. Type:
 
@@ -197,6 +207,10 @@ reload
 Special launcher commands:
 
 - `help`: show help.
+- `backup`: safely flush saves and replace `backups/standard` without stopping
+  the server.
+- `restart`: ask for confirmation, then restart only Minecraft while leaving
+  Playit and Docker Desktop running; BOTC's final patch sync runs afterward.
 - `cls`: clear the window.
 - `botc help`: show Jay's Patch BOTC commands in Minecraft.
 - `exit`: close the console window but leave the Minecraft server running.
@@ -234,8 +248,9 @@ licensed as a separate Jay-owned reusable asset.
 The Jay's Patch name, logo, and branding are reserved by Jay. Forks and
 modified versions should not present themselves as the official Jay's Patch.
 
-See `LICENSE`, `ASSET_LICENSE.md`, `NOTICE.md`, and `BRANDING.md` for the
-package-facing license and credit details.
+See `LICENSE`, `ASSET_LICENSE.md`, `NOTICE.md`, `BRANDING.md`, and the public
+package's `CREDITS.md` and `THIRD-PARTY-LICENSES` folder for the package-facing
+license and credit details.
 
 ## Giving Yourself Admin
 
@@ -263,17 +278,17 @@ so Minecraft can save properly.
 ## What Not To Share
 
 Do not share these files or folders from a live server. The live server data
-folder is `../data` from this folder.
+folder is `data` from this folder.
 
 - `launcher/local-settings.properties`
 - `backups`
-- `../data/logs`
-- `../data/world`
-- `../data/ops.json`
-- `../data/usercache.json`
-- `../data/server.properties`
-- `../data/.rcon-cli.env`
-- `../data/.rcon-cli.yaml`
+- `data/logs`
+- `data/world`
+- `data/ops.json`
+- `data/usercache.json`
+- `data/server.properties`
+- `data/.rcon-cli.env`
+- `data/.rcon-cli.yaml`
 - files ending in `.bak-*`
 - private planning notes
 
@@ -289,6 +304,9 @@ If `BOTC.exe` closes instantly:
    `BOTC_DOCKER_DESKTOP_EXE`.
 3. If it says Docker did not become ready in time, wait until Docker Desktop is
    fully started, then double-click `BOTC.exe` again.
+4. If it says Docker containers cannot resolve `api.modrinth.com`, Docker's
+   network is still starting or unavailable. The launcher waits automatically;
+   if the timeout expires, restart Docker Desktop and try again.
 
 If stopping says the standard backup could not read a locked file:
 

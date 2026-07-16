@@ -2,7 +2,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
-$RuntimeRoot = Resolve-Path (Join-Path $RepoRoot "../data")
+$RuntimeRoot = Resolve-Path (Join-Path $RepoRoot "data")
 $FancyMenuRoot = Join-Path $RuntimeRoot "config/fancymenu/customization"
 $CommandRoot = Join-Path $RuntimeRoot "config/melius-commands/commands"
 

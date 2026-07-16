@@ -1,9 +1,11 @@
-﻿# FancyMenu Stability Test Matrix
+# FancyMenu Stability Test Matrix
 
 Last updated: 2026-06-26
 
-This is a source-only planning document. Do not run these live tests during the
-current source-only goal.
+This is a historical planning document. Jay-owned server-side FancyMenu source
+was retired on 2026-07-13 because FancyMenu layouts are client-owned. The old
+source audits named below no longer exist; use this document only as evidence if
+upstream/client FancyMenu instability returns.
 
 ## Evidence
 
@@ -89,14 +91,13 @@ logs before moving on.
   client-sent command bursts first; only add narrow debounce after the command
   burst has been removed.
 
-## Source-Only Checks Before Live Testing
+## Current Checks Before Live Testing
 
 Run these before any live menu rollout:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\audit-fancymenu-actions.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\audit-fancymenu-setupbag-bursts.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\test-setupbag-burst-bridges.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\test-source-safety.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\tests\test-command-overlays.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\tests\test-source-safety.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\tests\live\audit-runtime-fancymenu-buttons.ps1
 ```
 

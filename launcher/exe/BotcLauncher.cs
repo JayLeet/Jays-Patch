@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,6 +12,11 @@ using System.Threading;
 
 internal static partial class BotcLauncher
 {
+    private const string MinecraftComposeService = "mc";
+    private const string ModrinthApiHost = "api.modrinth.com";
+    private const int StartupProgressBarWidth = 70;
+    private const int DashboardDetailRows = 2;
+    private const int FinalReadyHoldMs = 1500;
     private static readonly object ConsoleLock = new object();
     private static readonly Dictionary<string, string> Settings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
     private static string RootDir;
@@ -20,6 +25,7 @@ internal static partial class BotcLauncher
     private static string ServerDataDir;
     private static string ServerIconFile;
     private static string BrandingFile;
+    private static string RequiredServerPropertiesFile;
     private static string ManagedServicesFile;
     private static BrandingConfig Branding = BrandingConfig.Default();
     private static string ContainerName = "botc-minecraft";
@@ -31,12 +37,16 @@ internal static partial class BotcLauncher
     private static int DashboardLines;
     private static int HeaderStatusTop = -1;
     private static int StartupLastPercent;
-    private static string StartupLastStage = "";
-    private static DateTime StartupStageStartedAt;
+    private static int StartupProgressLineLength;
+    private static int StartupProgressDetailLineLength;
+    private static int StartupProgressStatsLineLength;
+    private static int StartupProgressLineTop = -1;
     private static readonly string[] DashboardPhaseOrder = { "CONFIG", "VOICE", "PATCH", "DOCKER", "PLAYIT", "MINECRAFT", "SYNC" };
     private static readonly Dictionary<string, string> DashboardPhaseStates = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
     private static string DashboardActivePhase = "";
+    private static string DashboardActiveProgress = "";
     private static string DashboardActiveDetail = "";
+    private static string DashboardActiveStats = "";
     private static readonly string[] ProtectedServerConfigFiles = new[]
     {
         Path.Combine("tab", "config.yml"),
@@ -55,9 +65,10 @@ internal static partial class BotcLauncher
         RootDir = AppDomain.CurrentDomain.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         LauncherDir = Path.Combine(RootDir, "launcher");
         ComposeFile = Path.Combine(LauncherDir, "compose.yml");
-        ServerDataDir = Path.GetFullPath(Path.Combine(RootDir, "..", "data"));
+        ServerDataDir = Path.GetFullPath(Path.Combine(RootDir, "data"));
         ServerIconFile = Path.Combine(ServerDataDir, "server-icon.png");
         BrandingFile = Path.Combine(LauncherDir, "branding.txt");
+        RequiredServerPropertiesFile = Path.Combine(RootDir, "Jays-Patch", "server-config", "jays-patch-required-server-properties.txt");
         ManagedServicesFile = Path.Combine(LauncherDir, ".botc-managed-services.state");
         Branding = BrandingConfig.Load(BrandingFile);
 
@@ -84,6 +95,7 @@ internal static partial class BotcLauncher
     {
         WriteHeader("Starting");
         StartDashboard();
+        ResetStartupProgressRows();
 
         try
         {
@@ -228,6 +240,53 @@ internal static partial class BotcLauncher
                 return;
             }
 
+            if (EqualsIgnoreCase(command, "backup"))
+            {
+                bool logsWereRunning = PauseLiveLogs();
+                try
+                {
+                    BackupFromConsole();
+                }
+                catch (Exception ex)
+                {
+                    Warning(ex.Message);
+                }
+                finally
+                {
+                    ResumeLiveLogs(logsWereRunning);
+                }
+
+                WritePrompt();
+                return;
+            }
+
+            if (EqualsIgnoreCase(command, "restart"))
+            {
+                bool logsWereRunning = PauseLiveLogs();
+                try
+                {
+                    if (ConfirmRestartServerOnly())
+                    {
+                        RestartMinecraftServerOnly();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Restart cancelled. The server is still running.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Warning(ex.Message);
+                }
+                finally
+                {
+                    ResumeLiveLogs(logsWereRunning);
+                }
+
+                WritePrompt();
+                return;
+            }
+
             if (EqualsIgnoreCase(command, "exit"))
             {
                 Console.WriteLine("Closing console. The server is still running.");
@@ -237,6 +296,7 @@ internal static partial class BotcLauncher
 
             if (EqualsIgnoreCase(command, "stop"))
             {
+                bool logsWereRunning = PauseLiveLogs();
                 try
                 {
                     if (ConfirmBackupBeforeStop())
@@ -246,11 +306,13 @@ internal static partial class BotcLauncher
                     }
                     else
                     {
+                        ResumeLiveLogs(logsWereRunning);
                         WritePrompt();
                     }
                 }
                 catch (Exception ex)
                 {
+                    ResumeLiveLogs(logsWereRunning);
                     Warning(ex.Message);
                     WritePrompt();
                 }
@@ -288,6 +350,24 @@ internal static partial class BotcLauncher
         }
     }
 
+    private static bool PauseLiveLogs()
+    {
+        bool running = LogProcess != null && !LogProcess.HasExited;
+        if (running)
+        {
+            StopLogProcess();
+        }
+        return running;
+    }
+
+    private static void ResumeLiveLogs(bool wereRunning)
+    {
+        if (wereRunning && !Done && IsDockerContainerRunning(ContainerName))
+        {
+            StartLogProcess();
+        }
+    }
+
     private static bool ConfirmBackupBeforeStop()
     {
         Console.WriteLine();
@@ -313,40 +393,71 @@ internal static partial class BotcLauncher
 
     private static void BackupStandardBeforeStop()
     {
+        BackupStandard(
+            "manual standard backup approved before server stop",
+            "Creating standard backup before stopping",
+            "Stop-time backup failed. Server was not stopped.");
+    }
+
+    private static void BackupFromConsole()
+    {
+        BackupStandard(
+            "manual standard backup requested from console",
+            "Creating standard backup without stopping",
+            "Live backup failed.");
+    }
+
+    private static void BackupStandard(string reason, string heading, string failurePrefix)
+    {
         bool saveWasDisabled = false;
-        Step("BACKUP", "Creating standard backup before stopping");
+        Step("BACKUP", heading);
 
         try
         {
             if (IsDockerContainerRunning(ContainerName))
             {
                 Detail("Flushing world saves before standard backup");
-                CommandResult saveOff = Rcon("save-off");
+                CommandResult saveOff = Rcon("save-off", 30000);
                 if (saveOff.ExitCode != 0)
                 {
                     throw new Exception("Server is running, but RCON save-off failed.");
                 }
                 saveWasDisabled = true;
 
-                CommandResult saveAll = Rcon("save-all flush");
+                int saveFlushTimeout = GetIntSetting("BOTC_BACKUP_SAVE_FLUSH_TIMEOUT_SECONDS", 180, 30, 1200);
+                CommandResult saveAll = Rcon("save-all flush", saveFlushTimeout * 1000);
                 if (saveAll.ExitCode != 0)
                 {
                     throw new Exception("Server is running, but RCON save-all flush failed.");
                 }
+                Detail("World saves flushed; packaging backup");
             }
 
-            BackupResult standard = WriteBackupSlot("standard", "manual standard backup approved before server stop");
+            BackupResult standard = WriteBackupSlot("standard", reason);
             ShowBackupSlot("Standard", standard);
         }
         catch (Exception ex)
         {
-            throw new Exception("Stop-time backup failed. Server was not stopped. " + ex.Message, ex);
+            throw new Exception(failurePrefix + " " + ex.Message, ex);
         }
         finally
         {
             if (saveWasDisabled)
             {
-                Rcon("save-on");
+                try
+                {
+                    CommandResult saveOn = Rcon("save-on", 30000);
+                    if (saveOn.ExitCode != 0)
+                    {
+                        Warning("RCON save-on failed after backup attempt. Server may still have saving disabled.");
+                        WriteRawOutput(saveOn.OutputLines);
+                    }
+                }
+                catch (Exception saveOnEx)
+                {
+                    Warning("RCON save-on failed after backup attempt. Server may still have saving disabled.");
+                    Detail(saveOnEx.Message);
+                }
             }
         }
     }
@@ -420,8 +531,7 @@ internal static partial class BotcLauncher
             File.WriteAllText(manifest, BuildManifest(slotName, reason, created), Encoding.ASCII);
             created.Add("BOTC-backup.json");
 
-            RemoveDirectoryInsideBackups(slotPath);
-            Directory.Move(staging, slotPath);
+            PromoteBackupStaging(staging, slotPath, slotName);
 
             return new BackupResult(slotPath, created);
         }
@@ -429,6 +539,50 @@ internal static partial class BotcLauncher
         {
             RemoveDirectoryInsideBackups(staging);
             throw;
+        }
+    }
+
+    private static void PromoteBackupStaging(string staging, string slotPath, string slotName)
+    {
+        string previous = Path.Combine(Path.Combine(RootDir, "backups"), slotName + "-previous");
+        RemoveDirectoryInsideBackups(previous);
+
+        bool movedExisting = false;
+        if (Directory.Exists(slotPath))
+        {
+            Detail("Preserving previous backup until promotion finishes");
+            Directory.Move(slotPath, previous);
+            movedExisting = true;
+        }
+
+        try
+        {
+            Directory.Move(staging, slotPath);
+        }
+        catch (Exception promotionEx)
+        {
+            if (movedExisting && Directory.Exists(previous) && !Directory.Exists(slotPath))
+            {
+                try
+                {
+                    Directory.Move(previous, slotPath);
+                }
+                catch (Exception restoreEx)
+                {
+                    throw new Exception("Backup promotion failed and the previous standard backup could not be restored. Promotion failed: " + promotionEx.Message + " Restore failed: " + restoreEx.Message, restoreEx);
+                }
+            }
+            throw;
+        }
+
+        try
+        {
+            RemoveDirectoryInsideBackups(previous);
+        }
+        catch (Exception cleanupEx)
+        {
+            Warning("Previous backup cleanup failed after standard backup promotion.");
+            Detail(cleanupEx.Message);
         }
     }
 
@@ -458,7 +612,6 @@ internal static partial class BotcLauncher
         string datapackSource = Path.Combine(patchRoot, "datapack");
         string commandsSource = Path.Combine(patchRoot, "melius-commands", "commands");
         string resourcepackSource = Path.Combine(patchRoot, "resourcepack");
-        string fancymenuSource = Path.Combine(patchRoot, "fancymenu", "customization");
         string serverConfigSource = Path.Combine(patchRoot, "server-config");
 
         if (!Directory.Exists(datapackSource))
@@ -474,8 +627,8 @@ internal static partial class BotcLauncher
         string oldDatapackDest = Path.Combine(ServerDataDir, "resources", "datapack", "required", "Jays-Patch");
         string oldLowerDatapackDest = Path.Combine(ServerDataDir, "resources", "datapack", "required", "jays_patch");
         string commandsDest = Path.Combine(ServerDataDir, "config", "melius-commands", "commands");
+        string commandOwnershipManifest = Path.Combine(LauncherDir, ".jays-patch-command-ownership.txt");
         string resourcepackDest = Path.Combine(ServerDataDir, "resources", "resourcepack", "required", "Jays-Patch");
-        string fancymenuDest = Path.Combine(ServerDataDir, "config", "fancymenu", "customization");
         string serverConfigDest = Path.Combine(ServerDataDir, "config");
 
         RemovePathInsideData(oldDatapackDest);
@@ -485,33 +638,39 @@ internal static partial class BotcLauncher
 
         Directory.CreateDirectory(commandsDest);
         HashSet<string> sourceCommandNames = new HashSet<string>(Directory.GetFiles(commandsSource, "*.json").Select(Path.GetFileName), StringComparer.OrdinalIgnoreCase);
-        foreach (string existing in Directory.GetFiles(commandsDest, "*.json"))
+        HashSet<string> previouslyOwnedCommandNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        if (File.Exists(commandOwnershipManifest))
         {
-            if (!sourceCommandNames.Contains(Path.GetFileName(existing)))
+            foreach (string line in File.ReadAllLines(commandOwnershipManifest))
             {
-                Detail("Removed stale command overlay: " + Path.GetFileName(existing));
-                File.Delete(existing);
+                string commandName = line.Trim();
+                if (commandName.EndsWith(".json", StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(commandName, Path.GetFileName(commandName), StringComparison.Ordinal))
+                {
+                    previouslyOwnedCommandNames.Add(commandName);
+                }
+            }
+        }
+        foreach (string retiredCommandName in previouslyOwnedCommandNames.Where(name => !sourceCommandNames.Contains(name)))
+        {
+            string retiredCommandPath = Path.Combine(commandsDest, retiredCommandName);
+            if (File.Exists(retiredCommandPath))
+            {
+                Detail("Removed retired Jay's Patch command overlay: " + retiredCommandName);
+                File.Delete(retiredCommandPath);
             }
         }
         foreach (string source in Directory.GetFiles(commandsSource, "*.json"))
         {
             File.Copy(source, Path.Combine(commandsDest, Path.GetFileName(source)), true);
         }
+        File.WriteAllLines(commandOwnershipManifest, sourceCommandNames.OrderBy(name => name, StringComparer.OrdinalIgnoreCase));
 
         if (Directory.Exists(resourcepackSource))
         {
             RemovePathInsideData(resourcepackDest);
             CopyDirectory(resourcepackSource, resourcepackDest);
             BuildJaysPatchResourcePack(resourcepackSource, phase);
-        }
-
-        if (Directory.Exists(fancymenuSource))
-        {
-            Directory.CreateDirectory(fancymenuDest);
-            foreach (string menuFile in Directory.GetFiles(fancymenuSource, "*.txt"))
-            {
-                File.Copy(menuFile, Path.Combine(fancymenuDest, Path.GetFileName(menuFile)), true);
-            }
         }
 
         if (Directory.Exists(serverConfigSource))
@@ -546,79 +705,8 @@ internal static partial class BotcLauncher
 
         if (!File.Exists(ServerIconFile))
         {
-            Notice("No ../data/server-icon.png found; Minecraft will use its default server icon");
+            Notice("No data/server-icon.png found; Minecraft will use its default server icon");
         }
-    }
-
-    private static void BuildJaysPatchResourcePack(string resourcepackSource, string dashboardPhase)
-    {
-        string distDir = Path.Combine(RootDir, "Jays-Patch", "dist");
-        string zipPath = Path.Combine(distDir, "Jays-Patch-resourcepack.zip");
-        string stagingDir = Path.Combine(distDir, "resourcepack-staging");
-        Directory.CreateDirectory(distDir);
-
-        if (File.Exists(zipPath))
-        {
-            File.Delete(zipPath);
-        }
-        if (Directory.Exists(stagingDir))
-        {
-            Directory.Delete(stagingDir, true);
-        }
-
-        CopyDirectory(resourcepackSource, stagingDir);
-
-        string sybillianRoleTextures = Path.Combine(ServerDataDir, "resources", "resourcepack", "required", "Blood on the Clocktower", "assets", "ct", "textures", "role");
-        if (Directory.Exists(sybillianRoleTextures))
-        {
-            string stagedRoleTextures = Path.Combine(stagingDir, "assets", "ct", "textures", "item", "role");
-            Directory.CreateDirectory(stagedRoleTextures);
-            foreach (string png in Directory.GetFiles(sybillianRoleTextures, "*.png"))
-            {
-                File.Copy(png, Path.Combine(stagedRoleTextures, Path.GetFileName(png)), true);
-            }
-        }
-        else
-        {
-            Warning("Sybillian role textures were not found; role reveal icons may render as missing textures");
-        }
-
-        ZipDirectoryContents(stagingDir, zipPath);
-        Directory.Delete(stagingDir, true);
-
-        string sha1 = FileSha1(zipPath).ToLowerInvariant();
-        Detail("Custom resource pack built: " + zipPath);
-
-        string resourcePackUrl = GetSetting("BOTC_RESOURCE_PACK_URL", "");
-        if (string.IsNullOrWhiteSpace(resourcePackUrl))
-        {
-            Warning("Resource-pack URL not configured; players need the custom resource pack installed locally to see role icons");
-            return;
-        }
-
-        string serverResourcePackSha1 = sha1;
-        Match urlSha = Regex.Match(resourcePackUrl, @"/pack/([0-9a-fA-F]{40})\.zip");
-        if (urlSha.Success)
-        {
-            serverResourcePackSha1 = urlSha.Groups[1].Value.ToLowerInvariant();
-            if (serverResourcePackSha1 != sha1)
-            {
-                Warning("Local custom resource pack zip SHA differs from the hosted MCPacks URL SHA");
-                Detail("Local zip SHA1: " + sha1);
-                Detail("Hosted URL SHA1: " + serverResourcePackSha1);
-                Detail("Using the hosted URL SHA1 in server.properties because clients download that zip");
-            }
-        }
-
-        string prompt = Branding.ResourcePackPrompt();
-        Dictionary<string, string> values = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        values["resource-pack"] = resourcePackUrl;
-        values["resource-pack-sha1"] = serverResourcePackSha1;
-        values["resource-pack-id"] = "67f91471-3342-49d4-9d1d-7e1d040ab095";
-        values["require-resource-pack"] = "false";
-        values["resource-pack-prompt"] = prompt;
-        SetPropertiesFileValues(Path.Combine(ServerDataDir, "server.properties"), values);
-        Detail("Custom resource pack URL configured for clients");
     }
 
     private static void EnsureVoiceChatConfig()
@@ -685,6 +773,7 @@ internal static partial class BotcLauncher
         {
             SetManagedServiceFlag("dockerDesktop", false);
             Detail("Docker engine is ready");
+            EnsureDockerContainerNetworkReady();
             return;
         }
 
@@ -715,6 +804,7 @@ internal static partial class BotcLauncher
             {
                 SetManagedServiceFlag("dockerDesktop", true);
                 Detail("Docker engine is ready");
+                EnsureDockerContainerNetworkReady();
                 return;
             }
 
@@ -735,6 +825,75 @@ internal static partial class BotcLauncher
         }
 
         return result.ExitCode == 0;
+    }
+
+    private static void EnsureDockerContainerNetworkReady()
+    {
+        string image = MinecraftComposeImage();
+        CommandResult imageResult;
+        if (!TryRun("docker", "image inspect " + Quote(image), true, out imageResult) || imageResult.ExitCode != 0)
+        {
+            Detail("Minecraft image is not local yet; Docker will verify networking while downloading it");
+            return;
+        }
+
+        int timeoutSeconds = GetIntSetting("BOTC_DOCKER_NETWORK_TIMEOUT_SECONDS", 90, 15, 300);
+        DateTime deadline = DateTime.Now.AddSeconds(timeoutSeconds);
+        string lastFailure = "no response from Docker's container resolver";
+
+        Detail("Checking Docker container networking");
+        while (DateTime.Now < deadline)
+        {
+            if (DockerContainerCanResolve(ModrinthApiHost, out lastFailure))
+            {
+                Detail("Docker container networking is ready");
+                return;
+            }
+
+            int remaining = Math.Max(0, (int)Math.Ceiling((deadline - DateTime.Now).TotalSeconds));
+            Detail("Waiting for Docker container networking (" + remaining + "s)");
+            Thread.Sleep(2000);
+        }
+
+        throw new Exception(
+            "Docker Desktop is running, but containers cannot resolve " + ModrinthApiHost +
+            ". Docker networking may still be starting. Last check: " + ShortText(lastFailure, 120));
+    }
+
+    private static string MinecraftComposeImage()
+    {
+        CommandResult result = Run("docker", DockerComposeArgs("config --images"), true, 30000);
+        string image = result.OutputLines
+            .Select(delegate(string line) { return line == null ? "" : line.Trim(); })
+            .FirstOrDefault(delegate(string line) { return line.Length > 0; });
+
+        if (result.ExitCode != 0 || string.IsNullOrWhiteSpace(image))
+        {
+            throw new Exception("Docker Compose could not determine the pinned Minecraft image for its network check.");
+        }
+
+        return image;
+    }
+
+    private static bool DockerContainerCanResolve(string host, out string failure)
+    {
+        try
+        {
+            CommandResult result = Run(
+                "docker",
+                DockerComposeArgs(
+                    "run --rm --no-deps --entrypoint getent " + MinecraftComposeService +
+                    " ahostsv4 " + host),
+                true,
+                15000);
+            failure = OneLine(result.Output);
+            return result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.Output);
+        }
+        catch (Exception ex)
+        {
+            failure = OneLine(ex.Message);
+            return false;
+        }
     }
 
     private static string FindDockerDesktopExe()
@@ -921,8 +1080,6 @@ internal static partial class BotcLauncher
         DateTime start = DateTime.Now;
         DateTime deadline = start.AddMinutes(10);
         StartupLastPercent = 0;
-        StartupLastStage = "";
-        StartupStageStartedAt = start;
         bool observedStartup = false;
 
         while (true)
@@ -949,11 +1106,7 @@ internal static partial class BotcLauncher
 
             if (health == "healthy")
             {
-                if (observedStartup)
-                {
-                    CompleteStartupStatus(start);
-                }
-                WriteStartupStatus(100, "ready", start, "Minecraft health check passed");
+                FinalizeMinecraftReadiness(start, "Minecraft health check passed", observedStartup);
                 SaveStartupDuration(start);
                 return;
             }
@@ -1027,98 +1180,84 @@ internal static partial class BotcLauncher
             stage = "health " + health;
         }
 
-        int ceiling = StageCeiling(stage, floor);
-        int stagePercent = StageTimedPercent(stage, floor, ceiling);
-        double expectedSeconds = GetExpectedStartupSeconds();
-        double elapsedSeconds = Math.Max(0, (DateTime.Now - start).TotalSeconds);
-        int timePercent = (int)Math.Floor((elapsedSeconds / expectedSeconds) * 96);
-        if (elapsedSeconds > expectedSeconds)
-        {
-            timePercent = 96 + (int)Math.Floor((elapsedSeconds - expectedSeconds) / 15);
-        }
-
-        int percent = Math.Max(stagePercent, Math.Min(timePercent, ceiling));
+        int percent = StartupTimePercent(start, GetExpectedStartupSeconds(), floor);
         percent = Math.Max(1, Math.Min(99, percent));
         if (StartupLastPercent > 0 && percent < StartupLastPercent)
         {
             percent = StartupLastPercent;
         }
-        if (StartupLastPercent > 0 && percent > StartupLastPercent + 7)
-        {
-            percent = StartupLastPercent + 7;
-        }
         StartupLastPercent = percent;
         return new StartupProgress(percent, stage, detail);
     }
 
-    private static int StageTimedPercent(string stage, int floor, int ceiling)
+    private static int StartupTimePercent(DateTime start, double expectedSeconds, int evidenceFloor)
     {
-        if (!EqualsIgnoreCase(stage, StartupLastStage))
+        double safeExpected = ClampExpectedStartupSeconds(expectedSeconds);
+        double elapsedSeconds = Math.Max(0, (DateTime.Now - start).TotalSeconds);
+        int timePercent = (int)Math.Floor((elapsedSeconds / safeExpected) * 98.0);
+        return Math.Max(evidenceFloor, timePercent);
+    }
+
+    private static void FinalizeMinecraftReadiness(DateTime start, string readyDetail, bool observedStartup)
+    {
+        if (StartupLastPercent < 99)
         {
-            StartupLastStage = stage;
-            StartupStageStartedAt = DateTime.Now;
+            CompleteStartupStatus(start, readyDetail);
+        }
+        else if (!observedStartup)
+        {
+            WriteStartupStatus(99, "final checks", start, readyDetail);
         }
 
-        if (ceiling <= floor)
+        if (DashboardActive)
         {
-            return floor;
+            WriteStartupStatus(100, "ready", start, readyDetail, true);
+            Thread.Sleep(FinalReadyHoldMs);
+            SetDashboardPhase("MINECRAFT", "Done", "");
         }
-
-        double seconds = Math.Max(1.0, StageExpectedSeconds(stage));
-        double elapsed = Math.Max(0, (DateTime.Now - StartupStageStartedAt).TotalSeconds);
-        int extra = (int)Math.Floor((elapsed / seconds) * (ceiling - floor));
-        return Math.Max(floor, Math.Min(ceiling, floor + extra));
+        else
+        {
+            WriteStartupStatus(100, "ready", start, readyDetail);
+        }
     }
 
-    private static int StageCeiling(string stage, int floor)
-    {
-        if (stage == "starting") return 15;
-        if (stage == "downloading modpack") return 33;
-        if (stage == "processing modpack") return 57;
-        if (stage == "starting Minecraft") return 69;
-        if (stage == "opening server port") return 77;
-        if (stage == "preparing spawn") return 95;
-        if (stage == "final checks") return 98;
-        return Math.Max(floor, 95);
-    }
-
-    private static double StageExpectedSeconds(string stage)
-    {
-        if (stage == "starting") return 15;
-        if (stage == "downloading modpack") return 45;
-        if (stage == "processing modpack") return 90;
-        if (stage == "starting Minecraft") return 45;
-        if (stage == "opening server port") return 30;
-        if (stage == "preparing spawn") return 60;
-        if (stage == "final checks") return 15;
-        return 90;
-    }
-
-    private static void CompleteStartupStatus(DateTime start)
+    private static void CompleteStartupStatus(DateTime start, string finalDetail)
     {
         int current = Math.Max(StartupLastPercent, 1);
         while (current < 99)
         {
-            current = Math.Min(99, current + (current < 88 ? 4 : 1));
+            current = Math.Min(99, current + 1);
             StartupLastPercent = current;
-            WriteStartupStatus(current, "final checks", start, "Minecraft health check passed");
-            Thread.Sleep(current < 88 ? 120 : 90);
+            WriteStartupStatus(current, "final checks", start, finalDetail);
+            Thread.Sleep(25);
         }
     }
 
     private static void WriteStartupStatus(int percent, string stage, DateTime start, string detail)
     {
-        string percentText = percent.ToString("00") + "%";
-        string bar = ProgressBar(percent, 22);
-        string progress = percentText + " [" + bar + "] " + stage + " " + FormatElapsed(start);
+        WriteStartupStatus(percent, stage, start, detail, false);
+    }
+
+    private static void WriteStartupStatus(int percent, string stage, DateTime start, string detail, bool holdAtFullPercent)
+    {
+        string phase = "MINECRAFT";
+        string phaseTitle = PhaseTitle(phase);
+        string dashboardPrefix = "  " + phaseTitle + ": ";
+        string outputPrefix = phaseTitle + " ";
+        string bar = ProgressBar(percent, DashboardActive ? ProgressBarWidthForPrefix(dashboardPrefix) : ProgressBarWidthForPrefix(outputPrefix));
+        string progressLine = outputPrefix + bar;
+        string detailsRow = StartupDetailText(stage, detail);
+        string statsRow = StartupStatsText(start, percent, stage);
+        string state = percent >= 100 && !holdAtFullPercent ? "Done" : "In progress";
 
         if (DashboardActive)
         {
-            SetDashboardPhase("MINECRAFT", percent >= 100 ? "Done" : "In progress", progress);
+            SetDashboardPhaseRows(phase, state, bar, detailsRow, statsRow);
         }
         else
         {
-            StatusLine("MINECRAFT", progress, ConsoleColor.Cyan, ConsoleColor.Gray);
+            bool finishStartupRow = percent >= 100 && !holdAtFullPercent;
+            WriteProgressRows(progressLine, detailsRow, statsRow, finishStartupRow, "MINECRAFT", ref StartupProgressLineTop, ref StartupProgressLineLength, ref StartupProgressDetailLineLength, ref StartupProgressStatsLineLength);
         }
         WriteHeaderStatus(percent >= 100 ? "Online" : "Starting server...", true);
     }
@@ -1162,6 +1301,73 @@ internal static partial class BotcLauncher
         Success("Server stopped");
         StopPlayit();
         StopDockerDesktopIfManaged();
+    }
+
+    private static bool ConfirmRestartServerOnly()
+    {
+        Console.WriteLine();
+        Notice("Restart only the Minecraft server? Playit and Docker Desktop will stay running.");
+        Console.Write("Type Y to save and restart, or anything else to cancel: ");
+        string answer = (Console.ReadLine() ?? "").Trim();
+        return EqualsIgnoreCase(answer, "Y") || EqualsIgnoreCase(answer, "YES");
+    }
+
+    private static void RestartMinecraftServerOnly()
+    {
+        Step("MINECRAFT", "Saving world before server-only restart");
+
+        if (IsDockerContainerRunning(ContainerName))
+        {
+            CommandResult saveAll = Rcon("save-all flush", ConsoleRconTimeoutMilliseconds());
+            if (saveAll.ExitCode != 0)
+            {
+                throw new Exception("Restart stopped because RCON save-all flush failed.");
+            }
+
+            Step("MINECRAFT", "Stopping Minecraft server");
+            CommandResult stop = Rcon("stop", ConsoleRconTimeoutMilliseconds());
+            if (stop.ExitCode != 0 && IsDockerContainerRunning(ContainerName))
+            {
+                throw new Exception("Restart stopped because RCON stop failed and the server is still running.");
+            }
+
+            WaitForMinecraftStopped();
+        }
+        else
+        {
+            Detail("Minecraft container is not running; starting it instead");
+        }
+
+        Step("MINECRAFT", "Starting Minecraft server");
+        CommandResult up = Run("docker", DockerComposeArgs("up -d " + MinecraftComposeService), true);
+        CommandOutput("DOCKER", up.OutputLines);
+        if (up.ExitCode != 0)
+        {
+            throw new Exception("Server-only restart failed during Docker compose startup with exit code " + up.ExitCode + ".");
+        }
+
+        ResetStartupProgressRows();
+        WaitForMinecraftReady();
+        PostStartupSync();
+        Success("Minecraft server restarted");
+    }
+
+    private static void WaitForMinecraftStopped()
+    {
+        DateTime deadline = DateTime.Now.AddMinutes(3);
+        while (IsDockerContainerRunning(ContainerName))
+        {
+            if (DateTime.Now > deadline)
+            {
+                throw new Exception("Minecraft container did not stop within 3 minutes.");
+            }
+            Thread.Sleep(1000);
+        }
+    }
+
+    private static string DockerComposeArgs(string command)
+    {
+        return "compose --project-directory " + Quote(RootDir) + " -f " + Quote(ComposeFile) + " " + command;
     }
 
     private static void StartLogProcess()
@@ -1254,10 +1460,12 @@ internal static partial class BotcLauncher
         Settings["BOTC_VOICE_HOST"] = "";
         Settings["BOTC_VOICE_PORT"] = "24454";
         Settings["BOTC_VOICE_BIND_ADDRESS"] = "*";
-        Settings["BOTC_RESOURCE_PACK_URL"] = "https://download.mc-packs.net/pack/8b79575eeabb9e6dbb7dbd4554b4d36331ca99de.zip";
         Settings["BOTC_MANAGE_DOCKER"] = "true";
         Settings["BOTC_DOCKER_DESKTOP_EXE"] = "";
         Settings["BOTC_DOCKER_START_TIMEOUT_SECONDS"] = "180";
+        Settings["BOTC_DOCKER_NETWORK_TIMEOUT_SECONDS"] = "90";
+        Settings["BOTC_BACKUP_SAVE_FLUSH_TIMEOUT_SECONDS"] = "180";
+        Settings["BOTC_CONSOLE_RCON_TIMEOUT_SECONDS"] = "60";
     }
 
     private static void ReadLocalSettings()
@@ -1410,6 +1618,11 @@ internal static partial class BotcLauncher
         }
 
         return Math.Max(minimum, Math.Min(maximum, parsed));
+    }
+
+    private static int ConsoleRconTimeoutMilliseconds()
+    {
+        return GetIntSetting("BOTC_CONSOLE_RCON_TIMEOUT_SECONDS", 60, 5, 600) * 1000;
     }
 
     private static void SetPropertiesFileValues(string path, Dictionary<string, string> values)
@@ -1651,16 +1864,20 @@ internal static partial class BotcLauncher
         using (FileStream zipStream = new FileStream(destinationPath, FileMode.CreateNew))
         using (ZipArchive archive = new ZipArchive(zipStream, ZipArchiveMode.Create))
         {
-            foreach (string file in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
+            foreach (string file in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories).OrderBy(path => path, StringComparer.OrdinalIgnoreCase))
             {
-                AddFileToZip(archive, file, RelativePath(sourceDir, file).Replace('\\', '/'));
+                AddFileToZip(archive, file, RelativePath(sourceDir, file).Replace('\\', '/'), true);
             }
         }
     }
 
-    private static void AddFileToZip(ZipArchive archive, string filePath, string entryName)
+    private static void AddFileToZip(ZipArchive archive, string filePath, string entryName, bool deterministic = false)
     {
         ZipArchiveEntry entry = archive.CreateEntry(entryName, CompressionLevel.Optimal);
+        if (deterministic)
+        {
+            entry.LastWriteTime = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        }
         using (Stream entryStream = entry.Open())
         using (FileStream fileStream = OpenBackupFileForRead(filePath))
         {
@@ -1758,36 +1975,108 @@ internal static partial class BotcLauncher
     private static double GetExpectedStartupSeconds()
     {
         string path = Path.Combine(LauncherDir, ".botc-startup-history.json");
-        if (!File.Exists(path))
-        {
-            return 90.0;
-        }
-
-        Match match = Regex.Match(File.ReadAllText(path), @"""averageSeconds""\s*:\s*([0-9.]+)");
-        if (match.Success)
-        {
-            double value;
-            if (double.TryParse(match.Groups[1].Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out value) && value >= 20)
-            {
-                return value;
-            }
-        }
-
-        return 90.0;
+        return ReadStartupHistorySeconds(path, 90.0);
     }
 
     private static void SaveStartupDuration(DateTime start)
     {
         string path = Path.Combine(LauncherDir, ".botc-startup-history.json");
         double seconds = Math.Max(1, Math.Round((DateTime.Now - start).TotalSeconds, 1));
-        string json = "{\n  \"averageSeconds\": " + seconds.ToString(System.Globalization.CultureInfo.InvariantCulture) + ",\n  \"lastSeconds\": " + seconds.ToString(System.Globalization.CultureInfo.InvariantCulture) + ",\n  \"count\": 1,\n  \"updatedAt\": \"" + DateTime.Now.ToString("s") + "\"\n}";
+        double previous = ReadStartupHistorySeconds(path, seconds);
+        double average = Math.Round(ClampExpectedStartupSeconds((previous * 0.35) + (seconds * 0.65)), 1);
+        string json = "{\n  \"lastSeconds\": " + seconds.ToString(System.Globalization.CultureInfo.InvariantCulture) +
+                      ",\n  \"averageSeconds\": " + average.ToString(System.Globalization.CultureInfo.InvariantCulture) +
+                      ",\n  \"updatedAt\": \"" + DateTime.Now.ToString("s") + "\"\n}";
         File.WriteAllText(path, json, Encoding.ASCII);
+    }
+
+    private static double ReadStartupHistorySeconds(string path, double fallback)
+    {
+        if (!File.Exists(path))
+        {
+            return ClampExpectedStartupSeconds(fallback);
+        }
+
+        string text = File.ReadAllText(path);
+        double value;
+        if (TryReadStartupHistorySeconds(text, "averageSeconds", out value) ||
+            TryReadStartupHistorySeconds(text, "lastSeconds", out value))
+        {
+            return ClampExpectedStartupSeconds(value);
+        }
+        return ClampExpectedStartupSeconds(fallback);
+    }
+
+    private static bool TryReadStartupHistorySeconds(string text, string key, out double value)
+    {
+        value = 0;
+        Match match = Regex.Match(text ?? "", "\"" + Regex.Escape(key) + "\"\\s*:\\s*([0-9.]+)");
+        return match.Success && double.TryParse(
+            match.Groups[1].Value,
+            System.Globalization.NumberStyles.Float,
+            System.Globalization.CultureInfo.InvariantCulture,
+            out value);
+    }
+
+    private static double ClampExpectedStartupSeconds(double seconds)
+    {
+        return Math.Max(20.0, Math.Min(600.0, seconds));
     }
 
     private static string FormatElapsed(DateTime start)
     {
         TimeSpan elapsed = DateTime.Now - start;
         return elapsed.ToString(@"mm\:ss");
+    }
+
+    private static string StartupDetailText(string stage, string detail)
+    {
+        string cleanStage = string.IsNullOrWhiteSpace(stage) ? "working" : OneLine(stage);
+        string cleanDetail = OneLine(detail);
+        return string.IsNullOrWhiteSpace(cleanDetail) ? cleanStage : cleanStage + " | " + cleanDetail;
+    }
+
+    private static string StartupStatsText(DateTime start, int percent, string stage)
+    {
+        string cleanStage = string.IsNullOrWhiteSpace(stage) ? "working" : OneLine(stage);
+        return FormatEta(StartupRemainingTime(start, percent)) +
+               " | Elapsed: " + FormatElapsed(start) +
+               " | Stage: " + cleanStage;
+    }
+
+    private static TimeSpan? StartupRemainingTime(DateTime start, int percent)
+    {
+        if (percent >= 100)
+        {
+            return TimeSpan.Zero;
+        }
+
+        double remainingSeconds = GetExpectedStartupSeconds() - Math.Max(0, (DateTime.Now - start).TotalSeconds);
+        return remainingSeconds <= 0 ? (TimeSpan?)null : TimeSpan.FromSeconds(remainingSeconds);
+    }
+
+    private static string FormatEta(TimeSpan? remaining)
+    {
+        if (!remaining.HasValue)
+        {
+            return "ETA --";
+        }
+
+        TimeSpan value = remaining.Value;
+        if (value.TotalHours >= 1)
+        {
+            return "ETA " + ((int)value.TotalHours).ToString(System.Globalization.CultureInfo.InvariantCulture) + ":" + value.Minutes.ToString("00") + ":" + value.Seconds.ToString("00");
+        }
+        return "ETA " + value.Minutes.ToString("00") + ":" + value.Seconds.ToString("00");
+    }
+
+    private static void ResetStartupProgressRows()
+    {
+        StartupProgressLineTop = -1;
+        StartupProgressLineLength = 0;
+        StartupProgressDetailLineLength = 0;
+        StartupProgressStatsLineLength = 0;
+        StartupLastPercent = 0;
     }
 
     private static void Header(string status)
@@ -1863,10 +2152,10 @@ internal static partial class BotcLauncher
         ConsoleColor color = StatusColor(status);
         if (HeaderStatusTop >= 0)
         {
-            int left = Console.CursorLeft;
-            int top = Console.CursorTop;
             try
             {
+                int left = Console.CursorLeft;
+                int top = Console.CursorTop;
                 Console.SetCursorPosition(0, HeaderStatusTop);
                 Console.Write(new string(' ', Math.Max(1, ConsoleWidth() - 1)));
                 Console.SetCursorPosition(0, HeaderStatusTop);
@@ -1879,6 +2168,7 @@ internal static partial class BotcLauncher
             }
             catch
             {
+                HeaderStatusTop = -1;
             }
         }
 
@@ -1993,7 +2283,10 @@ internal static partial class BotcLauncher
         }
         try
         {
-            DashboardTop = Console.CursorTop;
+            int left = Console.CursorLeft;
+            int top = Console.CursorTop;
+            Console.SetCursorPosition(left, top);
+            DashboardTop = top;
         }
         catch
         {
@@ -2001,14 +2294,16 @@ internal static partial class BotcLauncher
         }
 
         DashboardActive = true;
-        DashboardLines = DashboardPhaseOrder.Length + 1;
+        DashboardLines = DashboardPhaseOrder.Length + DashboardDetailRows;
         DashboardPhaseStates.Clear();
         foreach (string phase in DashboardPhaseOrder)
         {
             DashboardPhaseStates[phase] = "Waiting";
         }
         DashboardActivePhase = "";
+        DashboardActiveProgress = "";
         DashboardActiveDetail = "";
+        DashboardActiveStats = "";
         for (int i = 0; i < DashboardLines; i++)
         {
             Console.WriteLine();
@@ -2111,6 +2406,11 @@ internal static partial class BotcLauncher
 
     private static bool SetDashboardPhase(string label, string state, string detail)
     {
+        return SetDashboardPhaseRows(label, state, "", detail, "");
+    }
+
+    private static bool SetDashboardPhaseRows(string label, string state, string progress, string detail, string stats)
+    {
         if (!DashboardActive)
         {
             return false;
@@ -2130,7 +2430,9 @@ internal static partial class BotcLauncher
         {
             MarkEarlierActivePhasesDone(phase);
             DashboardActivePhase = phase;
+            DashboardActiveProgress = progress;
             DashboardActiveDetail = detail;
+            DashboardActiveStats = stats;
             DashboardPhaseStates[phase] = "In progress";
         }
         else if (state == "Done" || state == "Skipped")
@@ -2138,17 +2440,22 @@ internal static partial class BotcLauncher
             DashboardPhaseStates[phase] = state;
             if (EqualsIgnoreCase(DashboardActivePhase, phase))
             {
+                DashboardActiveProgress = "";
                 DashboardActiveDetail = "";
+                DashboardActiveStats = "";
             }
         }
         else if (state == "Warning")
         {
             DashboardPhaseStates[phase] = "Warning";
             DashboardActivePhase = phase;
+            DashboardActiveProgress = "";
             DashboardActiveDetail = detail;
+            DashboardActiveStats = "";
         }
 
-        WriteHeaderStatus(StartupStatusText(phase, detail), true);
+        string headerDetail = string.IsNullOrWhiteSpace(progress) ? detail : progress;
+        WriteHeaderStatus(StartupStatusText(phase, headerDetail), true);
         RenderDashboard();
         return true;
     }
@@ -2170,7 +2477,9 @@ internal static partial class BotcLauncher
             return true;
         }
 
+        DashboardActiveProgress = "";
         DashboardActiveDetail = detail;
+        DashboardActiveStats = "";
         RenderDashboard();
         return true;
     }
@@ -2195,20 +2504,37 @@ internal static partial class BotcLauncher
         foreach (string phase in DashboardPhaseOrder)
         {
             string state = DashboardPhaseStates.ContainsKey(phase) ? DashboardPhaseStates[phase] : "Waiting";
-            FixedDashboardPhaseLine(row, PhaseTitle(phase), state, PhaseColor(state), StateColor(state));
+            bool showInlineProgress =
+                EqualsIgnoreCase(phase, DashboardActivePhase) &&
+                state == "In progress" &&
+                !string.IsNullOrWhiteSpace(DashboardActiveProgress);
+            FixedDashboardPhaseLine(
+                row,
+                PhaseTitle(phase),
+                showInlineProgress ? DashboardActiveProgress : state,
+                PhaseColor(state),
+                showInlineProgress ? ConsoleColor.Gray : StateColor(state));
             row++;
-
-            if (EqualsIgnoreCase(phase, DashboardActivePhase) && !string.IsNullOrWhiteSpace(DashboardActiveDetail) && row < DashboardLines)
-            {
-                FixedDashboardDetailLine(row, DashboardActiveDetail);
-                row++;
-            }
         }
 
         while (row < DashboardLines)
         {
             ClearDashboardLine(row);
             row++;
+        }
+
+        int detailRow = DashboardPhaseOrder.Length;
+        if (!string.IsNullOrWhiteSpace(DashboardActivePhase))
+        {
+            if (!string.IsNullOrWhiteSpace(DashboardActiveDetail) && detailRow < DashboardLines)
+            {
+                FixedDashboardDetailLine(detailRow, DashboardActiveDetail);
+                detailRow++;
+            }
+            if (!string.IsNullOrWhiteSpace(DashboardActiveStats) && detailRow < DashboardLines)
+            {
+                FixedDashboardStatsLine(detailRow, DashboardActiveStats);
+            }
         }
     }
 
@@ -2309,6 +2635,11 @@ internal static partial class BotcLauncher
         FixedDashboardLine(row, "  ", "Details: ", text, ConsoleColor.DarkGray, ConsoleColor.Gray);
     }
 
+    private static void FixedDashboardStatsLine(int row, string text)
+    {
+        FixedDashboardLine(row, "  ", "Stats: ", text, ConsoleColor.DarkGray, ConsoleColor.Gray);
+    }
+
     private static void FixedDashboardLine(int row, string indent, string label, string text, ConsoleColor labelColor, ConsoleColor textColor)
     {
         int max = Math.Max(1, ConsoleWidth() - 1);
@@ -2377,6 +2708,8 @@ internal static partial class BotcLauncher
         CommandTable(new[,]
         {
             { "help", "Show this help panel" },
+            { "backup", "Back up the standard slot without stopping" },
+            { "restart", "Ask, then restart only the Minecraft server" },
             { "cls", "Clear the window" },
             { "exit", "Close this window, keep server online" },
             { "stop", "Ask for backup, then stop server and launcher-started services" }
@@ -2485,8 +2818,23 @@ internal static partial class BotcLauncher
     private static string ProgressBar(int percent, int width)
     {
         int safe = Math.Max(0, Math.Min(100, percent));
-        int filled = (int)Math.Floor((safe / 100.0) * width);
-        return new string('#', filled) + new string('-', width - filled);
+        string text = safe.ToString() + "%";
+        int innerWidth = Math.Max(text.Length, width);
+        int filled = (int)Math.Round(innerWidth * safe / 100.0);
+        filled = Math.Max(0, Math.Min(innerWidth, filled));
+
+        char[] bar = new char[innerWidth];
+        for (int i = 0; i < innerWidth; i++)
+        {
+            bar[i] = i < filled ? '=' : ' ';
+        }
+
+        int textStart = Math.Max(0, Math.Min(innerWidth - text.Length, (innerWidth - text.Length) / 2));
+        for (int i = 0; i < text.Length; i++)
+        {
+            bar[textStart + i] = text[i];
+        }
+        return "[" + new string(bar) + "]";
     }
 
     private static string ShortText(string text, int maxLength)

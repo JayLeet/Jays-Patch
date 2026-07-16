@@ -77,7 +77,7 @@
                          "id":  "force_chairs",
                          "executes":  [
                                           {
-                                              "command":  "execute as @s[tag=storyteller] run function ct:admin/force_chairs",
+                                             "command":  "execute as @s[tag=storyteller] run function botc_patch:seat_layout/teleport_players",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4

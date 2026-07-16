@@ -100,7 +100,12 @@ Assert-Contains $finish 'tag @s remove botc_st_passage_started_night' "night lif
 Assert-Contains $night 'botc_st_night_mode,tag=!storyteller,tag=!botc_st_passage.*night_exit' "Storyteller-loss night cleanup"
 Assert-Contains $night 'unless score phase game_data matches 4 as @a\[tag=botc_st_night_mode,tag=!botc_st_passage\].*night_exit' "Passage-safe night phase exit"
 Assert-Contains $storytellerTick 'phase game_data matches 4 as @a\[tag=storyteller,tag=in_house[^\r\n]+storyteller_passage' "night-house Passage click route"
+Assert-Contains $replaceItems 'phase game_data matches 1\.\.2 unless score patch_dialog_mode botc_patch matches 1 run item replace entity @s hotbar\.2[^\r\n]+storyteller_passage' "visual slot 3 item-mode day Passage item"
+Assert-Contains $replaceItems 'phase game_data matches 1\.\.2 if score patch_dialog_mode botc_patch matches 1 run item replace entity @s hotbar\.5[^\r\n]+storyteller_passage' "visual slot 6 dialog-mode day Passage item"
 Assert-Contains $replaceItems 'phase game_data matches 4 if entity @s\[tag=in_house,tag=!botc_st_passage\] run item replace entity @s hotbar\.5[^\r\n]+storyteller_passage' "visual slot 6 night-house Passage item"
+Assert-Contains $itemChecks 'phase game_data matches 1\.\.2 unless score patch_dialog_mode botc_patch matches 1 as @a\[tag=storyteller[^\r\n]+Inventory\[\{Slot:2b\}\][^\r\n]+storyteller_passage' "item-mode day Passage slot repair"
+Assert-Contains $itemChecks 'phase game_data matches 1\.\.2 if score patch_dialog_mode botc_patch matches 1 as @a\[tag=storyteller[^\r\n]+Inventory\[\{Slot:5b\}\][^\r\n]+storyteller_passage' "dialog-mode day Passage slot repair"
+Assert-NotContains $itemChecks '(?:if|unless) score patch_dialog_mode botc_patch matches 1 run clear @a minecraft:carrot_on_a_stick\[minecraft:custom_model_data=\{strings:\["storyteller_passage"\]\}\]' "contradictory Passage mode-wide cleanup"
 Assert-Contains $itemChecks 'phase game_data matches 4 run clear @a\[tag=!in_house\][^\r\n]+storyteller_passage' "night Passage removal outside houses"
 Assert-Contains $itemChecks 'phase game_data matches 4 as @a\[tag=storyteller,tag=in_house,tag=!botc_st_passage[^\r\n]+Inventory\[\{Slot:5b\}\][^\r\n]+storyteller_passage' "night-house Passage slot repair"
 Assert-Contains $resetPlayer 'tag @s remove botc_st_passage_started_night' "player reset night marker cleanup"
@@ -126,6 +131,10 @@ $nightHouseRows = @(
 )
 if ($nightHouseRows.Count -ne 1) { throw "Expected exactly one night_house Passage registry row." }
 if ($nightHouseRows[0].slot -ne "hotbar.5") { throw "Night-house Passage must use visual slot 6 (hotbar.5)." }
+$dayItemRows = @($passageRegistry[0].liveTool | Where-Object { $_.condition -eq "score phase game_data matches 1..2" -and $_.mode -eq "item" })
+$dayDialogRows = @($passageRegistry[0].liveTool | Where-Object { $_.condition -eq "score phase game_data matches 1..2" -and $_.mode -eq "dialog" })
+if ($dayItemRows.Count -ne 1 -or $dayItemRows[0].slot -ne "hotbar.2") { throw "Item-mode day Passage must use visual slot 3 (hotbar.2)." }
+if ($dayDialogRows.Count -ne 1 -or $dayDialogRows[0].slot -ne "hotbar.5") { throw "Dialog-mode day Passage must use visual slot 6 (hotbar.5)." }
 
 if (Test-Path -LiteralPath (Join-Path $PassageRoot "clear_start_if_moved.mcfunction")) {
     throw "Retired per-zone tag transition function still exists."

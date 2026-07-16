@@ -4,7 +4,7 @@ Last updated: 2026-06-21
 
 ## Evidence
 
-- The cleaned live world at `../data/world` and the copied
+- The cleaned live world at `data/world` and the copied
   `Jays-Patch/world-template` both scanned with zero command blocks.
 - All reusable winner logic already lives in Jay's Patch:
   - `function botc_patch:winner/good`
@@ -140,7 +140,7 @@ botc_patch:music/tick
 The deployed runtime copy is generated at startup:
 
 ```text
-../data/world/datapacks/jays_patch
+data/world/datapacks/jays_patch
 ```
 
 Do not edit the runtime copy as the source of truth.

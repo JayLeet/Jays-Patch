@@ -1,4 +1,4 @@
-﻿# Resource Pack Shelf
+# Resource Pack Shelf
 
 Use this shelf for custom textures, item models, role icons, model data,
 resource-pack URL/SHA/id, and client rendering checks.
@@ -8,9 +8,10 @@ resource-pack URL/SHA/id, and client rendering checks.
 - Resource-pack source: `Jays-Patch/resourcepack`
 - Resource-pack code map: `docs/code-library/resourcepack-map.md`
 - Resource-pack mapping check: `tools/tests/test-resourcepack-mappings.ps1`
-- Startup resource-pack build/deploy: `launcher/exe/BotcLauncher.cs`
-- Server resource-pack settings: `launcher/local-settings.example.properties` and
-  `data/server.properties`
+- Startup resource-pack build/deploy: `launcher/exe/BotcLauncher.ResourcePack.cs`
+- Canonical hosted-pack metadata:
+  `Jays-Patch/server-config/jays-patch-required-server-properties.txt`
+- Runtime server settings: `data/server.properties`
 
 ## Rules
 
@@ -24,15 +25,14 @@ resource-pack URL/SHA/id, and client rendering checks.
 - Update model mappings and generated pack metadata together.
 - Check `docs/code-library/resourcepack-map.md` before changing model data,
   item models, or textures.
-- If the public pack URL changes, update URL, SHA1, and resource-pack id
-  consistently.
-- If the URL, SHA1, or resource-pack id changes in `launcher/exe/BotcLauncher.cs`,
-  rebuild `BOTC.exe` with `tools/build-botc-exe.ps1` before restarting the
-  server. An older built launcher can rewrite `server.properties` back to stale
-  resource-pack values even when the source file is correct.
+- If the public pack URL changes, update URL, SHA1, resource-pack id, and prompt
+  together in the canonical required-properties file. BOTC.exe and the public
+  package builder both read that file; do not add duplicate launcher constants.
+- Rebuild `BOTC.exe` with `tools/build-botc-exe.ps1` after resource-pack launcher
+  logic changes. Metadata-only changes no longer require recompiling constants.
 - `server.properties` must use the SHA1 of the hosted zip URL because clients
-  download that zip. Do not block configuration only because a locally rebuilt
-  zip has a different archive hash; compare extracted contents when in doubt.
+  download that zip. BOTC.exe compares extracted files with the exact cached
+  hosted fallback; raw ZIP hashes are not used to infer content drift.
 - Public packages must bundle the exact hosted resource-pack archive, not a
   newly compressed local rebuild. Use `tools/build-public-package.ps1`, which
   downloads the configured `resource-pack` URL, verifies `resource-pack-sha1`,

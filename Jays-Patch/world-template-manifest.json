@@ -1,0 +1,381 @@
+{
+    "schema":  1,
+    "version":  "1.5.0",
+    "files":  [
+                  {
+                      "path":  "data/chunks.dat",
+                      "bytes":  49,
+                      "sha256":  "67d793cd87cd4329d9a574423ebddcf2f35147bfeca06dc31dfbc94dc9871f4c"
+                  },
+                  {
+                      "path":  "data/command_storage_botc_patch.dat",
+                      "bytes":  6344,
+                      "sha256":  "f6382a27fccb67a6b209b386a5d0b678efbc64596fe9a0f493978cbd38b63e10"
+                  },
+                  {
+                      "path":  "data/command_storage_ct.dat",
+                      "bytes":  996,
+                      "sha256":  "e91beb5c00031ab5b792c936e0ad57e3a76a65f56603f0a74d235b7e397fe94f"
+                  },
+                  {
+                      "path":  "data/raids.dat",
+                      "bytes":  74,
+                      "sha256":  "e43d0f1946bdc7d489ba9d828477d5c87f3d87fb509f732704a35daf3d8e721e"
+                  },
+                  {
+                      "path":  "data/random_sequences.dat",
+                      "bytes":  1526,
+                      "sha256":  "e6577e15b169968afa36be423bab781391eb209f62dbb47180518478aaca55fe"
+                  },
+                  {
+                      "path":  "data/scoreboard.dat",
+                      "bytes":  5081,
+                      "sha256":  "ccf9ae389e83cacf0adce77692e59a54b309783a156a28f11d79c560ded1b168"
+                  },
+                  {
+                      "path":  "data/world_border.dat",
+                      "bytes":  171,
+                      "sha256":  "30b8c44da4cbaa1df104fb1b34aad64637dbdfa1543b173a39ad1bf637092340"
+                  },
+                  {
+                      "path":  "data/yawp/dimensions.dat",
+                      "bytes":  80,
+                      "sha256":  "53b64ec2f02129e8820394eb9d3449601dd7db41e825830d23edc1b3e7fabcff"
+                  },
+                  {
+                      "path":  "data/yawp/global.dat",
+                      "bytes":  354,
+                      "sha256":  "60dd7b53aa0732b9c550a3a151eb67890005f0bebb7d369a0ec293f25351be6d"
+                  },
+                  {
+                      "path":  "data/yawp/minecraft_overworld.dat",
+                      "bytes":  978,
+                      "sha256":  "767dd4aecf173690a704f315a8bec9d7f3f53461ecdd700ab98ec4ff44fe9bc6"
+                  },
+                  {
+                      "path":  "datapacks/ct_biome/data/ct/worldgen/biome/ravenswood.json",
+                      "bytes":  287,
+                      "sha256":  "67b01a2e35e40ad33ef7d79f73db6653313ff973549d30e03796847648d799c9"
+                  },
+                  {
+                      "path":  "datapacks/ct_biome/pack.mcmeta",
+                      "bytes":  101,
+                      "sha256":  "c967578cba3fb808f73437c7716df1bd80a0698eb09e58eda743f1b854dcd53b"
+                  },
+                  {
+                      "path":  "DIM1/data/chunks.dat",
+                      "bytes":  49,
+                      "sha256":  "67d793cd87cd4329d9a574423ebddcf2f35147bfeca06dc31dfbc94dc9871f4c"
+                  },
+                  {
+                      "path":  "DIM-1/data/chunks.dat",
+                      "bytes":  49,
+                      "sha256":  "67d793cd87cd4329d9a574423ebddcf2f35147bfeca06dc31dfbc94dc9871f4c"
+                  },
+                  {
+                      "path":  "DIM-1/data/raids.dat",
+                      "bytes":  74,
+                      "sha256":  "50e9dd01fd025c4b4e30867c3b6f644fb3f5a32b4d828f944fa05578c4efca9e"
+                  },
+                  {
+                      "path":  "DIM1/data/raids_end.dat",
+                      "bytes":  74,
+                      "sha256":  "22f90c827799f8d9414545d368d5aa47fc6cf5e07e0cce30fcc3cf8fb2fea757"
+                  },
+                  {
+                      "path":  "DIM1/data/world_border.dat",
+                      "bytes":  166,
+                      "sha256":  "f0fa11ee56a3b580979183606d25f5664a6d0ff85e72b210363aa5ccaa0f8147"
+                  },
+                  {
+                      "path":  "DIM-1/data/world_border.dat",
+                      "bytes":  166,
+                      "sha256":  "f0fa11ee56a3b580979183606d25f5664a6d0ff85e72b210363aa5ccaa0f8147"
+                  },
+                  {
+                      "path":  "entities/r.0.0.mca",
+                      "bytes":  360448,
+                      "sha256":  "994e54326c317cdffd8c94268a0b7a35a60459b9a0ea0a53118794461b0fa9bb"
+                  },
+                  {
+                      "path":  "entities/r.0.1.mca",
+                      "bytes":  40960,
+                      "sha256":  "b189ee50105eb5f78f79b7171690d1901a51506b3fb5b2bed5050ad0088eb80d"
+                  },
+                  {
+                      "path":  "entities/r.0.-1.mca",
+                      "bytes":  180224,
+                      "sha256":  "50cbfa050a1325c8aad7d5336c69859636869c9907072f90287572a4e3c960f3"
+                  },
+                  {
+                      "path":  "entities/r.0.-2.mca",
+                      "bytes":  12288,
+                      "sha256":  "6e1ca88f0e4276c418ecabb5505c23131c888ca323d809ca6e6f2efc428b27ed"
+                  },
+                  {
+                      "path":  "entities/r.0.-3.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "entities/r.1.0.mca",
+                      "bytes":  40960,
+                      "sha256":  "5a5c275f96e756e987608a467705090bab2186db01937415b1d55df9b45a9a42"
+                  },
+                  {
+                      "path":  "entities/r.-1.0.mca",
+                      "bytes":  114688,
+                      "sha256":  "3f22dd0b448be28f4abbd14a60c2290c09f760ceded3f357dd7e6dcdea363e0f"
+                  },
+                  {
+                      "path":  "entities/r.1.1.mca",
+                      "bytes":  49152,
+                      "sha256":  "31ea51261a2925747f47a6f484f3ab2b71dfe21d7fad4b505ab2b2156aaa070f"
+                  },
+                  {
+                      "path":  "entities/r.1.-1.mca",
+                      "bytes":  69632,
+                      "sha256":  "41be7e989b520555e2569c0b0a31b07707a6672880ef5782f5d026edf5520dbf"
+                  },
+                  {
+                      "path":  "entities/r.-1.1.mca",
+                      "bytes":  20480,
+                      "sha256":  "85650def205a3de91264513842004ac5c2c1712e759a8c802826c66221a5f453"
+                  },
+                  {
+                      "path":  "entities/r.-1.-1.mca",
+                      "bytes":  131072,
+                      "sha256":  "55512adb4aa14ed5f4e51aa3a8eed1342ccfbe8d1bc5d021e5ab0192a167c07b"
+                  },
+                  {
+                      "path":  "entities/r.1.-2.mca",
+                      "bytes":  20480,
+                      "sha256":  "eddfd990ef491ef1c539c6b5a79ed47d92f8c586507d3958be7ee56c45a36603"
+                  },
+                  {
+                      "path":  "entities/r.-1.-2.mca",
+                      "bytes":  20480,
+                      "sha256":  "4c9a796e858f1318ff23ebf96efff87d7481fe811c9121e67db013b028f70a24"
+                  },
+                  {
+                      "path":  "entities/r.-2.0.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "entities/r.-2.1.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "entities/r.-2.-1.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "icon.png",
+                      "bytes":  564,
+                      "sha256":  "aa1913910cc25ef76d135033120e0c0381b3a39ea7ff007c93c287c92c7d06c3"
+                  },
+                  {
+                      "path":  "level.dat",
+                      "bytes":  7792,
+                      "sha256":  "fe04c935e12336b57b753fb8eac905705c416d8142b9d92c4bbbfea37667103c"
+                  },
+                  {
+                      "path":  "level.dat_old",
+                      "bytes":  7793,
+                      "sha256":  "937879b2915415f2ddd2c4c521df29925287c1b05d7ca5cf281473cd08a54f43"
+                  },
+                  {
+                      "path":  "level9769578601823566674.dat",
+                      "bytes":  7723,
+                      "sha256":  "89a8fb00a72bb1c6ad7fdd7d1aa960d25ca37ff6e105ea8e23efa3acb101d441"
+                  },
+                  {
+                      "path":  "poi/r.0.0.mca",
+                      "bytes":  217088,
+                      "sha256":  "37bbd1db2f9c530093be343fcd25607ec8d8613d9f558e8d50a7c183e470cc3d"
+                  },
+                  {
+                      "path":  "poi/r.0.1.mca",
+                      "bytes":  69632,
+                      "sha256":  "3b89cd57a161a125022a338c446384175b2b56a309cc6182b6aa9f0a877b89cb"
+                  },
+                  {
+                      "path":  "poi/r.0.-1.mca",
+                      "bytes":  45056,
+                      "sha256":  "9f0130c5f983dbe297888f973e8496637d5367d962f85e60b1d2e4d20bbd5b9e"
+                  },
+                  {
+                      "path":  "poi/r.0.-2.mca",
+                      "bytes":  77824,
+                      "sha256":  "af94d4cacfec9eb9b014c69586a180f3f269c7d8e0d34ad92b7827bedc6cbf9b"
+                  },
+                  {
+                      "path":  "poi/r.0.-3.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "poi/r.1.0.mca",
+                      "bytes":  65536,
+                      "sha256":  "95f08b26d84c19704d584a957155705ed37de5466674f469ed7fb60da9bf54e2"
+                  },
+                  {
+                      "path":  "poi/r.-1.0.mca",
+                      "bytes":  73728,
+                      "sha256":  "83daa6a0c4d7971c628b468874a42b0b188ba605c347f5e7cf62f972d1ce5516"
+                  },
+                  {
+                      "path":  "poi/r.1.1.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "poi/r.1.-1.mca",
+                      "bytes":  57344,
+                      "sha256":  "43895335540a4280e7802321ce9486f197bc6467f0270ea1d00b388260738115"
+                  },
+                  {
+                      "path":  "poi/r.-1.1.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "poi/r.-1.-1.mca",
+                      "bytes":  57344,
+                      "sha256":  "290661d22246af6c73574e4a31e8dd8dd69696bfcff0729f3a9c346256a538e7"
+                  },
+                  {
+                      "path":  "poi/r.1.-2.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "poi/r.-1.-2.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "poi/r.-1.-3.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "poi/r.-2.0.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "poi/r.-2.1.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "poi/r.-2.-1.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "poi/r.-2.-2.mca",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  },
+                  {
+                      "path":  "region/r.0.0.mca",
+                      "bytes":  10088448,
+                      "sha256":  "a79307276a62d55ef39304a0f74dd5b844b470c8a3bab8f683c0e5e5b18bedcc"
+                  },
+                  {
+                      "path":  "region/r.0.1.mca",
+                      "bytes":  6422528,
+                      "sha256":  "c02f4ad03a3694905d1580c566a41dad222b6214f7f6c95ca1bc414db0332719"
+                  },
+                  {
+                      "path":  "region/r.0.-1.mca",
+                      "bytes":  10289152,
+                      "sha256":  "dd0f054e38b4c76edc98d1cb901c29de860d73c6bf05876a07c462a10fc6a10e"
+                  },
+                  {
+                      "path":  "region/r.0.-2.mca",
+                      "bytes":  6336512,
+                      "sha256":  "129279c27dc5b23d35f63f4ee0717be44eeda72b4c72ae1439de42214775a6ef"
+                  },
+                  {
+                      "path":  "region/r.0.-3.mca",
+                      "bytes":  2150400,
+                      "sha256":  "1a91bc73d8f25801ce389f9d26081bce6ef34658c75a6c81b5baf2545c5a3a38"
+                  },
+                  {
+                      "path":  "region/r.1.0.mca",
+                      "bytes":  6352896,
+                      "sha256":  "4882c3651a610394f1f78fe4b32bc3c919940e920fd5514e90f6e11a8c88c243"
+                  },
+                  {
+                      "path":  "region/r.-1.0.mca",
+                      "bytes":  9113600,
+                      "sha256":  "8e369329422271e06eeb22da74a5404315a82d7a64dd9d7904d99bf47cde98a2"
+                  },
+                  {
+                      "path":  "region/r.1.1.mca",
+                      "bytes":  3842048,
+                      "sha256":  "9988c9d9d86cda3eba0cfc0520d586b0315b22ce043268a36d9ac272e84e5594"
+                  },
+                  {
+                      "path":  "region/r.1.-1.mca",
+                      "bytes":  6053888,
+                      "sha256":  "33069e105244fc58ea4a8c70b9b9f9a8a43677486d3b858afaba436fefd17375"
+                  },
+                  {
+                      "path":  "region/r.-1.1.mca",
+                      "bytes":  4874240,
+                      "sha256":  "16d51ab1d600893e684263c2038c71504b04ce52e760ac27a632e5a219770ed2"
+                  },
+                  {
+                      "path":  "region/r.-1.-1.mca",
+                      "bytes":  10625024,
+                      "sha256":  "af70f233e7e4c2629b224e3347f8c7e6bc69d605f4a21a663789748c69c7988c"
+                  },
+                  {
+                      "path":  "region/r.1.-2.mca",
+                      "bytes":  1966080,
+                      "sha256":  "5fa1e8ce3433862a43ba4d0029591428429c0d5b8e6d7fddd747d1acc50fcbca"
+                  },
+                  {
+                      "path":  "region/r.-1.-2.mca",
+                      "bytes":  2899968,
+                      "sha256":  "b8619e24a13b957c61b414f74ea9fb60e6bf1515f9bd6d835333de2cc2c1de12"
+                  },
+                  {
+                      "path":  "region/r.-1.-3.mca",
+                      "bytes":  163840,
+                      "sha256":  "135854ccad165d99fd7d493c3661efbd7a06573ad6228142b3bc1cd70cda3417"
+                  },
+                  {
+                      "path":  "region/r.-2.0.mca",
+                      "bytes":  1933312,
+                      "sha256":  "0f883b03a7b1e11e812361df745317c2183b45375118b38b22afa94f8dbe5a0c"
+                  },
+                  {
+                      "path":  "region/r.-2.1.mca",
+                      "bytes":  1302528,
+                      "sha256":  "c23ac0417f5656708f55b109eeefd49d6e9eae9dbcda3b3c8169e60dd66cb2d1"
+                  },
+                  {
+                      "path":  "region/r.-2.-1.mca",
+                      "bytes":  2002944,
+                      "sha256":  "b53192bb8ceeec5a63fbcd21a2eb731a67d09114e8aab0055b4288a04ef4d562"
+                  },
+                  {
+                      "path":  "region/r.-2.-2.mca",
+                      "bytes":  577536,
+                      "sha256":  "aa91fd1c411fc199225a6eb9e0f2b71058b2567618ecebc3ca5c64757a0b49bc"
+                  },
+                  {
+                      "path":  "serverconfig/readme.txt",
+                      "bytes":  469,
+                      "sha256":  "b1022ab932f8f0ea0cf78d9f312e95b85a4f96f59ca430e63f9a435e512d1186"
+                  }
+              ]
+}

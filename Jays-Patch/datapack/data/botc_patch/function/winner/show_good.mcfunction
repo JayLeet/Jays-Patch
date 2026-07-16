@@ -6,7 +6,8 @@ tag @a[tag=winner] add winner_good
 scoreboard players set winner_pending botc_patch 0
 scoreboard players set winner_reveal_timer botc_patch -1
 scoreboard players set winner_timer botc_patch 1200
-item replace entity @a[tag=winner,tag=winner_good] armor.head with minecraft:diamond_block
+execute as @a[tag=winner,tag=winner_good] run function botc_patch:winner/equip_good
+execute as @a[tag=winner,tag=winner_good] run function botc_patch:winner/give_good_fireworks
 title @a times 10 80 20
 title @a subtitle {"text":""}
 title @a title [{"text":"Good!","color":"aqua","bold":true}]

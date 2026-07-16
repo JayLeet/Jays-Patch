@@ -90,4 +90,5 @@ scoreboard players reset @s botc_st_nom_page
 scoreboard players reset @s botc_st_menu_slot
 scoreboard players reset @s botc_st_nom_items
 scoreboard players reset @s botc_st_gen
+scoreboard players reset @s botc_outsider_seen
 function ct:admin/give_script

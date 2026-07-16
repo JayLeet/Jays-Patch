@@ -13,6 +13,27 @@ or recurring-bug work.
 5. Inspect the relevant flow broadly enough to avoid symptom patches.
 6. Choose the smallest safe slice.
 
+## Role And Capability Regression Check
+
+When a change touches permissions, command guards, cleanup, tags, teams, phases,
+items, or shared upstream behavior, write down the affected capability matrix
+before editing:
+
+- player;
+- spectator;
+- Storyteller;
+- operator or owner, when relevant;
+- offline/rejoining users, when state persists.
+
+For each relevant role, identify both what it must still be allowed to do and
+what it must remain unable to do. Test the neighboring existing flows, not only
+the new privileged path. A command or UI action that looks administrative may
+still be an intentional player-facing Sybillian capability.
+
+Before narrowing access, inspect every known caller, including separate player
+and Storyteller FancyMenu layouts, Melius aliases, datapack wrappers, and direct
+commands. Do not infer the intended audience from a command's name alone.
+
 ## During Implementation
 
 - Keep existing Sybillian behavior as the base unless Jay wants a replacement.
@@ -29,3 +50,5 @@ or recurring-bug work.
 - Say whether reload, restart, resource-pack refresh, or manual in-game testing
   is needed.
 - If behavior changed, mention the relevant acceptance checks.
+- For permission-sensitive work, report which user roles were verified and
+  which role/capability combinations still require live testing.

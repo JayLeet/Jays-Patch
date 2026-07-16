@@ -1,6 +1,7 @@
-# Night music variant table. Plays vanilla music events to eligible players.
+# Night music variant table. Selects the shared current track, but players opt in manually.
 # Keep the random range aligned with the highest music_roll case below.
-tag @a remove botc_music_manual_selected
+scoreboard players add music_night_generation botc_patch 1
+execute as @a[tag=!storyteller,tag=!spectator,scores={id=1..15}] run function botc_patch:music/default_off
 stopsound @a record
 stopsound @a music
 execute store result score music_roll botc_patch run random value 0..35

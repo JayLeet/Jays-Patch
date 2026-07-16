@@ -82,7 +82,7 @@ issue returns, stop patching symptoms and audit the real blocker.
 ## Jay's Patch Architecture
 
 - `Jays-Patch/` is the source of truth for custom behavior.
-- Runtime copies under the Docker-mounted `../data` server folder are deployment
+- Runtime copies under the Docker-mounted `data` server folder are deployment
   output, not source.
 - Sybillian's BOTC pack is the base system. Prefer calling, wrapping, or reading
   Sybillian `ct:` functions, scoreboards, tags, storage, items, and entities
@@ -91,8 +91,11 @@ issue returns, stop patching symptoms and audit the real blocker.
 - Store Jay-owned Minecraft behavior in the `botc_patch` namespace.
 - Keep Jay-owned non-setup features under `/botc`.
 - Use Sybillian-style command roots such as `/st`, `/setupbag`, `/settings`,
-  `/tpchurch`, `/tpallhome`, and `/character` for Storyteller/setup broker
-  paths when that better preserves upstream behavior.
+  `/tpchurch`, and `/tpallhome` for Storyteller/setup broker paths when that
+  better preserves upstream behavior.
+- Preserve `/character` as Sybillian's player-facing personal-grimoire display
+  path. Storyteller role mutations belong to Jay's guarded Change Characters
+  editor, not the shared player command.
 - Read `Jays-Patch/README.md` before changing add-on architecture.
 
 ## Engineering Defaults
@@ -109,7 +112,7 @@ issue returns, stop patching symptoms and audit the real blocker.
 
 ## Server Safety
 
-- Preserve `../data/world`, server config, resource-pack settings, YAWP
+- Preserve `data/world`, server config, resource-pack settings, YAWP
   regions, backup behavior, and local/private settings.
 - Never run destructive world or server commands unless Jay explicitly asks.
 - Prefer fake-player, empty-server, or narrowly scoped tests before live-player

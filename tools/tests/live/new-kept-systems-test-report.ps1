@@ -123,7 +123,7 @@ foreach ($result in $results) {
 
 [System.IO.File]::WriteAllText(
     $ReportPath,
-    ($lines -join [Environment]::NewLine) + [Environment]::NewLine,
+    ($lines -join "`n") + "`n",
     [System.Text.UTF8Encoding]::new($false)
 )
 

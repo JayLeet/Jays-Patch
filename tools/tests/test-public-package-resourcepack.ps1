@@ -11,6 +11,10 @@ $PackageHelper = Join-Path $RepoRoot "tools/lib/public-package.ps1"
 $PatchVersion = Get-JaysPatchVersion -Path $VersionFile
 $ServerPackageZip = Join-Path $DistRoot "Jay's Patch v$PatchVersion.zip"
 $InstallInstructionsName = "HOW TO INSTALL.txt"
+$InstallInstructionsSource = Join-Path $RepoRoot "Jays-Patch/public-package/$InstallInstructionsName"
+$CreditsSource = Join-Path $RepoRoot "Jays-Patch/public-package/CREDITS.md"
+$SybillianLicenseSource = Join-Path $RepoRoot "Jays-Patch/public-package/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt"
+$WorldTemplateManifest = Join-Path $RepoRoot "Jays-Patch/world-template-manifest.json"
 
 function Read-PropertiesFile {
     param([string] $Path)
@@ -51,11 +55,13 @@ function Assert-PackageProperties {
         [string] $Path,
         [string] $ExpectedUrl,
         [string] $ExpectedSha1,
-        [string] $ExpectedRequire
+        [string] $ExpectedId,
+        [string] $ExpectedRequire,
+        [string] $ExpectedPrompt
     )
 
     $properties = Read-PropertiesFile $Path
-    foreach ($key in @("resource-pack", "resource-pack-sha1", "require-resource-pack")) {
+    foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "require-resource-pack", "resource-pack-prompt")) {
         if (-not $properties.ContainsKey($key)) {
             throw "Missing $key in package instruction file: $Path"
         }
@@ -67,8 +73,14 @@ function Assert-PackageProperties {
     if ($properties["resource-pack-sha1"].ToLowerInvariant() -ne $ExpectedSha1.ToLowerInvariant()) {
         throw "Package instruction file has stale resource-pack-sha1: $Path"
     }
+    if ($properties["resource-pack-id"].ToLowerInvariant() -ne $ExpectedId.ToLowerInvariant()) {
+        throw "Package instruction file has stale resource-pack-id: $Path"
+    }
     if ($properties["require-resource-pack"].ToLowerInvariant() -ne $ExpectedRequire.ToLowerInvariant()) {
         throw "Package instruction file has stale require-resource-pack: $Path"
+    }
+    if ($properties["resource-pack-prompt"] -ne $ExpectedPrompt) {
+        throw "Package instruction file has stale resource-pack-prompt: $Path"
     }
 }
 
@@ -80,6 +92,26 @@ function Assert-FileMissing {
 
     if (Test-Path -LiteralPath $Path) {
         throw "Public package should not include $Description`: $Path"
+    }
+}
+
+function Assert-FileMatches {
+    param(
+        [string] $Expected,
+        [string] $Actual,
+        [string] $Description
+    )
+
+    if (-not (Test-Path -LiteralPath $Expected -PathType Leaf)) {
+        throw "Missing source $Description`: $Expected"
+    }
+    if (-not (Test-Path -LiteralPath $Actual -PathType Leaf)) {
+        throw "Public package is missing $Description`: $Actual"
+    }
+    $expectedHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $Expected).Hash
+    $actualHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $Actual).Hash
+    if ($expectedHash -ne $actualHash) {
+        throw "Public package $Description differs from its reviewed source."
     }
 }
 
@@ -111,6 +143,28 @@ function Get-FileHashMap {
         $map[$relativePath] = (Get-FileHash -Algorithm SHA1 -LiteralPath $file.FullName).Hash.ToLowerInvariant()
     }
     return $map
+}
+
+function Assert-WorldTemplateManifestInPackage {
+    param([string] $PackageWorld)
+
+    if (-not (Test-Path -LiteralPath $WorldTemplateManifest -PathType Leaf)) {
+        throw "Missing tracked world-template manifest: $WorldTemplateManifest"
+    }
+    $manifest = Get-Content -LiteralPath $WorldTemplateManifest -Raw | ConvertFrom-Json
+    if ([string] $manifest.version -ne $PatchVersion) {
+        throw "World-template manifest version is stale. Expected $PatchVersion, got $($manifest.version)"
+    }
+    foreach ($entry in @($manifest.files)) {
+        $path = Join-Path $PackageWorld (([string] $entry.path).Replace('/', '\'))
+        if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+            throw "Public package is missing world-template file: $($entry.path)"
+        }
+        $actualHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $path).Hash.ToLowerInvariant()
+        if ([long] $entry.bytes -ne (Get-Item -LiteralPath $path).Length -or [string] $entry.sha256 -ne $actualHash) {
+            throw "Public package world differs from tracked template: $($entry.path)"
+        }
+    }
 }
 
 function Assert-MirroredTree {
@@ -152,7 +206,7 @@ function Assert-MirroredTree {
 }
 
 $expectedProperties = Read-PropertiesFile $RequiredProperties
-foreach ($key in @("resource-pack", "resource-pack-sha1", "require-resource-pack")) {
+foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "require-resource-pack", "resource-pack-prompt")) {
     if (-not $expectedProperties.ContainsKey($key)) {
         throw "Missing $key in source required server properties: $RequiredProperties"
     }
@@ -160,7 +214,9 @@ foreach ($key in @("resource-pack", "resource-pack-sha1", "require-resource-pack
 
 $expectedUrl = $expectedProperties["resource-pack"]
 $expectedSha1 = $expectedProperties["resource-pack-sha1"]
+$expectedId = $expectedProperties["resource-pack-id"]
 $expectedRequire = $expectedProperties["require-resource-pack"]
+$expectedPrompt = $expectedProperties["resource-pack-prompt"]
 
 if (Test-Path -LiteralPath $ResourcePackZip -PathType Leaf) {
     Assert-Sha1 $ResourcePackZip $expectedSha1 "Jays-Patch/dist/Jays-Patch-resourcepack.zip"
@@ -184,8 +240,11 @@ if (Test-Path -LiteralPath $ServerPackageZip -PathType Leaf) {
     try {
         Expand-Archive -LiteralPath $ServerPackageZip -DestinationPath $extract -Force
 
-        Assert-PackageProperties (Join-Path $extract $InstallInstructionsName) $expectedUrl $expectedSha1 $expectedRequire
-        Assert-PackageProperties (Join-Path $extract "world/datapacks/jays_patch/jays-patch-required-server-properties.txt") $expectedUrl $expectedSha1 $expectedRequire
+        Assert-PackageProperties (Join-Path $extract $InstallInstructionsName) $expectedUrl $expectedSha1 $expectedId $expectedRequire $expectedPrompt
+        Assert-PackageProperties (Join-Path $extract "world/datapacks/jays_patch/jays-patch-required-server-properties.txt") $expectedUrl $expectedSha1 $expectedId $expectedRequire $expectedPrompt
+        Assert-FileMatches $InstallInstructionsSource (Join-Path $extract $InstallInstructionsName) "installation guide"
+        Assert-FileMatches $CreditsSource (Join-Path $extract "CREDITS.md") "credits file"
+        Assert-FileMatches $SybillianLicenseSource (Join-Path $extract "THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt") "Sybillian MIT license"
         Assert-MirroredTree `
             -SourceRoot (Join-Path $RepoRoot "Jays-Patch/datapack") `
             -PackageRoot (Join-Path $extract "world/datapacks/jays_patch") `
@@ -194,6 +253,7 @@ if (Test-Path -LiteralPath $ServerPackageZip -PathType Leaf) {
             -SourceRoot (Join-Path $RepoRoot "Jays-Patch/melius-commands/commands") `
             -PackageRoot (Join-Path $extract "config/melius-commands/commands") `
             -Description "Jay's Patch Melius command overlay"
+        Assert-WorldTemplateManifestInPackage -PackageWorld (Join-Path $extract "world")
 
         Assert-PublicPackageManifest -Root $extract -ExpectedVersion $PatchVersion
 
@@ -206,7 +266,7 @@ if (Test-Path -LiteralPath $ServerPackageZip -PathType Leaf) {
         Assert-FileMissing (Join-Path $extract "jays-patch-required-server-properties.txt") "old root required-properties file"
         Assert-FileMissing (Join-Path $extract "resourcepack (re-upload if the resource-pack= doesn't work)") "old long resourcepack fallback folder"
 
-        foreach ($licenseFile in @("LICENSE", "ASSET_LICENSE.md", "BRANDING.md", "NOTICE.md")) {
+        foreach ($licenseFile in @("LICENSE", "ASSET_LICENSE.md", "BRANDING.md", "NOTICE.md", "CREDITS.md")) {
             $licensePath = Join-Path $extract $licenseFile
             if (-not (Test-Path -LiteralPath $licensePath -PathType Leaf)) {
                 throw "Public package is missing license/notice file: $licenseFile"
@@ -218,6 +278,8 @@ if (Test-Path -LiteralPath $ServerPackageZip -PathType Leaf) {
         Assert-FileMissing (Join-Path $extract "world/advancements") "private player advancements"
         Assert-FileMissing (Join-Path $extract "world/player-mod-data") "private player mod data"
         Assert-FileMissing (Join-Path $extract "world/session.lock") "live world session lock"
+        Assert-FileMissing (Join-Path $extract "world/data/command_storage_botc_icon_proof.dat") "development-only role-icon proof storage"
+        Assert-FileMissing (Join-Path $extract "server.properties") "complete server.properties replacement"
     }
     finally {
         if (Test-Path -LiteralPath $extract) {

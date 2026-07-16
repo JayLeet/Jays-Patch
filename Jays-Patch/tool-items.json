@@ -180,27 +180,39 @@
                       "itemModel":  "botc_patch:lower_hand"
                   },
                   {
+                      "id":  "banshee_vote_toggle",
+                      "modelString":  "botc_role_banshee",
+                      "item":  "minecraft:carrot_on_a_stick",
+                      "label":  "Banshee Vote: x1/x2",
+                      "owner":  "active Banshee",
+                      "phase":  "nomination",
+                      "slot":  "hotbar.5 or fallback",
+                      "source":  "banshee/item_checks.mcfunction and Jays-Patch/item-fallbacks.json",
+                      "status":  "active",
+                      "itemModel":  "botc_patch:item/role/banshee"
+                  },
+                  {
                       "id":  "grim_reveal_menu",
                       "modelString":  "grim_reveal_menu",
                       "item":  "minecraft:carrot_on_a_stick",
-                      "label":  "Reveal Grimoire",
+                      "label":  "Storyteller Tools",
                       "owner":  "storyteller",
                       "phase":  "live game",
                       "slot":  "hotbar.6 or fallback",
                       "source":  "grim/item_checks.mcfunction and storyteller_tools/replace_items.mcfunction",
                       "status":  "active",
-                      "liveTool":  [
+        "liveTool":  [
                                        {
                                            "order":  1,
                                            "condition":  "score phase game_data matches 1..",
                                            "slot":  "hotbar.6",
-                                           "customNameComponent":  "[{text:\"Reveal Grimoire\",color:\"gold\",bold:true,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Storyteller Tools\",color:\"gold\",bold:true,italic:false}]"
                                        }
                                    ],
                       "postExecutionTool":  {
                                                 "order":  3,
                                                 "slot":  "hotbar.6",
-                                                "customNameComponent":  "[{text:\"Reveal Grimoire\",color:\"gold\",bold:true,italic:false}]"
+                                                 "customNameComponent":  "[{text:\"Storyteller Tools\",color:\"gold\",bold:true,italic:false}]"
                                             },
                       "itemModel":  "botc_patch:reveal_roles"
                   },
@@ -229,10 +241,11 @@
                       "setupTool":  {
                                         "order":  1,
                                         "condition":  "entity @s[tag=storyteller,tag=!botc_setup_room_active]",
-                                        "slot":  "hotbar.0",
-                                        "customNameComponent":  "[{text:\"Reset Game\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
-                                        "clearItems":  true,
-                                        "clearNonQueueItems":  true
+                                         "slot":  "hotbar.0",
+                                         "customNameComponent":  "[{text:\"Reset Game\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                         "clearItems":  true,
+                                         "clearNonQueueItems":  true,
+                          "mode":  "both"
                                     },
                       "itemModel":  "botc_patch:reset_game"
                   },
@@ -249,10 +262,11 @@
                       "setupTool":  {
                                         "order":  2,
                                         "condition":  "entity @s[tag=storyteller,tag=!botc_setup_room_active]",
-                                        "slot":  "hotbar.1",
-                                        "customNameComponent":  "[{text:\"Become a Player\",color:\"yellow\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
-                                        "clearItems":  true,
-                                        "clearNonQueueItems":  true
+                                         "slot":  "hotbar.1",
+                                         "customNameComponent":  "[{text:\"Become a Player\",color:\"yellow\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                         "clearItems":  true,
+                                         "clearNonQueueItems":  true,
+                          "mode":  "both"
                                     },
                       "itemModel":  "botc_patch:setup_become_player"
                   },
@@ -281,6 +295,19 @@
                       "status":  "active",
                       "resourceModel":  "minecraft:lime_candle",
                       "itemModel":  "minecraft:lime_candle"
+                  },
+                  {
+                      "id":  "patch_toggle_dialogs",
+                      "modelString":  "patch_toggle_dialogs",
+                      "item":  "minecraft:carrot_on_a_stick",
+                      "label":  "Toggle Jay\u0027s Patch",
+                      "owner":  "storyteller",
+                      "phase":  "setup",
+                      "slot":  "hotbar.5",
+                      "source":  "patch_toggle/item_checks.mcfunction and patch_toggle/tick.mcfunction",
+                      "status":  "active",
+                      "resourceModel":  "minecraft:yellow_candle",
+                      "itemModel":  "minecraft:yellow_candle"
                   },
                   {
                       "id":  "patch_toggle_sybillian_setup_bag",
@@ -569,7 +596,16 @@
                                            "order":  12,
                                            "condition":  "score phase game_data matches 4",
                                            "slot":  "hotbar.0",
-                                           "customNameComponent":  "[{text:\"Reset Game\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Reset Game\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
+                                       },
+                                       {
+                                           "order":  19,
+                                           "condition":  "score phase game_data matches 4 if score grim_active botc_patch matches 1",
+                                           "slot":  "hotbar.0",
+                                           "customNameComponent":  "[{text:\"Reset Game\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "dialog",
+                                           "repairGroup":  "active_reveal"
                                        }
                                    ],
                       "itemModel":  "botc_patch:reset_game"
@@ -592,19 +628,22 @@
                                            "order":  2,
                                            "condition":  "score phase game_data matches 1..3",
                                            "slot":  "hotbar.0",
-                                           "customNameComponent":  "[{text:\"Advance Phase\",color:\"aqua\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Advance Phase\",color:\"aqua\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        },
                                        {
                                            "order":  13,
                                            "condition":  "score phase game_data matches 4",
                                            "slot":  "hotbar.1",
-                                           "customNameComponent":  "[{text:\"Advance Phase\",color:\"aqua\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Advance Phase\",color:\"aqua\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "postExecutionTool":  {
-                                                "order":  2,
-                                                "slot":  "hotbar.1",
-                                                "customNameComponent":  "[{text:\"Advance Phase\",color:\"aqua\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                                 "order":  2,
+                                                 "slot":  "hotbar.1",
+                                                 "customNameComponent":  "[{text:\"Advance Phase\",color:\"aqua\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                                 "mode":  "item"
                                             },
                       "itemModel":  "minecraft:clock"
                   },
@@ -626,13 +665,15 @@
                                            "order":  3,
                                            "condition":  "score phase game_data matches 1..2",
                                            "slot":  "hotbar.1",
-                                           "customNameComponent":  "[{text:\"Teleport Seats\",color:\"yellow\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Teleport Seats\",color:\"yellow\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        },
                                        {
                                            "order":  8,
                                            "condition":  "score phase game_data matches 3",
                                            "slot":  "hotbar.1",
-                                           "customNameComponent":  "[{text:\"Teleport Seats\",color:\"yellow\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Teleport Seats\",color:\"yellow\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "itemModel":  "botc_patch:storyteller_tp_seats"
@@ -644,7 +685,7 @@
                       "label":  "Storyteller\u0027s Passage",
                       "owner":  "storyteller",
                       "phase":  "day and night house",
-                      "slot":  "hotbar.2 or hotbar.5",
+                      "slot":  "hotbar.2 in item mode; hotbar.5 in dialog mode and at night",
                       "source":  "storyteller_tools/replace_items.mcfunction",
                       "status":  "active",
                       "liveReplaceClear":  {
@@ -654,7 +695,16 @@
                                        {
                                            "order":  4,
                                            "condition":  "score phase game_data matches 1..2",
+                                           "mode":  "item",
                                            "slot":  "hotbar.2",
+                                           "customNameComponent":  "[{text:\"Storyteller\u0027s Passage\",color:\"gold\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "loreComponent":  "[{text:\"Fly, spectate, and enter a house to return.\",color:\"gray\",italic:false}]"
+                                       },
+                                       {
+                                           "order":  18,
+                                           "condition":  "score phase game_data matches 1..2",
+                                           "mode":  "dialog",
+                                           "slot":  "hotbar.5",
                                            "customNameComponent":  "[{text:\"Storyteller\u0027s Passage\",color:\"gold\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
                                            "loreComponent":  "[{text:\"Fly, spectate, and enter a house to return.\",color:\"gray\",italic:false}]"
                                        },
@@ -687,15 +737,39 @@
                                            "order":  5,
                                            "condition":  "score phase game_data matches 1..2",
                                            "slot":  "hotbar.3",
-                                           "customNameComponent":  "[{text:\"Kill\",color:\"dark_red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Kill\",color:\"dark_red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "postExecutionTool":  {
-                                                "order":  1,
-                                                "slot":  "hotbar.0",
-                                                "customNameComponent":  "[{text:\"Kill\",color:\"dark_red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                                 "order":  1,
+                                                 "slot":  "hotbar.0",
+                                                 "customNameComponent":  "[{text:\"Kill\",color:\"dark_red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                                 "mode":  "item"
                                             },
                       "itemModel":  "botc_patch:storyteller_post_kill"
+                  },
+                  {
+                      "id":  "storyteller_boomdandy",
+                      "modelString":  "botc_role_boomdandy",
+                      "item":  "minecraft:carrot_on_a_stick",
+                      "label":  "Boomdandy",
+                      "owner":  "storyteller",
+                      "phase":  "post-execution",
+                      "slot":  "hotbar.2",
+                      "source":  "storyteller_tools/post_execution",
+                      "status":  "active",
+                      "liveReplaceClear":  {
+                                               "order":  25
+                                           },
+                      "postExecutionTool":  {
+                                                "order":  4,
+                                                 "slot":  "hotbar.2",
+                                                 "inPlaySelector":  "@a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=107}]",
+                                                 "customNameComponent":  "[{text:\"Boomdandy\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                                 "mode":  "item"
+                                            },
+                      "itemModel":  "botc_patch:item/role/boomdandy"
                   },
                   {
                       "id":  "storyteller_revive",
@@ -716,7 +790,8 @@
                                            "order":  6,
                                            "condition":  "score phase game_data matches 1..2",
                                            "slot":  "hotbar.4",
-                                           "customNameComponent":  "[{text:\"Revive\",color:\"green\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Revive\",color:\"green\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "itemModel":  "botc_patch:storyteller_revive"
@@ -744,7 +819,8 @@
                                            "condition":  "score phase game_data matches 1..3",
                                            "slot":  "hotbar.5",
                                            "customDataMarker":  "botc_storyteller_timer:1b",
-                                           "customNameComponent":  "[{text:\"Timer\",color:\"yellow\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Timer\",color:\"yellow\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "itemModel":  "botc_patch:setup_queue_status"
@@ -765,7 +841,8 @@
                                            "order":  9,
                                            "condition":  "score phase game_data matches 3",
                                            "slot":  "hotbar.2",
-                                           "customNameComponent":  "[{text:\"Nominate\",color:\"gold\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Nominate\",color:\"gold\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "itemModel":  "botc_patch:storyteller_nominate"
@@ -786,7 +863,8 @@
                                            "order":  10,
                                            "condition":  "score phase game_data matches 3",
                                            "slot":  "hotbar.3",
-                                           "customNameComponent":  "[{text:\"Pyre\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Pyre\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "itemModel":  "botc_patch:storyteller_nom_pyre"
@@ -807,7 +885,8 @@
                                            "order":  11,
                                            "condition":  "score phase game_data matches 3",
                                            "slot":  "hotbar.4",
-                                           "customNameComponent":  "[{text:\"Execute\",color:\"dark_red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Execute\",color:\"dark_red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "itemModel":  "botc_patch:storyteller_nom_execute"
@@ -830,7 +909,8 @@
                                            "order":  14,
                                            "condition":  "score phase game_data matches 4",
                                            "slot":  "hotbar.2",
-                                           "customNameComponent":  "[{text:\"Teleport Home\",color:\"green\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Teleport Home\",color:\"green\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "itemModel":  "botc_patch:storyteller_tp_home"
@@ -853,7 +933,8 @@
                                            "order":  15,
                                            "condition":  "score phase game_data matches 4",
                                            "slot":  "hotbar.3",
-                                           "customNameComponent":  "[{text:\"Teleport Evil Team\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Teleport Evil Team\",color:\"red\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "itemModel":  "botc_patch:storyteller_tp_evil"
@@ -876,7 +957,8 @@
                                            "order":  16,
                                            "condition":  "score phase game_data matches 4",
                                            "slot":  "hotbar.4",
-                                           "customNameComponent":  "[{text:\"Teleport to Player\",color:\"gold\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]"
+                                           "customNameComponent":  "[{text:\"Teleport to Player\",color:\"gold\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                           "mode":  "item"
                                        }
                                    ],
                       "itemModel":  "minecraft:ender_pearl"

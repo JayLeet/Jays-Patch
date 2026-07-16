@@ -6,7 +6,8 @@ tag @a[tag=winner] add winner_evil
 scoreboard players set winner_pending botc_patch 0
 scoreboard players set winner_reveal_timer botc_patch -1
 scoreboard players set winner_timer botc_patch 1200
-item replace entity @a[tag=winner,tag=winner_evil] armor.head with minecraft:piglin_head
+execute as @a[tag=winner,tag=winner_evil] run function botc_patch:winner/equip_evil
+execute as @a[tag=winner,tag=winner_evil] run function botc_patch:winner/give_evil_fireworks
 title @a times 10 80 20
 title @a subtitle {"text":""}
 title @a title [{"text":"Evil!","color":"red","bold":true}]

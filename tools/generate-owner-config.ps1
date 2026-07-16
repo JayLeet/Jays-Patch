@@ -32,5 +32,5 @@ $lines.Add("")
 $lines.Add("# Merge static config owners.")
 $lines.Add("tag @a[tag=botc_owner_static] add botc_owner")
 
-[System.IO.File]::WriteAllLines($OutputPath, $lines, [System.Text.UTF8Encoding]::new($false))
+[System.IO.File]::WriteAllText($OutputPath, (($lines -join "`n") + "`n"), [System.Text.UTF8Encoding]::new($false))
 Write-Host "Generated $OutputPath" -ForegroundColor Green
