@@ -43,6 +43,7 @@ $openText = Get-Content -LiteralPath (Join-Path $PlayerMenuRoot "open.mcfunction
 $dispatcherText = Get-Content -LiteralPath (Join-Path $PlayerMenuRoot "dialog.mcfunction") -Raw
 $threePlayerText = Get-Content -LiteralPath (Join-Path $PlayerMenuRoot "dialog/count_3.mcfunction") -Raw
 $selectedText = Get-Content -LiteralPath (Join-Path $PlayerMenuRoot "teleport_selected.mcfunction") -Raw
+$cancelText = Get-Content -LiteralPath (Join-Path $PlayerMenuRoot "cancel.mcfunction") -Raw
 $tickText = Get-Content -LiteralPath $TickPath -Raw
 $commandText = Get-Content -LiteralPath $BotcCommandPath -Raw
 
@@ -53,16 +54,21 @@ Assert-Contains $dispatcherText 'storage ct:players players\.p1' "Sybillian game
 Assert-Contains $dispatcherText 'grim/editor/refresh_live_roles' "current Storyteller role refresh"
 Assert-Contains $dispatcherText 'grim/editor/player_labels/prepare' "shared player-role label preparation"
 Assert-Contains $dispatcherText 'player_menu/dialog/count_15 with storage botc_patch:grim editor\.player_labels' "fifteen-player dialog dispatch"
-Assert-Contains $threePlayerText 'text:"\$\(p1_name\) \(\$\(p1_role\)\)"' "first player-and-role label"
-Assert-Contains $threePlayerText 'text:"\$\(p3_name\) \(\$\(p3_role\)\)"' "third player-and-role label"
-Assert-Contains $threePlayerText 'color:"\$\(p1_color\)"' "role-category player color"
+Assert-Contains $threePlayerText 'text:" \$\(p1_name\)",font:"minecraft:default",color:"white"' "first white player name"
+Assert-Contains $threePlayerText 'text:" \$\(p3_name\)",font:"minecraft:default",color:"white"' "third white player name"
+Assert-NotContains $threePlayerText '_name_color' "retired player-name color macro"
+Assert-Contains $threePlayerText 'text:" \(\$\(p1_role\)\)",font:"minecraft:default",color:"\$\(p1_color\)"' "alignment-colored player suffix"
+Assert-Contains $threePlayerText 'text:"\$\(p1_glyph\)",font:"botc_patch:role_icons",color:"white"' "player role icon glyph"
 Assert-Contains $threePlayerText '/botc teleport_player 3' "third player teleport action"
+Assert-Contains $threePlayerText 'exit_action:\{label:"Back"' "teleport Back navigation label"
+Assert-NotContains $threePlayerText 'exit_action:\{label:"Cancel"' "stale teleport Cancel navigation label"
 Assert-NotContains $threePlayerText 'selector|Seat 4' "selector JSON or extra player button"
 Assert-NotContains $threePlayerText 'after_action:"wait_for_response"' "terminal teleport action wait state"
 Assert-Contains $selectedText 'dialog clear @s' "terminal teleport dialog close"
 Assert-Contains $selectedText 'entity @s\[tag=storyteller\]' "Storyteller guard"
 Assert-Contains $selectedText 'phase game_data matches 1\.\.' "active-game phase guard"
 Assert-Contains $selectedText 'to_seat_\$\(seat\)' "fixed seat dispatch"
+Assert-Contains $cancelText 'function botc_patch:storyteller_tools/dialog_cancel' "shared dialog-mode Back return"
 Assert-NotContains $tickText 'storyteller_tp_back|storyteller_tp_next|botc_tp_seat' "retired teleport hotbar click routes"
 Assert-Contains $commandText '"id"\s*:\s*"teleport_player"' "/botc teleport_player command"
 Assert-Contains $commandText '"id"\s*:\s*"teleport_cancel"' "/botc teleport_cancel command"

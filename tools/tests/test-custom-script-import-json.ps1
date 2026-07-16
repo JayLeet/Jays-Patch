@@ -105,7 +105,7 @@ foreach ($literalId in @("initial_load", "convert_to_ids")) {
 Assert-TextContains $dialogText 'type:"text",key:"script",label:"Script JSON",max_length:20000' "custom script dialog text input"
 Assert-TextContains $dialogText 'template:"/setupbag import \\"\$\(script\)\\""' "custom script dialog wraps Minecraft's escaped text input as an SNBT string"
 Assert-TextDoesNotContain $dialogText 'template:"/setupbag import \$\(script\)"' "unquoted custom script dialog payload"
-Assert-TextContains $dialogText 'label:"Cancel".*command:"/setupbag cancel_import"' "custom script dialog cancel action"
+Assert-TextContains $dialogText 'text:" Cancel",font:"minecraft:default",color:"gray".*command:"/setupbag cancel_import"' "icon-enhanced custom script dialog cancel action"
 Assert-TextDoesNotContain $dialogText 'function botc_patch:setup/clear' "custom script dialog clearing the selected role setup before validation"
 Assert-TextDoesNotContain $dialogText 'function botc_patch:setup_wall/clear' "custom script dialog clearing the current wall before validation"
 
@@ -274,7 +274,7 @@ $mysteryvilleLikeJson = @'
 ]
 '@
 
-$charactersText = Get-Content -LiteralPath (Join-Path $RepoRoot "../data/resources/datapack/required/ct/data/ct/function/admin/setup/characters.mcfunction") -Raw
+$charactersText = Get-Content -LiteralPath (Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function/admin/setup/characters.mcfunction") -Raw
 $knownRoles = @{}
 foreach ($match in [regex]::Matches($charactersText, 'characters\{id:"([^"]+)"\} run data modify storage ct:script in_characters\.([^ ]+) append value "([^"]+)"')) {
     $knownRoles[$match.Groups[1].Value] = $match.Groups[2].Value

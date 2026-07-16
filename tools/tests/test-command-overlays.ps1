@@ -1,4 +1,4 @@
-﻿Set-StrictMode -Version Latest
+Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
@@ -17,7 +17,8 @@ $publicCommands = [System.Collections.Generic.HashSet[string]]::new([System.Stri
     "execute as @s run function botc_patch:vote/kick {target:`"`${target}`"}",
     "execute as @s run function botc_patch:vote/remove",
     "function ct:cmd/request_chat/on",
-    "function ct:cmd/request_chat/off"
+    "function ct:cmd/request_chat/off",
+    'execute if score phase game_data matches 1.. run function ct:cmd/character {id:${id},character:${character}}'
 ) | ForEach-Object { [void] $publicCommands.Add($_) }
 
 $allowedStorytellerOpLevels = [System.Collections.Generic.HashSet[int]]::new([int[]](2, 4))
@@ -153,15 +154,17 @@ foreach ($file in Get-ChildItem -LiteralPath $CommandRoot -Filter "*.json" -File
             $failures.Add("$($execute.Path): Storyteller command has non-policy op_level $($execute.OpLevel): $command")
         }
 
-        if ($command -notmatch 'tag=storyteller') {
+        $hasStorytellerGuard = $command -match '(?:as @s\[tag=storyteller\]|if entity @s\[tag=storyteller\])'
+
+        if (-not $hasStorytellerGuard) {
             $failures.Add("$($execute.Path): Storyteller command missing tag=storyteller guard: $command")
         }
 
-        if ($command -match 'tag=storyteller' -and $execute.AsConsole -ne $true) {
+        if ($hasStorytellerGuard -and $execute.AsConsole -ne $true) {
             $failures.Add("$($execute.Path): Privileged Storyteller command should run as server authority: $command")
         }
 
-        if ($command -match 'tag=storyteller' -and [int]$execute.OpLevel -lt 4) {
+        if ($hasStorytellerGuard -and [int]$execute.OpLevel -lt 4) {
             $failures.Add("$($execute.Path): Privileged Storyteller command should use op_level 4: $command")
         }
     }

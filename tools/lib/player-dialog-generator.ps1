@@ -48,7 +48,7 @@ function Write-BotcFilteredPlayerDialog {
 
         [System.IO.File]::WriteAllText(
             $Path,
-            (($Lines -join [Environment]::NewLine) + [Environment]::NewLine),
+            (($Lines -join "`n") + "`n"),
             $utf8NoBom
         )
     }
@@ -80,21 +80,19 @@ function Write-BotcFilteredPlayerDialog {
     $append = & $newHeader "Copies one eligible seat into the next compact dialog entry."
     $append.Add(('$data modify storage botc_patch:dialogs {0}.e$(target)_name set from storage botc_patch:grim editor.player_labels.p$(source)_name' -f $StorageKey))
     $append.Add(('$data modify storage botc_patch:dialogs {0}.e$(target)_role set from storage botc_patch:grim editor.player_labels.p$(source)_role' -f $StorageKey))
+    $append.Add(('$data modify storage botc_patch:dialogs {0}.e$(target)_glyph set from storage botc_patch:grim editor.player_labels.p$(source)_glyph' -f $StorageKey))
     $append.Add(('$data modify storage botc_patch:dialogs {0}.e$(target)_color set from storage botc_patch:grim editor.player_labels.p$(source)_color' -f $StorageKey))
     $append.Add(('$data modify storage botc_patch:dialogs {0}.e$(target)_seat set value $(source)' -f $StorageKey))
     & $writeLines (Join-Path $dialogRoot "append.mcfunction") $append
 
-    for ($count = 0; $count -le 15; $count++) {
+    Remove-Item -LiteralPath (Join-Path $dialogRoot "count_0.mcfunction") -Force -ErrorAction SilentlyContinue
+    for ($count = 1; $count -le 15; $count++) {
         $actions = [System.Collections.Generic.List[string]]::new()
         for ($index = 1; $index -le $count; $index++) {
-            $actions.Add('{label:{text:"$(e' + $index + '_name) ($(e' + $index + '_role))",color:"$(e' + $index + '_color)"},tooltip:{text:"Seat $(e' + $index + '_seat)",color:"gray"},action:{type:"run_command",command:"/botc ' + $ActionCommand + ' $(e' + $index + '_seat)"}}')
-        }
-        if ($count -eq 0) {
-            $actions.Add('{label:"Close",action:{type:"run_command",command:"/botc dialog_cancel"}}')
+            $actions.Add('{label:{text:"$(e' + $index + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(e' + $index + '_name)",font:"minecraft:default",color:"white"},{text:" ($(e' + $index + '_role))",font:"minecraft:default",color:"$(e' + $index + '_color)"}]},tooltip:{text:"Seat $(e' + $index + '_seat)",color:"gray"},action:{type:"run_command",command:"/botc ' + $ActionCommand + ' $(e' + $index + '_seat)"}}')
         }
 
-        $macroPrefix = if ($count -gt 0) { '$' } else { '' }
-        $line = $macroPrefix + 'dialog show @s {type:"multi_action",title:"' + $Title + '",body:{type:"plain_message",contents:{text:"' + $BodyText + '",color:"gray"},width:360},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Cancel",action:{type:"run_command",command:"/botc dialog_cancel"}}}'
+        $line = '$dialog show @s {type:"multi_action",title:"' + $Title + '",body:{type:"plain_message",contents:{text:"' + $BodyText + '",color:"gray"},width:360},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc dialog_cancel"}}}'
         $variant = & $newHeader "Filtered player dialog with $count eligible seat(s)."
         $variant.Add($line)
         & $writeLines (Join-Path $dialogRoot "count_$count.mcfunction") $variant

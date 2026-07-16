@@ -302,7 +302,57 @@
                                                            ]
                                           },
                                           {
-                                              "id":  "edit_seat",
+                                              "id":  "announce_fearmonger",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/announce_fearmonger",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          },
+                                           {
+                                               "id":  "awaken_banshee",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/awaken_banshee",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                                }
+                                                            ]
+                                           },
+                                           {
+                                               "id":  "announce_alhadikhia",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/alhadikhia/player_dialog",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                           },
+                                           {
+                                               "id":  "announce_alhadikhia_seat",
+                                               "arguments":  [
+                                                                 {
+                                                                     "id":  "seat",
+                                                                     "type":  "brigadier:integer 1 15",
+                                                                     "executes":  [
+                                                                                      {
+                                                                                          "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/alhadikhia/announce_seat {seat:${seat}}",
+                                                                                          "as_console":  true,
+                                                                                          "silent":  true,
+                                                                                          "op_level":  4
+                                                                                      }
+                                                                                  ]
+                                                                 }
+                                                             ]
+                                           },
+                                           {
+                                               "id":  "edit_seat",
                                               "arguments":  [
                                                                 {
                                                                     "id":  "seat",
@@ -358,28 +408,6 @@
                                                            ]
                                           },
                                           {
-                                              "id":  "disabled_button_test",
-                                              "executes":  [
-                                                               {
-                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/dev_disabled_button_test",
-                                                                   "as_console":  true,
-                                                                   "silent":  false,
-                                                                   "op_level":  4
-                                                               }
-                                                           ]
-                                          },
-                                          {
-                                              "id":  "disabled_state_test",
-                                              "executes":  [
-                                                               {
-                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/dev_disabled_state_test",
-                                                                   "as_console":  true,
-                                                                   "silent":  false,
-                                                                   "op_level":  4
-                                                               }
-                                                           ]
-                                          },
-                                          {
                                               "id":  "clear",
                                               "executes":  [
                                                                {
@@ -390,19 +418,52 @@
                                                                }
                                                            ]
                                           },
-                                          {
-                                              "id":  "cancel",
-                                              "executes":  [
+                                           {
+                                               "id":  "cancel",
+                                               "executes":  [
                                                                {
                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/cancel",
                                                                    "as_console":  true,
                                                                    "silent":  false,
                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           },
+                                           {
+                                               "id":  "rescind_confirm",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/rescind_confirm",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
                                                                }
                                                            ]
-                                          },
-                                          {
-                                              "id":  "reveal",
+                                           },
+                                           {
+                                               "id":  "close_dialog",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/close_dialog",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                           },
+                                           {
+                                               "id":  "rescind",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/rescind",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                           },
+                                           {
+                                               "id":  "reveal",
                                               "arguments":  [
                                                                 {
                                                                     "id":  "target",
@@ -780,7 +841,7 @@
                          "id":  "force_chairs",
                          "executes":  [
                                           {
-                                              "command":  "execute as @s[tag=storyteller] run function ct:admin/force_chairs",
+                                             "command":  "execute as @s[tag=storyteller] run function botc_patch:seat_layout/teleport_players",
                                               "as_console":  true,
                                               "silent":  false,
                                               "op_level":  4
@@ -861,6 +922,52 @@
                                               "as_console":  true,
                                               "silent":  false,
                                               "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "teleport_evil",
+                         "executes":  [
+                                          {
+                                              "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/teleport_evil",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ],
+                         "literals":  [
+                                          {
+                                              "id":  "demon",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/teleport_evil/select_demon",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "minions",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/teleport_evil/select_minions",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "both",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/teleport_evil/select_both",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
                                           }
                                       ]
                      },
@@ -1151,6 +1258,23 @@
                      {
                          "id":  "patch_toggle",
                          "literals":  [
+                                          {
+                                              "id":  "dialogs",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Patch toggles are setup-only.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               },
+                                                               {
+                                                                   "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:patch_toggle/enable_dialogs",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          },
                                           {
                                               "id":  "sybillian_setup_bag",
                                               "executes":  [

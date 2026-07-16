@@ -6,6 +6,7 @@ dialog clear @s
 tag @a remove botc_st_nom_selected
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=7},limit=1] run tag @a[tag=!storyteller,tag=!spectator,scores={id=7},limit=1] add botc_st_nom_selected
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=7},limit=1] as @a[tag=!storyteller,tag=!spectator,scores={id=7},limit=1] run function ct:admin/nomination
+execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=7},limit=1] as @a[tag=!storyteller,tag=!spectator,scores={id=7},limit=1] run function botc_patch:seat_layout/sync_nominee_name
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=7},limit=1] run clear @a[tag=storyteller] minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["start_vote"]}]
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=7},limit=1] run function botc_patch:storyteller_tools/nomination_menu/action_menu
 execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=7},limit=1] run tellraw @s [{text:"That player is no longer available.",color:"red"}]

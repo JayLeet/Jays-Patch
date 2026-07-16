@@ -12,9 +12,15 @@ $ServerPackageName = "Jay's Patch v$PatchVersion"
 $ServerPackageZip = Join-Path $DistRoot "$ServerPackageName.zip"
 $ServerPackageStage = Join-Path $DistRoot "server-package-staging-build"
 $RequiredProperties = Join-Path $RepoRoot "Jays-Patch/server-config/jays-patch-required-server-properties.txt"
+$DatapackRequiredProperties = Join-Path $RepoRoot "Jays-Patch/datapack/jays-patch-required-server-properties.txt"
+$PublicPackageDocsRoot = Join-Path $RepoRoot "Jays-Patch/public-package"
 $InstallInstructionsName = "HOW TO INSTALL.txt"
+$InstallInstructionsSource = Join-Path $PublicPackageDocsRoot $InstallInstructionsName
+$CreditsSource = Join-Path $PublicPackageDocsRoot "CREDITS.md"
+$ThirdPartyLicensesSource = Join-Path $PublicPackageDocsRoot "THIRD-PARTY-LICENSES"
 $SourceSafetyTest = Join-Path $RepoRoot "tools/tests/test-source-safety.ps1"
 $PublicPackageTest = Join-Path $RepoRoot "tools/tests/test-public-package-resourcepack.ps1"
+$WorldTemplateTest = Join-Path $RepoRoot "tools/tests/test-world-template-manifest.ps1"
 $PublicLicenseFiles = @(
     "LICENSE",
     "ASSET_LICENSE.md",
@@ -80,6 +86,23 @@ if (-not (Test-Path -LiteralPath $RequiredProperties -PathType Leaf)) {
     throw "Missing required server properties instructions: $RequiredProperties"
 }
 
+foreach ($requiredPublicPath in @(
+    $DatapackRequiredProperties,
+    $InstallInstructionsSource,
+    $CreditsSource,
+    $ThirdPartyLicensesSource
+)) {
+    if (-not (Test-Path -LiteralPath $requiredPublicPath)) {
+        throw "Missing public package input: $requiredPublicPath"
+    }
+}
+
+$serverPropertiesText = Get-Content -LiteralPath $RequiredProperties -Raw
+$datapackPropertiesText = Get-Content -LiteralPath $DatapackRequiredProperties -Raw
+if ($serverPropertiesText -cne $datapackPropertiesText) {
+    throw "Server-config and datapack copies of jays-patch-required-server-properties.txt differ. Keep the public setup notice values synchronized."
+}
+
 foreach ($licenseFile in $PublicLicenseFiles) {
     $licensePath = Join-Path $RepoRoot $licenseFile
     if (-not (Test-Path -LiteralPath $licensePath -PathType Leaf)) {
@@ -98,15 +121,29 @@ finally {
     $env:BOTC_SKIP_PUBLIC_PACKAGE = $previousSkipPublicPackage
 }
 
+& $WorldTemplateTest
+
 $properties = Read-PropertiesFile $RequiredProperties
-if (-not $properties.ContainsKey("resource-pack") -or -not $properties.ContainsKey("resource-pack-sha1")) {
-    throw "Resource pack URL and SHA1 must be present in $RequiredProperties"
+foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "require-resource-pack", "resource-pack-prompt")) {
+    if (-not $properties.ContainsKey($key)) {
+        throw "Missing $key in $RequiredProperties"
+    }
 }
 
 $resourcePackUrl = $properties["resource-pack"]
 $resourcePackSha1 = $properties["resource-pack-sha1"].ToLowerInvariant()
 if ($resourcePackUrl -notmatch '^https?://') {
     throw "Public package resource pack must use a hosted URL, not a local rebuild: $resourcePackUrl"
+}
+if ($resourcePackUrl -match '/pack/([0-9a-fA-F]{40})\.zip' -and $Matches[1].ToLowerInvariant() -ne $resourcePackSha1) {
+    throw "Resource-pack URL SHA1 and resource-pack-sha1 disagree in $RequiredProperties"
+}
+[guid] $resourcePackId = [guid]::Empty
+if (-not [guid]::TryParse($properties["resource-pack-id"], [ref] $resourcePackId)) {
+    throw "Invalid resource-pack-id in $RequiredProperties"
+}
+if ($properties["require-resource-pack"].ToLowerInvariant() -notin @("true", "false")) {
+    throw "require-resource-pack must be true or false in $RequiredProperties"
 }
 
 $downloadPath = Join-Path $env:TEMP "jays-patch-public-resourcepack-$resourcePackSha1.zip"
@@ -132,7 +169,9 @@ Get-ChildItem -LiteralPath (Join-Path $RepoRoot "Jays-Patch/melius-commands/comm
 
 Copy-Item -LiteralPath (Join-Path $RepoRoot "Jays-Patch/server-config/tab") -Destination (Join-Path $ServerPackageStage "config/tab") -Recurse -Force
 Copy-Item -LiteralPath (Join-Path $RepoRoot "Jays-Patch/server-config/yawp-common.toml") -Destination (Join-Path $ServerPackageStage "config/yawp-common.toml") -Force
-Copy-Item -LiteralPath $RequiredProperties -Destination (Join-Path $ServerPackageStage $InstallInstructionsName) -Force
+Copy-Item -LiteralPath $InstallInstructionsSource -Destination (Join-Path $ServerPackageStage $InstallInstructionsName) -Force
+Copy-Item -LiteralPath $CreditsSource -Destination (Join-Path $ServerPackageStage "CREDITS.md") -Force
+Copy-Item -LiteralPath $ThirdPartyLicensesSource -Destination (Join-Path $ServerPackageStage "THIRD-PARTY-LICENSES") -Recurse -Force
 
 foreach ($licenseFile in $PublicLicenseFiles) {
     Copy-Item -LiteralPath (Join-Path $RepoRoot $licenseFile) -Destination (Join-Path $ServerPackageStage $licenseFile) -Force

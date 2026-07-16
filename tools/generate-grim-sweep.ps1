@@ -18,7 +18,7 @@ function Write-Utf8NoBom {
         [string[]] $Lines
     )
     $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
-    [System.IO.File]::WriteAllLines($Path, $Lines, $utf8NoBom)
+    [System.IO.File]::WriteAllText($Path, (($Lines -join "`n") + "`n"), $utf8NoBom)
 }
 
 function Wrap-Seat {

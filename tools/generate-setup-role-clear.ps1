@@ -32,6 +32,6 @@ foreach ($role in $roles) {
 $outputDir = Split-Path -Parent $OutputPath
 New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
 $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
-[System.IO.File]::WriteAllText($OutputPath, ($lines -join [Environment]::NewLine) + [Environment]::NewLine, $utf8NoBom)
+[System.IO.File]::WriteAllText($OutputPath, ($lines -join "`n") + "`n", $utf8NoBom)
 
 Write-Host ("Generated setup role cleanup for {0} roles." -f $roles.Count)

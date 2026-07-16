@@ -2,10 +2,11 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
-$SybillianRolePath = Join-Path $RepoRoot "..\data\resources\datapack\required\ct\data\ct\function\admin\setup\set_from_menu.mcfunction"
-$SybillianCharactersPath = Join-Path $RepoRoot "..\data\resources\datapack\required\ct\data\ct\function\admin\setup\characters.mcfunction"
+$SybillianRolePath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\set_from_menu.mcfunction"
+$SybillianCharactersPath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\characters.mcfunction"
 $RoleIconPath = Join-Path $RepoRoot "Jays-Patch/role-icons.json"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
+$RoleGlyphHelper = Join-Path $RepoRoot "tools/lib/role-icon-glyphs.ps1"
 $OutputRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/grim/editor"
 $PlayerDialogRoot = Join-Path $OutputRoot "player_dialog"
 $PlayerLabelsRoot = Join-Path $OutputRoot "player_labels"
@@ -27,7 +28,9 @@ foreach ($roleIcon in @($roleIconConfig.roles)) {
 }
 
 . $RoleCatalogHelper
+. $RoleGlyphHelper
 $roles = @(Get-SybillianRoleCatalog -SetFromMenuPath $SybillianRolePath -CharactersPath $SybillianCharactersPath)
+$noneGlyph = Get-BotcRoleIconGlyph -RoleScore 0
 
 $missingIcons = @($roles | Where-Object { -not $roleIconSet.Contains($_.Role) } | Select-Object -ExpandProperty Role)
 if ($missingIcons.Count -gt 0) {
@@ -43,7 +46,7 @@ function Write-Lines {
     )
 
     New-Item -ItemType Directory -Path (Split-Path -Parent $Path) -Force | Out-Null
-    [System.IO.File]::WriteAllText($Path, ($Lines -join [Environment]::NewLine) + [Environment]::NewLine, $utf8NoBom)
+    [System.IO.File]::WriteAllText($Path, ($Lines -join "`n") + "`n", $utf8NoBom)
 }
 
 function New-Header {
@@ -64,10 +67,11 @@ New-Item -ItemType Directory -Path $RolesRoot -Force | Out-Null
 $initLines = New-Header "Builds the trusted role catalog from Sybillian's role-score table."
 $initLines.Add("data remove storage botc_patch:grim editor.catalog")
 $initLines.Add("data remove storage botc_patch:grim editor.score_catalog")
-$initLines.Add('data modify storage botc_patch:grim editor.catalog.none set value {id:"none",name:"None",score:0,alignment:0,color:"#aaaaaa"}')
+$initLines.Add("data modify storage botc_patch:grim editor.catalog.none set value {id:`"none`",name:`"None`",score:0,alignment:0,color:`"#aaaaaa`",glyph:`"$noneGlyph`"}")
 $initLines.Add('data modify storage botc_patch:grim editor.score_catalog.s0 set from storage botc_patch:grim editor.catalog.none')
 foreach ($role in $roles) {
-    $entry = '{{id:"{0}",name:"{1}",score:{2},alignment:{3},color:"{4}"}}' -f $role.Role, $role.Name, $role.Id, $role.Alignment, $role.Color
+    $glyph = Get-BotcRoleIconGlyph -RoleScore $role.Id
+    $entry = '{{id:"{0}",name:"{1}",score:{2},alignment:{3},color:"{4}",glyph:"{5}"}}' -f $role.Role, $role.Name, $role.Id, $role.Alignment, $role.Color, $glyph
     $initLines.Add(('data modify storage botc_patch:grim editor.catalog.{0} set value {1}' -f $role.Role, $entry))
     $initLines.Add(('data modify storage botc_patch:grim editor.score_catalog.s{0} set from storage botc_patch:grim editor.catalog.{1}' -f $role.Id, $role.Role))
 }
@@ -97,10 +101,10 @@ $buildLines.Add("execute store result score grim_editor_role_count botc_patch ru
 Write-Lines -Path (Join-Path $RolesRoot "build.mcfunction") -Lines $buildLines
 
 $prepareArgsLines = New-Header "Copies the role list into flat macro arguments for generated dialogs."
-$prepareArgsLines.Add('data modify storage botc_patch:grim editor.dialog set value {player_name:"Unknown",current_role:"none",current_role_name:"None",current_alignment_name:"Unknown",current_alignment_color:"#aaaaaa"}')
+$prepareArgsLines.Add("data modify storage botc_patch:grim editor.dialog set value {player_name:`"Unknown`",current_role:`"none`",current_role_name:`"None`",current_role_glyph:`"$noneGlyph`",current_alignment_name:`"Unknown`",current_alignment_color:`"#aaaaaa`"}")
 for ($index = 0; $index -lt 30; $index++) {
     $number = $index + 1
-    foreach ($field in @("id", "name", "color")) {
+    foreach ($field in @("id", "name", "color", "glyph")) {
         $prepareArgsLines.Add("execute if data storage botc_patch:grim editor.roles[$index].$field run data modify storage botc_patch:grim editor.dialog.r$($number)_$field set from storage botc_patch:grim editor.roles[$index].$field")
     }
 }
@@ -109,11 +113,12 @@ Write-Lines -Path (Join-Path $RolesRoot "prepare_args.mcfunction") -Lines $prepa
 $prepareCurrentLines = New-Header "Resolves the selected snapshot role through the trusted score catalog."
 $prepareCurrentLines.Add('$data modify storage botc_patch:grim editor.dialog.current_role set from storage botc_patch:grim editor.score_catalog.s$(score).id')
 $prepareCurrentLines.Add('$data modify storage botc_patch:grim editor.dialog.current_role_name set from storage botc_patch:grim editor.score_catalog.s$(score).name')
+$prepareCurrentLines.Add('$data modify storage botc_patch:grim editor.dialog.current_role_glyph set from storage botc_patch:grim editor.score_catalog.s$(score).glyph')
 Write-Lines -Path (Join-Path $RolesRoot "prepare_current.mcfunction") -Lines $prepareCurrentLines
 
 $validateLines = New-Header "Validates a requested character against both the trusted catalog and current script."
 foreach ($role in $roles) {
-    $validateLines.Add(('execute if data storage botc_patch:grim editor.request{{role:"{0}"}} if data storage ct:script in_characters{{{1}:["{0}"]}} run function botc_patch:grim/editor/apply_character {{role:"{0}",score:{2},alignment:{3}}}' -f $role.Role, $role.StorageCategory, $role.Id, $role.Alignment))
+    $validateLines.Add(('execute if data storage botc_patch:grim editor.request{{role:"{0}"}} if data storage ct:script in_characters{{{1}:["{0}"]}} run function botc_patch:grim/editor/apply_character {{role:"{0}",score:{2}}}' -f $role.Role, $role.StorageCategory, $role.Id))
 }
 Write-Lines -Path (Join-Path $RolesRoot "validate_requested.mcfunction") -Lines $validateLines
 
@@ -157,7 +162,10 @@ $playerLabelPrepareLines.Add("data remove storage botc_patch:grim editor.player_
 for ($seat = 1; $seat -le 15; $seat++) {
     $playerLabelPrepareLines.Add(('data modify storage botc_patch:grim editor.player_labels.p{0}_name set value "Seat {0}"' -f $seat))
     $playerLabelPrepareLines.Add(('data modify storage botc_patch:grim editor.player_labels.p{0}_role set value "Unknown"' -f $seat))
+    $playerLabelPrepareLines.Add(('data modify storage botc_patch:grim editor.player_labels.p{0}_glyph set value "{1}"' -f $seat, $noneGlyph))
     $playerLabelPrepareLines.Add(('data modify storage botc_patch:grim editor.player_labels.p{0}_color set value "#aaaaaa"' -f $seat))
+    $playerLabelPrepareLines.Add(('execute if score grim_editor_seat_{0}_known botc_patch matches 1 if score grim_editor_seat_{0}_alignment botc_patch matches 1 run data modify storage botc_patch:grim editor.player_labels.p{0}_color set value "#55aaff"' -f $seat))
+    $playerLabelPrepareLines.Add(('execute if score grim_editor_seat_{0}_known botc_patch matches 1 if score grim_editor_seat_{0}_alignment botc_patch matches 2 run data modify storage botc_patch:grim editor.player_labels.p{0}_color set value "#ff5555"' -f $seat))
     $playerLabelPrepareLines.Add(('execute if data storage ct:players players.p{0} unless data storage ct:players players{{p{0}:"Nobody!"}} run data modify storage botc_patch:grim editor.player_labels.p{0}_name set from storage ct:players players.p{0}' -f $seat))
     $playerLabelPrepareLines.Add(('data modify storage botc_patch:grim editor.player_label_lookup set value {{seat:{0},score:0}}' -f $seat))
     $playerLabelPrepareLines.Add(('execute if score grim_editor_seat_{0}_known botc_patch matches 1 store result storage botc_patch:grim editor.player_label_lookup.score int 1 run scoreboard players get grim_editor_seat_{0}_role botc_patch' -f $seat))
@@ -165,9 +173,9 @@ for ($seat = 1; $seat -le 15; $seat++) {
 }
 Write-Lines -Path (Join-Path $PlayerLabelsRoot "prepare.mcfunction") -Lines $playerLabelPrepareLines
 
-$playerLabelRoleLines = New-Header "Resolves one current editor role into its trusted display name and category color."
+$playerLabelRoleLines = New-Header "Resolves one current editor role into its trusted display name."
 $playerLabelRoleLines.Add('$data modify storage botc_patch:grim editor.player_labels.p$(seat)_role set from storage botc_patch:grim editor.score_catalog.s$(score).name')
-$playerLabelRoleLines.Add('$data modify storage botc_patch:grim editor.player_labels.p$(seat)_color set from storage botc_patch:grim editor.score_catalog.s$(score).color')
+$playerLabelRoleLines.Add('$data modify storage botc_patch:grim editor.player_labels.p$(seat)_glyph set from storage botc_patch:grim editor.score_catalog.s$(score).glyph')
 Write-Lines -Path (Join-Path $PlayerLabelsRoot "prepare_role.mcfunction") -Lines $playerLabelRoleLines
 
 $captureLines = New-Header "Captures the active game's server-authoritative seats before any reveal edits."
@@ -242,7 +250,7 @@ Write-Lines -Path (Join-Path $OutputRoot "player_dialog.mcfunction") -Lines $pla
 for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
     $actions = [System.Collections.Generic.List[string]]::new()
     for ($seat = 1; $seat -le $seatCount; $seat++) {
-        $actions.Add('{label:{text:"$(p' + $seat + '_name) ($(p' + $seat + '_role))",color:"$(p' + $seat + '_color)"},tooltip:{text:"Seat ' + $seat + '",color:"gray"},action:{type:"run_command",command:"/botc grimoire edit_seat ' + $seat + '"}}')
+        $actions.Add('{label:{text:"$(p' + $seat + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(p' + $seat + '_name)",font:"minecraft:default",color:"white"},{text:" ($(p' + $seat + '_role))",font:"minecraft:default",color:"$(p' + $seat + '_color)"}]},tooltip:{text:"Seat ' + $seat + '",color:"gray"},action:{type:"run_command",command:"/botc grimoire edit_seat ' + $seat + '"}}')
     }
 
     if ($actions.Count -eq 0) {
@@ -276,11 +284,12 @@ for ($roleCount = 0; $roleCount -le 30; $roleCount++) {
     $actions.Add('{label:{text:"Set Good",color:"#0000aa",bold:true},tooltip:{text:"Reveal alignment only",color:"gray"},action:{type:"run_command",command:"/botc grimoire set_good"}}')
     $actions.Add('{label:{text:"Set Evil",color:"#aa0000",bold:true},tooltip:{text:"Reveal alignment only",color:"gray"},action:{type:"run_command",command:"/botc grimoire set_evil"}}')
     for ($roleIndex = 1; $roleIndex -le $roleCount; $roleIndex++) {
-        $actions.Add('{label:{text:"$(r' + $roleIndex + '_name)",color:"$(r' + $roleIndex + '_color)"},action:{type:"run_command",command:"/botc grimoire set_character $(r' + $roleIndex + '_id)"}}')
+        $actions.Add('{label:{text:"$(r' + $roleIndex + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(r' + $roleIndex + '_name)",font:"minecraft:default",color:"$(r' + $roleIndex + '_color)"}]},action:{type:"run_command",command:"/botc grimoire set_character $(r' + $roleIndex + '_id)"}}')
     }
 
-    $body = '[{type:"plain_message",contents:[{text:"Current: ",color:"gray"},{text:"$(current_role_name)",color:"$(current_alignment_color)"},{text:" ($(current_alignment_name))",color:"$(current_alignment_color)"}],width:360},{type:"plain_message",contents:[{text:"Townsfolk",color:"#55aaff"},{text:" | ",color:"dark_gray"},{text:"Outsiders",color:"#55ffff"},{text:" | ",color:"dark_gray"},{text:"Minions",color:"#ffaa00"},{text:" | ",color:"dark_gray"},{text:"Demons",color:"#ff5555"}],width:360},{type:"plain_message",contents:{text:"Choose a character from the current script, or override only its reveal alignment.",color:"gray"},width:360}]'
-    $line = '$dialog show @s {type:"multi_action",title:{text:"Edit $(player_name)"},body:' + $body + ',columns:2,after_action:"wait_for_response",actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire change_characters"}}}'
+    $body = '[{type:"plain_message",contents:[{text:"CURRENT ROLE\n",font:"minecraft:default",color:"dark_gray",bold:true},{text:"$(current_role_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(current_role_name)",font:"minecraft:default",color:"$(current_alignment_color)",bold:true,underlined:true},{text:"  |  ",color:"dark_gray"},{text:"$(current_alignment_name)",color:"$(current_alignment_color)",bold:true}],width:360},{type:"plain_message",contents:[{text:"Townsfolk",color:"#55aaff"},{text:" | ",color:"dark_gray"},{text:"Outsiders",color:"#55ffff"},{text:" | ",color:"dark_gray"},{text:"Minions",color:"#ffaa00"},{text:" | ",color:"dark_gray"},{text:"Demons",color:"#ff5555"}],width:360},{type:"plain_message",contents:{text:"Choose a character from the current script, or override only its reveal alignment.",color:"gray"},width:360}]'
+    $title = '[{text:"Edit ",color:"gray"},{text:"$(player_name)",color:"white"},{text:" - ",color:"dark_gray"},{text:"$(current_role_name)",color:"$(current_alignment_color)",bold:true}]'
+    $line = '$dialog show @s {type:"multi_action",title:' + $title + ',body:' + $body + ',columns:2,after_action:"wait_for_response",actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire change_characters"}}}'
     $lines = New-Header "Character dialog for $roleCount current-script roles."
     $lines.Add($line)
     Write-Lines -Path (Join-Path $CharacterDialogRoot "count_$roleCount.mcfunction") -Lines $lines

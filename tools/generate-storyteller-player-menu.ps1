@@ -3,6 +3,7 @@ $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $RoleIconPath = Join-Path $RepoRoot "Jays-Patch\role-icons.json"
+$SeatColorsHelper = Join-Path $RepoRoot "tools\lib\seat-colors.ps1"
 $OutputRoot = Join-Path $RepoRoot "Jays-Patch\datapack\data\botc_patch\function\storyteller_tools\player_menu"
 $DialogRoot = Join-Path $OutputRoot "dialog"
 
@@ -10,11 +11,13 @@ if (-not (Test-Path -LiteralPath $RoleIconPath)) {
     throw "Missing role icon source table: $RoleIconPath"
 }
 
-$seatColorNames = @(
-    "red", "orange", "yellow", "lime", "green",
-    "mint", "cyan", "blue", "navy", "purple",
-    "magenta", "lavender", "white", "gray", "black"
-)
+if (-not (Test-Path -LiteralPath $SeatColorsHelper -PathType Leaf)) {
+    throw "Missing seat-color table: $SeatColorsHelper"
+}
+
+. $SeatColorsHelper
+
+$seatColorNames = @(Get-BotcSeatColors | ForEach-Object { [string] $_.Name })
 
 $roleIconConfig = Get-Content -LiteralPath $RoleIconPath -Raw | ConvertFrom-Json
 $roleIcons = @($roleIconConfig.roles | ForEach-Object { [string] $_ } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Sort-Object -Unique)
@@ -44,7 +47,7 @@ function Write-Lines {
         [System.Collections.Generic.List[string]] $Lines
     )
 
-    $content = ($Lines -join [Environment]::NewLine) + [Environment]::NewLine
+    $content = ($Lines -join "`n") + "`n"
     [System.IO.File]::WriteAllText($Path, $content, $utf8NoBom)
 }
 
@@ -77,7 +80,7 @@ Write-Lines -Path (Join-Path $OutputRoot "dialog.mcfunction") -Lines $dialogLine
 for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
     $actions = [System.Collections.Generic.List[string]]::new()
     for ($seat = 1; $seat -le $seatCount; $seat++) {
-        $actions.Add('{label:{text:"$(p' + $seat + '_name) ($(p' + $seat + '_role))",color:"$(p' + $seat + '_color)"},tooltip:{text:"Seat ' + $seat + '",color:"gray"},action:{type:"run_command",command:"/botc teleport_player ' + $seat + '"}}')
+        $actions.Add('{label:{text:"$(p' + $seat + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(p' + $seat + '_name)",font:"minecraft:default",color:"white"},{text:" ($(p' + $seat + '_role))",font:"minecraft:default",color:"$(p' + $seat + '_color)"}]},tooltip:{text:"Seat ' + $seat + '",color:"gray"},action:{type:"run_command",command:"/botc teleport_player ' + $seat + '"}}')
     }
 
     if ($actions.Count -eq 0) {
@@ -85,14 +88,14 @@ for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
     }
 
     $macroPrefix = if ($seatCount -gt 0) { '$' } else { '' }
-    $line = $macroPrefix + 'dialog show @s {type:"multi_action",title:"Teleport to Player",body:{type:"plain_message",contents:{text:"Choose a seated player.",color:"gray"},width:360},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Cancel",action:{type:"run_command",command:"/botc teleport_cancel"}}}'
+    $line = $macroPrefix + 'dialog show @s {type:"multi_action",title:"Teleport to Player",body:{type:"plain_message",contents:{text:"Choose a seated player.",color:"gray"},width:360},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc teleport_cancel"}}}'
     $lines = New-GeneratedHeader "Teleport player dialog for $seatCount occupied seats."
     $lines.Add($line)
     Write-Lines -Path (Join-Path $DialogRoot "count_$seatCount.mcfunction") -Lines $lines
 }
 
-$cancelLines = New-GeneratedHeader "Closes the teleport player dialog without changing the hotbar."
-$cancelLines.Add("dialog clear @s")
+$cancelLines = New-GeneratedHeader "Returns from the teleport player dialog without changing game state."
+$cancelLines.Add("function botc_patch:storyteller_tools/dialog_cancel")
 Write-Lines -Path (Join-Path $OutputRoot "cancel.mcfunction") -Lines $cancelLines
 
 $teleportSelectedLines = New-GeneratedHeader "Validates a dialog seat selection before dispatching to its fixed target function."

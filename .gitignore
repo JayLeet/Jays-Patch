@@ -6,6 +6,7 @@ launcher/local-settings.properties
 .botc-startup-history.json
 launcher/.botc-startup-history.json
 launcher/.botc-managed-services.state
+launcher/.jays-patch-command-ownership.txt
 /data/
 
 # Local backups

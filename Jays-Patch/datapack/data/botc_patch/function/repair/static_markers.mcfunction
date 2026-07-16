@@ -1,20 +1,6 @@
-# Restore fixed Sybillian marker scores that can be lost when copying world templates.
-
-execute positioned 120.566162109375 76.0 68.48193359375 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 1
-execute positioned 119.5625 76.0 65.5 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 2
-execute positioned 119.5625 76.0 62.5 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 3
-execute positioned 120.5660611987108 76.0 59.5 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 4
-execute positioned 122.5 76.0 57.5 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 5
-execute positioned 125.5 76.0 56.5 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 6
-execute positioned 128.4375 76.0 56.5 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 7
-execute positioned 131.4375 76.0 57.5 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 8
-execute positioned 133.4375 76.0 59.4375 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 9
-execute positioned 134.4375 76.0 62.4375 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 10
-execute positioned 134.4375 76.0 65.4375 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 11
-execute positioned 133.4375 76.0 68.4375 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 12
-execute positioned 131.4375 76.0 70.4375 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 13
-execute positioned 128.5 76.0 71.4375 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 14
-execute positioned 125.5 76.0 71.4375 as @e[type=minecraft:item_display,tag=vote_marker,distance=..0.35,limit=1] run scoreboard players set @s id 15
+# Restore persistent marker identities without assuming the chairs are still at
+# Sybillian's original coordinates.
+function botc_patch:seat_layout/ensure_marker_tags
 
 execute positioned 80.28016217329844 78.75 110.5 as @e[type=minecraft:item_display,tag=house_head,distance=..0.35,limit=1] run scoreboard players set @s house_id 1
 execute positioned 68.5 78.75 124.291015625 as @e[type=minecraft:item_display,tag=house_head,distance=..0.35,limit=1] run scoreboard players set @s house_id 2

@@ -7,6 +7,11 @@ scoreboard players set botc_item_maintenance_pending botc_patch 1
 tag @s remove storyteller
 tag @s remove spectator
 tag @s remove raising_hand
+tag @s remove active_banshee
+tag @s remove botc_banshee_double_vote
+tag @s remove botc_banshee_toggle_used
+tag @s remove botc_banshee_slot_protected
+tag @s remove botc_banshee_repair
 tag @s remove botc_grim_revealed
 tag @s remove botc_grim_current
 tag @s remove botc_grim_slot_protected
@@ -22,6 +27,8 @@ tag @s remove botc_setup_prev_adventure
 tag @s remove botc_setup_prev_creative
 tag @s remove botc_setup_prev_spectator
 tag @s remove botc_st_tool_used
+tag @s remove botc_st_evil_tp_target
+tag @s remove botc_st_evil_tp_caller
 tag @s remove botc_st_tool_repair
 tag @s remove botc_st_tp_menu
 tag @s remove botc_st_tp_was_page_2
@@ -63,10 +70,7 @@ tag @s remove botc_st_passage_prev_creative
 tag @s remove botc_st_passage_prev_spectator
 tag @s remove botc_hand_slot_protected
 tag @s remove botc_hand_repair
-execute if entity @s[tag=winner] run item replace entity @s armor.head with minecraft:air
-tag @s remove winner
-tag @s remove winner_good
-tag @s remove winner_evil
+function botc_patch:winner/cleanup_player
 tag @s remove good
 tag @s remove evil
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["ct_bag"]}]
@@ -96,10 +100,13 @@ clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["star
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["grim_reveal_menu"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["raise_hand"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["lower_hand"]}]
+clear @s minecraft:carrot_on_a_stick[minecraft:custom_data={botc_banshee_vote_toggle:1b}]
 effect clear @s minecraft:invisibility
 scoreboard players reset @s botc_hand_use
 scoreboard players reset @s botc_hand_raise
 scoreboard players reset @s botc_hand_lower
+scoreboard players reset @s botc_banshee_use
+scoreboard players reset @s botc_banshee_items
 scoreboard players reset @s botc_grim_items
 scoreboard players reset @s botc_grim_edit_seat
 scoreboard players reset @s botc_grim_edit_role
@@ -115,4 +122,5 @@ scoreboard players reset @s botc_st_nom_page
 scoreboard players reset @s botc_st_menu_slot
 scoreboard players reset @s botc_st_nom_items
 scoreboard players reset @s botc_st_gen
+scoreboard players reset @s botc_outsider_seen
 function ct:admin/give_script

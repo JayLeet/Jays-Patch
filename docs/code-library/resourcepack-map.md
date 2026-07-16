@@ -1,4 +1,4 @@
-﻿# Resource Pack Map
+# Resource Pack Map
 
 Use this map before changing item textures, selector model values, custom model
 data strings, or role icon behavior. For exact generated mappings, use
@@ -21,6 +21,32 @@ Do not migrate these Jay-owned tools to datapack `minecraft:item_model`
 components or direct `property: minecraft:custom_model_data` selector cases
 without new in-game evidence. The model column below is the selector target
 model.
+
+## Dialog Role Icon Font
+
+`assets/botc_patch/font/role_icons.json` exposes all 138 role textures as
+16-pixel bitmap-font glyphs for vanilla dialog button labels. Score `0` (`None`)
+uses U+E000; Sybillian role score `N` uses U+E000 + `N`. The shared mapping is
+owned by `tools/lib/role-icon-glyphs.ps1` and generated alongside role models
+and textures by `tools/generate-role-icons.ps1`.
+
+Dialog labels keep normal text in `minecraft:default` and use
+`botc_patch:role_icons` only for the leading role glyph. Player names use white
+for readability, while `(Role)` suffixes use the effective Good/Evil alignment
+color. Do not assign glyphs by alphabetical list position; inserting a role
+would shift every later icon for clients with an older pack.
+
+## Dialog UI Icon Font
+
+`assets/botc_patch/font/ui_icons.json` is generated from
+`Jays-Patch/dialog-icons.json` and `Jays-Patch/music-tracks.json`. It uses
+explicit U+E100-series code points so adding a later icon cannot shift existing
+glyphs. General controls reuse Jay-owned item textures or vanilla Minecraft
+item/block textures. Night Music contains all 21 verified Minecraft 1.21.10
+jukebox discs with their matching disc textures, plus six ambient tracks with
+matching environment textures. Update the registries and rerun
+`tools/generate-dialog-icons.ps1` and `tools/generate-music.ps1`; do not
+hand-edit the font or generated music command tables.
 
 | String | Item | Selector model | Texture | Used by |
 | --- | --- | --- | --- | --- |
@@ -108,7 +134,7 @@ Item fallback functions are generated from `Jays-Patch/item-fallbacks.json` by
 `tools/generate-item-fallbacks.ps1`. Update that table instead of hand-editing
 `give_*_fallback.mcfunction` files.
 
-Role icon model files and copied role PNGs are generated from
+Role icon model files, copied role PNGs, and the dialog bitmap font are generated from
 `Jays-Patch/role-icons.json` by `tools/generate-role-icons.ps1`. Update those
 source tables and generators instead of hand-editing generated role files.
 
@@ -136,7 +162,11 @@ Run `tools/tests/test-resourcepack-mappings.ps1` after item, role-icon, or custo
 model data changes. It verifies that datapack item stacks, root selector files,
 model files, and textures still agree before anything is deployed.
 
-For server prompts, `server.properties` should use the SHA1 from the hosted pack
-URL. A locally rebuilt zip can have a different archive hash even when its
-extracted contents match the hosted zip.
+Hosted URL, SHA1, cache UUID, optional/required state, and installation prompt
+are owned by
+`Jays-Patch/server-config/jays-patch-required-server-properties.txt`.
+`launcher/exe/BotcLauncher.ResourcePack.cs` and the public-package builder read
+that source. `server.properties` must use the SHA1 from the hosted URL; the
+launcher compares extracted contents with the exact cached hosted fallback
+instead of treating different ZIP metadata as changed pack content.
 

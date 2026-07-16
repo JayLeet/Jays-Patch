@@ -1,4 +1,4 @@
-﻿# Setup Bag Server-Authority Bridge
+# Setup Bag Server-Authority Bridge
 
 Last updated: 2026-06-30
 
@@ -62,16 +62,13 @@ specific problem to a dedicated parser or plugin plan.
 
 ## Static Audit Contract
 
-- `tools/tests/audit-fancymenu-actions.ps1` allows `/st`, `/setupbag`,
-  `/request_chat`, `/character`, `/settings`, `/tpchurch`, `/tpallhome`, and
-  non-setup `/botc` actions.
-- The same audit fails any Jay-owned menu action that emits `/botc setup...`.
 - `tools/tests/test-command-overlays.ps1` allows only the narrow
   `/botc setup preset` compatibility bridge under `/botc setup`.
-- `tools/tests/test-setupbag-burst-bridges.ps1` verifies setup-bag buttons use one
-  setup command per click.
 - `tools/tests/test-command-overlays.ps1` verifies privileged Storyteller actions are
   `tag=storyteller` guarded and run as server-authority commands.
+- The former Jay-owned FancyMenu source audits were retired with the server-side
+  FancyMenu copies. Installed Sybillian layouts remain client-owned and may be
+  inspected read-only with `tools/tests/live/audit-runtime-fancymenu-buttons.ps1`.
 
 ## Compatibility Check
 

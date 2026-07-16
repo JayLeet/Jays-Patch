@@ -1,1 +1,1 @@
-dialog clear @s
+function botc_patch:storyteller_tools/dialog_cancel

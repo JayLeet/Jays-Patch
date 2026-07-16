@@ -59,13 +59,39 @@
       "skipSlots": [4]
     },
     {
-      "description": "Give Reveal Grimoire to an empty fallback slot when hotbar slot 6 is protected.",
+      "description": "Give the active Banshee's x1 vote toggle to the first empty fallback slot when hotbar slot 5 is protected.",
+      "output": "datapack/data/botc_patch/function/banshee/give_single_fallback.mcfunction",
+      "score": "botc_banshee_items",
+      "item": "minecraft:carrot_on_a_stick",
+      "customModelData": "botc_role_banshee",
+      "itemModel": "botc_patch:item/role/banshee",
+      "customDataMarker": "botc_patch_tool:1b,botc_banshee_vote_toggle:1b,botc_banshee_vote_mode:1b",
+      "matchCustomDataMarker": "botc_banshee_vote_toggle:1b",
+      "customNameComponent": "[{text:\"Banshee Vote: \" ,color:\"aqua\",bold:true,italic:false},{text:\"x1\",color:\"white\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+      "loreComponent": "[{text:\"Your YES vote currently counts once.\",color:\"gray\",italic:false}]",
+      "skipSlots": [5]
+    },
+    {
+      "description": "Give the active Banshee's x2 vote toggle to the first empty fallback slot when hotbar slot 5 is protected.",
+      "output": "datapack/data/botc_patch/function/banshee/give_double_fallback.mcfunction",
+      "score": "botc_banshee_items",
+      "item": "minecraft:carrot_on_a_stick",
+      "customModelData": "botc_role_banshee",
+      "itemModel": "botc_patch:item/role/banshee",
+      "customDataMarker": "botc_patch_tool:1b,botc_banshee_vote_toggle:1b,botc_banshee_vote_mode:2b",
+      "matchCustomDataMarker": "botc_banshee_vote_toggle:1b",
+      "customNameComponent": "[{text:\"Banshee Vote: \" ,color:\"aqua\",bold:true,italic:false},{text:\"x2\",color:\"gold\",bold:true,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+      "loreComponent": "[{text:\"Your YES vote currently counts twice.\",color:\"gold\",italic:false}]",
+      "skipSlots": [5]
+    },
+    {
+      "description": "Give Storyteller Tools to an empty fallback slot when hotbar slot 6 is protected.",
       "output": "datapack/data/botc_patch/function/grim/give_reveal_fallback.mcfunction",
       "score": "botc_grim_items",
       "item": "minecraft:carrot_on_a_stick",
       "customModelData": "grim_reveal_menu",
       "itemModel": "botc_patch:reveal_roles",
-      "customNameComponent": "[{text:\"Reveal Grimoire\",color:\"gold\",bold:true,italic:false}]",
+      "customNameComponent": "[{text:\"Storyteller Tools\",color:\"gold\",bold:true,italic:false}]",
       "slotOrder": [5, 4, 3, 2, 1, 0, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 7, 8],
       "skipSlots": [6]
     },

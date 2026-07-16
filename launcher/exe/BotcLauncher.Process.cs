@@ -7,7 +7,12 @@ internal static partial class BotcLauncher
 {
     private static CommandResult Rcon(string command)
     {
-        return Run("docker", "exec -i " + ContainerName + " rcon-cli " + Quote(command), true);
+        return Rcon(command, 0);
+    }
+
+    private static CommandResult Rcon(string command, int timeoutMilliseconds)
+    {
+        return Run("docker", "exec -i " + ContainerName + " rcon-cli " + Quote(command), true, timeoutMilliseconds);
     }
 
     private static bool IsDockerContainerRunning(string name)
@@ -37,6 +42,11 @@ internal static partial class BotcLauncher
 
     private static CommandResult Run(string fileName, string arguments, bool capture)
     {
+        return Run(fileName, arguments, capture, 0);
+    }
+
+    private static CommandResult Run(string fileName, string arguments, bool capture, int timeoutMilliseconds)
+    {
         ProcessStartInfo info = new ProcessStartInfo();
         info.FileName = fileName;
         info.Arguments = arguments;
@@ -47,21 +57,72 @@ internal static partial class BotcLauncher
         info.CreateNoWindow = true;
 
         List<string> lines = new List<string>();
+        object outputLock = new object();
         using (Process process = new Process())
         {
             process.StartInfo = info;
+            if (capture)
+            {
+                process.OutputDataReceived += delegate(object sender, DataReceivedEventArgs args)
+                {
+                    if (args.Data != null)
+                    {
+                        lock (outputLock)
+                        {
+                            lines.Add(args.Data);
+                        }
+                    }
+                };
+                process.ErrorDataReceived += delegate(object sender, DataReceivedEventArgs args)
+                {
+                    if (args.Data != null)
+                    {
+                        lock (outputLock)
+                        {
+                            lines.Add(args.Data);
+                        }
+                    }
+                };
+            }
             process.Start();
 
             if (capture)
             {
-                string output = process.StandardOutput.ReadToEnd();
-                string error = process.StandardError.ReadToEnd();
-                AddLines(lines, output);
-                AddLines(lines, error);
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
             }
 
-            process.WaitForExit();
-            return new CommandResult(process.ExitCode, lines.ToArray());
+            bool exited;
+            if (timeoutMilliseconds > 0)
+            {
+                exited = process.WaitForExit(timeoutMilliseconds);
+            }
+            else
+            {
+                process.WaitForExit();
+                exited = true;
+            }
+
+            if (!exited)
+            {
+                try
+                {
+                    process.Kill();
+                }
+                catch
+                {
+                }
+                throw new Exception("Command timed out after " + Math.Ceiling(timeoutMilliseconds / 1000.0) + " seconds: " + fileName + " " + arguments);
+            }
+
+            if (capture)
+            {
+                process.WaitForExit();
+            }
+            lock (outputLock)
+            {
+                return new CommandResult(process.ExitCode, lines.ToArray());
+            }
         }
     }
 

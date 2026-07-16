@@ -1,6 +1,7 @@
 # Clear Jay-owned held tools and transient menu state without touching Sybillian items.
 clear @a minecraft:carrot_on_a_stick[minecraft:custom_data={botc_patch_tool:1b}]
 clear @a minecraft:carrot_on_a_stick[minecraft:custom_data={botc_storyteller_timer:1b}]
+clear @a minecraft:carrot_on_a_stick[minecraft:custom_data={botc_banshee_vote_toggle:1b}]
 
 execute as @a[tag=storyteller] run function botc_patch:setup_room/clear_hotbar_state
 execute as @a[tag=storyteller] run function botc_patch:storyteller_tools/player_menu/clear_items

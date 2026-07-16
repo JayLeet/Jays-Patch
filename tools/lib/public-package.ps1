@@ -73,7 +73,7 @@ function Write-PublicPackageManifest {
         files = @(Get-PackageFileEntries -Root $Root)
     }
     $json = $manifest | ConvertTo-Json -Depth 5
-    [System.IO.File]::WriteAllText($manifestPath, $json + [Environment]::NewLine, [System.Text.UTF8Encoding]::new($false))
+    [System.IO.File]::WriteAllText($manifestPath, $json.Replace("`r`n", "`n") + "`n", [System.Text.UTF8Encoding]::new($false))
     return $manifestPath
 }
 

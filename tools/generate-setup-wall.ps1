@@ -4,7 +4,7 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $WallRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/setup_wall"
 $SpawnRoot = Join-Path $WallRoot "spawn"
-$CtFunctionRoot = Join-Path $RepoRoot "../data/resources/datapack/required/ct/data/ct/function"
+$CtFunctionRoot = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function"
 $CtCharactersPath = Join-Path $CtFunctionRoot "admin/setup/characters.mcfunction"
 $CtSetFromMenuPath = Join-Path $CtFunctionRoot "admin/setup/set_from_menu.mcfunction"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
@@ -70,7 +70,7 @@ function Write-GeneratedFile {
         [System.Collections.Generic.List[string]] $Lines
     )
 
-    [System.IO.File]::WriteAllLines($Path, [string[]] $Lines, $Utf8NoBom)
+    [System.IO.File]::WriteAllText($Path, (([string[]] $Lines -join "`n") + "`n"), $Utf8NoBom)
 }
 
 . $RoleCatalogHelper

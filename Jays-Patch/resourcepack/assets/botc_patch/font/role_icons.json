@@ -1,0 +1,1246 @@
+{
+    "providers":  [
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/none.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/librarian.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/washerwoman.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/investigator.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/chef.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/empath.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/fortune_teller.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/undertaker.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/monk.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/ravenkeeper.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/virgin.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/slayer.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/soldier.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/mayor.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/butler.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/saint.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/recluse.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/drunk.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/poisoner.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/spy.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/baron.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/scarlet_woman.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/imp.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/clockmaker.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/dreamer.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/snake_charmer.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/mathematician.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/flowergirl.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/town_crier.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/oracle.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/savant.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/seamstress.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/philosopher.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/artist.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/juggler.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/sage.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/grandmother.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/sailor.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/chambermaid.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/exorcist.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/innkeeper.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/gambler.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/gossip.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/courtier.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/professor.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/minstrel.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/tea_lady.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/pacifist.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/fool.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/acrobat.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/alchemist.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/alsaahir.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/amnesiac.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/atheist.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/balloonist.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/banshee.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/bounty_hunter.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/cannibal.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/choirboy.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/cult_leader.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/engineer.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/farmer.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/fisherman.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/general.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/high_priestess.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/huntsman.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/king.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/knight.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/lycanthrope.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/magician.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/nightwatchman.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/noble.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/pixie.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/poppy_grower.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/princess.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/preacher.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/shugenja.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/steward.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/village_idiot.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/mutant.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/sweetheart.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/barber.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/klutz.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/goon.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/lunatic.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/tinker.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/moonchild.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/damsel.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/golem.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/hatter.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/hermit.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/heretic.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/ogre.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/plague_doctor.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/politician.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/puzzlemaster.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/snitch.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/zealot.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/evil_twin.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/witch.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/cerenovus.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/pit_hag.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/godfather.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/devils_advocate.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/assassin.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/mastermind.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/boffin.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/boomdandy.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/fearmonger.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/goblin.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/harpy.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/marionette.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/mezepheles.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/organ_grinder.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/psychopath.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/summoner.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/vizier.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/widow.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/wizard.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/xaan.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/fang_gu.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/vigormortis.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/no_dashii.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/vortox.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/zombuul.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/pukka.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/shabaloth.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/po.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/al_hadikhia.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/kazali.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/legion.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/leviathan.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/lil_monsta.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/lleech.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/lord_of_typhon.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/ojo.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/riot.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/yaggababble.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      }
+                  ]
+}

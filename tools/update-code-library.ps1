@@ -1,3 +1,7 @@
+param(
+    [switch] $Check
+)
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
@@ -5,7 +9,14 @@ $RepoRoot = Split-Path -Parent $PSScriptRoot
 $FunctionRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function"
 $CommandRoot = Join-Path $RepoRoot "Jays-Patch/melius-commands/commands"
 $ResourceRoot = Join-Path $RepoRoot "Jays-Patch/resourcepack"
-$OutputRoot = Join-Path $RepoRoot "docs/code-library/generated"
+$CanonicalOutputRoot = Join-Path $RepoRoot "docs/code-library/generated"
+$TemporaryOutputRoot = $null
+$OutputRoot = $CanonicalOutputRoot
+$Utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+if ($Check) {
+    $TemporaryOutputRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("botc-code-library-" + [guid]::NewGuid().ToString("N"))
+    $OutputRoot = $TemporaryOutputRoot
+}
 
 function New-DirectoryIfMissing {
     param([string] $Path)
@@ -204,7 +215,7 @@ function Write-FunctionIndex {
         $lines.Add("| $(Format-CodeRef $function.Id) | $(Format-CodeRef $function.Folder) | $(Escape-MarkdownCell $function.Summary) | $(Escape-MarkdownCell $calls) | $(Escape-MarkdownCell $calledBy) |")
     }
 
-    Set-Content -LiteralPath (Join-Path $OutputRoot "function-index.md") -Value $lines -Encoding UTF8
+    [System.IO.File]::WriteAllText((Join-Path $OutputRoot "function-index.md"), (($lines -join "`n") + "`n"), $Utf8NoBom)
 }
 
 function Write-CommandIndex {
@@ -240,7 +251,7 @@ function Write-CommandIndex {
         $lines.Add("| $(Format-CodeRef $overlay) | $($commands.Count) | $(Escape-MarkdownCell $displayRefs) |")
     }
 
-    Set-Content -LiteralPath (Join-Path $OutputRoot "command-index.md") -Value $lines -Encoding UTF8
+    [System.IO.File]::WriteAllText((Join-Path $OutputRoot "command-index.md"), (($lines -join "`n") + "`n"), $Utf8NoBom)
 }
 
 function Write-ResourcePackIndex {
@@ -317,12 +328,44 @@ function Write-ResourcePackIndex {
         $lines.Add("- $(Format-CodeRef $relative)")
     }
 
-    Set-Content -LiteralPath (Join-Path $OutputRoot "resourcepack-index.md") -Value $lines -Encoding UTF8
+    [System.IO.File]::WriteAllText((Join-Path $OutputRoot "resourcepack-index.md"), (($lines -join "`n") + "`n"), $Utf8NoBom)
 }
 
-New-DirectoryIfMissing $OutputRoot
-Write-FunctionIndex
-Write-CommandIndex
-Write-ResourcePackIndex
+try {
+    New-DirectoryIfMissing $OutputRoot
+    Write-FunctionIndex
+    Write-CommandIndex
+    Write-ResourcePackIndex
 
-Write-Host "Updated docs/code-library/generated indexes."
+    if ($Check) {
+        $stale = [System.Collections.Generic.List[string]]::new()
+        foreach ($fileName in @("function-index.md", "command-index.md", "resourcepack-index.md")) {
+            $expectedPath = Join-Path $CanonicalOutputRoot $fileName
+            $actualPath = Join-Path $OutputRoot $fileName
+            if (-not (Test-Path -LiteralPath $expectedPath -PathType Leaf)) {
+                $stale.Add("missing $fileName")
+                continue
+            }
+
+            $expected = ([System.IO.File]::ReadAllText($expectedPath)).Replace("`r`n", "`n")
+            $actual = ([System.IO.File]::ReadAllText($actualPath)).Replace("`r`n", "`n")
+            if (-not [string]::Equals($expected, $actual, [System.StringComparison]::Ordinal)) {
+                $stale.Add("stale $fileName")
+            }
+        }
+
+        if ($stale.Count -gt 0) {
+            throw "Generated code-library indexes are not current ($($stale -join ', ')). Run tools/update-code-library.ps1."
+        }
+        Write-Host "Generated code-library indexes are current." -ForegroundColor Green
+    }
+    else {
+        Write-Host "Updated docs/code-library/generated indexes."
+    }
+}
+finally {
+    if ($null -ne $TemporaryOutputRoot -and (Test-Path -LiteralPath $TemporaryOutputRoot -PathType Container)) {
+        Get-ChildItem -LiteralPath $TemporaryOutputRoot -File | Remove-Item -Force
+        Remove-Item -LiteralPath $TemporaryOutputRoot -Force
+    }
+}

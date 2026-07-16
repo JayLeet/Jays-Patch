@@ -4,11 +4,7 @@ dialog clear @s
 tellraw @s [{"text":"Resetting...","color":"gray"}]
 scoreboard players add reset_generation botc_patch 1
 scoreboard players operation @s botc_reset_seen = reset_generation botc_patch
-function botc_patch:reset/nomination_state
-function botc_patch:grim/cleanup
-function ct:admin/reset_game
-function botc_patch:reset/nomination_state
-function botc_patch:repair/static_markers
+function botc_patch:reset/game_state
 execute as @a[tag=!storyteller] run function botc_patch:reset/player_state
 execute as @a[tag=storyteller] run function botc_patch:setup_tools/reset_storyteller_state
 kill @e[type=minecraft:marker,tag=botc_setup_room_return]

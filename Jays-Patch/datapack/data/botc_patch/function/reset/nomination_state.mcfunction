@@ -17,6 +17,7 @@ tag @a remove vote_start
 tag @a remove last_nom
 tag @a remove not_legion
 tag @a remove marked_for_execution
+tag @a remove botc_seat_nom_name_prepared
 scoreboard players set start vote 0
 scoreboard players set current_majority vote 0
 scoreboard players set current vote 0

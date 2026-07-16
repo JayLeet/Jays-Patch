@@ -1,4 +1,4 @@
-﻿# Jay's Patch Critical TODO
+# Jay's Patch Critical TODO
 
 ## Evidence
 
@@ -6,7 +6,7 @@
   `botc_patch`.
 - The user-facing command surface is `/botc`.
 - The current active world is the Docker-mounted server world at
-  `../data/world` from this repo, which is `/data/world` inside the container.
+  `data/world` from this repo, which is `/data/world` inside the container.
 - Sybillian's `ct` datapack should be treated as upstream-owned.
 - Plugin or Fabric work is only a fallback if simpler server-side options stop
   being practical.
@@ -71,8 +71,8 @@ live deployment, or a new focused goal statement.
 This goal is intentionally not a live-game rollout.
 
 - [x] Work through TODO and code-health cleanup in source-only slices.
-- [x] Do not deploy source into `../data`.
-- [x] Do not edit `../data` runtime files, live world files, or runtime
+- [x] Do not deploy source into `data`.
+- [x] Do not edit `data` runtime files, live world files, or runtime
   datapacks/configs.
 - [x] Do not run `/reload`, restart the server, or use RCON to mutate state.
 - [x] Do not replace stable live flows such as `/botc`, the current Reveal
@@ -85,9 +85,9 @@ This goal is intentionally not a live-game rollout.
 
 ## Next Milestone: Command-Block-Free World
 
-- [x] Locate all command blocks in the current live `../data/world`.
-- [x] Remove all command blocks from the current live `../data/world`.
-- [x] Scan the cleaned live `../data/world` and confirm zero command blocks.
+- [x] Locate all command blocks in the current live `data/world`.
+- [x] Remove all command blocks from the current live `data/world`.
+- [x] Scan the cleaned live `data/world` and confirm zero command blocks.
 - [x] Remove the old physical good/evil winner buttons or verify none remain in
   the documented area.
 - [x] Create a valid actual-world post-cleanup backup after correcting the
@@ -106,17 +106,18 @@ This goal is intentionally not a live-game rollout.
 - [x] Preserve the cleaned verified world snapshot at
   `Jays-Patch/world-template`.
 - [x] Initial `Jays-Patch/world-template` should be copied from the cleaned
-  current `../data/world`.
+  current `data/world`.
 - [x] Scan `Jays-Patch/world-template` and confirm zero command blocks.
 - [x] Never copy the world while Minecraft is actively writing to it.
 - [x] Deploy Jay's Patch runtime datapack into
-  `../data/world/datapacks/jays_patch` so it loads as a world datapack.
+  `data/world/datapacks/jays_patch` so it loads as a world datapack.
 - [x] Deploy Jay's Patch Melius command overlay into the real server data
   folder so `/botc` is available.
 - [x] Deploy Jay's Patch resource-pack overlay into the real server data
   folder.
 - [x] Sync Jay's Patch again after Minecraft is ready so startup-time pack or
-  FancyMenu rewrites cannot leave stale command/menu runtime files active.
+  pack rewrites cannot leave stale Jay-owned command files active. Preserve
+  unrelated Sybillian Melius commands in the shared runtime directory.
 
 ## Reset Player-State Cleanup
 
@@ -186,7 +187,7 @@ This goal is intentionally not a live-game rollout.
 
 ## FancyMenu Stability / Spam-Kick Investigation
 
-Evidence from `../data/logs/latest.log` on 2026-06-23:
+Evidence from `data/logs/latest.log` on 2026-06-23:
 
 - repeated FancyMenu packet errors appear before two `Kicked for spamming`
   disconnects:
@@ -195,8 +196,8 @@ Evidence from `../data/logs/latest.log` on 2026-06-23:
     spiffy_marker_command_suggestions`
 - the stack trace points at FancyMenu packet handling, not Jay's Patch datapack
   tick functions.
-- Jay's Patch Melius command overlays passed the safety audit, and deployed
-  command/FancyMenu overlay files matched source.
+- At the time of this historical investigation, Jay's Patch Melius command and
+  FancyMenu overlay files matched their then-current source.
 - Legacy setup-bag preset/import buttons now send one `/setupbag ...` broker
   command per click, but Jay's setup room/bag is the supported setup UI.
   Custom import still calls Sybillian's full import sequence server-side when
@@ -246,14 +247,15 @@ Tasks:
   unthrottled.
 - [x] Keep menu-root migration tracking aligned across doc and static audit:
   - [x] Allow Sybillian-style roots `/st`, `/setupbag`, `/request_chat`,
-    `/character`, `/settings`, `/tpchurch`, and `/tpallhome`.
+    `/character`, `/settings`, `/tpchurch`, and `/tpallhome`, with
+    `/request_chat` and `/character` classified as player-facing compatibility
+    surfaces rather than Storyteller brokers.
   - [x] Fail Jay-owned setup-bag menu actions that emit `/botc setup...`.
   - [x] Confirm setup-bag actions emit `/setupbag` roots in `ct-bag_import` and
     `ct-bag_layout`.
-  - [x] Keep `tools/tests/audit-fancymenu-actions.ps1`,
-    `tools/tests/audit-fancymenu-setupbag-bursts.ps1`, and
-    `tools/tests/test-setupbag-burst-bridges.ps1` in the non-blocking CI-like
-    source-check path.
+  - [x] Retire the Jay-owned FancyMenu source audits after server-side
+    FancyMenu copies were removed. Keep only read-only runtime diagnostics for
+    installed upstream layouts.
 
 ## Verification
 
@@ -278,6 +280,36 @@ Tasks:
 - [x] Update docs and code-library files if implementation structure changes.
 
 ## Code Health / Maintainability
+
+- [x] Gate active-game outsider cleanup once per game generation instead of
+  running the full stale-role cleanup every tick.
+- [x] Centralize global reset cleanup for normal and setup-preserving resets.
+- [x] Make hosted resource-pack metadata canonical and compare pack contents
+  instead of raw local ZIP bytes.
+- [x] Track a release hash manifest for the ignored world template and enforce
+  it during public builds.
+- [x] Remove dev-only Reveal Grimoire proof commands from production packages.
+- [x] Keep seat teleporting under explicit Storyteller control: phase changes,
+  including Dawn, never call the dynamic seat teleport automatically; the
+  Teleport Seats item/dashboard and guarded command bridges remain available.
+- [x] Make the live 5-15 seat stress harness prove both halves of that contract:
+  Dawn preserves player positions and an explicit Storyteller teleport reaches
+  every locked dynamic seat.
+- [x] Add a non-mutating generated code-library freshness check and run it from
+  source safety.
+- [x] Reject personalized/example TAB groups and UUID entries from public
+  server config.
+- [x] Pin the Docker Minecraft image to the exact tested digest instead of a
+  floating `latest` tag.
+- [x] Standardize generated text output and repository text files on LF while
+  preserving CRLF for Windows batch entrypoints.
+- [x] Reject adjacent duplicate Minecraft commands in Jay-owned functions.
+- [ ] Run the updated live 5-15 seat stress pass after the next intentional
+  server start; static checks cannot prove rendered placement or live phase
+  behavior.
+- [ ] Capture the current reviewed source state in a new Git commit and push it
+  to a private/off-device remote. Do not bulk-commit the large historical
+  working tree until its scope has been reviewed.
 
 ### Architecture Stabilization 2026-07-11
 
@@ -324,6 +356,21 @@ Tasks:
   changes become frequent.
 - [x] Audit legacy Melius command overlays after `/botc` fully covers the
   Storyteller flow.
+- [x] Preserve unrelated upstream Melius command JSON files by tracking exact
+  Jay-owned filenames in the launcher and excluding only those files in Compose.
+- [x] Perform one clean Modrinth 1.5.4 command-config restoration before the next
+  live compatibility test. On 2026-07-13, the exact Modrinth API release
+  `yUm54GQw` was downloaded and verified in an isolated temp directory. The ten
+  missing Sybillian command files were copied without overwriting existing
+  runtime files; all 18 resulting Melius JSON files parsed successfully and the
+  temporary install was removed. The pre-recovery command folder is preserved
+  under `backups/upstream-melius-before-recovery-20260713-022259`.
+- [x] Retire server-side Jay FancyMenu customization copies and source audits;
+  FancyMenu layouts remain client-owned Sybillian content.
+- [x] Remove proven-dead Jay functions for retired owner/storyteller helpers,
+  unused setup role wrappers, unused music self-play, and generated zero-player
+  dialog variants. Keep the generator responsible for removing stale
+  `count_0.mcfunction` output.
 - [x] Treat `Jays-Patch/dist` as disposable build output, not source of truth.
 - [x] Add a source-only safety check for launcher ownership, command-overlay
   guards, JSON parsing, generated index presence, and resource-pack mapping
@@ -351,6 +398,17 @@ Tasks:
   - [x] Generate setup-phase item checks from `tool-items.json`.
   - [x] Generate setup-room bag/control cleanup from `tool-items.json`.
   - [x] Generate live Storyteller item checks from `tool-items.json`.
+- [x] Add a guarded Boomdandy item to the post-execution Storyteller row and
+  call Sybillian's existing countdown function without restoring the OP-only
+  public command path.
+- [x] Put `Announce Fearmonger` in the pre-reveal Storyteller confirmation
+  without consuming another hotbar slot, and show it only while Fearmonger is
+  actually in play.
+- [x] Complete Sybillian 1.5.4's Banshee scaffold through a Jay-owned adapter:
+  contextual Storyteller activation, reusable dead votes, and a player-owned
+  nomination-phase x1/x2 vote toggle that defaults to x1. Keep the second
+  nomination Storyteller-managed until an authoritative nominator signal
+  exists.
 - [x] Add a non-live source-ownership test so Jay's Patch does not accidentally
   grow upstream-owned `ct` datapack namespaces or copied Sybillian assets.
 
@@ -360,9 +418,10 @@ Tasks:
   a slightly higher-pitched reveal sound than the previous good reveal, while
   each newly revealed evil player should use a different evil sound family with
   a slightly lower pitch than the previous evil reveal.
-- [x] Sync serverbound `/character <seat> <character>` edits into Jay's Patch
-  reveal data so the role/alignment snapshot follows commands that actually
-  reach the server.
+- [x] Retire the ambiguous Storyteller mutation branch from serverbound
+  `/character <seat> <character>`. Upstream uses this command only for personal
+  player grimoire display; Jay's guarded Change Characters editor owns
+  server-authoritative reveal edits.
 - [ ] Capture character edits made in Sybillian's standard Storyteller
   `ct-grimoire` role picker. **Blocked for server-only delivery:** that layout
   uses FancyMenu's client-local `set_variable` action, while only the separate
@@ -390,12 +449,9 @@ Tasks:
   - [x] Improve the current stable seat-button slice so clicking an already
     revealed seat reports that it has already been revealed instead of silently
     clearing the dialog.
-  - [x] Add `/botc grimoire disabled_button_test` as a dev-only proof dialog
-    for checking whether gray no-action buttons look and behave like disabled
-    Reveal Grimoire entries in the real client.
-  - [x] Add `/botc grimoire disabled_state_test` as a dev-only state proof
-    that branches on seat 1's real reveal state and shows either an active
-    entry or a gray no-action revealed entry, without replacing the stable menu.
+  - [x] Historically test gray no-action buttons with temporary dev-only proof
+    commands. Those commands were removed from production after the experiment
+    proved the buttons still behaved as pressable.
   - [x] Test the gray no-action route in-client. It looks gray, but still
     behaves like a pressable button, so it is rejected for the final
     unpressable revealed-seat UI.
@@ -428,6 +484,11 @@ Tasks:
 - [x] Prevent players from removing temporary winner-reveal head items, such as
   good-team diamond blocks or evil-team piglin heads, until the reveal timer
   clears them.
+- [x] Give each winner five unique alignment-colored gradient fireworks, keep
+  them through normal reset, and remove carried/dropped copies when the next
+  supported game begins, including delayed cleanup for offline winners.
+- [x] Sanitize active participant inventories before Sybillian builds the next
+  game inventory, while excluding Storytellers and spectators.
 
 ## Implementation Notes
 
@@ -436,14 +497,14 @@ Tasks:
 - Any plugin or mod path must still follow the Lego rule: call, wrap, or read
   Sybillian behavior first, then add Jay-owned behavior.
 - No implementation path should require giving players full OP.
-- Manual recovery may still restore `../data/world` from
+- Manual recovery may still restore `data/world` from
   `Jays-Patch/world-template`, but normal `/botc reset_game` should not stop or
   restart the server.
 - Recovery mode should be fail-safe: if a manual world restore cannot be
   completed, keep the server stopped and show a clear message in logs/console.
 - During the current source-only goal, use
   `tools/tests/test-source-safety.ps1` for non-live verification. Do not deploy,
-  reload, restart, use RCON mutations, edit `../data`, or change the live world
+  reload, restart, use RCON mutations, edit `data`, or change the live world
   unless Jay starts a separate live rollout/testing goal.
 
 ## Later Backlog
@@ -498,4 +559,3 @@ These items are intentionally outside the active stabilization goal.
 
 - [x] Store owner immunity in config instead of hard-coding owner names.
 - [x] Keep configured owners immune from queue and votekick restrictions.
-

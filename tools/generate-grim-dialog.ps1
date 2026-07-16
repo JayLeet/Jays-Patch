@@ -4,7 +4,21 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $OutputPath = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/grim/dialog.mcfunction"
 $VariantDir = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/grim/dialog"
+$RoleGlyphHelper = Join-Path $RepoRoot "tools/lib/role-icon-glyphs.ps1"
+$DialogIconPath = Join-Path $RepoRoot "Jays-Patch/dialog-icons.json"
+$MusicTrackPath = Join-Path $RepoRoot "Jays-Patch/music-tracks.json"
+$DialogIconHelper = Join-Path $RepoRoot "tools/lib/dialog-icons.ps1"
 $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+
+. $RoleGlyphHelper
+. $DialogIconHelper
+$noneGlyph = Get-BotcRoleIconGlyph -RoleScore 0
+$icons = Get-BotcDialogIconCatalog -DialogIconPath $DialogIconPath -MusicTrackPath $MusicTrackPath
+$goodWinLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "good_win") -Font "botc_patch:ui_icons" -Text "Good Wins" -Color "#0000aa" -Bold $true
+$evilWinLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "evil_win") -Font "botc_patch:ui_icons" -Text "Evil Wins" -Color "#aa0000" -Bold $true
+$rescindLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "reset") -Font "botc_patch:ui_icons" -Text "Cancel Reveal" -Color "dark_red" -Bold $true
+$closeLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "back") -Font "botc_patch:ui_icons" -Text "Close" -Color "gray"
+$titleLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "reveal_grimoire") -Font "botc_patch:ui_icons" -Text "Grimoire Reveal" -Color "white"
 
 function New-Header {
     param([string] $Responsibility)
@@ -24,32 +38,36 @@ function Write-Lines {
         [System.Collections.Generic.List[string]] $Lines
     )
 
-    [System.IO.File]::WriteAllText($Path, ($Lines -join [Environment]::NewLine) + [Environment]::NewLine, $utf8NoBom)
+    [System.IO.File]::WriteAllText($Path, ($Lines -join "`n") + "`n", $utf8NoBom)
 }
 
 function New-DialogLine {
     param([int] $SeatCount)
 
     $dialogActions = [System.Collections.Generic.List[string]]::new()
-    $dialogActions.Add('{label:{text:"Good Wins",color:"#0000aa",bold:true},action:{type:"run_command",command:"/botc winner good"}}')
-    $dialogActions.Add('{label:{text:"Evil Wins",color:"#aa0000",bold:true},action:{type:"run_command",command:"/botc winner evil"}}')
-    for ($seat = 1; $seat -le $SeatCount; $seat++) {
-        $dialogActions.Add('{label:{text:"$(p' + $seat + '_name) ($(p' + $seat + '_role))",color:"$(p' + $seat + '_color)"},tooltip:{text:"Seat ' + $seat + '",color:"gray"},action:{type:"run_command",command:"/botc grimoire reveal_seat_' + $seat + '"}}')
+    $dialogActions.Add('{label:' + $goodWinLabel + ',action:{type:"run_command",command:"/botc winner good"}}')
+    $dialogActions.Add('{label:' + $evilWinLabel + ',action:{type:"run_command",command:"/botc winner evil"}}')
+    for ($index = 1; $index -le $SeatCount; $index++) {
+        $dialogActions.Add('{label:{text:"$(e' + $index + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(e' + $index + '_name)",font:"minecraft:default",color:"white"},{text:" ($(e' + $index + '_role))",font:"minecraft:default",color:"$(e' + $index + '_color)"}]},tooltip:{text:"Seat $(e' + $index + '_seat)",color:"gray"},action:{type:"run_command",command:"/botc grimoire reveal_seat_$(e' + $index + '_seat)"}}')
     }
+    $dialogActions.Add('{label:' + $rescindLabel + ',action:{type:"run_command",command:"/botc grimoire rescind_confirm"}}')
 
     $macroPrefix = if ($SeatCount -gt 0) { '$' } else { '' }
-    return $macroPrefix + 'dialog show @s {type:"multi_action",title:"Grimoire Reveal",columns:2,actions:[' + ($dialogActions -join ',') + ']}'
+    return $macroPrefix + 'dialog show @s {type:"multi_action",title:' + $titleLabel + ',columns:2,actions:[' + ($dialogActions -join ',') + '],exit_action:{label:' + $closeLabel + ',action:{type:"run_command",command:"/botc grimoire close_dialog"}}}'
 }
 
 New-Item -ItemType Directory -Path (Split-Path -Parent $OutputPath) -Force | Out-Null
 New-Item -ItemType Directory -Path $VariantDir -Force | Out-Null
 
-$prepareLines = New-Header "Prepares immutable reveal-snapshot names, role labels, and category colors."
+$prepareLines = New-Header "Prepares immutable reveal-snapshot names, role labels, and alignment colors."
 $prepareLines.Add("data remove storage botc_patch:grim reveal_dialog")
 for ($seat = 1; $seat -le 15; $seat++) {
     $prepareLines.Add(('data modify storage botc_patch:grim reveal_dialog.p{0}_name set value "Seat {0}"' -f $seat))
     $prepareLines.Add(('data modify storage botc_patch:grim reveal_dialog.p{0}_role set value "Unknown"' -f $seat))
+    $prepareLines.Add(('data modify storage botc_patch:grim reveal_dialog.p{0}_glyph set value "{1}"' -f $seat, $noneGlyph))
     $prepareLines.Add(('data modify storage botc_patch:grim reveal_dialog.p{0}_color set value "#aaaaaa"' -f $seat))
+    $prepareLines.Add(('execute if score grim_seat_{0}_occupied botc_patch matches 1 if score grim_seat_{0}_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p{0}_color set value "#55aaff"' -f $seat))
+    $prepareLines.Add(('execute if score grim_seat_{0}_occupied botc_patch matches 1 if score grim_seat_{0}_alignment botc_patch matches 2 run data modify storage botc_patch:grim reveal_dialog.p{0}_color set value "#ff5555"' -f $seat))
     $prepareLines.Add(('execute if score grim_seat_{0}_occupied botc_patch matches 1 if data storage ct:players players.p{0} unless data storage ct:players players{{p{0}:"Nobody!"}} run data modify storage botc_patch:grim reveal_dialog.p{0}_name set from storage ct:players players.p{0}' -f $seat))
     $prepareLines.Add(('data modify storage botc_patch:grim reveal_lookup set value {{seat:{0},score:0}}' -f $seat))
     $prepareLines.Add(('execute if score grim_seat_{0}_occupied botc_patch matches 1 store result storage botc_patch:grim reveal_lookup.score int 1 run scoreboard players get grim_seat_{0}_role botc_patch' -f $seat))
@@ -59,17 +77,37 @@ Write-Lines -Path (Join-Path $VariantDir "prepare.mcfunction") -Lines $prepareLi
 
 $prepareRoleLines = New-Header "Resolves one snapshot role through the trusted Storyteller editor catalog."
 $prepareRoleLines.Add('$data modify storage botc_patch:grim reveal_dialog.p$(seat)_role set from storage botc_patch:grim editor.score_catalog.s$(score).name')
-$prepareRoleLines.Add('$data modify storage botc_patch:grim reveal_dialog.p$(seat)_color set from storage botc_patch:grim editor.score_catalog.s$(score).color')
+$prepareRoleLines.Add('$data modify storage botc_patch:grim reveal_dialog.p$(seat)_glyph set from storage botc_patch:grim editor.score_catalog.s$(score).glyph')
 Write-Lines -Path (Join-Path $VariantDir "prepare_role.mcfunction") -Lines $prepareRoleLines
 
-$lines = New-Header "Dispatches the stable one-page reveal dialog for the captured player count."
+$appendLines = New-Header "Copies one occupied unrevealed seat into the next compact reveal-dialog entry."
+$appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_name set from storage botc_patch:grim reveal_dialog.p$(source)_name')
+$appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_role set from storage botc_patch:grim reveal_dialog.p$(source)_role')
+$appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_glyph set from storage botc_patch:grim reveal_dialog.p$(source)_glyph')
+$appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_color set from storage botc_patch:grim reveal_dialog.p$(source)_color')
+$appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_seat set value $(source)')
+Write-Lines -Path (Join-Path $VariantDir "append.mcfunction") -Lines $appendLines
+
+$lines = New-Header "Compacts unrevealed seats and dispatches the stable one-page reveal dialog."
 $lines.Add('execute unless score grim_active botc_patch matches 1 run tellraw @s {"text":"Start reveal mode with /botc grimoire start first.","color":"red"}')
 $lines.Add("execute if score grim_active botc_patch matches 1 run function botc_patch:grim/dialog/prepare")
+$lines.Add("execute if score grim_active botc_patch matches 1 run data remove storage botc_patch:grim reveal_dialog_visible")
+$lines.Add("execute if score grim_active botc_patch matches 1 run scoreboard players set grim_dialog_visible_size botc_patch 0")
+for ($seat = 1; $seat -le 15; $seat++) {
+    $condition = "execute if score grim_active botc_patch matches 1 if score grim_seat_$($seat)_occupied botc_patch matches 1 unless score grim_seat_$($seat)_revealed botc_patch matches 1"
+    $lines.Add("$condition run scoreboard players add grim_dialog_visible_size botc_patch 1")
+    $lines.Add("$condition run data modify storage botc_patch:grim reveal_dialog_lookup set value {source:$seat,target:0}")
+    $lines.Add("$condition store result storage botc_patch:grim reveal_dialog_lookup.target int 1 run scoreboard players get grim_dialog_visible_size botc_patch")
+    $lines.Add("$condition run function botc_patch:grim/dialog/append with storage botc_patch:grim reveal_dialog_lookup")
+}
 for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
     $suffix = if ($seatCount -gt 0) { " with storage botc_patch:grim reveal_dialog" } else { "" }
-    $lines.Add("execute if score grim_active botc_patch matches 1 if score grim_dialog_size botc_patch matches $seatCount run function botc_patch:grim/dialog/count_$seatCount$suffix")
+    if ($seatCount -gt 0) {
+        $suffix = " with storage botc_patch:grim reveal_dialog_visible"
+    }
+    $lines.Add("execute if score grim_active botc_patch matches 1 if score grim_dialog_visible_size botc_patch matches $seatCount run function botc_patch:grim/dialog/count_$seatCount$suffix")
 }
-$lines.Add("execute if score grim_active botc_patch matches 1 unless score grim_dialog_size botc_patch matches 0..15 run function botc_patch:grim/dialog/count_15 with storage botc_patch:grim reveal_dialog")
+$lines.Add("execute if score grim_active botc_patch matches 1 unless score grim_dialog_visible_size botc_patch matches 0..15 run function botc_patch:grim/dialog/count_15 with storage botc_patch:grim reveal_dialog_visible")
 Write-Lines -Path $OutputPath -Lines $lines
 
 for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
@@ -92,4 +130,4 @@ foreach ($group in 1..3) {
     Remove-Item -LiteralPath (Join-Path $VariantDir "group_$group") -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-Write-Host "Generated stable grimoire reveal dialog with player names and snapshot roles."
+Write-Host "Generated stable grimoire reveal dialog with white player names and unrevealed seats only."

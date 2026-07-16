@@ -8,14 +8,20 @@ $RoleIconsFile = Join-Path $RepoRoot "Jays-Patch/role-icons.json"
 $ToolRegistryFile = Join-Path $RepoRoot "Jays-Patch/tool-items.json"
 $FallbacksFile = Join-Path $RepoRoot "Jays-Patch/item-fallbacks.json"
 $PackMetaFile = Join-Path $ResourcepackRoot "pack.mcmeta"
+$RoleFontFile = Join-Path $ResourcepackRoot "assets/botc_patch/font/role_icons.json"
 $ModelRoot = Join-Path $ResourcepackRoot "assets/botc_patch/models"
 $MinecraftItemRoot = Join-Path $ResourcepackRoot "assets/minecraft/items"
+$SybillianRolePath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\set_from_menu.mcfunction"
+$SybillianCharactersPath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\characters.mcfunction"
+$RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
+$RoleGlyphHelper = Join-Path $RepoRoot "tools/lib/role-icon-glyphs.ps1"
 
 function Read-JsonFile {
     param([string] $Path)
 
     try {
-        return Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+        $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+        return [System.IO.File]::ReadAllText($Path, $utf8NoBom) | ConvertFrom-Json
     }
     catch {
         throw "Invalid JSON in $Path`: $($_.Exception.Message)"
@@ -54,7 +60,7 @@ function Resolve-TexturePath {
 
     if ($TextureReference -match '^ct:(.+)$') {
         $relative = $Matches[1].Replace("/", [IO.Path]::DirectorySeparatorChar)
-        $sybillianRoot = Join-Path $RepoRoot "../data/resources/resourcepack/required/Blood on the Clocktower/assets/ct/textures"
+        $sybillianRoot = Join-Path $RepoRoot "data/resources/resourcepack/required/Blood on the Clocktower/assets/ct/textures"
         if (Test-Path -LiteralPath $sybillianRoot -PathType Container) {
             return Join-Path $sybillianRoot "$relative.png"
         }
@@ -163,9 +169,12 @@ foreach ($path in @($DatapackRoot, $ResourcepackRoot)) {
 $CarrotSelectorPath = Join-Path $MinecraftItemRoot "carrot_on_a_stick.json"
 $PaperSelectorPath = Join-Path $MinecraftItemRoot "paper.json"
 
-foreach ($path in @($RoleIconsFile, $ToolRegistryFile, $FallbacksFile, $PackMetaFile, $CarrotSelectorPath, $PaperSelectorPath)) {
+foreach ($path in @($RoleIconsFile, $ToolRegistryFile, $FallbacksFile, $PackMetaFile, $RoleFontFile, $RoleCatalogHelper, $RoleGlyphHelper, $CarrotSelectorPath, $PaperSelectorPath)) {
     Assert-FileExists $path "required resource-pack check file"
 }
+
+. $RoleCatalogHelper
+. $RoleGlyphHelper
 
 $packMeta = Read-JsonFile $PackMetaFile
 $packFormat = [int] $packMeta.pack.pack_format
@@ -220,6 +229,35 @@ foreach ($role in @($roleIcons.roles) | Sort-Object) {
     [void] $requiredPaperStrings.Add("botc_role_$role")
 }
 
+$roleCatalog = @(Get-SybillianRoleCatalog -SetFromMenuPath $SybillianRolePath -CharactersPath $SybillianCharactersPath)
+$font = Read-JsonFile $RoleFontFile
+$fontRoles = @([pscustomobject]@{ Role = "none"; Id = 0 }) + $roleCatalog
+$providers = @($font.providers)
+if ($providers.Count -ne $fontRoles.Count) {
+    throw "Expected $($fontRoles.Count) role icon font providers, found $($providers.Count)."
+}
+
+$seenGlyphs = New-StringSet
+for ($index = 0; $index -lt $fontRoles.Count; $index++) {
+    $expected = $fontRoles[$index]
+    $provider = $providers[$index]
+    $expectedGlyph = Get-BotcRoleIconGlyph -RoleScore ([int] $expected.Id)
+    $providerGlyphs = @($provider.chars)
+    if ([string] $provider.type -ne "bitmap" -or [int] $provider.height -ne 16 -or [int] $provider.ascent -ne 12) {
+        throw "Role font provider '$($expected.Role)' does not use the proven 16px bitmap format."
+    }
+    if ([string] $provider.file -ne "botc_patch:item/role/$($expected.Role).png") {
+        throw "Role font provider '$($expected.Role)' points to '$($provider.file)'."
+    }
+    if ($providerGlyphs.Count -ne 1 -or [string] $providerGlyphs[0] -ne $expectedGlyph) {
+        throw "Role font provider '$($expected.Role)' has the wrong deterministic glyph."
+    }
+    if (-not $seenGlyphs.Add($expectedGlyph)) {
+        throw "Duplicate role font glyph for '$($expected.Role)'."
+    }
+    Assert-FileExists (Join-Path $ResourcepackRoot "assets/botc_patch/textures/item/role/$($expected.Role).png") "role font texture for $($expected.Role)"
+}
+
 foreach ($family in @($toolRegistry.generatedFamilies)) {
     $values = @()
     if ($family.PSObject.Properties["values"]) {
@@ -260,4 +298,4 @@ foreach ($modelString in $requiredPaperStrings | Sort-Object) {
     Assert-SelectorContains $paperCases $modelString "paper"
 }
 
-Write-Host ("Resource-pack selector checks passed for {0} carrot string(s), {1} paper string(s), and {2} role icon(s)." -f $requiredCarrotStrings.Count, $requiredPaperStrings.Count, @($roleIcons.roles).Count) -ForegroundColor Green
+Write-Host ("Resource-pack selector checks passed for {0} carrot string(s), {1} paper string(s), {2} role icon(s), and {3} dialog glyph(s)." -f $requiredCarrotStrings.Count, $requiredPaperStrings.Count, @($roleIcons.roles).Count, $providers.Count) -ForegroundColor Green

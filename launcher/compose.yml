@@ -1,6 +1,7 @@
 services:
   mc:
-    image: itzg/minecraft-server:latest
+    # Tested image. Update this digest intentionally after startup and gameplay checks.
+    image: itzg/minecraft-server@sha256:2515a051e7da13a29e0501eef78dcd42e2d9de1f4cfdde6f360ee977f6557cd5
     container_name: botc-minecraft
     tty: true
     stdin_open: true
@@ -36,12 +37,17 @@ services:
       MODRINTH_OVERRIDES_EXCLUSIONS: |
         config/voicechat/voicechat-server.properties
         server/config/voicechat/voicechat-server.properties
-        config/fancymenu/customization
-        config/melius-commands/commands
         config/melius-commands/commands/botc.json
+        config/melius-commands/commands/character.json
+        config/melius-commands/commands/request_chat.json
+        config/melius-commands/commands/settings.json
+        config/melius-commands/commands/setupbag.json
+        config/melius-commands/commands/st.json
+        config/melius-commands/commands/tpallhome.json
+        config/melius-commands/commands/tpchurch.json
         resources/datapack/required/Jays-Patch
         resources/resourcepack/required/Jays-Patch
 
       ENABLE_RCON: "true"
     volumes:
-      - ../data:/data
+      - ./data:/data

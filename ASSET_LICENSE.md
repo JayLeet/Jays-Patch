@@ -32,6 +32,11 @@ The included world template is based on Sybillian's original world. Jay claims
 only Jay's edits, not the underlying Sybillian world. This file does not grant a
 separate reusable content license for the world template.
 
+The role-icon textures under the Jay's Patch resource-pack overlay are copied
+from the textures distributed with Sybillian's modpack. They are not Jay-owned
+handmade art and are not licensed by this file. See `CREDITS.md`, `NOTICE.md`,
+and `THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt`.
+
 ## Attribution
 
 If you use, modify, or redistribute Jay-owned resource-pack art from this

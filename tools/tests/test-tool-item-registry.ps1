@@ -176,6 +176,79 @@ foreach ($variant in $phaseAdvanceVariants) {
     }
 }
 
+$boomdandyItems = @($items | Where-Object { [string] $_.id -eq "storyteller_boomdandy" })
+if ($boomdandyItems.Count -ne 1) {
+    throw "Tool item registry must define exactly one storyteller_boomdandy item."
+}
+$boomdandyItem = $boomdandyItems[0]
+if ([string] $boomdandyItem.modelString -ne "botc_role_boomdandy") {
+    throw "storyteller_boomdandy must reuse the existing Boomdandy role icon model string."
+}
+if ([string] $boomdandyItem.postExecutionTool.slot -ne "hotbar.2") {
+    throw "storyteller_boomdandy must occupy visual slot 3 in the post-execution row."
+}
+if ([string] $boomdandyItem.postExecutionTool.inPlaySelector -ne "@a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=107}]") {
+    throw "storyteller_boomdandy must be gated by the authoritative in-play Boomdandy selector."
+}
+if ([string] $boomdandyItem.phase -ne "post-execution") {
+    throw "storyteller_boomdandy must remain scoped to the post-execution state."
+}
+
+$dialogToggle = @($items | Where-Object { [string] $_.id -eq "patch_toggle_dialogs" })
+if ($dialogToggle.Count -ne 1 -or [string] $dialogToggle[0].resourceModel -ne "minecraft:yellow_candle") {
+    throw "Dialog-first mode must have one yellow-candle patch_toggle_dialogs registry item."
+}
+
+$grimTool = @($items | Where-Object { [string] $_.id -eq "grim_reveal_menu" })
+if ($grimTool.Count -ne 1 -or $grimTool[0].PSObject.Properties["setupTool"]) {
+    throw "Storyteller Tools must not replace direct setup-phase controls."
+}
+
+$itemModeToolIds = @(
+    "storyteller_advance_phase",
+    "storyteller_tp_seats",
+    "storyteller_post_kill",
+    "storyteller_boomdandy",
+    "storyteller_revive",
+    "storyteller_timer",
+    "storyteller_nominate",
+    "storyteller_nom_pyre",
+    "storyteller_nom_execute",
+    "storyteller_tp_home",
+    "storyteller_tp_evil",
+    "storyteller_tp_player_menu"
+)
+foreach ($id in $itemModeToolIds) {
+    $entry = @($items | Where-Object { [string] $_.id -eq $id })
+    if ($entry.Count -ne 1) { throw "Missing item-mode registry entry '$id'." }
+    $rows = @()
+    if ($entry[0].PSObject.Properties["setupTool"]) { $rows += @($entry[0].setupTool) }
+    if ($entry[0].PSObject.Properties["liveTool"]) { $rows += @($entry[0].liveTool) }
+    if ($entry[0].PSObject.Properties["postExecutionTool"]) { $rows += @($entry[0].postExecutionTool) }
+    if ($rows.Count -eq 0 -or @($rows | Where-Object { [string] $_.mode -ne "item" }).Count -gt 0) {
+        throw "Every setup/live/post row for '$id' must be explicitly item-mode."
+    }
+}
+
+$resetTool = @($items | Where-Object { [string] $_.id -eq "storyteller_reset_game" })
+if ($resetTool.Count -ne 1) {
+    throw "Missing storyteller_reset_game registry entry."
+}
+$resetRows = @($resetTool[0].liveTool)
+if (@($resetRows | Where-Object { $_.mode -eq "item" -and $_.condition -eq "score phase game_data matches 4" -and $_.slot -eq "hotbar.0" }).Count -ne 1) {
+    throw "Reset Game must retain its normal night item-mode row in visual slot 1."
+}
+if (@($resetRows | Where-Object { $_.mode -eq "dialog" -and $_.condition -match 'grim_active botc_patch matches 1' -and $_.slot -eq "hotbar.0" }).Count -ne 1) {
+    throw "Reset Game must retain its dialog-mode active-reveal safety row in visual slot 1."
+}
+
+foreach ($id in @("setup_reset_game", "setup_become_player")) {
+    $entry = @($items | Where-Object { [string] $_.id -eq $id })
+    if ($entry.Count -ne 1 -or [string] $entry[0].setupTool.mode -ne "both") {
+        throw "Setup control '$id' must remain a held item in both Jay modes."
+    }
+}
+
 $requiredItemProperties = @("id", "modelString", "itemModel", "item", "label", "owner", "phase", "slot", "source", "status")
 foreach ($item in $items) {
     foreach ($prop in $requiredItemProperties) {
@@ -196,6 +269,16 @@ foreach ($item in $items) {
     Assert-SingleMetadata $item "submenuTool" @("slot", "customNameComponent")
     Assert-SingleMetadata $item "postExecutionTool" @("order", "slot", "customNameComponent")
     Assert-SingleMetadata $item "setupRoomBagTool" @("slot", "customNameComponent")
+
+    $modeRows = @()
+    if ($item.PSObject.Properties["setupTool"]) { $modeRows += @($item.setupTool) }
+    if ($item.PSObject.Properties["liveTool"]) { $modeRows += @($item.liveTool) }
+    if ($item.PSObject.Properties["postExecutionTool"]) { $modeRows += @($item.postExecutionTool) }
+    foreach ($row in $modeRows) {
+        if ($row.PSObject.Properties["mode"] -and [string] $row.mode -notin @("item", "dialog", "both")) {
+            throw "Tool item '$($item.id)' has unsupported mode '$($row.mode)'."
+        }
+    }
 
     if ($item.PSObject.Properties["submenuTool"] -and (-not $item.PSObject.Properties["resourceModel"] -or [string]::IsNullOrWhiteSpace([string] $item.resourceModel))) {
         throw "Tool item '$($item.id)' has submenuTool metadata but no resourceModel for resource-pack case generation."

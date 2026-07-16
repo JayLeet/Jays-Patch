@@ -5,8 +5,9 @@ $RepoRoot = Split-Path -Parent $PSScriptRoot
 $OutputRoot = Join-Path $RepoRoot "Jays-Patch\datapack\data\botc_patch\function\storyteller_tools\revive_menu"
 $ToolRegistryLib = Join-Path $PSScriptRoot "lib\tool-registry.ps1"
 $PlayerDialogLib = Join-Path $PSScriptRoot "lib\player-dialog-generator.ps1"
+$SeatColorsLib = Join-Path $PSScriptRoot "lib\seat-colors.ps1"
 
-foreach ($library in @($ToolRegistryLib, $PlayerDialogLib)) {
+foreach ($library in @($ToolRegistryLib, $PlayerDialogLib, $SeatColorsLib)) {
     if (-not (Test-Path -LiteralPath $library -PathType Leaf)) {
         throw "Missing generator helper: $library"
     }
@@ -14,11 +15,7 @@ foreach ($library in @($ToolRegistryLib, $PlayerDialogLib)) {
 }
 
 $toolRegistryContext = Read-BotcToolRegistry -RepoRoot $RepoRoot
-$seatColorNames = @(
-    "red", "orange", "yellow", "lime", "green",
-    "mint", "cyan", "blue", "navy", "purple",
-    "magenta", "lavender", "white", "gray", "black"
-)
+$seatColorNames = @(Get-BotcSeatColors | ForEach-Object { [string] $_.Name })
 $legacyActionModels = @("storyteller_revive_back", "storyteller_revive_next") | ForEach-Object {
     New-BotcResourceCaseModel -Tool (Get-BotcToolItem -Context $toolRegistryContext -Id $_)
 }
@@ -42,7 +39,7 @@ function Write-Lines {
         [System.Collections.Generic.List[string]] $Lines
     )
 
-    [System.IO.File]::WriteAllText($Path, (($Lines -join [Environment]::NewLine) + [Environment]::NewLine), $utf8NoBom)
+    [System.IO.File]::WriteAllText($Path, (($Lines -join "`n") + "`n"), $utf8NoBom)
 }
 
 $open = New-GeneratedHeader "Opens the filtered dead-player Revive dialog without replacing the Storyteller hotbar."

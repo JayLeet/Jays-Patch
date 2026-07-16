@@ -106,6 +106,17 @@
                                 {
                                     "when":  {
                                                  "strings":  [
+                                                                 "patch_toggle_dialogs"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "minecraft:item/yellow_candle"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
                                                                  "patch_toggle_sybillian_setup_bag"
                                                              ]
                                              },

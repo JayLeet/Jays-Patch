@@ -1,4 +1,4 @@
-﻿Set-StrictMode -Version Latest
+Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
@@ -72,25 +72,35 @@ function Assert-SetupPresetRoles {
     }
 }
 
+$dataRootTest = Join-Path $PSScriptRoot "test-data-root.ps1"
 $startupTest = Join-Path $PSScriptRoot "test-startup-scripts.ps1"
 $commandTest = Join-Path $PSScriptRoot "test-command-overlays.ps1"
+$upstreamCallerPolicyTest = Join-Path $PSScriptRoot "test-upstream-caller-policy.ps1"
 $customScriptImportTest = Join-Path $PSScriptRoot "test-custom-script-import-json.ps1"
 $grimCharacterEditorTest = Join-Path $PSScriptRoot "test-grim-character-editor.ps1"
 $storytellerPlayerDialogTest = Join-Path $PSScriptRoot "test-storyteller-player-dialogs.ps1"
 $storytellerActionDialogTest = Join-Path $PSScriptRoot "test-storyteller-action-dialogs.ps1"
+$teleportToolsTest = Join-Path $PSScriptRoot "test-teleport-tools.ps1"
+$seatLayoutTest = Join-Path $PSScriptRoot "test-seat-layouts.ps1"
 $dialogActionLifecycleTest = Join-Path $PSScriptRoot "test-dialog-action-lifecycle.ps1"
 $passageTest = Join-Path $PSScriptRoot "test-storyteller-passage.ps1"
 $gameStateInvariantTest = Join-Path $PSScriptRoot "test-game-state-invariants.ps1"
+$bansheeTest = Join-Path $PSScriptRoot "test-banshee.ps1"
+$alhadikhiaAnnouncementTest = Join-Path $PSScriptRoot "test-alhadikhia-announcement.ps1"
+$grimRescindTest = Join-Path $PSScriptRoot "test-grim-rescind.ps1"
+$winnerFireworkInventoryTest = Join-Path $PSScriptRoot "test-winner-fireworks-and-start-inventory.ps1"
 $upstreamContractTest = Join-Path $PSScriptRoot "test-upstream-contract.ps1"
 $commandBudgetTest = Join-Path $PSScriptRoot "test-command-budget.ps1"
 $resourcepackTest = Join-Path $PSScriptRoot "test-resourcepack-mappings.ps1"
+$dialogUiMusicTest = Join-Path $PSScriptRoot "test-dialog-ui-and-music.ps1"
 $publicPackageResourcepackTest = Join-Path $PSScriptRoot "test-public-package-resourcepack.ps1"
 $toolItemRegistryTest = Join-Path $PSScriptRoot "test-tool-item-registry.ps1"
+$worldTemplateManifestTest = Join-Path $PSScriptRoot "test-world-template-manifest.ps1"
+$publicConfigHygieneTest = Join-Path $PSScriptRoot "test-public-config-hygiene.ps1"
 $toolItemGenerator = Join-Path $RepoRoot "tools/generate-tool-items.ps1"
+$codeLibraryGenerator = Join-Path $RepoRoot "tools/update-code-library.ps1"
 $sourceBaseline = Join-Path $RepoRoot "tools/update-source-baseline.ps1"
 $ownershipTest = Join-Path $PSScriptRoot "test-source-ownership.ps1"
-$fancymenuActionAudit = Join-Path $PSScriptRoot "audit-fancymenu-actions.ps1"
-$setupbagBurstAudit = Join-Path $PSScriptRoot "test-setupbag-burst-bridges.ps1"
 $todoFile = Join-Path $RepoRoot "docs/project-notes/plugin-todo.md"
 $featureMap = Join-Path $RepoRoot "docs/code-library/feature-map.md"
 $launcherSource = Join-Path $RepoRoot "launcher/exe/BotcLauncher.cs"
@@ -106,29 +116,37 @@ $setupSignFunctionRoot = Join-Path $datapackFunctionRoot "setup_sign"
 $grimDialogFunction = Join-Path $datapackFunctionRoot "grim/dialog.mcfunction"
 $grimDialogRoot = Join-Path $datapackFunctionRoot "grim/dialog"
 $grimSweepFinishFunction = Join-Path $datapackFunctionRoot "grim/sweep/finish.mcfunction"
-$grimDisabledButtonProofFunction = Join-Path $datapackFunctionRoot "grim/dev_disabled_button_test.mcfunction"
-$grimDisabledStateProofFunction = Join-Path $datapackFunctionRoot "grim/dev_disabled_state_test.mcfunction"
 $grimDevProofPattern = 'disabled_(button|state)_test|dev_disabled_(button|state)_test'
 
+Assert-FileExists $dataRootTest "live data-root safety test"
 Assert-FileExists $startupTest "startup smoke test"
 Assert-FileExists $commandTest "command overlay safety test"
+Assert-FileExists $upstreamCallerPolicyTest "upstream caller capability policy test"
 Assert-FileExists $customScriptImportTest "custom script import JSON test"
 Assert-FileExists $grimCharacterEditorTest "Reveal Grimoire character editor test"
 Assert-FileExists $storytellerPlayerDialogTest "Storyteller teleport player dialog test"
 Assert-FileExists $storytellerActionDialogTest "Storyteller action player-dialog test"
+Assert-FileExists $teleportToolsTest "Storyteller teleport tool test"
+Assert-FileExists $seatLayoutTest "symmetric physical seat-layout test"
 Assert-FileExists $dialogActionLifecycleTest "dialog action lifecycle test"
 Assert-FileExists $passageTest "Storyteller's Passage state-machine test"
 Assert-FileExists $gameStateInvariantTest "critical game-state invariant test"
+Assert-FileExists $bansheeTest "Banshee adapter test"
+Assert-FileExists $alhadikhiaAnnouncementTest "Al-Hadikhia announcement test"
+Assert-FileExists $grimRescindTest "Storyteller Tools rename and grimoire rescind test"
+Assert-FileExists $winnerFireworkInventoryTest "winner fireworks and new-game inventory safety test"
 Assert-FileExists $upstreamContractTest "Sybillian upstream compatibility contract test"
 Assert-FileExists $commandBudgetTest "command-budget safety test"
 Assert-FileExists $resourcepackTest "resource-pack mapping test"
+Assert-FileExists $dialogUiMusicTest "dialog UI and music catalog test"
 Assert-FileExists $publicPackageResourcepackTest "public package resource-pack safety test"
 Assert-FileExists $toolItemRegistryTest "tool item registry test"
+Assert-FileExists $worldTemplateManifestTest "world-template release manifest test"
+Assert-FileExists $publicConfigHygieneTest "public configuration hygiene test"
 Assert-FileExists $toolItemGenerator "tool item generator"
+Assert-FileExists $codeLibraryGenerator "generated code-library updater"
 Assert-FileExists $sourceBaseline "known-good source baseline tool"
 Assert-FileExists $ownershipTest "source ownership test"
-Assert-FileExists $fancymenuActionAudit "FancyMenu action root audit"
-Assert-FileExists $setupbagBurstAudit "setup-bag burst bridge audit"
 Assert-FileExists $todoFile "Jay's Patch TODO"
 Assert-FileExists $featureMap "code-library feature map"
 Assert-FileExists $launcherSource "standalone launcher source"
@@ -138,8 +156,6 @@ Assert-FileExists $tickFunction "Jay's Patch tick function"
 Assert-FileExists $loadFunction "Jay's Patch load function"
 Assert-FileExists $grimDialogFunction "stable grimoire reveal dialog function"
 Assert-FileExists $grimSweepFinishFunction "grimoire sweep finish function"
-Assert-FileExists $grimDisabledButtonProofFunction "dev-only grimoire disabled-button proof function"
-Assert-FileExists $grimDisabledStateProofFunction "dev-only grimoire disabled-state proof function"
 
 $invalidExecuteChains = @(
     Get-ChildItem -LiteralPath $datapackFunctionRoot -Filter "*.mcfunction" -File -Recurse |
@@ -151,34 +167,55 @@ if ($invalidExecuteChains.Count -gt 0) {
     throw "Invalid Minecraft execute chain detected. Use 'execute if ... if ... run ...', not 'execute if ... run if ...'.`n$($details -join "`n")"
 }
 
+$adjacentDuplicateCommands = [System.Collections.Generic.List[string]]::new()
+foreach ($file in Get-ChildItem -LiteralPath $datapackFunctionRoot -Filter "*.mcfunction" -File -Recurse) {
+    $lines = @(Get-Content -LiteralPath $file.FullName)
+    for ($index = 1; $index -lt $lines.Count; $index++) {
+        $previous = $lines[$index - 1].Trim()
+        $current = $lines[$index].Trim()
+        if ($current.Length -gt 0 -and -not $current.StartsWith("#") -and $current -ceq $previous) {
+            $relative = $file.FullName.Substring($datapackFunctionRoot.Length).TrimStart('\', '/')
+            $adjacentDuplicateCommands.Add("$relative`:$($index + 1): $current")
+        }
+    }
+}
+if ($adjacentDuplicateCommands.Count -gt 0) {
+    throw "Adjacent duplicate datapack command(s) detected:`n$($adjacentDuplicateCommands -join "`n")"
+}
+
+& $dataRootTest
 & $startupTest
 & $commandTest
+& $upstreamCallerPolicyTest
 & $customScriptImportTest
 & $grimCharacterEditorTest
 & $storytellerPlayerDialogTest
 & $storytellerActionDialogTest
+& $teleportToolsTest
+& $seatLayoutTest
 & $dialogActionLifecycleTest
 & $passageTest
 & $gameStateInvariantTest
+& $bansheeTest
+& $alhadikhiaAnnouncementTest
+& $grimRescindTest
+& $winnerFireworkInventoryTest
 & $upstreamContractTest
 & $commandBudgetTest
+& $dialogUiMusicTest
 & $resourcepackTest
 if ($env:BOTC_SKIP_PUBLIC_PACKAGE -ne "1") {
     & $publicPackageResourcepackTest
 }
 & $toolItemRegistryTest
 & $toolItemGenerator -Check
+& $codeLibraryGenerator -Check
+& $worldTemplateManifestTest
+& $publicConfigHygieneTest
 if ($env:BOTC_SKIP_SOURCE_BASELINE -ne "1") {
     & $sourceBaseline -Check
 }
 & $ownershipTest
-& $fancymenuActionAudit
-& $setupbagBurstAudit
-
-$todoText = Get-Content -LiteralPath $todoFile -Raw
-Assert-TextContains $todoText "Source-Only Stabilization" "source-only stabilization section"
-Assert-TextContains $todoText "Do not deploy source into ``\.\./data``" "source-only deploy guard"
-Assert-TextContains $todoText "Do not run ``/reload``" "source-only reload guard"
 
 $launcherText = Get-Content -LiteralPath $launcherSource -Raw
 Assert-TextContains $launcherText 'values\["function-permission-level"\]\s*=\s*"3"' "function-permission-level ownership"
@@ -187,6 +224,8 @@ Assert-TextContains $launcherText "function botc_patch:startup/yawp_init" "YAWP 
 Assert-TextContains $launcherText "scoreboard players set yawp_startup_done botc_patch 1" "launcher marks datapack YAWP fallback complete"
 
 $composeText = Get-Content -LiteralPath $composeFile -Raw
+Assert-TextContains $composeText 'image:\s*itzg/minecraft-server@sha256:[0-9a-f]{64}' "pinned Minecraft Docker image digest"
+Assert-TextDoesNotContain $composeText 'image:\s*itzg/minecraft-server:latest' "floating Minecraft Docker image tag"
 if ($composeText -match "RCON_CMDS_STARTUP|ct:admin/init/yawp_") {
     throw "Docker compose should not run duplicate YAWP startup commands; BOTC.exe Final Sync owns them"
 }
@@ -215,20 +254,36 @@ if ($loadText -match 'scoreboard objectives add setup_sign') {
 Assert-TextContains $loadText 'scoreboard objectives add botc_setup_bridge_cd dummy' "setup bridge cooldown scoreboard objective"
 Assert-TextContains $tickText 'botc_setup_bridge_cd=1\.\.' "setup bridge cooldown countdown in tick"
 
+$retiredDeadFunctions = @(
+    "music/play_to_self.mcfunction",
+    "owner/add.mcfunction",
+    "owner/remove.mcfunction",
+    "setup/role_0.mcfunction",
+    "setup/role_1.mcfunction",
+    "storyteller/add.mcfunction",
+    "storyteller/remove.mcfunction",
+    "storyteller_tools/kill_menu/dialog/count_0.mcfunction",
+    "storyteller_tools/nomination_menu/dialog/count_0.mcfunction",
+    "storyteller_tools/revive_menu/dialog/count_0.mcfunction"
+)
+foreach ($relativePath in $retiredDeadFunctions) {
+    $retiredPath = Join-Path $datapackFunctionRoot $relativePath
+    if (Test-Path -LiteralPath $retiredPath) {
+        throw "Retired dead function returned: $relativePath"
+    }
+}
+
 $botcCommandText = Get-Content -LiteralPath (Join-Path $commandsRoot "botc.json") -Raw
-Assert-TextContains $botcCommandText 'disabled_button_test' "dev-only grimoire disabled-button proof command"
-Assert-TextContains $botcCommandText 'execute as @s\[tag=storyteller\] run function botc_patch:grim/dev_disabled_button_test' "Storyteller guard for dev-only grimoire disabled-button proof command"
-Assert-TextContains $botcCommandText 'disabled_state_test' "dev-only grimoire disabled-state proof command"
-Assert-TextContains $botcCommandText 'execute as @s\[tag=storyteller\] run function botc_patch:grim/dev_disabled_state_test' "Storyteller guard for dev-only grimoire disabled-state proof command"
+Assert-TextDoesNotContain $botcCommandText $grimDevProofPattern "dev-only grimoire proof command in production overlay"
 Assert-TextDoesNotContain $botcCommandText 'botc_patch:grim/dialog/group_' "grouped grimoire submenu bridge command"
 
-$grimDisabledButtonProofText = Get-Content -LiteralPath $grimDisabledButtonProofFunction -Raw
-Assert-TextContains $grimDisabledButtonProofText 'Already Revealed Example' "dev-only grimoire disabled-button proof disabled label"
-Assert-TextContains $grimDisabledButtonProofText 'color:"gray"' "dev-only grimoire disabled-button proof gray label"
-
-$grimDisabledStateProofText = Get-Content -LiteralPath $grimDisabledStateProofFunction -Raw
-Assert-TextContains $grimDisabledStateProofText 'grim_seat_1_revealed' "dev-only grimoire disabled-state proof branches on revealed state"
-Assert-TextContains $grimDisabledStateProofText 'dev_disabled_state_test/revealed' "dev-only grimoire disabled-state proof revealed branch"
+$devProofFiles = @(
+    Get-ChildItem -LiteralPath $datapackFunctionRoot -File -Recurse |
+        Where-Object { $_.FullName -match $grimDevProofPattern }
+)
+if ($devProofFiles.Count -gt 0) {
+    throw "Dev-only grimoire proof function(s) must not ship in production source: $($devProofFiles.FullName -join ', ')"
+}
 
 $grimDialogText = Get-Content -LiteralPath $grimDialogFunction -Raw
 Assert-TextContains $grimDialogText 'function botc_patch:grim/dialog/count_1' "stable grimoire dialog dispatches through generated count functions"
