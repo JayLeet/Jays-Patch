@@ -49,5 +49,5 @@ inn edits, and other Jay-owned additions.
 
 Jay's Patch is not affiliated with or endorsed by Sybillian, The Pandemonium
 Institute, Mojang Studios, Microsoft, or the upstream community contributors.
-See `NOTICE.md`, `LICENSE`, `ASSET_LICENSE.md`, `BRANDING.md`, and
+See `LICENSE`, `ASSET_LICENSE.md`, `BRANDING.md`, and
 `THIRD-PARTY-LICENSES` for the detailed ownership and license boundaries.
