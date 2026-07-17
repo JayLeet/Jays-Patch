@@ -3,16 +3,6 @@
     "version":  "1.5.1",
     "files":  [
                   {
-                      "path":  "ASSET_LICENSE.md",
-                      "bytes":  1616,
-                      "sha256":  "0d742d2d9b2da24bd158af730ad4b2bcf1b4e0c8acf2cd7947556cf28bb856b1"
-                  },
-                  {
-                      "path":  "BRANDING.md",
-                      "bytes":  592,
-                      "sha256":  "c6945fddd33cdeee1fe744b83a685b87350c570d42fd3380445009f819b39c48"
-                  },
-                  {
                       "path":  "config/melius-commands/commands/botc.json",
                       "bytes":  99556,
                       "sha256":  "9eeaea3b7c195ee95451033dae49ff8e49ad6f013ccdf3ecc6545d7f0f82cb7d"
@@ -83,34 +73,44 @@
                       "sha256":  "0c52bb6a5369872b3b11072788005c74ce216ae408e6d0ea7a8f2bc745fbe1b2"
                   },
                   {
-                      "path":  "CREDITS.md",
-                      "bytes":  2312,
-                      "sha256":  "c32809f49876adeb2ccda8c53790d46c3d9b77adb4603b2946df90de1e82c75f"
-                  },
-                  {
                       "path":  "HOW TO INSTALL.txt",
                       "bytes":  2441,
                       "sha256":  "13400bb54806e78f46bb01f79cfb52b958ddc143d7c5675dcca2643f082f625a"
                   },
                   {
-                      "path":  "LICENSE",
+                      "path":  "Licenses/ASSET_LICENSE.md",
+                      "bytes":  1602,
+                      "sha256":  "ff84e9cac75bf068841574919ba3ef4d3264000fbe8542f83be0add4dcbfc512"
+                  },
+                  {
+                      "path":  "Licenses/BRANDING.md",
+                      "bytes":  592,
+                      "sha256":  "c6945fddd33cdeee1fe744b83a685b87350c570d42fd3380445009f819b39c48"
+                  },
+                  {
+                      "path":  "Licenses/CREDITS.md",
+                      "bytes":  2299,
+                      "sha256":  "32e58de336c037442c027db5b6a9ffb420c78ebe6cfc3f96ac1db599271cf0d0"
+                  },
+                  {
+                      "path":  "Licenses/LICENSE",
                       "bytes":  1409,
                       "sha256":  "8b425f8e1b41720123a5c0a7a6fb09ba64680101fd4c0cde45de961c58065d7b"
                   },
                   {
-                      "path":  "NOTICE.md",
-                      "bytes":  2736,
-                      "sha256":  "1724d4c2a1a78429dc49dfa4260d3b70a1c5ab4212b88055fa98026fe359ed4b"
+                      "path":  "Licenses/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
+                      "bytes":  1066,
+                      "sha256":  "d9eb14e1dbffb2561a252253eed47ec35429a3782cc571f64a628c15bc4efa4f"
+                  },
+                  {
+                      "path":  "README.md",
+                      "bytes":  7468,
+                      "sha256":  "4641df3c934c4f312dad076ddca45478e87d26f6c4257b7ce2bba2847878ba2f"
                   },
                   {
                       "path":  "resourcepack/Jays-Patch-resourcepack.zip",
                       "bytes":  175063,
                       "sha256":  "998ec6ea9b695ba802575d06e5ea20c595f9a6493a6f19253af75b26c6ea8709"
-                  },
-                  {
-                      "path":  "THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
-                      "bytes":  1066,
-                      "sha256":  "d9eb14e1dbffb2561a252253eed47ec35429a3782cc571f64a628c15bc4efa4f"
                   },
                   {
                       "path":  "world/data/chunks.dat",
