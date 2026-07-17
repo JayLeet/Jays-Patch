@@ -1,6 +1,6 @@
 {
     "schema":  1,
-    "version":  "1.5.2",
+    "version":  "1.5.3",
     "files":  [
                   {
                       "path":  "config/melius-commands/commands/botc.json",
@@ -74,8 +74,8 @@
                   },
                   {
                       "path":  "HOW TO INSTALL.txt",
-                      "bytes":  2441,
-                      "sha256":  "13400bb54806e78f46bb01f79cfb52b958ddc143d7c5675dcca2643f082f625a"
+                      "bytes":  2559,
+                      "sha256":  "f3ac4cf2184114c7b03e9838f2ecabeb9ee89bde2bfc2aa9ebf6b94602b30c25"
                   },
                   {
                       "path":  "LICENSE",
@@ -94,8 +94,8 @@
                   },
                   {
                       "path":  "Licenses/CREDITS.md",
-                      "bytes":  2631,
-                      "sha256":  "5f68756d6686fd11f1b305e37326754708cbff7e70a47cab1c6028b607ada303"
+                      "bytes":  2572,
+                      "sha256":  "1a4884d9d2884c05c8969c2bb4335de84d4f9ccb42cc91147561793331920eac"
                   },
                   {
                       "path":  "Licenses/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
@@ -104,8 +104,8 @@
                   },
                   {
                       "path":  "README.md",
-                      "bytes":  7303,
-                      "sha256":  "1905bb6b616d3619f22dbf916371291b78e496acfa725717d173c54a22e6274e"
+                      "bytes":  7300,
+                      "sha256":  "bbfb9236195cb5cd38e4915a69a0af6f2836fcfa2cab022c12f3dfa94cab160d"
                   },
                   {
                       "path":  "resourcepack/Jays-Patch-resourcepack.zip",
@@ -3604,8 +3604,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/jays-patch-required-server-properties.txt",
-                      "bytes":  816,
-                      "sha256":  "88c2a891882baa1872a4151352d3bc59ea7e90bf3697d717e8ade9921a650c58"
+                      "bytes":  826,
+                      "sha256":  "f6a1df9a0fa7c1f8b873d1bde8ad03b6b5e91b28ed5694b2c599d39ddfe26f8c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/pack.mcmeta",

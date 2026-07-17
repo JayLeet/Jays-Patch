@@ -9,4 +9,4 @@ resource-pack=https://download.mc-packs.net/pack/d73d89620b05d15ee38db51a3073f66
 resource-pack-sha1=d73d89620b05d15ee38db51a3073f66a3308d4a7
 resource-pack-id=438930c8-37ac-42cc-8504-0d8b605bba74
 require-resource-pack=false
-resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resourcepack","color"\:"gold","bold"\:false},{"text"\:"\\nIt is recommended to use this resourcepack","color"\:"gray","bold"\:false}]}
+resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}

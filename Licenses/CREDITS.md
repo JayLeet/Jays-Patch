@@ -44,16 +44,15 @@ not affiliated with or endorsed by Mojang Studios or Microsoft.
 ## My work
 
 I created the Jay's Patch datapack behavior, command-overlay configuration,
-launcher and tooling code, handmade resource-pack art, setup room, inn edits
-and other Jay-owned additions.
+handmade resource-pack art, setup room, inn edits and other Jay-owned
+additions.
 
 ## License boundaries
 
 The root [`LICENSE`](../LICENSE) applies only to source code I created for
-Jay's Patch, including the datapack code, my command-overlay files, launcher
-source and tools/scripts. It does not apply to Minecraft, Blood on the
-Clocktower, Sybillian's Blood on the Clocktower modpack, the Melius Commands
-mod or other third-party work.
+Jay's Patch, including the datapack code and my command-overlay files. It does
+not apply to Minecraft, Blood on the Clocktower, Sybillian's Blood on the
+Clocktower modpack, the Melius Commands mod or other third-party work.
 
 Jay's Patch is not affiliated with or endorsed by Sybillian, The Pandemonium
 Institute, Mojang Studios, Microsoft, or the upstream community contributors.
