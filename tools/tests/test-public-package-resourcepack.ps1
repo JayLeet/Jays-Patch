@@ -61,7 +61,7 @@ function Assert-PackageProperties {
     )
 
     $properties = Read-PropertiesFile $Path
-    foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "require-resource-pack", "resource-pack-prompt")) {
+    foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "resource-pack-prompt")) {
         if (-not $properties.ContainsKey($key)) {
             throw "Missing $key in package instruction file: $Path"
         }
@@ -76,8 +76,13 @@ function Assert-PackageProperties {
     if ($properties["resource-pack-id"].ToLowerInvariant() -ne $ExpectedId.ToLowerInvariant()) {
         throw "Package instruction file has stale resource-pack-id: $Path"
     }
-    if ($properties["require-resource-pack"].ToLowerInvariant() -ne $ExpectedRequire.ToLowerInvariant()) {
+    if ($properties.ContainsKey("require-resource-pack") -and
+        $properties["require-resource-pack"].ToLowerInvariant() -ne $ExpectedRequire.ToLowerInvariant()) {
         throw "Package instruction file has stale require-resource-pack: $Path"
+    }
+    if (-not $properties.ContainsKey("require-resource-pack") -and
+        $ExpectedRequire.ToLowerInvariant() -ne "false") {
+        throw "Package instruction file may omit require-resource-pack only while the canonical value is false: $Path"
     }
     if ($properties["resource-pack-prompt"] -ne $ExpectedPrompt) {
         throw "Package instruction file has stale resource-pack-prompt: $Path"
