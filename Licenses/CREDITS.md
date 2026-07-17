@@ -1,14 +1,14 @@
 # Credits
 
-Jay's Patch is a free, unofficial server-side add-on for **Sybillian**'s Blood
-on the Clocktower Minecraft modpack. Sybillian gave Jay permission to release
-this add-on publicly, provided that it links back to the upstream project and
-clearly identifies the version for which it was made.
+Jay's Patch is my free, unofficial server-side add-on for **Sybillian**'s Blood
+on the Clocktower Minecraft modpack. Sybillian gave me permission to release
+it publicly as long as I link back to the original project and clearly state
+which version I made it for.
 
 ## Sybillian and the base modpack
 
-- Jay's Patch targets **Sybillian's Blood on the Clocktower version 1.5.4** for
-  **Minecraft Java Edition 1.21.10**.
+- I made Jay's Patch for **Sybillian's Blood on the Clocktower version 1.5.4**
+  on **Minecraft Java Edition 1.21.10**.
 - Upstream version:
   https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4
 - Upstream source: https://github.com/Sybillian/minecraft-botc
@@ -32,22 +32,22 @@ The Pandemonium Institute:
 - https://bloodontheclocktower.com/
 - https://bloodontheclocktower.com/pages/community-created-content-policy
 
-Jay's Patch is community-created, distributed for free, requires Sybillian's
-upstream modpack, and does not include the Blood on the Clocktower rules. It is
-not an official or endorsed TPI product.
+Jay's Patch is community-created and distributed for free. It requires
+Sybillian's modpack and does not include the Blood on the Clocktower rules. It
+is not an official or endorsed TPI product.
 
 ## Minecraft
 
 Minecraft and its assets belong to Mojang Studios / Microsoft. Jay's Patch is
 not affiliated with or endorsed by Mojang Studios or Microsoft.
 
-## Jay's Patch
+## My work
 
-**Jay** created the Jay's Patch datapack behavior, command-overlay
-configuration, launcher/tooling code, handmade resource-pack art, setup room,
-inn edits, and other Jay-owned additions.
+I created the Jay's Patch datapack behavior, command-overlay configuration,
+launcher and tooling code, handmade resource-pack art, setup room, inn edits
+and other Jay-owned additions.
 
 Jay's Patch is not affiliated with or endorsed by Sybillian, The Pandemonium
 Institute, Mojang Studios, Microsoft, or the upstream community contributors.
-See `LICENSE`, `ASSET_LICENSE.md`, `BRANDING.md`, and
-`THIRD-PARTY-LICENSES` for the detailed ownership and license boundaries.
+The detailed ownership and license boundaries are in `LICENSE`,
+`ASSET_LICENSE.md`, `BRANDING.md` and `THIRD-PARTY-LICENSES`.

@@ -21,8 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-This license applies only to Jay-owned source code in Jay's Patch, including
-the datapack code, Jay-owned command overlay files, launcher source, and
-tools/scripts. It does not apply to Minecraft, Blood on the Clocktower,
-Sybillian's Blood on the Clocktower modpack, the Melius Commands mod, or other
-third-party work.
+This license only applies to source code I created for Jay's Patch, including
+the datapack code, my command-overlay files, launcher source and tools/scripts.
+It does not apply to Minecraft, Blood on the Clocktower, Sybillian's Blood on
+the Clocktower modpack, the Melius Commands mod or other third-party work.
