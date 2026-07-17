@@ -11,11 +11,11 @@ $DatapackPropertiesSource = Join-Path $RepoRoot "Jays-Patch/datapack/jays-patch-
 $VersionFile = Join-Path $RepoRoot "Jays-Patch/version.txt"
 $ReadmeFile = Join-Path $RepoRoot "Jays-Patch/public-package/README.md"
 $InstallGuide = Join-Path $RepoRoot "Jays-Patch/public-package/HOW TO INSTALL.txt"
-$PublicLicensesRoot = Join-Path $RepoRoot "Jays-Patch/public-package/Licenses"
-$CreditsFile = Join-Path $PublicLicensesRoot "CREDITS.md"
-$SybillianLicense = Join-Path $PublicLicensesRoot "THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt"
-$AssetLicenseFile = Join-Path $PublicLicensesRoot "ASSET_LICENSE.md"
-$BrandingFile = Join-Path $PublicLicensesRoot "BRANDING.md"
+$PublicLegalRoot = Join-Path $RepoRoot "Jays-Patch/public-package/Legal"
+$CreditsFile = Join-Path $PublicLegalRoot "CREDITS.md"
+$SybillianLicense = Join-Path $PublicLegalRoot "THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt"
+$AssetLicenseFile = Join-Path $PublicLegalRoot "ASSET_LICENSE.md"
+$BrandingFile = Join-Path $PublicLegalRoot "BRANDING.md"
 $RootLicenseFile = Join-Path $RepoRoot "LICENSE"
 
 foreach ($path in @(
@@ -60,7 +60,7 @@ foreach ($requiredBuilderToken in @(
     'Jays-Patch/public-package',
     'README.md',
     'InstallInstructionsSource',
-    'Licenses',
+    'Legal',
     'CREDITS.md',
     'THIRD-PARTY-LICENSES'
 )) {
@@ -88,8 +88,8 @@ $requiredInstallTokens = @(
     'Back up your server''s current world and config folders',
     'Copy the included config folder into the server folder',
     'REQUIRED SERVER.PROPERTIES VALUES',
-    'Licenses/CREDITS.md',
-    'Licenses/THIRD-PARTY-LICENSES',
+    'Legal/CREDITS.md',
+    'Legal/THIRD-PARTY-LICENSES',
     "Jay's Patch Resource Pack",
     "Accept this pack to see Jay's Patch's custom icons."
 )
@@ -107,10 +107,10 @@ $readmeText = Get-Content -LiteralPath $ReadmeFile -Raw
 foreach ($readmeToken in @(
     "Download Jay's Patch v$patchVersion",
     "refs/tags/v$patchVersion.zip",
-    'Licenses/CREDITS.md',
-    'Licenses/ASSET_LICENSE.md',
-    'Licenses/BRANDING.md',
-    'Licenses/THIRD-PARTY-LICENSES/'
+    'Legal/CREDITS.md',
+    'Legal/ASSET_LICENSE.md',
+    'Legal/BRANDING.md',
+    'Legal/THIRD-PARTY-LICENSES/'
 )) {
     if (-not $readmeText.Contains($readmeToken)) {
         throw "Public README is missing required text: $readmeToken"
