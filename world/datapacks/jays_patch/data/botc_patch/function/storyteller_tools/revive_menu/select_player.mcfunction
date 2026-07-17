@@ -3,5 +3,5 @@
 # Validates a dialog seat before dispatching to its fixed Revive function.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"Revive is only available during live day phases.",color:"red"}]
+execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only revive players during the day.",color:"red"}]
 $function botc_patch:storyteller_tools/revive_menu/to_seat_$(seat)

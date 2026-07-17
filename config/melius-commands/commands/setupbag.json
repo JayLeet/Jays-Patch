@@ -9,7 +9,7 @@
                                                "type":  "brigadier:string greedy",
                                                "executes":  [
                                                                 {
-                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                     "as_console":  true,
                                                                     "silent":  true,
                                                                     "op_level":  4
@@ -43,7 +43,7 @@
                                                "type":  "brigadier:string word",
                                                "executes":  [
                                                                 {
-                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                     "as_console":  true,
                                                                     "silent":  true,
                                                                     "op_level":  4
@@ -66,7 +66,7 @@
                                                "type":  "brigadier:string word",
                                                "executes":  [
                                                                 {
-                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                     "as_console":  true,
                                                                     "silent":  true,
                                                                     "op_level":  4
@@ -88,7 +88,7 @@
                                               "id":  "trouble_brewing",
                                               "executes":  [
                                                                {
-                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                    "as_console":  true,
                                                                    "silent":  true,
                                                                    "op_level":  4
@@ -105,7 +105,7 @@
                                               "id":  "tb",
                                               "executes":  [
                                                                {
-                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                    "as_console":  true,
                                                                    "silent":  true,
                                                                    "op_level":  4
@@ -122,7 +122,7 @@
                                               "id":  "sects_and_violets",
                                               "executes":  [
                                                                {
-                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                    "as_console":  true,
                                                                    "silent":  true,
                                                                    "op_level":  4
@@ -139,7 +139,7 @@
                                               "id":  "snv",
                                               "executes":  [
                                                                {
-                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                    "as_console":  true,
                                                                    "silent":  true,
                                                                    "op_level":  4
@@ -156,7 +156,7 @@
                                               "id":  "bad_moon_rising",
                                               "executes":  [
                                                                {
-                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                    "as_console":  true,
                                                                    "silent":  true,
                                                                    "op_level":  4
@@ -173,7 +173,7 @@
                                               "id":  "bmr",
                                               "executes":  [
                                                                {
-                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                    "as_console":  true,
                                                                    "silent":  true,
                                                                    "op_level":  4
@@ -193,7 +193,7 @@
                                                "type":  "brigadier:string greedy",
                                                "executes":  [
                                                                 {
-                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                     "as_console":  true,
                                                                     "silent":  true,
                                                                     "op_level":  4
@@ -212,7 +212,7 @@
                          "id":  "preset_trouble_brewing",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -229,7 +229,7 @@
                          "id":  "preset_sects_and_violets",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -246,7 +246,7 @@
                          "id":  "preset_bad_moon_rising",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -267,7 +267,7 @@
                                                "type":  "brigadier:string greedy",
                                                "executes":  [
                                                                 {
-                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                     "as_console":  true,
                                                                     "silent":  true,
                                                                     "op_level":  4
@@ -290,7 +290,7 @@
                                                "type":  "brigadier:string greedy",
                                                "executes":  [
                                                                 {
-                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                     "as_console":  true,
                                                                     "silent":  true,
                                                                     "op_level":  4
@@ -309,7 +309,7 @@
                          "id":  "reminder_tokens",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -326,7 +326,7 @@
                          "id":  "characters",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -343,7 +343,7 @@
                          "id":  "night_order",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -360,7 +360,7 @@
                          "id":  "set_from_menu",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -377,7 +377,7 @@
                          "id":  "apply",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -394,7 +394,7 @@
                          "id":  "reset_role_list",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -411,7 +411,7 @@
                          "id":  "clear",
                          "executes":  [
                                           {
-                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                               "as_console":  true,
                                               "silent":  true,
                                               "op_level":  4
@@ -436,7 +436,7 @@
                                                                      "type":  "brigadier:string greedy",
                                                                      "executes":  [
                                                                                       {
-                                                                                          "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                                          "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"You can't use setup commands while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
                                                                                           "as_console":  true,
                                                                                           "silent":  true,
                                                                                           "op_level":  4

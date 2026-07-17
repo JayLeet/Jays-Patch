@@ -1,11 +1,11 @@
 {
     "schema":  1,
-    "version":  "1.5.1",
+    "version":  "1.5.2",
     "files":  [
                   {
                       "path":  "config/melius-commands/commands/botc.json",
-                      "bytes":  99556,
-                      "sha256":  "9eeaea3b7c195ee95451033dae49ff8e49ad6f013ccdf3ecc6545d7f0f82cb7d"
+                      "bytes":  99561,
+                      "sha256":  "165cbbbd138559a3aedb9139b38f6bb039619c8b34a73a5bb96331f5d6817c4f"
                   },
                   {
                       "path":  "config/melius-commands/commands/character.json",
@@ -24,8 +24,8 @@
                   },
                   {
                       "path":  "config/melius-commands/commands/setupbag.json",
-                      "bytes":  36167,
-                      "sha256":  "a00a8fabb9a627e76b08e4910880fc9bb3a95900b5e1f85b4e4b059953a31743"
+                      "bytes":  36190,
+                      "sha256":  "7d807c076781c000426b0ffe5f69a6b5affaedd10cb1f699b170f922cff4a4b4"
                   },
                   {
                       "path":  "config/melius-commands/commands/st.json",
@@ -78,24 +78,24 @@
                       "sha256":  "13400bb54806e78f46bb01f79cfb52b958ddc143d7c5675dcca2643f082f625a"
                   },
                   {
+                      "path":  "LICENSE",
+                      "bytes":  1060,
+                      "sha256":  "c44b11bf327eecd6ea6bda697bced9397f57826736089ec738414645ad2b7295"
+                  },
+                  {
                       "path":  "Licenses/ASSET_LICENSE.md",
-                      "bytes":  1602,
-                      "sha256":  "ff84e9cac75bf068841574919ba3ef4d3264000fbe8542f83be0add4dcbfc512"
+                      "bytes":  1641,
+                      "sha256":  "da617286292ce74b9c15024b97d57ce74d7d5783c0ae6c6afc8bef14ba08bd91"
                   },
                   {
                       "path":  "Licenses/BRANDING.md",
-                      "bytes":  592,
-                      "sha256":  "c6945fddd33cdeee1fe744b83a685b87350c570d42fd3380445009f819b39c48"
+                      "bytes":  589,
+                      "sha256":  "2332a66f2657528a5b2c859a29db594b7ab6a278278ac4f7ee1e65ba60bc0998"
                   },
                   {
                       "path":  "Licenses/CREDITS.md",
-                      "bytes":  2299,
-                      "sha256":  "32e58de336c037442c027db5b6a9ffb420c78ebe6cfc3f96ac1db599271cf0d0"
-                  },
-                  {
-                      "path":  "Licenses/LICENSE",
-                      "bytes":  1409,
-                      "sha256":  "8b425f8e1b41720123a5c0a7a6fb09ba64680101fd4c0cde45de961c58065d7b"
+                      "bytes":  2631,
+                      "sha256":  "5f68756d6686fd11f1b305e37326754708cbff7e70a47cab1c6028b607ada303"
                   },
                   {
                       "path":  "Licenses/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
@@ -104,8 +104,8 @@
                   },
                   {
                       "path":  "README.md",
-                      "bytes":  7468,
-                      "sha256":  "4641df3c934c4f312dad076ddca45478e87d26f6c4257b7ce2bba2847878ba2f"
+                      "bytes":  7303,
+                      "sha256":  "1905bb6b616d3619f22dbf916371291b78e496acfa725717d173c54a22e6274e"
                   },
                   {
                       "path":  "resourcepack/Jays-Patch-resourcepack.zip",
@@ -249,88 +249,88 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog.mcfunction",
-                      "bytes":  4179,
-                      "sha256":  "d7da5f4c554de3e88f31bcbee944f939953c50c6924995b4fd6f5a0f2e60d848"
+                      "bytes":  4173,
+                      "sha256":  "ff6a21622bda505895349f577921016514e16457b7c8e71c13870c2ee800abfc"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_0.mcfunction",
-                      "bytes":  586,
-                      "sha256":  "f55a5aa9fc95c05272ce2137f37d6f857999de22624ba45697f331b659839afb"
+                      "bytes":  576,
+                      "sha256":  "dad177693e1d026f56a894f991bdcc33c7421a1bf51b2506b58b2287a50dd078"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_1.mcfunction",
-                      "bytes":  812,
-                      "sha256":  "1759e444d4a5b43e11faccdd88dda813074c04e7fb6d6da9f2bba02e9923c21c"
+                      "bytes":  802,
+                      "sha256":  "a19cc2d6eb3bced023de96e2fc69814e54fb4eee20baf3a9132ad943cb55d78d"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_10.mcfunction",
-                      "bytes":  3825,
-                      "sha256":  "1c02c0bb3bebf5a357078e47a18b97ed9f8d6bbe09afef856e12b05b20ad0900"
+                      "bytes":  3815,
+                      "sha256":  "ac62495747a557e6b3f7734115732d0c3336a0ab306f7e203b9392f8af1d66a0"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_11.mcfunction",
-                      "bytes":  4165,
-                      "sha256":  "4fa0d2a4773df806baeb5655b994194811d82e262aee5f4c9c8c6ca08f9bc7aa"
+                      "bytes":  4155,
+                      "sha256":  "6e9415e00af9419e0d6e958b84058ad867b32da4636cf2850e011935c2133892"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_12.mcfunction",
-                      "bytes":  4505,
-                      "sha256":  "c3c776e6fee49736f5cf67365729e7edb9da8fd0b2e351157f3388b07bd8d12a"
+                      "bytes":  4495,
+                      "sha256":  "d01f7ea9b014c209d26bd5886415f8611cc69ae19abdf924bb98d433c8be3b87"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_13.mcfunction",
-                      "bytes":  4845,
-                      "sha256":  "8795e1e335e65cd81a476d148a2691a73b069a61975c053bb4f80b39d286c71e"
+                      "bytes":  4835,
+                      "sha256":  "435150c48d8674310355feac1627785ed2c1a2cd1ae9992cec7bdf404420ffe2"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_14.mcfunction",
-                      "bytes":  5185,
-                      "sha256":  "246a6ff789253885e4f4167a6d5d416e277ba79cb8fc5d6610d89181fd63a6df"
+                      "bytes":  5175,
+                      "sha256":  "9406c2ec17a6ec65eb9417d240be07f92f593e5e52f7acba7d210af3b5cf19b7"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_15.mcfunction",
-                      "bytes":  5525,
-                      "sha256":  "8ac67abb2337698ee19395f722666c09bbb1835fc125915a0dc89d4d0eaac8e7"
+                      "bytes":  5515,
+                      "sha256":  "72bd3b099150176f14baff600cae297baa56b4529c9b27daee52babf8d00be38"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_2.mcfunction",
-                      "bytes":  1146,
-                      "sha256":  "254cf24693c054a05a2fc09dd2dda227fce5da8fc5255f50acd3cd928e50fb26"
+                      "bytes":  1136,
+                      "sha256":  "c6adc6c3623afb4c78410d2a38f44baa3e9b5b9cf70e5e21f421c755838a5eb5"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_3.mcfunction",
-                      "bytes":  1480,
-                      "sha256":  "50764606995cf3c8899622ed77d25f264cc844aeb7c213865306ab96fd1a1ab7"
+                      "bytes":  1470,
+                      "sha256":  "fb806349d650b7fac45e1f6d91a4352c1319bb97c917360f3b9a55c517369ac3"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_4.mcfunction",
-                      "bytes":  1814,
-                      "sha256":  "a26c993106c085d5717d6fea8723b27e28bc92c110c6f2753ad3f663b9d90edd"
+                      "bytes":  1804,
+                      "sha256":  "2953854edae356a7e16ec349de0c67780d4fd57edbeee7b3935256d30a208ba2"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_5.mcfunction",
-                      "bytes":  2148,
-                      "sha256":  "57846ffe53760971ead85803cbbe85c738fcce3306f7549e11e10564382517fb"
+                      "bytes":  2138,
+                      "sha256":  "40ca03ee4d0003d48a8d9752740583bc583959e2516deb54773b4a762ef52c1c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_6.mcfunction",
-                      "bytes":  2482,
-                      "sha256":  "ee80fbb044f8093dba03d6d15d70e15ba9ea5786ae1a8a7eddd05a008e46da7c"
+                      "bytes":  2472,
+                      "sha256":  "af16fb6ad58bbb26b9121f412c4868c8a55c43654d590ae93ee613c808261a1d"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_7.mcfunction",
-                      "bytes":  2816,
-                      "sha256":  "6419545c7eab804eab10219a1a66e3688f2762dc516eac8d0c5f6cbc68cb8f1a"
+                      "bytes":  2806,
+                      "sha256":  "382a8c5ec5b16be4b1b77c8f50720ef801fa5fd57b342d3faa0e1a0d2317a6f8"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_8.mcfunction",
-                      "bytes":  3150,
-                      "sha256":  "88c839922dd717b662d4486c6eb8b4da89c49c100b3c6de053bc9709d8f42960"
+                      "bytes":  3140,
+                      "sha256":  "2d5e4754cbe79b2a569e611c6d163459a281cbfe15dbd0f03cb0179671aab39b"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_9.mcfunction",
-                      "bytes":  3484,
-                      "sha256":  "4d820b1f921eb9259b250bf0928e67ca3edfb5522a388eccdb0b4648de5ffa53"
+                      "bytes":  3474,
+                      "sha256":  "a470657739170cfb3ab1de9b6449e2da5e7a867f2407cff7532e606ecaa31831"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/announce_fearmonger.mcfunction",
@@ -379,8 +379,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm.mcfunction",
-                      "bytes":  1702,
-                      "sha256":  "c17ed6524646c477e711ef3c35c609ba938817ed77d74fbcfd6a0e3465da5469"
+                      "bytes":  1701,
+                      "sha256":  "4c478e74b42b24e6e1acd8e5f52c62c2adc6b67e45cf328a703a524e4eec1e09"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_0.mcfunction",
@@ -424,8 +424,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/dialog.mcfunction",
-                      "bytes":  19187,
-                      "sha256":  "234e6819cd87c24b532d745b4e2780abf159eb8e5c5fa3633c47b64363cd25bc"
+                      "bytes":  19191,
+                      "sha256":  "71761d7ac2b89df54574fdab24c6a8d692a258c672071429a1d14a03a561618d"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/dialog/append.mcfunction",
@@ -545,167 +545,167 @@
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/change_characters.mcfunction",
                       "bytes":  611,
-                      "sha256":  "a12fc2e1f5e11aa8ef716bd975e106660c4ca977200bbdd5f37120167f731e63"
+                      "sha256":  "78082cf6de6cfba33c3dff604ebc5f006e955f9214abea421c96a8d122ffe70f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog.mcfunction",
                       "bytes":  6134,
-                      "sha256":  "85b1677c10c9ecc114d173e1c2467bc41507034aae17898b9d0baa80bdcefa4f"
+                      "sha256":  "01d3f15fdf3dba0473a01996fe85d403707a73003b20817c6d7d48384892b383"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_0.mcfunction",
-                      "bytes":  1723,
-                      "sha256":  "f41f27b6ffb9b3cefc119d8f2daa0ee3e555572da089ba2f6c7c2a4825d73df9"
+                      "bytes":  1736,
+                      "sha256":  "dfa8d90ea78ba72b737a2d190485174f78ab0cc0a4a209b839faf234ac2cb5c0"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_1.mcfunction",
-                      "bytes":  1945,
-                      "sha256":  "ec489ab9f47e6c54a10a8f594de1326c5bf067c642d20916b46ed7fa7a6463b1"
+                      "bytes":  1958,
+                      "sha256":  "fbaf4f21df25268bfc1002e442874b49e0aa834b486f0be86deaf815f665ada8"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_10.mcfunction",
-                      "bytes":  3948,
-                      "sha256":  "4066c7673daf173d93e76611ff29b2fb60e8754e3f66acfdf6658e0cd3471788"
+                      "bytes":  3961,
+                      "sha256":  "af652264c9b1135c7a19ab645206c6f9e50aa30f5c430617cdfabd363bafebd9"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_11.mcfunction",
-                      "bytes":  4174,
-                      "sha256":  "07cb1dd37f757061382942cb8d22da900c0f4070a63ce6863b5cce569bcfb2d8"
+                      "bytes":  4187,
+                      "sha256":  "8233c6c7de83b776738173d78d41ef095541a5f39d41d9b3bdadf69f5461b7b0"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_12.mcfunction",
-                      "bytes":  4400,
-                      "sha256":  "9d2b9b3615deffd7bdbfac5a5d7c1eacadc1c4b6144fd7ab3973ba0d016f5a3f"
+                      "bytes":  4413,
+                      "sha256":  "cf6c00e6980de770e86752e3d8d229f159878b1539ed6b04470ca77d363b66d4"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_13.mcfunction",
-                      "bytes":  4626,
-                      "sha256":  "402e7c78f69e1341f43ea967ff11866e27f93ef88828028ff778a4f25b2db266"
+                      "bytes":  4639,
+                      "sha256":  "eb5d9af9c43f6a5eda9c86c6fdef94b6439da937541e83310a1375255cff07a6"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_14.mcfunction",
-                      "bytes":  4852,
-                      "sha256":  "2fbea62b11c6842b6f8ce362e92dab736e79a7a597678414033e8ada9bdc713c"
+                      "bytes":  4865,
+                      "sha256":  "12210394b9f2c956d366b6c53d1a4cff87f6ef877aa3fde48c8bcc3b319f3bea"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_15.mcfunction",
-                      "bytes":  5078,
-                      "sha256":  "4e2304d6c70bebf810347318ab95348c94e2f9923290fa358979d3f83df5cd04"
+                      "bytes":  5091,
+                      "sha256":  "1fd6d63c082021b82f1ed77658cd2cc52eb70d54b8ec53f035831bf497c10331"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_16.mcfunction",
-                      "bytes":  5304,
-                      "sha256":  "06332ba018899469be2b069d52edabcd6ea00d6bab2f182a0e0702681b9c43d9"
+                      "bytes":  5317,
+                      "sha256":  "e525eae4bd74afa455b160b384750cb179a86bc9171c37585de9fd6327497fc0"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_17.mcfunction",
-                      "bytes":  5530,
-                      "sha256":  "3ab76ec9b62538fc3b6c32899916747d51743db5dff60d58cb4cc5c99979f5b8"
+                      "bytes":  5543,
+                      "sha256":  "359160618f45a71fac06a0d93f457df52cb573bd1cb42169efa50edb56c290c7"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_18.mcfunction",
-                      "bytes":  5756,
-                      "sha256":  "07f4c43e3387a11fadc23e62e52a36f9ef5fe85942543e360622f668f9dfac34"
+                      "bytes":  5769,
+                      "sha256":  "2089e4eb2c2c3477fe05c04c65e41851f3153263344548fecbedba6e586fc8fb"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_19.mcfunction",
-                      "bytes":  5982,
-                      "sha256":  "f2f6a34c314dae302247db8fd4c304d0b90ea3c26eb75fd222802ca1e63c7af9"
+                      "bytes":  5995,
+                      "sha256":  "4c6a90a920773d11a986583497076934e9a8dbde39bae205272b97d2a421b0f7"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_2.mcfunction",
-                      "bytes":  2167,
-                      "sha256":  "b6281fc8616a2316a99fe81d1b34349f686a2979d063dab86e0bc9f3b97af291"
+                      "bytes":  2180,
+                      "sha256":  "7d2772545a1836579582f8f421646edef9fa9be0be8e90c535bf2619eef6170a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_20.mcfunction",
-                      "bytes":  6208,
-                      "sha256":  "6a34f4f0bcb526a854085ffbe6885df7ba91892bc3bd425703a2fb9d7ffc5157"
+                      "bytes":  6221,
+                      "sha256":  "e4ce692911821fed51062abc469944b027e8f6d1577847d5a4c3b914c251f6f2"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_21.mcfunction",
-                      "bytes":  6434,
-                      "sha256":  "5ec068da2adacf8ab4fe5c1cd72ec7fb558a3ddbea32ac94ec452dc33ce2ca7e"
+                      "bytes":  6447,
+                      "sha256":  "08b9f09da6fdb68bb7e23f74b31eac0058e7f24f3fb9f53ec63c2d20cee6255b"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_22.mcfunction",
-                      "bytes":  6660,
-                      "sha256":  "138e76cad3c4eb9e3d94ec3fcd04eb32b13ab2093bb7484bcfe0fea8a92ea3c6"
+                      "bytes":  6673,
+                      "sha256":  "a9c2908d3e8b080eb333ca21bf38f20127fe90e2fc27c112a7f1dafd09d08b75"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_23.mcfunction",
-                      "bytes":  6886,
-                      "sha256":  "9d9ff86054956f2609f523ec50d1f7d4e2c0fa129ce54be010a92ba0fa84a04b"
+                      "bytes":  6899,
+                      "sha256":  "da146a90cb6ccca439a97ba15b7b1c3812374f644bb2a20c154424617faa0c4a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_24.mcfunction",
-                      "bytes":  7112,
-                      "sha256":  "3895d389886b628d5053c0dcc1163e92ed120279b5175c78282a04588dfae4dc"
+                      "bytes":  7125,
+                      "sha256":  "41c0649d170f5fdb6ab407942e44dd3b248c04f5a08584c0a522df115b91b3a8"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_25.mcfunction",
-                      "bytes":  7338,
-                      "sha256":  "f6be3d364f40840b1cbe49f3e2f59d9ed8068d0fc6f04dc652e8065f55520d83"
+                      "bytes":  7351,
+                      "sha256":  "b88448c935fdefbf920e136d1384379ab7741f941c64d8741dfb7c1ce4bd9689"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_26.mcfunction",
-                      "bytes":  7564,
-                      "sha256":  "afbc663750c1cccd7d5dfcba0a3a50262644a9384cbf7f04f4b114875e0c6356"
+                      "bytes":  7577,
+                      "sha256":  "e0b53fd410d9281f3d3de9ba50030ec1bcbc1747a054db77a4ca26896844ed00"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_27.mcfunction",
-                      "bytes":  7790,
-                      "sha256":  "a13473429ad2b1cdf82b9a759543d8d0b15c4c0547ef52b95499dcdd644c21e7"
+                      "bytes":  7803,
+                      "sha256":  "81ac364c07154ef52db837192d19979eb08a037ac06c8ceec22cf09497c2c079"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_28.mcfunction",
-                      "bytes":  8016,
-                      "sha256":  "154d874667a4bb16939e4feae8b5aeb8497c585ddf0d6a99debb001bd9f58e81"
+                      "bytes":  8029,
+                      "sha256":  "eda8b999f0da96601dd7e2e59020979dacb5dd197f49640c0ca8cd2a9ca5ca58"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_29.mcfunction",
-                      "bytes":  8242,
-                      "sha256":  "9e84436505471e42cf20ee05793986fa755b8d3c934fac2a174cd784ef0431d3"
+                      "bytes":  8255,
+                      "sha256":  "a7148e8ff23db72c647f8bd9d4b8e8968621aa66fc0c0bf866f6eae9ad883689"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_3.mcfunction",
-                      "bytes":  2389,
-                      "sha256":  "9fe580aafa17e54d3f48c8a9794141e529e12565d2ca3f472105887a037111cd"
+                      "bytes":  2402,
+                      "sha256":  "b87926528652948bdc88a5042a7c0bb675666e1ce7e5468531fdb8c8d3fc00d8"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_30.mcfunction",
-                      "bytes":  8468,
-                      "sha256":  "b1d53bc8d099bba32241432091c1e840679002ae645c833752dd9ae420d95954"
+                      "bytes":  8481,
+                      "sha256":  "4279398fb043c1e5007ba9fc811d6e6f74611f0ffc46892dbc3f4c92f5a5ca50"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_4.mcfunction",
-                      "bytes":  2611,
-                      "sha256":  "7b0dab66b27faa70fe35884c37403cc43e58a8fe228e732436993117689f409f"
+                      "bytes":  2624,
+                      "sha256":  "53b5264b114e54e7b6b19df18f63fee5e2ff95abee0539029e9f60c7e61bdbad"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_5.mcfunction",
-                      "bytes":  2833,
-                      "sha256":  "79240b087bdf31efed2135896433254ea0b5f50d2f1dbc491b89c1fa21a76cbe"
+                      "bytes":  2846,
+                      "sha256":  "0606c94e332645d0bd2244defc5119c00abfeccadaab95bcdab6a3fe6da01e54"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_6.mcfunction",
-                      "bytes":  3055,
-                      "sha256":  "ce8ceaa5c3a18ebca54f9bd9e80c323b7374633b5a3967ff9739b07aad092864"
+                      "bytes":  3068,
+                      "sha256":  "52c455292a2494423fd213cd31c4af72f3de52ec46aab064b3ebfc0db6dd73b0"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_7.mcfunction",
-                      "bytes":  3277,
-                      "sha256":  "212a871163193e6eddbbb2c7d6222daaa04198c89b3667ce07bc4f138f8fe5fe"
+                      "bytes":  3290,
+                      "sha256":  "2b03a3744228814e211aaa3fb1973f0e33e52272c53b62b932137e94b9f0ce4a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_8.mcfunction",
-                      "bytes":  3499,
-                      "sha256":  "61c152f4b0a06d5af8b28833fe3c28a4a36ebe97cf6925ed013bf89e04a5fec0"
+                      "bytes":  3512,
+                      "sha256":  "cbf417bae5d8df6b9544a30c969ad3ff3be829e61fc1a68dec2815f0abdf04b7"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/character_dialog/count_9.mcfunction",
-                      "bytes":  3721,
-                      "sha256":  "3d8e178bb6ab3c0d20bdde33d56c6445ed6d462109e7ce5adb13ae5ad9fd2ca8"
+                      "bytes":  3734,
+                      "sha256":  "11f163fa923db9f65d2cde34863e77c9cf61a9075d2328a115b7cd6785f2dbc3"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/clear_game.mcfunction",
@@ -714,103 +714,103 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/invalid_role.mcfunction",
-                      "bytes":  135,
-                      "sha256":  "450c2b143bad1cab8faf8aa6e40214f9c2c9f1a003d8bd2516bc1ee9d8524764"
+                      "bytes":  134,
+                      "sha256":  "5f13848e8f6a37afa33df580849c57995998ce6e7501045068204cd389c01bcb"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/invalid_seat.mcfunction",
-                      "bytes":  129,
-                      "sha256":  "ce451d8e40dca27490a1094e585b2943072f6c32ffa9e93dea7a16dd6d12db44"
+                      "bytes":  123,
+                      "sha256":  "38e286cd12b88fd7d288da4118784e1c3e555c9e0b487e3894bfed27aa6ace41"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/locked.mcfunction",
-                      "bytes":  122,
-                      "sha256":  "f198dc849186a5af7896da71f6e088f6ecdd64d56ecce1dddd0eaf7342f9623c"
+                      "bytes":  124,
+                      "sha256":  "ae8197c9ae839a38d6e9345596228f327724eea94a27d6f32547a38ba3db8e8a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog.mcfunction",
-                      "bytes":  3794,
-                      "sha256":  "65ffed75d3b3f90429d2772429ec1cb55622100e65e5087d185dd3e466ce0797"
+                      "bytes":  3813,
+                      "sha256":  "05a1ea3bda2cc7161b16ec3d44993ef6428267853c953d95a5218acb7863280b"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_0.mcfunction",
-                      "bytes":  598,
-                      "sha256":  "6342e6aa5f6f60ea9d875f8ad583c500a97db90bd0c976803aa4a4c839769809"
+                      "bytes":  604,
+                      "sha256":  "ce01729445f33eb36c8da7531ba37287161875b44818e9b50440af91ac338056"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_1.mcfunction",
-                      "bytes":  800,
-                      "sha256":  "9ade950b36bbebfde9193314dfcf720efa8a56a7c9dee78875d84ff3b9979bf5"
+                      "bytes":  806,
+                      "sha256":  "0821c08dc3f3cfb0727bea8ce7bc3b0c8f68a1b64d8206f1a401b2f51e535b7f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_10.mcfunction",
-                      "bytes":  3597,
-                      "sha256":  "791379e4520c92b9219b253f2e777f5cafbe809e96ee21be3c98451fb2c314b8"
+                      "bytes":  3603,
+                      "sha256":  "437e043f25b1af00bb68f2b333fc4670c2c18491bc4848c3629852470dab0918"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_11.mcfunction",
-                      "bytes":  3913,
-                      "sha256":  "28ae06a8e5041bc15c32527c9a98c8205947b16831d48c6246eb6174ada71c80"
+                      "bytes":  3919,
+                      "sha256":  "ad5e76d5a340dbbeeda7f6a69430c8fbe50e3e6b981c874ac77b00961e12e307"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_12.mcfunction",
-                      "bytes":  4229,
-                      "sha256":  "5523251abb3ba5ef372b050c118fa1978e15089ead7326322c3aa95b2fb0103d"
+                      "bytes":  4235,
+                      "sha256":  "70f781d81da688d83eff767026580b506d9c45d70603b2afbc7e9ca73789d146"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_13.mcfunction",
-                      "bytes":  4545,
-                      "sha256":  "9e77826f191dbbb49f4a7c82bd2ffb6cf77b607a2c9d142515d1d2e3ce7985ec"
+                      "bytes":  4551,
+                      "sha256":  "0cad58b999f9ed6c51d3d691391dd1b0d2d0cfb4c20f0319720e8771e358f0b6"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_14.mcfunction",
-                      "bytes":  4861,
-                      "sha256":  "4527040dfb88279f4d8721743b2c86b688aa63d37f6b06594f79732bde218ede"
+                      "bytes":  4867,
+                      "sha256":  "cd7de8e6821496450e75229594050d88246aa29b1943d44e745d1db1cdb51116"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_15.mcfunction",
-                      "bytes":  5177,
-                      "sha256":  "a217e831a8889ccc795ecc1eac97b743bde2d9932a8ac91f843c664bd9809e32"
+                      "bytes":  5183,
+                      "sha256":  "658610a53d9817efbe7938950aaee3aedd5f9fe75e10198f3bd81b30ceedff3c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_2.mcfunction",
-                      "bytes":  1110,
-                      "sha256":  "1bb12c46c98c0c154776fea8c2cb0cd626ede4af9d83611fc5da6d1eb66b3f5f"
+                      "bytes":  1116,
+                      "sha256":  "30bf2aac4a4a46f38f3d8db00f56303195042565117042c83fc3261dfca20495"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_3.mcfunction",
-                      "bytes":  1420,
-                      "sha256":  "685bcf7c04940318b278fff5590c055b92bf8b74325e650da6d7e7d566c6b88f"
+                      "bytes":  1426,
+                      "sha256":  "44cb38fec85bd2ec004859bf6f15f30931dba89ecbc0a0f95b2efe1f03041754"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_4.mcfunction",
-                      "bytes":  1730,
-                      "sha256":  "0ef0a57a30b0d4c79d8361e2d07f1ea7323cca3047f007ccc682309c8362c3da"
+                      "bytes":  1736,
+                      "sha256":  "1872be3c180b4e2e04b8392405e6f6b6079e123935ae195c3cfca49bcf7285c2"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_5.mcfunction",
-                      "bytes":  2040,
-                      "sha256":  "323f65e9955d48b38b3a8f10a6f3a1188ffa6f484a869f8801c6161126925aad"
+                      "bytes":  2046,
+                      "sha256":  "be1fd1e0d10971dbb18f2749b10cb396ad432018f6a5254a77349221ceefbc2f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_6.mcfunction",
-                      "bytes":  2350,
-                      "sha256":  "408271f3bd5a04f84c52490cc6e5f80197292346ccaf3eaccecb5afb36cbbde4"
+                      "bytes":  2356,
+                      "sha256":  "6b4f92b422916fc46c70b514e07a1c84e4d35649f5ab6ff4915db6bd77b6ca94"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_7.mcfunction",
-                      "bytes":  2660,
-                      "sha256":  "a23fbc6a955547e2408417c8137333b3f2f35bbe42793f915bf8ba1186c4bbd7"
+                      "bytes":  2666,
+                      "sha256":  "d7f840c29ca04f43afc3d700f83f5a88a607ad9068aae346c940a576e1798915"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_8.mcfunction",
-                      "bytes":  2970,
-                      "sha256":  "10bcf55c184b45ad694a33bc9b3cdadd0a4398b160dda8d2bbe869e1eb66ac2e"
+                      "bytes":  2976,
+                      "sha256":  "1c372ad8e6482fbcad375b50da3501d78791956ba597f33a0f612c8a824a51da"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_dialog/count_9.mcfunction",
-                      "bytes":  3280,
-                      "sha256":  "9258f97bae55051631b21aec8a3c0ec947263849477bc46feaa8e560f0383a8a"
+                      "bytes":  3286,
+                      "sha256":  "843033edda91965cd719bb840a286992d9bef1b66de1099df274e0fa117be338"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/player_labels/prepare.mcfunction",
@@ -865,17 +865,17 @@
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/select_seat.mcfunction",
                       "bytes":  525,
-                      "sha256":  "ae2a8672cb12d3d6ad68a42e0ee472958f2d2ea36f56c9ddf350e0ec4a485291"
+                      "sha256":  "8b34a31cdf868624eb202ce458f80728530eb28c7827c6f4dff652ed9532c6cf"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/set_alignment.mcfunction",
                       "bytes":  916,
-                      "sha256":  "92c0c32d510e92cfd5713468e58538d62d7a34a962ae18a9b9e979fbf3c9b13b"
+                      "sha256":  "73d2fdcc9286972d9a4b97c08959c39d5e8ebb47fc4819b130d3cbb9e0d7468f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/set_character.mcfunction",
                       "bytes":  1054,
-                      "sha256":  "fa386cac7c222c4dfebfcd01a360fac250f1d28298f18d332765942820896ecc"
+                      "sha256":  "efed411bf8fc6cbff0c554be295a4df3ea18c3f909af38b70691cce2dca0b1ab"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/editor/set_evil.mcfunction",
@@ -919,13 +919,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/rescind.mcfunction",
-                      "bytes":  1358,
-                      "sha256":  "85cfdd4eb95c154d5ca250ada4ad44f2f2bac95a09b20a0f3a7b8ed75a1a3cf0"
+                      "bytes":  1355,
+                      "sha256":  "322ff5688d65e138f2a8ebf33d80388e88ab4e2ae754fcb25d7bb718211e15c1"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/rescind_confirm.mcfunction",
-                      "bytes":  1755,
-                      "sha256":  "f0548144980c268c627b0a4369862dcccfa78a3ebe8ec26c185c7f8d29b82753"
+                      "bytes":  1761,
+                      "sha256":  "569576c40600ab9e235a870a37d0854de2c1557571dae1f3649608f5bef71c44"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/rescind_restore_time.mcfunction",
@@ -944,8 +944,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/reveal/from_player.mcfunction",
-                      "bytes":  16428,
-                      "sha256":  "a359f09f3e1d6411535455fe599e9d34fafc1a095ceb7d3ca060136a351df5b7"
+                      "bytes":  16503,
+                      "sha256":  "8be20eca0d19daff0c6a1563ef668eb117c554b05c1b491cebbd1e3b2420bcb3"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/reveal/from_snapshot.mcfunction",
@@ -1099,8 +1099,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/start.mcfunction",
-                      "bytes":  334,
-                      "sha256":  "cf21170cb4c681a30c98c4fa90678050ab3b5f6f7c3485a385f4411224f276d9"
+                      "bytes":  333,
+                      "sha256":  "cecc1327cf9033a82e261ff596a29e02a984e606f21c6f5f9d85e97da18424eb"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/start_active.mcfunction",
@@ -1229,13 +1229,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/install_notice/disable.mcfunction",
-                      "bytes":  201,
-                      "sha256":  "b601553f0fe0045df526e5d16a1865597336def0f2100bf01c6e010efa88fdf1"
+                      "bytes":  192,
+                      "sha256":  "023c376756dae31325055f2260c6d39e01aeac3caa99c9fa92d0629074b13418"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/install_notice/show.mcfunction",
-                      "bytes":  1293,
-                      "sha256":  "74ffaebab43c6d832372f33d00c7a061e31377e5f7726a9114131c99a50ec9d9"
+                      "bytes":  1400,
+                      "sha256":  "aff985b4011deb4ff37196eeeb60108bc6b8c5142e7865e10633af83cf8eb284"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/install_notice/tick.mcfunction",
@@ -1284,13 +1284,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/music/off.mcfunction",
-                      "bytes":  126,
-                      "sha256":  "2ea42a5e17b6b365fc63874b529c87c881f1e6bdad03b80fff00f173f3659adc"
+                      "bytes":  124,
+                      "sha256":  "812a2193e4d3cf7226932c415ecc6b9b00eee1c965a036f5c421a244f439f807"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/music/on.mcfunction",
-                      "bytes":  285,
-                      "sha256":  "26c8410667ccf02bc78ed0109cd46c8e581c3dd82c78dc662869ce5e5edc6caa"
+                      "bytes":  283,
+                      "sha256":  "37b63b4e788699de687d335ac55fc13ff228e013799380a96551e68ad40a7e28"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/music/phase_changed.mcfunction",
@@ -1324,8 +1324,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/music/select.mcfunction",
-                      "bytes":  5868,
-                      "sha256":  "7602bfb721e66ddc9dece2f7cca063b62c3e1bb8068f3ee88d9b593b3de061f2"
+                      "bytes":  5864,
+                      "sha256":  "1c076f547d7080a8c4382d1c4ac037fbe243b2bebeb6a68859b41c154a1ab47d"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/music/tick.mcfunction",
@@ -1354,8 +1354,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/music/toggle_pitch.mcfunction",
-                      "bytes":  949,
-                      "sha256":  "adf314050641285683d963440a2593690cdb7830d4ee0cf7ce88c204856de08a"
+                      "bytes":  941,
+                      "sha256":  "ccd06814df55764fd348943f2f29758d4bbcb6a2deb1a2b1fe00d8a7210ee0ae"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/nomination_markers/activate.mcfunction",
@@ -1389,23 +1389,23 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/patch_toggle/disable_items.mcfunction",
-                      "bytes":  800,
-                      "sha256":  "6a6492b9c26f8c763c42405bb56696ae9176a85c40d6ffe926426a839cdf4a66"
+                      "bytes":  829,
+                      "sha256":  "8e2fb28ecc57507393fa11486753a319ab2e0a6bc95b5ce412a80371d0813d51"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/patch_toggle/enable_all.mcfunction",
-                      "bytes":  633,
-                      "sha256":  "9d9bbbbc4c4648dbb13b29a0a9fa2b7b97b48668880aed5bfdc1e4db384be495"
+                      "bytes":  655,
+                      "sha256":  "d98de5344f97739c14d9bcb5bd94bb22200c2925e8919fbc3fb2a8bf38f0dca9"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/patch_toggle/enable_dialogs.mcfunction",
-                      "bytes":  647,
-                      "sha256":  "3d1a413a03af355fb7363a2124ac7dd36931b8650a0d52a8d99d444ea2688a19"
+                      "bytes":  679,
+                      "sha256":  "4cddf08a112e662f3528e60600317d96b19c79437c7d400e6c48e9f589c08020"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/patch_toggle/item_checks.mcfunction",
-                      "bytes":  9480,
-                      "sha256":  "e560ed742c55c44b400584fc016e39f9577c94eaeafa73f5dc6195b5bc0e3d40"
+                      "bytes":  9479,
+                      "sha256":  "36570fe1e1d04daec8c0c86d39102b62496f3b7115163180ec52b45727594c44"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/patch_toggle/tick.mcfunction",
@@ -1414,8 +1414,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/patch_toggle/use_sybillian_setup_bag.mcfunction",
-                      "bytes":  777,
-                      "sha256":  "7db1e08a72d46b6955dd3f325a989eca0a34906777f83e75bcb485721b77b8c8"
+                      "bytes":  828,
+                      "sha256":  "a9fc58298ca235f5a91ca49a489c9d9996910228baa5c04fa655ff8bc30a17ec"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/queue/add_storyteller_silent.mcfunction",
@@ -1434,8 +1434,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/queue/help.mcfunction",
-                      "bytes":  636,
-                      "sha256":  "bdbc0b350d747a5361a232d7422515a04bea00031891ad761657b64965464d81"
+                      "bytes":  603,
+                      "sha256":  "07ea4b37dd952c0e29772379ad00eae8956412042bd6131d925ac0117be65662"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/queue/join.mcfunction",
@@ -1739,8 +1739,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/apply.mcfunction",
-                      "bytes":  314,
-                      "sha256":  "87ab675aecd84274209b755e627cbba32a1bede00209154532ca2bab02eb4958"
+                      "bytes":  315,
+                      "sha256":  "c3a071f9f8f16531a6f09cd54058b4b76f70725b9ce1aa42a754b697179ebbb3"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/apply_silent.mcfunction",
@@ -1749,38 +1749,38 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/bridge/apply.mcfunction",
-                      "bytes":  351,
-                      "sha256":  "7ab6d3b9db6d69a571faf46ffa6034112886c52f096817a79bf728d152bd8e26"
+                      "bytes":  352,
+                      "sha256":  "1f30661f343f1837aad443d60e5980f9cb89b409af062fbd63812fd9aee0c22c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/bridge/clear.mcfunction",
-                      "bytes":  351,
-                      "sha256":  "b0dbaa37b78624a3ff60bd6b4c3149d53bea305ce2d76b5a026d568f49df5f0b"
+                      "bytes":  352,
+                      "sha256":  "fc0d4d7ce86a9774557f54abcb1d9e21bc4c8dbab89afc148b53e4eca805885c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/bridge/import_full.mcfunction",
-                      "bytes":  377,
-                      "sha256":  "10cd18809fd84716a8271df34b618514fe30c9326eede19ef0ca4f5a3ee1e73a"
+                      "bytes":  378,
+                      "sha256":  "be0a1d0e5b6d8cef51e088e0cb0f781d9fc459fc5cc56027c23ec67907f46526"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/bridge/preset/bad_moon_rising.mcfunction",
-                      "bytes":  368,
-                      "sha256":  "9dff2246a2a46628230135ca03b26a0058c3d029c5eb2db4b355bd548628b8b8"
+                      "bytes":  369,
+                      "sha256":  "3bcfbe4ab3a99ff4472d5ec2725cbda68c1d4b4127ff23acfd5a354a02a62662"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/bridge/preset/sects_and_violets.mcfunction",
-                      "bytes":  370,
-                      "sha256":  "15890c397118608c587eca8b821b8af3d7747c13fda1f6acab5db856de4b5adc"
+                      "bytes":  371,
+                      "sha256":  "9a29bcf08dc6adbc073d2d9a6879738bfece4ee66dc200887c44f0655d1903b2"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/bridge/preset/trouble_brewing.mcfunction",
-                      "bytes":  368,
-                      "sha256":  "e95ccda0c3d7e0bcf838729eadc88ddbe5db23e483fa5635cbcc2892d4de8178"
+                      "bytes":  369,
+                      "sha256":  "415ee5121dc0cee1d189f691f16e0b3de88a9b99ad706c32cc161b06b84924bb"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/clear.mcfunction",
-                      "bytes":  358,
-                      "sha256":  "2c8ef5b8839e9c8b138d50da331f54bfd362bb9d49cead8a3066f89677262e38"
+                      "bytes":  359,
+                      "sha256":  "481c710b380a3276ce6de327387a713f7b8c7756f65162da700c9ee916ed7ead"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/clear_known_roles.mcfunction",
@@ -1804,8 +1804,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/commit.mcfunction",
-                      "bytes":  620,
-                      "sha256":  "e00fea23d9889204de7972c2db7a1b9e59a629771949f6f1a79eb4efa5373c17"
+                      "bytes":  613,
+                      "sha256":  "dc0875198f86c413373796199822cc993f3cec2ad9b56eeed82155e04beb8852"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/commit_candidate.mcfunction",
@@ -1814,38 +1814,38 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/convert_to_ids.mcfunction",
-                      "bytes":  825,
-                      "sha256":  "26b8997638994a4562e6181cfe7c783c191b5696060911637428091fb8bf3331"
+                      "bytes":  834,
+                      "sha256":  "bb25fb2233e33c3b87e7c6986bcc667d1e9a03d4fb817e76907c1582ed941ad0"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/fail_demon_limit.mcfunction",
-                      "bytes":  391,
-                      "sha256":  "00ea63e74b74194c36b56120560a68058cb833132a9e2abfaaf5575e892d9b7e"
+                      "bytes":  399,
+                      "sha256":  "2261ba24885490f45ddc6a5d994296b5f1dcb8e9794652dba19c50960c8f812f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/fail_minion_limit.mcfunction",
-                      "bytes":  394,
-                      "sha256":  "6ad905f61133f695d7a1a27f7cf4f8444418d0de1df9269c66a8970637e2c74b"
+                      "bytes":  402,
+                      "sha256":  "387df546a66055499765ffa53e91e0fa89110f9efebb825bfe8cbca72a11b975"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/fail_outsider_limit.mcfunction",
-                      "bytes":  400,
-                      "sha256":  "913e6c4fde554797a0a2d77d1fb31e147a605f14b7e88af05dba96eb1229f20f"
+                      "bytes":  408,
+                      "sha256":  "c58f48376121a13915b7599a5becf00a8f7c72b4bcd2657d4a003a03790b5183"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/fail_town_limit.mcfunction",
-                      "bytes":  399,
-                      "sha256":  "4213761115f3ab06e6ad126d19b48d8d9349c6fd1c64697aa2f6c3dd6da7a5c3"
+                      "bytes":  407,
+                      "sha256":  "f820f73dc028b769566a12b7d533f76571032a4cfafc546fe0955cce3e030cd9"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/full.mcfunction",
-                      "bytes":  752,
-                      "sha256":  "5f7ff73a6b317e3dd71cd2c5687d65ce229099969e66f919fa707f1e00897f23"
+                      "bytes":  753,
+                      "sha256":  "fed781ad2fdb6174f9312f926d6d1cde821e2dd995a5c4318853a42ab10d6bab"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/initial_load.mcfunction",
-                      "bytes":  794,
-                      "sha256":  "58fed84d8be5921b2c45da78a89ad2d8933cd9108b681781e77c3712bc8ce77f"
+                      "bytes":  803,
+                      "sha256":  "c7659a2f052b02d04d7648451ebe51ae7f80cae616061d495112980dc1e8c54a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/import/initial_load_safe.mcfunction",
@@ -1889,28 +1889,28 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/preset/bad_moon_rising.mcfunction",
-                      "bytes":  1746,
-                      "sha256":  "95c1a763a2b858fcf9912ca33625b3bbee1d0619e25001e4c79636a8cd34cfea"
+                      "bytes":  1747,
+                      "sha256":  "ec20f07cd851925cdc897f8bda1c5e525d19746681d99a8179c5eef645940ceb"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/preset/sects_and_violets.mcfunction",
-                      "bytes":  1759,
-                      "sha256":  "7dadbc8880f15f185a10f506e52a03d59f490101f75b49e410831fe6b78babd5"
+                      "bytes":  1760,
+                      "sha256":  "2dce1ab58bc94a15afd1335e460aa3273c3a7b8872b1432416153408aa22efe9"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/preset/trouble_brewing.mcfunction",
-                      "bytes":  1604,
-                      "sha256":  "2229b7e165030cbf928d17ca06c0e4f0eac8417081467d4b823694f65074a926"
+                      "bytes":  1605,
+                      "sha256":  "3e084cda52a3107462a7d25fce199f1567aa4bfd6eb00f9d3fe754c71b4dcf55"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/preset_compat.mcfunction",
-                      "bytes":  2613,
-                      "sha256":  "0102902a5328dcb41c3cfab0dde0a9b09b6e7f642d79675395465ff28178baad"
+                      "bytes":  2622,
+                      "sha256":  "d9065dfdfaa56f6fb038e7412aa27ad30b0ac405a449188867983745fac3dde0"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/role.mcfunction",
-                      "bytes":  272,
-                      "sha256":  "a63aa783d938b70fcf91383a9589608657b1b9539616352e44662bde36e2ec8b"
+                      "bytes":  273,
+                      "sha256":  "88622fb1858013de537b0356d30223d31ae14ac0e345b40a3719a05bea6fdb8e"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup/role_off.mcfunction",
@@ -1939,8 +1939,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_room/back.mcfunction",
-                      "bytes":  447,
-                      "sha256":  "ff5f0622371f5c900da5ba7afcb794a501792c7369170f427f87be6c6ba13c33"
+                      "bytes":  454,
+                      "sha256":  "e12f8881d2cf8e82c680158b41437fdde48505d4e891d13d1edf1a893926f0ff"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_room/clear_controls.mcfunction",
@@ -1979,8 +1979,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_room/open.mcfunction",
-                      "bytes":  1773,
-                      "sha256":  "d63f08c8c75ad98ee59fb37476af5a1d16a0447513af65bf72a9eaf41f3e3e47"
+                      "bytes":  1729,
+                      "sha256":  "e08b3fbdf8c40d4f6618c6d46946753b9a337803a0eca54b676317ea0442b642"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_room/play_start_bell.mcfunction",
@@ -2009,8 +2009,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_room/start_game.mcfunction",
-                      "bytes":  629,
-                      "sha256":  "548f53d05bf12ccce6d02c0a323c4e5f9f4af4cc0d0a2ec1cdbfda67c72f2963"
+                      "bytes":  645,
+                      "sha256":  "05c591e48d7f00c37d04bc376cb1bdac9663b7ceab3508d43e6cbfded1d46581"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_room/start_role_reveal.mcfunction",
@@ -2024,8 +2024,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_room/tick.mcfunction",
-                      "bytes":  3292,
-                      "sha256":  "0a8ca6648f23a7f99aa548ba8d2ccc366257646e80fa137a8cff304b0f36c15c"
+                      "bytes":  3298,
+                      "sha256":  "ba3e6f7d889fe7da2d8714407b26df40a625dd13ce10e8b8c658ea40b1aff225"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_room/use_bag.mcfunction",
@@ -2034,8 +2034,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_tools/become_player.mcfunction",
-                      "bytes":  301,
-                      "sha256":  "74f18d3853362e4743867d174316405259f661727b2c18d11cf51aedede15324"
+                      "bytes":  304,
+                      "sha256":  "3dcca83376223da82b6ef3f5acc5386d1fc0a0812157c8a17ea14564f448412f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_tools/clear_items.mcfunction",
@@ -2114,8 +2114,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_wall/click_dispatch.mcfunction",
-                      "bytes":  28693,
-                      "sha256":  "6da4da3a1d43ce904f856ab6ab0a8dae24dd46491c4a83cebce4286f12ab0c3b"
+                      "bytes":  28699,
+                      "sha256":  "8e7d4dad1bb60d06d4b9ea51e6edc03db1aa86c9812bf06927d63d3295aecffe"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_wall/dim.mcfunction",
@@ -2399,8 +2399,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/open.mcfunction",
-                      "bytes":  1232,
-                      "sha256":  "dbfcb710e1e34fcfab0e237c61fad220baedb2942a46922ffe0ff72d8da5f4db"
+                      "bytes":  1226,
+                      "sha256":  "00d2e53d99dc4f473ce0d249717d248def32223dd1b9ea1ba81701c0f51fd8c4"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/post_execution.mcfunction",
@@ -2449,8 +2449,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/kill_menu/dialog.mcfunction",
-                      "bytes":  13432,
-                      "sha256":  "21b9c3b8b95165d99efed008d8e9b986628a35000fdb0bcdd933b16fc6ee4f8e"
+                      "bytes":  13423,
+                      "sha256":  "5bce5e5d54c31d9e85b065be5d0c7f489afa8007890e2267b3f6777a8e41fc2c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/kill_menu/dialog/append.mcfunction",
@@ -2534,13 +2534,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/kill_menu/open.mcfunction",
-                      "bytes":  497,
-                      "sha256":  "5d05be93a4cf6135a354e793b9dbe141473712dcb0a2bcc30fef55c2988b55eb"
+                      "bytes":  492,
+                      "sha256":  "ce038e03a95847c755be66b9475540b54855edabccfba16f0b48222813ad806a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/kill_menu/select_player.mcfunction",
-                      "bytes":  479,
-                      "sha256":  "310757e4730c73353acf9d44f849c536532e612c527bd8a86ae5ad08baa28e81"
+                      "bytes":  474,
+                      "sha256":  "a67e38ff7194b2e37c6e8a249254d31188f57e89bf8c94890d7d6fde739369fc"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/kill_menu/to_seat_1.mcfunction",
@@ -2664,8 +2664,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/dialog.mcfunction",
-                      "bytes":  13109,
-                      "sha256":  "a5eb85474bb2ce1565ed00c6c9c732da9a67a3a7d1d1e0bb604f0415a2f6cd0d"
+                      "bytes":  13100,
+                      "sha256":  "0d93c271e9bf0e5601bb32a21de568de85a774badcbc0c180fbfa4ab99be7c6d"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/dialog/append.mcfunction",
@@ -2754,13 +2754,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/mark.mcfunction",
-                      "bytes":  1099,
-                      "sha256":  "11501b531e20fa5196ac4f51145afb0c2ed6dac5a8e67c0b266938607ff007b6"
+                      "bytes":  1090,
+                      "sha256":  "2546f948e9e9aa1e9144ff56af78cbb949d2d17585de2b070543372ca827b1a7"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/open.mcfunction",
-                      "bytes":  491,
-                      "sha256":  "b8a19563498a39ae17a45508d8664c96ac3f6ea553b9d1a1299f6a6ea8cf2109"
+                      "bytes":  486,
+                      "sha256":  "cdef73c7bf0f7674f79ebb752bee4096a5499fb21ceeb1b8a18c0d283f1ec788"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/pyre.mcfunction",
@@ -2769,13 +2769,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/rescind.mcfunction",
-                      "bytes":  341,
-                      "sha256":  "480ac18bc1ffd54775fefe0b687b610335431389b540df050e7911821fe142f4"
+                      "bytes":  349,
+                      "sha256":  "6bca17ed541223635ccacaf3e714bbcd327628c5480f315136a597802e65476e"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/select_player.mcfunction",
-                      "bytes":  498,
-                      "sha256":  "eba9a0fd05fd8a4285b482d8234c8abe2182b22f2302ddcffc7990b18a9ebd4b"
+                      "bytes":  493,
+                      "sha256":  "43df03435fdbf2d964a6ba098c379d7a4ec69de0e8794e5e1e2579d504efd676"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/select_seat_1.mcfunction",
@@ -2854,8 +2854,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/start_vote.mcfunction",
-                      "bytes":  1134,
-                      "sha256":  "f31ce7c34c87a2642f5c9c8869062b53d9070d55acadc1ce4b4fdd87741e5e21"
+                      "bytes":  1125,
+                      "sha256":  "bd1deb74952494b6be75f5c65cd85493dc1ce47df92232b824f98d513619a93f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/vote_finished.mcfunction",
@@ -2914,8 +2914,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/passage/start.mcfunction",
-                      "bytes":  1985,
-                      "sha256":  "9a1a826564cb07beae802c989c7a1bd353c81be44df45d78583718c230faacce"
+                      "bytes":  1960,
+                      "sha256":  "9fa8ebff6a1d476d59b63fad25f7f41424208d55387a13b87ee861082e15f08b"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/passage/tick.mcfunction",
@@ -2954,8 +2954,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/player_menu/dialog.mcfunction",
-                      "bytes":  6053,
-                      "sha256":  "1db8ccf15923ffdaf69449f544b9391fedd1a66b3ba5d6b118d5ec7f084ee8fc"
+                      "bytes":  6050,
+                      "sha256":  "8f1be8b6c52c348f23ec9a77a34ceb03d9bf78a7458766e251ac9238c44f1c7a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/player_menu/dialog/count_0.mcfunction",
@@ -3039,13 +3039,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/player_menu/open.mcfunction",
-                      "bytes":  804,
-                      "sha256":  "f3f5b5b16c2e8e3e9921b26f448398364394091cfa84cb09df1eb3d0fc326ed7"
+                      "bytes":  801,
+                      "sha256":  "0201b07da4b9a02b6cc9ea37b41d2df39ebd3d0adf3556b768f7b4240ca910e3"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/player_menu/teleport_selected.mcfunction",
-                      "bytes":  509,
-                      "sha256":  "78c8f7bfa717d5a05ed475ef5d39a12bd87a6587906a7f246094391efa600a15"
+                      "bytes":  506,
+                      "sha256":  "cb84cef4b56a079b249d7e23cec7d0868069bd08f28ff3aa774345b196e8b4e8"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/player_menu/to_seat_1.mcfunction",
@@ -3129,8 +3129,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/post_execution/kill.mcfunction",
-                      "bytes":  787,
-                      "sha256":  "208783490ea57f9e6323d840e2085c56a8c682b4e24cde06ce449f4e851663a7"
+                      "bytes":  797,
+                      "sha256":  "a99722db76133951cf5e86fcc898c0dc041866d41ff16ef17801e7fe010c00b0"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/post_execution/replace_items.mcfunction",
@@ -3174,8 +3174,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/revive_menu/dialog.mcfunction",
-                      "bytes":  13449,
-                      "sha256":  "a926ecd0bc49d009ed6f3c5e92c064f516002372d4753a8d236f2fee388fa0eb"
+                      "bytes":  13444,
+                      "sha256":  "0e93ae7dcde540405464fdca2b420b781cac5974c8c35a1ad2b9538af862f173"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/revive_menu/dialog/append.mcfunction",
@@ -3259,13 +3259,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/revive_menu/open.mcfunction",
-                      "bytes":  504,
-                      "sha256":  "493920c9af1c22fce152ef7d426936fe690d6b9bfe5996afd02556d002716233"
+                      "bytes":  499,
+                      "sha256":  "7026e341457bd8265ad36ffe0439570a18281476ab7ce306c2f33b379818af1a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/revive_menu/select_player.mcfunction",
-                      "bytes":  487,
-                      "sha256":  "d4a2a84018c209209856643475fe1243510240c0c4c68330dd2c4661e3fcaa4e"
+                      "bytes":  482,
+                      "sha256":  "7ab0349de61779edaa7290f817262e67b23773275f6d24dd2ceebad2f231639f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/revive_menu/to_seat_1.mcfunction",
@@ -3349,8 +3349,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/teleport_evil.mcfunction",
-                      "bytes":  26320,
-                      "sha256":  "f011d275ebe7ae646c2d04d61a3af77dcf0ccea637a0043e566d5386199828dd"
+                      "bytes":  26316,
+                      "sha256":  "d3503a2c96c282f7991b4ba5481c4fe36cd4fa1103cc2015e51cba0564f7aa3d"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/teleport_evil/append_icon.mcfunction",
@@ -3379,8 +3379,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/teleport_evil/show.mcfunction",
-                      "bytes":  5256,
-                      "sha256":  "e428ab591e67df2c98d8a69a841f784b4c0e4456ad2ba92d02a03bad10058add"
+                      "bytes":  5252,
+                      "sha256":  "c0f541a042e1ba962d9638958b7e40a0854a7e9fa5bf558356584dd9dad246fe"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/teleport_evil/teleport_member.mcfunction",

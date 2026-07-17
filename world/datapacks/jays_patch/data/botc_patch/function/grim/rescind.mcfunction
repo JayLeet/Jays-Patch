@@ -16,4 +16,4 @@ execute unless score grim_previous_daylight botc_patch matches 1 run gamerule do
 scoreboard players set grim_editor_reveal_started botc_patch 0
 scoreboard players set botc_item_maintenance_pending botc_patch 1
 data remove storage botc_patch:grim rescind
-tellraw @s {"text":"Reveal Grimoire was rescinded. The previous game phase has been restored.","color":"gray"}
+tellraw @s {"text":"Reveal Grimoire was rescinded. You're back in the previous game phase.","color":"gray"}

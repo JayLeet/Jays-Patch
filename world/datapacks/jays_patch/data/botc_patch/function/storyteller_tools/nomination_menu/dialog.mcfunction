@@ -3,7 +3,7 @@
 # Compacts only currently eligible seated players into a bounded Player (Role) dialog.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Nominate is only available during nominations.",color:"red"}]
+execute unless score phase game_data matches 3 run return run tellraw @s [{text:"You can only nominate during nominations.",color:"red"}]
 function botc_patch:grim/editor/refresh_live_roles
 function botc_patch:grim/editor/player_labels/prepare
 data remove storage botc_patch:dialogs nomination
@@ -68,7 +68,7 @@ execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=15},limit=1] run
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=15},limit=1] run data modify storage botc_patch:dialogs lookup set value {source:15,target:0}
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=15},limit=1] store result storage botc_patch:dialogs lookup.target int 1 run scoreboard players get @s botc_st_menu_slot
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=15},limit=1] run function botc_patch:storyteller_tools/nomination_menu/dialog/append with storage botc_patch:dialogs lookup
-execute if score @s botc_st_menu_slot matches 0 run tellraw @s [{text:"No seated players are available to nominate.",color:"yellow"}]
+execute if score @s botc_st_menu_slot matches 0 run tellraw @s [{text:"There are no seated players to nominate.",color:"yellow"}]
 execute if score @s botc_st_menu_slot matches 1 run function botc_patch:storyteller_tools/nomination_menu/dialog/count_1 with storage botc_patch:dialogs nomination
 execute if score @s botc_st_menu_slot matches 2 run function botc_patch:storyteller_tools/nomination_menu/dialog/count_2 with storage botc_patch:dialogs nomination
 execute if score @s botc_st_menu_slot matches 3 run function botc_patch:storyteller_tools/nomination_menu/dialog/count_3 with storage botc_patch:dialogs nomination

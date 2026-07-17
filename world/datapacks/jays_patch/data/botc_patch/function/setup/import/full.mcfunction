@@ -1,4 +1,4 @@
-execute unless score phase game_data matches 0 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Setup commands are disabled while a game is live.","color":"gray","bold":false}]
+execute unless score phase game_data matches 0 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can't use setup commands while a game is live.","color":"gray","bold":false}]
 data remove storage botc_patch:setup import_payload
 $data modify storage botc_patch:setup import_payload set value $(script)
 function botc_patch:setup/import/commit

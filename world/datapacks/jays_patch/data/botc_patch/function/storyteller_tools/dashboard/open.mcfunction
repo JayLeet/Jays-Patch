@@ -7,4 +7,4 @@ execute if score phase game_data matches 3 if entity @s[tag=botc_st_post_executi
 execute if score phase game_data matches 3 if entity @s[tag=botc_st_post_execution] unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=107}] run function botc_patch:storyteller_tools/dashboard/post_execution
 execute if score phase game_data matches 3 unless entity @s[tag=botc_st_post_execution] run function botc_patch:storyteller_tools/dashboard/nomination
 execute if score phase game_data matches 4 run function botc_patch:storyteller_tools/dashboard/night
-execute unless score phase game_data matches 1..4 run tellraw @s {text:"Storyteller Tools are unavailable in the current phase.",color:"red"}
+execute unless score phase game_data matches 1..4 run tellraw @s {text:"Storyteller Tools aren't available in this phase.",color:"red"}

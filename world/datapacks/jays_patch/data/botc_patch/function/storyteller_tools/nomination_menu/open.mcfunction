@@ -3,5 +3,5 @@
 # Opens the nomination player dialog while preserving the normal hotbar.
 tag @s add botc_st_tool_used
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Nominate is only available during nominations.",color:"red"}]
+execute unless score phase game_data matches 3 run return run tellraw @s [{text:"You can only nominate during nominations.",color:"red"}]
 function botc_patch:storyteller_tools/nomination_menu/dialog

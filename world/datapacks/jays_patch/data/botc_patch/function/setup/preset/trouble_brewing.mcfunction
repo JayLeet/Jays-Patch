@@ -1,5 +1,5 @@
 # Select the same setup-menu role scores that the individual checkbox buttons use.
-execute unless score phase game_data matches 0 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Setup commands are disabled while a game is live.","color":"gray","bold":false}]
+execute unless score phase game_data matches 0 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can't use setup commands while a game is live.","color":"gray","bold":false}]
 function botc_patch:setup/script/trouble_brewing
 execute unless score setup_import_success botc_patch matches 1 run return 0
 scoreboard players reset setup_import_success botc_patch

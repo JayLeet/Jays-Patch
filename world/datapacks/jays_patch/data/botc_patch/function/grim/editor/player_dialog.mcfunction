@@ -2,10 +2,10 @@
 # Do not hand-edit this file; update the generator and regenerate.
 # Shows the occupied-seat player picker using Sybillian's game-start name snapshot.
 dialog clear @s
-execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"Characters can only be changed during an active game.","color":"red"}
+execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only change characters during an active game.","color":"red"}
 execute if score grim_editor_reveal_started botc_patch matches 1 run return run function botc_patch:grim/editor/locked
 execute unless score grim_editor_game_captured botc_patch matches 1 run function botc_patch:grim/editor/capture_game
-execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s {"text":"Game-start player data is not available yet.","color":"red"}
+execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s {"text":"The player list from the start of the game isn't available yet.","color":"red"}
 function botc_patch:grim/editor/refresh_live_roles
 function botc_patch:grim/editor/player_labels/prepare
 execute if score grim_editor_dialog_size botc_patch matches 0 run function botc_patch:grim/editor/player_dialog/count_0 with storage botc_patch:grim editor.player_labels

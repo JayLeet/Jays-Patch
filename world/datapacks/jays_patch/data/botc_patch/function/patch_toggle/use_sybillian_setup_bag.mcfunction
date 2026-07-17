@@ -7,5 +7,5 @@ clear @a minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setu
 execute as @a[tag=storyteller] run function ct:admin/give_script
 function botc_patch:patch_toggle/item_checks
 scoreboard players set botc_item_maintenance_pending botc_patch 1
-tellraw @s [{"text":"OK ","color":"green","bold":true},{"text":"Using Sybillian's setup bag.","color":"gray","bold":false}]
-tellraw @s [{"text":"OP is required to run the game in this mode.","color":"red","bold":true}]
+tellraw @s [{"text":"\u2713 ","color":"green","bold":true},{"text":"Sybillian's setup bag is on. Right-click again to turn off Jay's held items.","color":"gray","bold":false}]
+tellraw @s [{"text":"You need OP to start the game in this mode.","color":"red","bold":true}]
