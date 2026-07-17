@@ -15,31 +15,16 @@ REQUIREMENTS
 FIRST-TIME INSTALL
 
 1. Install Sybillian's Blood on the Clocktower 1.5.4 on the server first.
-2. Stop the server completely.
-3. Back up the server's current world, config folder, and server.properties.
-4. Extract this Jay's Patch ZIP on your computer.
+2. Start and then stop the server completely.
+3. Back up your server's current world, config folder.
+4. Extract the ZIP on your computer.
 5. Replace the server's existing world folder with the included world folder.
-   Do not merge the two world folders. Old region and datapack files can survive
-   a merge and create broken mixed state.
-6. Merge the included config folder into the server's existing config folder.
-   Allow the matching Jay's Patch files to be replaced.
+6. Replace the config folder into the server's existing config folder.
 7. Open the server's existing server.properties file and update only the keys
    listed under REQUIRED SERVER.PROPERTIES VALUES below.
-   Do not replace or delete the complete server.properties file.
-8. Start or restart the server and wait until it has fully loaded.
+8. Restart the server and wait until it has fully loaded.
 9. Join the server and accept the recommended Jay's Patch resource pack when
    prompted.
-
-UPDATING AN EXISTING JAY'S PATCH SERVER
-
-1. Stop the server completely and make a backup.
-2. Replace the server's complete world folder with the included world folder.
-   Do not merge the old and new worlds. The included map contains required
-   setup-room, seat-marker, voice-zone, and game infrastructure.
-3. Merge the included config folder into the server's config folder and replace
-   the matching Jay's Patch files.
-4. Update the required server.properties keys shown below.
-5. Restart the server and wait until it has fully loaded.
 
 REQUIRED SERVER.PROPERTIES VALUES
 
@@ -51,7 +36,6 @@ spawn-protection=0
 resource-pack=https://download.mc-packs.net/pack/d73d89620b05d15ee38db51a3073f66a3308d4a7.zip
 resource-pack-sha1=d73d89620b05d15ee38db51a3073f66a3308d4a7
 resource-pack-id=438930c8-37ac-42cc-8504-0d8b605bba74
-require-resource-pack=false
 resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resourcepack","color"\:"gold","bold"\:false},{"text"\:"\\nIt is recommended to use this resourcepack","color"\:"gray","bold"\:false}]}
 
 RESOURCE-PACK FALLBACK
