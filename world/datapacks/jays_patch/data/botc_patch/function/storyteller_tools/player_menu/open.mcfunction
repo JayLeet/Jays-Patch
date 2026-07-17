@@ -3,7 +3,7 @@
 # Opens the active-game player dialog without replacing the Storyteller hotbar.
 tag @s add botc_st_tool_used
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"Teleport to Player is only available during an active game.","color":"red"}
+execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only teleport to a player during an active game.","color":"red"}
 execute if score phase game_data matches 4 run tellraw @s {"text":"Teleporting...","color":"gray"}
 execute if score phase game_data matches 4 run function botc_patch:storyteller_tools/teleport_den
 execute if score phase game_data matches 4 run function botc_patch:storyteller_tools/teleport_sound

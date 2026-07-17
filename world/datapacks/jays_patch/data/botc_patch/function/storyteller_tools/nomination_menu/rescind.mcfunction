@@ -3,4 +3,4 @@
 # Cancels the active vote and removes only the current nominee.
 function botc_patch:storyteller_tools/nomination_menu/cancel_vote
 tag @a remove nominee
-tellraw @a [{text:"Nomination rescinded.",color:"yellow"}]
+tellraw @a [{text:"The nomination was rescinded.",color:"yellow"}]

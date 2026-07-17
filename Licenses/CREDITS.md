@@ -57,5 +57,6 @@ mod or other third-party work.
 
 Jay's Patch is not affiliated with or endorsed by Sybillian, The Pandemonium
 Institute, Mojang Studios, Microsoft, or the upstream community contributors.
-The detailed ownership and license boundaries are in [`LICENSE`](../LICENSE),
-`ASSET_LICENSE.md`, `BRANDING.md` and `THIRD-PARTY-LICENSES`.
+The detailed ownership and license boundaries are in
+[`LICENSE`](../LICENSE), `ASSET_LICENSE.md`, `BRANDING.md` and
+`THIRD-PARTY-LICENSES`.

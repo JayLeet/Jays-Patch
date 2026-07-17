@@ -3,5 +3,5 @@
 # Opens the filtered alive-player Kill dialog without replacing the Storyteller hotbar.
 tag @s add botc_st_tool_used
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"Kill is only available during live day phases.",color:"red"}]
+execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only kill players during the day.",color:"red"}]
 function botc_patch:storyteller_tools/kill_menu/dialog
