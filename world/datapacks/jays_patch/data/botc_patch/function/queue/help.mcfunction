@@ -1,0 +1,5 @@
+tellraw @s [{"text":"BOTC Storyteller Queue","color":"gold","bold":true}]
+tellraw @s [{"text":"/botc queue","color":"yellow"},{"text":" - join the Storyteller queue","color":"gray"}]
+tellraw @s [{"text":"/botc queue leave","color":"yellow"},{"text":" - leave the queue","color":"gray"}]
+tellraw @s [{"text":"/botc queue status","color":"yellow"},{"text":" - check your queue position","color":"gray"}]
+tellraw @s [{"text":"Live-game note: ","color":"aqua","bold":true},{"text":"players can queue during a game, but only spectators can be promoted as an emergency extra Storyteller while the game is live.","color":"gray","bold":false}]

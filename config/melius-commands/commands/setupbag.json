@@ -1,0 +1,458 @@
+{
+    "id":  "setupbag",
+    "literals":  [
+                     {
+                         "id":  "import",
+                         "arguments":  [
+                                           {
+                                               "id":  "script",
+                                               "type":  "brigadier:string greedy",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                },
+                                                                {
+                                                                    "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/import_full {script:${script}}",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ]
+                     },
+                     {
+                         "id":  "cancel_import",
+                         "executes":  [
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/import/cancel",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "role_on",
+                         "arguments":  [
+                                           {
+                                               "id":  "character",
+                                               "type":  "brigadier:string word",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                },
+                                                                {
+                                                                    "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/role_on {character:\"${character}\"}",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ]
+                     },
+                     {
+                         "id":  "role_off",
+                         "arguments":  [
+                                           {
+                                               "id":  "character",
+                                               "type":  "brigadier:string word",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                },
+                                                                {
+                                                                    "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/role_off {character:\"${character}\"}",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ]
+                     },
+                     {
+                         "id":  "preset",
+                         "literals":  [
+                                          {
+                                              "id":  "trouble_brewing",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               },
+                                                               {
+                                                                   "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/preset/trouble_brewing",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "tb",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               },
+                                                               {
+                                                                   "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/preset/trouble_brewing",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "sects_and_violets",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               },
+                                                               {
+                                                                   "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/preset/sects_and_violets",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "snv",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               },
+                                                               {
+                                                                   "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/preset/sects_and_violets",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "bad_moon_rising",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               },
+                                                               {
+                                                                   "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/preset/bad_moon_rising",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "bmr",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               },
+                                                               {
+                                                                   "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/preset/bad_moon_rising",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                          }
+                                      ],
+                         "arguments":  [
+                                           {
+                                               "id":  "script",
+                                               "type":  "brigadier:string greedy",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                },
+                                                                {
+                                                                    "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/import_full {script:${script}}",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ]
+                     },
+                     {
+                         "id":  "preset_trouble_brewing",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/preset/trouble_brewing",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "preset_sects_and_violets",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/preset/sects_and_violets",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "preset_bad_moon_rising",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/preset/bad_moon_rising",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "initial_load",
+                         "arguments":  [
+                                           {
+                                               "id":  "script",
+                                               "type":  "brigadier:string greedy",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                },
+                                                                {
+                                                                    "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/import/initial_load {script:${script}}",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ]
+                     },
+                     {
+                         "id":  "convert_to_ids",
+                         "arguments":  [
+                                           {
+                                               "id":  "script",
+                                               "type":  "brigadier:string greedy",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                },
+                                                                {
+                                                                    "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/import/convert_to_ids {script:${script}}",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ]
+                     },
+                     {
+                         "id":  "reminder_tokens",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function ct:admin/setup/reminder_tokens",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "characters",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function ct:admin/setup/characters",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "night_order",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function ct:admin/setup/night_order",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "set_from_menu",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/apply",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "apply",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/apply",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "reset_role_list",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/clear",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "clear",
+                         "executes":  [
+                                          {
+                                              "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          },
+                                          {
+                                              "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/bridge/clear",
+                                              "as_console":  true,
+                                              "silent":  true,
+                                              "op_level":  4
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "role",
+                         "arguments":  [
+                                           {
+                                               "id":  "character",
+                                               "type":  "brigadier:string word",
+                                               "arguments":  [
+                                                                 {
+                                                                     "id":  "state",
+                                                                     "type":  "brigadier:string greedy",
+                                                                     "executes":  [
+                                                                                      {
+                                                                                          "command":  "execute unless score phase game_data matches 0 if entity @s[tag=storyteller] run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"Setup commands are disabled while a game is live.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                                          "as_console":  true,
+                                                                                          "silent":  true,
+                                                                                          "op_level":  4
+                                                                                      },
+                                                                                      {
+                                                                                          "command":  "execute if score phase game_data matches 0 as @s[tag=storyteller] run function botc_patch:setup/role {character:\"${character}\",state:${state}}",
+                                                                                          "as_console":  true,
+                                                                                          "silent":  true,
+                                                                                          "op_level":  4
+                                                                                      }
+                                                                                  ]
+                                                                 }
+                                                             ]
+                                           }
+                                       ]
+                     }
+                 ]
+}
+

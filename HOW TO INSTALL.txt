@@ -1,0 +1,69 @@
+JAY'S PATCH - SERVER INSTALLATION
+
+Thank you for installing Jay's Patch.
+
+Jay's Patch is an unofficial server-side add-on for Sybillian's Blood on the
+Clocktower modpack. It is not a standalone Minecraft server pack.
+
+REQUIREMENTS
+
+- Sybillian's Blood on the Clocktower modpack version 1.5.4
+  https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4
+- Minecraft Java Edition 1.21.10
+- Access to your server's root folder and server.properties
+
+FIRST-TIME INSTALL
+
+1. Install Sybillian's Blood on the Clocktower 1.5.4 on the server first.
+2. Stop the server completely.
+3. Back up the server's current world, config folder, and server.properties.
+4. Extract this Jay's Patch ZIP on your computer.
+5. Replace the server's existing world folder with the included world folder.
+   Do not merge the two world folders. Old region and datapack files can survive
+   a merge and create broken mixed state.
+6. Merge the included config folder into the server's existing config folder.
+   Allow the matching Jay's Patch files to be replaced.
+7. Open the server's existing server.properties file and update only the keys
+   listed under REQUIRED SERVER.PROPERTIES VALUES below.
+   Do not replace or delete the complete server.properties file.
+8. Start or restart the server and wait until it has fully loaded.
+9. Join the server and accept the recommended Jay's Patch resource pack when
+   prompted.
+
+UPDATING AN EXISTING JAY'S PATCH SERVER
+
+1. Stop the server completely and make a backup.
+2. Replace the server's complete world folder with the included world folder.
+   Do not merge the old and new worlds. The included map contains required
+   setup-room, seat-marker, voice-zone, and game infrastructure.
+3. Merge the included config folder into the server's config folder and replace
+   the matching Jay's Patch files.
+4. Update the required server.properties keys shown below.
+5. Restart the server and wait until it has fully loaded.
+
+REQUIRED SERVER.PROPERTIES VALUES
+
+Update these keys in your existing server.properties. Keep every unrelated
+server setting already present in that file.
+
+function-permission-level=3
+spawn-protection=0
+resource-pack=https://download.mc-packs.net/pack/d73d89620b05d15ee38db51a3073f66a3308d4a7.zip
+resource-pack-sha1=d73d89620b05d15ee38db51a3073f66a3308d4a7
+resource-pack-id=438930c8-37ac-42cc-8504-0d8b605bba74
+require-resource-pack=false
+resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resourcepack","color"\:"gold","bold"\:false},{"text"\:"\\nIt is recommended to use this resourcepack","color"\:"gray","bold"\:false}]}
+
+RESOURCE-PACK FALLBACK
+
+The URL above is the official hosted Jay's Patch resource pack. If it stops
+working, upload resourcepack/Jays-Patch-resourcepack.zip to a Minecraft
+resource-pack host such as MC-Packs. Replace resource-pack,
+resource-pack-sha1, and resource-pack-id with the values from the new host.
+
+CREDITS AND LICENSES
+
+Read CREDITS.md before redistributing this package. Jay's Patch builds on
+Sybillian's Blood on the Clocktower modpack and includes a modified copy of
+Sybillian's base world. License and ownership details are in LICENSE,
+ASSET_LICENSE.md, BRANDING.md, and THIRD-PARTY-LICENSES.
