@@ -85,10 +85,13 @@ $requiredInstallTokens = @(
     'Minecraft Java Edition 1.21.10',
     'FIRST-TIME INSTALL',
     'Start and then stop the server completely',
-    'Replace the config folder into the server''s existing config folder',
+    'Back up your server''s current world and config folders',
+    'Copy the included config folder into the server folder',
     'REQUIRED SERVER.PROPERTIES VALUES',
-    'CREDITS.md',
-    'THIRD-PARTY-LICENSES'
+    'Licenses/CREDITS.md',
+    'Licenses/THIRD-PARTY-LICENSES',
+    "Jay's Patch Resource Pack",
+    "Accept this pack to see Jay's Patch's custom icons."
 )
 foreach ($token in $requiredInstallTokens) {
     if (-not $installText.Contains($token)) {

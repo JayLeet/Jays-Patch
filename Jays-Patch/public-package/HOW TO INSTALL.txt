@@ -16,10 +16,11 @@ FIRST-TIME INSTALL
 
 1. Install Sybillian's Blood on the Clocktower 1.5.4 on the server first.
 2. Start and then stop the server completely.
-3. Back up your server's current world, config folder.
+3. Back up your server's current world and config folders.
 4. Extract the ZIP on your computer.
 5. Replace the server's existing world folder with the included world folder.
-6. Replace the config folder into the server's existing config folder.
+6. Copy the included config folder into the server folder, merging it with the
+   existing config folder and replacing files when asked.
 7. Open the server's existing server.properties file and update only the keys
    listed under REQUIRED SERVER.PROPERTIES VALUES below.
 8. Restart the server and wait until it has fully loaded.
@@ -36,7 +37,7 @@ spawn-protection=0
 resource-pack=https://download.mc-packs.net/pack/d73d89620b05d15ee38db51a3073f66a3308d4a7.zip
 resource-pack-sha1=d73d89620b05d15ee38db51a3073f66a3308d4a7
 resource-pack-id=438930c8-37ac-42cc-8504-0d8b605bba74
-resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resourcepack","color"\:"gold","bold"\:false},{"text"\:"\\nIt is recommended to use this resourcepack","color"\:"gray","bold"\:false}]}
+resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
 
 RESOURCE-PACK FALLBACK
 
@@ -47,7 +48,11 @@ resource-pack-sha1, and resource-pack-id with the values from the new host.
 
 CREDITS AND LICENSES
 
-Read CREDITS.md before redistributing this package. Jay's Patch builds on
+Read Licenses/CREDITS.md before redistributing this package. Jay's Patch builds on
 Sybillian's Blood on the Clocktower modpack and includes a modified copy of
-Sybillian's base world. License and ownership details are in LICENSE,
-ASSET_LICENSE.md, BRANDING.md, and THIRD-PARTY-LICENSES.
+Sybillian's base world. License and ownership details are in:
+
+- LICENSE
+- Licenses/ASSET_LICENSE.md
+- Licenses/BRANDING.md
+- Licenses/THIRD-PARTY-LICENSES
