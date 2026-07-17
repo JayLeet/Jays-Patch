@@ -17,7 +17,7 @@ Patch, including:
 
 This license does not cover:
 
-- Jay's Patch source code, which is covered by `LICENSE`;
+- Jay's Patch source code, which is covered by [`LICENSE`](../LICENSE);
 - documentation;
 - the included world template or Jay's edits inside that world template;
 - Sybillian's original Blood on the Clocktower world, datapack, resource-pack
