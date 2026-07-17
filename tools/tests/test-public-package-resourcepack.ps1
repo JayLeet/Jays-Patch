@@ -13,11 +13,11 @@ $ServerPackageZip = Join-Path $DistRoot "Jay's Patch v$PatchVersion.zip"
 $ReadmeSource = Join-Path $RepoRoot "Jays-Patch/public-package/README.md"
 $InstallInstructionsName = "HOW TO INSTALL.txt"
 $InstallInstructionsSource = Join-Path $RepoRoot "Jays-Patch/public-package/$InstallInstructionsName"
-$PublicLicensesSource = Join-Path $RepoRoot "Jays-Patch/public-package/Licenses"
-$CreditsSource = Join-Path $PublicLicensesSource "CREDITS.md"
-$SybillianLicenseSource = Join-Path $PublicLicensesSource "THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt"
-$AssetLicenseSource = Join-Path $PublicLicensesSource "ASSET_LICENSE.md"
-$BrandingSource = Join-Path $PublicLicensesSource "BRANDING.md"
+$PublicLegalSource = Join-Path $RepoRoot "Jays-Patch/public-package/Legal"
+$CreditsSource = Join-Path $PublicLegalSource "CREDITS.md"
+$SybillianLicenseSource = Join-Path $PublicLegalSource "THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt"
+$AssetLicenseSource = Join-Path $PublicLegalSource "ASSET_LICENSE.md"
+$BrandingSource = Join-Path $PublicLegalSource "BRANDING.md"
 $RootLicenseSource = Join-Path $RepoRoot "LICENSE"
 $WorldTemplateManifest = Join-Path $RepoRoot "Jays-Patch/world-template-manifest.json"
 
@@ -255,10 +255,10 @@ if (Test-Path -LiteralPath $ServerPackageZip -PathType Leaf) {
         Assert-FileMatches $ReadmeSource (Join-Path $extract "README.md") "README"
         Assert-FileMatches $InstallInstructionsSource (Join-Path $extract $InstallInstructionsName) "installation guide"
         Assert-FileMatches $RootLicenseSource (Join-Path $extract "LICENSE") "root MIT license"
-        Assert-FileMatches $CreditsSource (Join-Path $extract "Licenses/CREDITS.md") "credits file"
-        Assert-FileMatches $AssetLicenseSource (Join-Path $extract "Licenses/ASSET_LICENSE.md") "asset license"
-        Assert-FileMatches $BrandingSource (Join-Path $extract "Licenses/BRANDING.md") "branding rules"
-        Assert-FileMatches $SybillianLicenseSource (Join-Path $extract "Licenses/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt") "Sybillian MIT license"
+        Assert-FileMatches $CreditsSource (Join-Path $extract "Legal/CREDITS.md") "credits file"
+        Assert-FileMatches $AssetLicenseSource (Join-Path $extract "Legal/ASSET_LICENSE.md") "asset license"
+        Assert-FileMatches $BrandingSource (Join-Path $extract "Legal/BRANDING.md") "branding rules"
+        Assert-FileMatches $SybillianLicenseSource (Join-Path $extract "Legal/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt") "Sybillian MIT license"
         Assert-MirroredTree `
             -SourceRoot (Join-Path $RepoRoot "Jays-Patch/datapack") `
             -PackageRoot (Join-Path $extract "world/datapacks/jays_patch") `
@@ -282,10 +282,10 @@ if (Test-Path -LiteralPath $ServerPackageZip -PathType Leaf) {
 
         foreach ($licenseFile in @(
             "LICENSE",
-            "Licenses/ASSET_LICENSE.md",
-            "Licenses/BRANDING.md",
-            "Licenses/CREDITS.md",
-            "Licenses/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt"
+            "Legal/ASSET_LICENSE.md",
+            "Legal/BRANDING.md",
+            "Legal/CREDITS.md",
+            "Legal/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt"
         )) {
             $licensePath = Join-Path $extract $licenseFile
             if (-not (Test-Path -LiteralPath $licensePath -PathType Leaf)) {
@@ -297,6 +297,7 @@ if (Test-Path -LiteralPath $ServerPackageZip -PathType Leaf) {
         Assert-FileMissing (Join-Path $extract "BRANDING.md") "old root branding file"
         Assert-FileMissing (Join-Path $extract "CREDITS.md") "old root credits file"
         Assert-FileMissing (Join-Path $extract "THIRD-PARTY-LICENSES") "old root third-party license folder"
+        Assert-FileMissing (Join-Path $extract "Licenses") "old legal folder name"
 
         Assert-FileMissing (Join-Path $extract "world/playerdata") "private playerdata"
         Assert-FileMissing (Join-Path $extract "world/stats") "private player stats"

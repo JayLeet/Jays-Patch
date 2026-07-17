@@ -1,6 +1,6 @@
 {
     "schema":  1,
-    "version":  "1.5.3",
+    "version":  "1.5.4",
     "files":  [
                   {
                       "path":  ".gitattributes",
@@ -3524,33 +3524,33 @@
                   },
                   {
                       "path":  "Jays-Patch/public-package/HOW TO INSTALL.txt",
-                      "bytes":  2559,
-                      "sha256":  "f3ac4cf2184114c7b03e9838f2ecabeb9ee89bde2bfc2aa9ebf6b94602b30c25"
+                      "bytes":  2487,
+                      "sha256":  "3d09be13b079b31e4d0bda2a98791112e8e426a57f02a16003f166e634b3bb9b"
                   },
                   {
-                      "path":  "Jays-Patch/public-package/Licenses/ASSET_LICENSE.md",
+                      "path":  "Jays-Patch/public-package/Legal/ASSET_LICENSE.md",
                       "bytes":  1641,
                       "sha256":  "da617286292ce74b9c15024b97d57ce74d7d5783c0ae6c6afc8bef14ba08bd91"
                   },
                   {
-                      "path":  "Jays-Patch/public-package/Licenses/BRANDING.md",
+                      "path":  "Jays-Patch/public-package/Legal/BRANDING.md",
                       "bytes":  589,
                       "sha256":  "2332a66f2657528a5b2c859a29db594b7ab6a278278ac4f7ee1e65ba60bc0998"
                   },
                   {
-                      "path":  "Jays-Patch/public-package/Licenses/CREDITS.md",
+                      "path":  "Jays-Patch/public-package/Legal/CREDITS.md",
                       "bytes":  2572,
                       "sha256":  "1a4884d9d2884c05c8969c2bb4335de84d4f9ccb42cc91147561793331920eac"
                   },
                   {
-                      "path":  "Jays-Patch/public-package/Licenses/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
+                      "path":  "Jays-Patch/public-package/Legal/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
                       "bytes":  1066,
                       "sha256":  "d9eb14e1dbffb2561a252253eed47ec35429a3782cc571f64a628c15bc4efa4f"
                   },
                   {
                       "path":  "Jays-Patch/public-package/README.md",
-                      "bytes":  7300,
-                      "sha256":  "bbfb9236195cb5cd38e4915a69a0af6f2836fcfa2cab022c12f3dfa94cab160d"
+                      "bytes":  7288,
+                      "sha256":  "75bd42424fbfb93e9be3f3da2ba49f8a796954fd1d22c6b86483c991303ef3b7"
                   },
                   {
                       "path":  "Jays-Patch/resourcepack/assets/botc_patch/font/role_icons.json",
@@ -5470,12 +5470,12 @@
                   {
                       "path":  "Jays-Patch/version.txt",
                       "bytes":  6,
-                      "sha256":  "c03e3824001f39b9518249b8d6522422fc4de7227e12a568c0164662b03b7758"
+                      "sha256":  "879a67a197446479e783c8e22a58681fed324f09eac1ce808f6a5a4c5e1894ad"
                   },
                   {
                       "path":  "Jays-Patch/world-template-manifest.json",
                       "bytes":  17543,
-                      "sha256":  "9f6e0b2306089bbbf981eccd8161138bb63a7e7cd21144d492e6678f190e5745"
+                      "sha256":  "df0ac755ab9848b107aa5af8f920afc450ff2ccaf25540f6922fad45d4359350"
                   },
                   {
                       "path":  "launcher/branding.txt",
@@ -5534,8 +5534,8 @@
                   },
                   {
                       "path":  "tools/build-public-package.ps1",
-                      "bytes":  8461,
-                      "sha256":  "e892b249518c62562ada0b1f6e816023f730cff61c31291d16ce982f4f36f0ab"
+                      "bytes":  8434,
+                      "sha256":  "7a281e824400bfea20b689461a5b0126891485ac656bfaca3e8ba985ee8fd9f4"
                   },
                   {
                       "path":  "tools/build-resourcepack-from-source.ps1",
@@ -5769,13 +5769,13 @@
                   },
                   {
                       "path":  "tools/tests/test-public-config-hygiene.ps1",
-                      "bytes":  5908,
-                      "sha256":  "406ae88698e68ecb899e84be98be47c70a83b62dedf522b61d49ac7ce644e82f"
+                      "bytes":  5869,
+                      "sha256":  "b7dc692f0a1a044b2d4e64c9bcf4977c29caa32a93259a75c719ec69a4530f28"
                   },
                   {
                       "path":  "tools/tests/test-public-package-resourcepack.ps1",
-                      "bytes":  14048,
-                      "sha256":  "5269787294d0593b127ecf2416339af5a0470ba6832906840470ddf0415a9f92"
+                      "bytes":  14089,
+                      "sha256":  "9fa6c58f9726c4e8aebf87a132f7860cb358803feb7a1670725409e7d47fc987"
                   },
                   {
                       "path":  "tools/tests/test-resourcepack-mappings.ps1",

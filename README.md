@@ -248,7 +248,7 @@ licensed as a separate Jay-owned reusable asset.
 The Jay's Patch name, logo, and branding are reserved by Jay. Forks and
 modified versions should not present themselves as the official Jay's Patch.
 
-See `LICENSE` and `Jays-Patch/public-package/Licenses` for the package-facing
+See `LICENSE` and `Jays-Patch/public-package/Legal` for the package-facing
 license and credit details.
 
 ## Giving Yourself Admin

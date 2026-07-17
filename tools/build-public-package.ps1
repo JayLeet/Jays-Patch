@@ -17,11 +17,11 @@ $PublicPackageDocsRoot = Join-Path $RepoRoot "Jays-Patch/public-package"
 $ReadmeSource = Join-Path $PublicPackageDocsRoot "README.md"
 $InstallInstructionsName = "HOW TO INSTALL.txt"
 $InstallInstructionsSource = Join-Path $PublicPackageDocsRoot $InstallInstructionsName
-$PublicLicensesSource = Join-Path $PublicPackageDocsRoot "Licenses"
-$CreditsSource = Join-Path $PublicLicensesSource "CREDITS.md"
-$ThirdPartyLicensesSource = Join-Path $PublicLicensesSource "THIRD-PARTY-LICENSES"
-$AssetLicenseSource = Join-Path $PublicLicensesSource "ASSET_LICENSE.md"
-$BrandingSource = Join-Path $PublicLicensesSource "BRANDING.md"
+$PublicLegalSource = Join-Path $PublicPackageDocsRoot "Legal"
+$CreditsSource = Join-Path $PublicLegalSource "CREDITS.md"
+$ThirdPartyLicensesSource = Join-Path $PublicLegalSource "THIRD-PARTY-LICENSES"
+$AssetLicenseSource = Join-Path $PublicLegalSource "ASSET_LICENSE.md"
+$BrandingSource = Join-Path $PublicLegalSource "BRANDING.md"
 $RootLicenseSource = Join-Path $RepoRoot "LICENSE"
 $SourceSafetyTest = Join-Path $RepoRoot "tools/tests/test-source-safety.ps1"
 $PublicPackageTest = Join-Path $RepoRoot "tools/tests/test-public-package-resourcepack.ps1"
@@ -89,7 +89,7 @@ foreach ($requiredPublicPath in @(
     $DatapackRequiredProperties,
     $ReadmeSource,
     $InstallInstructionsSource,
-    $PublicLicensesSource,
+    $PublicLegalSource,
     $CreditsSource,
     $ThirdPartyLicensesSource,
     $AssetLicenseSource,
@@ -168,7 +168,7 @@ Copy-Item -LiteralPath (Join-Path $RepoRoot "Jays-Patch/server-config/tab") -Des
 Copy-Item -LiteralPath (Join-Path $RepoRoot "Jays-Patch/server-config/yawp-common.toml") -Destination (Join-Path $ServerPackageStage "config/yawp-common.toml") -Force
 Copy-Item -LiteralPath $ReadmeSource -Destination (Join-Path $ServerPackageStage "README.md") -Force
 Copy-Item -LiteralPath $InstallInstructionsSource -Destination (Join-Path $ServerPackageStage $InstallInstructionsName) -Force
-Copy-Item -LiteralPath $PublicLicensesSource -Destination (Join-Path $ServerPackageStage "Licenses") -Recurse -Force
+Copy-Item -LiteralPath $PublicLegalSource -Destination (Join-Path $ServerPackageStage "Legal") -Recurse -Force
 Copy-Item -LiteralPath $RootLicenseSource -Destination (Join-Path $ServerPackageStage "LICENSE") -Force
 
 $resourceFolder = Join-Path $ServerPackageStage "resourcepack"
