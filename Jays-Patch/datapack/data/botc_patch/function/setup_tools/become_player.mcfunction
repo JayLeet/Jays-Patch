@@ -4,4 +4,4 @@ tag @s remove botc_queue
 scoreboard players reset @s botc_queue
 function botc_patch:reset/player_state
 function botc_patch:queue/tick
-tellraw @s [{"text":"OK ","color":"green"},{"text":"You are now a player.","color":"gray"}]
+tellraw @s [{"text":"\u2713 ","color":"green"},{"text":"You're now a player.","color":"gray"}]

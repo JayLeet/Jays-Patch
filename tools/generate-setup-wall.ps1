@@ -298,7 +298,7 @@ $clickLines.Add("# Dispatch one clicked setup-wall role icon.")
 foreach ($role in $allRoles) {
     $clickLines.Add("execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_$($role.Id)] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:""$($role.Id)"",name:""$($role.Name)""}")
 }
-$clickLines.Add("execute unless score phase game_data matches 0 on target if entity @s[tag=storyteller] run tellraw @s [{""text"":""! "",""color"":""red"",""bold"":true},{""text"":""Setup wall is disabled while a game is live."",""color"":""gray"",""bold"":false}]")
+$clickLines.Add("execute unless score phase game_data matches 0 on target if entity @s[tag=storyteller] run tellraw @s [{""text"":""! "",""color"":""red"",""bold"":true},{""text"":""You can't use the setup wall while a game is live."",""color"":""gray"",""bold"":false}]")
 $clickLines.Add("data remove entity @s interaction")
 Write-GeneratedFile (Join-Path $WallRoot "click_dispatch.mcfunction") $clickLines
 

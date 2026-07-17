@@ -45,7 +45,7 @@ function Write-Lines {
 $open = New-GeneratedHeader "Opens the filtered alive-player Kill dialog without replacing the Storyteller hotbar."
 $open.Add("tag @s add botc_st_tool_used")
 $open.Add("execute unless entity @s[tag=storyteller] run return 0")
-$open.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"Kill is only available during live day phases.",color:"red"}]')
+$open.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only kill players during the day.",color:"red"}]')
 $open.Add("function botc_patch:storyteller_tools/kill_menu/dialog")
 Write-Lines -Path (Join-Path $OutputRoot "open.mcfunction") -Lines $open
 
@@ -59,13 +59,13 @@ Write-BotcFilteredPlayerDialog `
     -EligibilitySelectorTemplate '@a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=<seat>},limit=1]' `
     -ActionCommand "kill_player" `
     -PhaseCondition "score phase game_data matches 1..2" `
-    -InvalidPhaseMessage "Kill is only available during live day phases." `
-    -NoPlayersMessage "No alive seated players are available to kill."
+    -InvalidPhaseMessage "You can only kill players during the day." `
+    -NoPlayersMessage "There are no alive seated players to kill."
 
 $selectPlayer = New-GeneratedHeader "Validates a dialog seat before dispatching to its fixed Kill function."
 $selectPlayer.Add("dialog clear @s")
 $selectPlayer.Add("execute unless entity @s[tag=storyteller] run return 0")
-$selectPlayer.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"Kill is only available during live day phases.",color:"red"}]')
+$selectPlayer.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only kill players during the day.",color:"red"}]')
 $selectPlayer.Add('$function botc_patch:storyteller_tools/kill_menu/to_seat_$(seat)')
 Write-Lines -Path (Join-Path $OutputRoot "select_player.mcfunction") -Lines $selectPlayer
 

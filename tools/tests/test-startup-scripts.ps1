@@ -169,10 +169,10 @@ if ($sourceText.Contains('progress = progress + " | " + detail')) {
 
 Assert-TextContains $sourceText ([regex]::Escape('DeployJaysPatch("SYNC", false)')) "post-startup patch deploy stays in progress until RCON sync finishes"
 Assert-TextContains $sourceText ([regex]::Escape('Success("SYNC", "Post-startup sync finished")')) "Final Sync only completes after post-startup commands"
-Assert-TextContains $sourceText ([regex]::Escape('Notice("Create/update the standard backup before stopping?')) "stop backup prompt uses notice severity"
+Assert-TextContains $sourceText ([regex]::Escape('Notice("Back up the server before stopping?')) "stop backup prompt uses notice severity"
 Assert-TextContains $sourceText ([regex]::Escape('Detail("Running " + command)')) "Final Sync command suite uses detail severity"
 Assert-TextContains $sourceText ([regex]::Escape('{ "backup", "Back up the standard slot without stopping" }')) "backup command is listed in help"
-Assert-TextContains $sourceText ([regex]::Escape('{ "restart", "Ask, then restart only the Minecraft server" }')) "restart command is listed in help"
+Assert-TextContains $sourceText ([regex]::Escape('{ "restart", "Confirm, then restart only the Minecraft server" }')) "restart command is listed in help"
 Assert-TextContains $sourceText ([regex]::Escape('if (EqualsIgnoreCase(command, "backup"))')) "interactive console handles backup command"
 Assert-TextContains $sourceText ([regex]::Escape('if (EqualsIgnoreCase(command, "restart"))')) "interactive console handles restart command"
 Assert-TextContains $sourceText ([regex]::Escape('CommandResult saveOff = Rcon("save-off", 30000);')) "live backup disables saves"

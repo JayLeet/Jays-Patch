@@ -235,10 +235,10 @@ Write-Lines -Path (Join-Path $OutputRoot "sync_storyteller_display.mcfunction") 
 
 $playerDispatchLines = New-Header "Shows the occupied-seat player picker using Sybillian's game-start name snapshot."
 $playerDispatchLines.Add("dialog clear @s")
-$playerDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"Characters can only be changed during an active game.","color":"red"}')
+$playerDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only change characters during an active game.","color":"red"}')
 $playerDispatchLines.Add("execute if score grim_editor_reveal_started botc_patch matches 1 run return run function botc_patch:grim/editor/locked")
 $playerDispatchLines.Add("execute unless score grim_editor_game_captured botc_patch matches 1 run function botc_patch:grim/editor/capture_game")
-$playerDispatchLines.Add('execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s {"text":"Game-start player data is not available yet.","color":"red"}')
+$playerDispatchLines.Add('execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s {"text":"The player list from the start of the game isn''t available yet.","color":"red"}')
 $playerDispatchLines.Add("function botc_patch:grim/editor/refresh_live_roles")
 $playerDispatchLines.Add("function botc_patch:grim/editor/player_labels/prepare")
 for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
@@ -258,7 +258,7 @@ for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
     }
 
     $macroPrefix = if ($seatCount -gt 0) { '$' } else { '' }
-    $line = $macroPrefix + 'dialog show @s {type:"multi_action",title:"Change Characters",body:{type:"plain_message",contents:{text:"Choose a player before starting Reveal Grimoire.",color:"gray"},width:360},columns:3,after_action:"wait_for_response",actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire confirm"}}}'
+    $line = $macroPrefix + 'dialog show @s {type:"multi_action",title:"Change Characters",body:{type:"plain_message",contents:{text:"Pick a player to edit before starting Reveal Grimoire.",color:"gray"},width:360},columns:3,after_action:"wait_for_response",actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire confirm"}}}'
     $lines = New-Header "Player-name dialog for $seatCount occupied seats."
     $lines.Add($line)
     Write-Lines -Path (Join-Path $PlayerDialogRoot "count_$seatCount.mcfunction") -Lines $lines
@@ -266,7 +266,7 @@ for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
 
 $characterDispatchLines = New-Header "Builds and shows the current-script character picker for the selected player."
 $characterDispatchLines.Add("dialog clear @s")
-$characterDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"Characters can only be changed during an active game.","color":"red"}')
+$characterDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only change characters during an active game.","color":"red"}')
 $characterDispatchLines.Add("execute if score grim_editor_reveal_started botc_patch matches 1 run return run function botc_patch:grim/editor/locked")
 $characterDispatchLines.Add("function botc_patch:grim/editor/refresh_live_roles")
 $characterDispatchLines.Add("function botc_patch:grim/editor/roles/build")
@@ -287,7 +287,7 @@ for ($roleCount = 0; $roleCount -le 30; $roleCount++) {
         $actions.Add('{label:{text:"$(r' + $roleIndex + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(r' + $roleIndex + '_name)",font:"minecraft:default",color:"$(r' + $roleIndex + '_color)"}]},action:{type:"run_command",command:"/botc grimoire set_character $(r' + $roleIndex + '_id)"}}')
     }
 
-    $body = '[{type:"plain_message",contents:[{text:"CURRENT ROLE\n",font:"minecraft:default",color:"dark_gray",bold:true},{text:"$(current_role_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(current_role_name)",font:"minecraft:default",color:"$(current_alignment_color)",bold:true,underlined:true},{text:"  |  ",color:"dark_gray"},{text:"$(current_alignment_name)",color:"$(current_alignment_color)",bold:true}],width:360},{type:"plain_message",contents:[{text:"Townsfolk",color:"#55aaff"},{text:" | ",color:"dark_gray"},{text:"Outsiders",color:"#55ffff"},{text:" | ",color:"dark_gray"},{text:"Minions",color:"#ffaa00"},{text:" | ",color:"dark_gray"},{text:"Demons",color:"#ff5555"}],width:360},{type:"plain_message",contents:{text:"Choose a character from the current script, or override only its reveal alignment.",color:"gray"},width:360}]'
+    $body = '[{type:"plain_message",contents:[{text:"CURRENT ROLE\n",font:"minecraft:default",color:"dark_gray",bold:true},{text:"$(current_role_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(current_role_name)",font:"minecraft:default",color:"$(current_alignment_color)",bold:true,underlined:true},{text:"  |  ",color:"dark_gray"},{text:"$(current_alignment_name)",color:"$(current_alignment_color)",bold:true}],width:360},{type:"plain_message",contents:[{text:"Townsfolk",color:"#55aaff"},{text:" | ",color:"dark_gray"},{text:"Outsiders",color:"#55ffff"},{text:" | ",color:"dark_gray"},{text:"Minions",color:"#ffaa00"},{text:" | ",color:"dark_gray"},{text:"Demons",color:"#ff5555"}],width:360},{type:"plain_message",contents:{text:"Pick a character from the current script, or change only the alignment shown during the reveal.",color:"gray"},width:360}]'
     $title = '[{text:"Edit ",color:"gray"},{text:"$(player_name)",color:"white"},{text:" - ",color:"dark_gray"},{text:"$(current_role_name)",color:"$(current_alignment_color)",bold:true}]'
     $line = '$dialog show @s {type:"multi_action",title:' + $title + ',body:' + $body + ',columns:2,after_action:"wait_for_response",actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire change_characters"}}}'
     $lines = New-Header "Character dialog for $roleCount current-script roles."

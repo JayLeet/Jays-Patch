@@ -8,11 +8,15 @@ $UsersFile = Join-Path $TabRoot "users.yml"
 $PublicPackageBuilder = Join-Path $RepoRoot "tools/build-public-package.ps1"
 $ServerPropertiesSource = Join-Path $RepoRoot "Jays-Patch/server-config/jays-patch-required-server-properties.txt"
 $DatapackPropertiesSource = Join-Path $RepoRoot "Jays-Patch/datapack/jays-patch-required-server-properties.txt"
+$VersionFile = Join-Path $RepoRoot "Jays-Patch/version.txt"
+$ReadmeFile = Join-Path $RepoRoot "Jays-Patch/public-package/README.md"
 $InstallGuide = Join-Path $RepoRoot "Jays-Patch/public-package/HOW TO INSTALL.txt"
-$CreditsFile = Join-Path $RepoRoot "Jays-Patch/public-package/CREDITS.md"
-$SybillianLicense = Join-Path $RepoRoot "Jays-Patch/public-package/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt"
-$NoticeFile = Join-Path $RepoRoot "NOTICE.md"
-$AssetLicenseFile = Join-Path $RepoRoot "ASSET_LICENSE.md"
+$PublicLicensesRoot = Join-Path $RepoRoot "Jays-Patch/public-package/Licenses"
+$CreditsFile = Join-Path $PublicLicensesRoot "CREDITS.md"
+$SybillianLicense = Join-Path $PublicLicensesRoot "THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt"
+$AssetLicenseFile = Join-Path $PublicLicensesRoot "ASSET_LICENSE.md"
+$BrandingFile = Join-Path $PublicLicensesRoot "BRANDING.md"
+$RootLicenseFile = Join-Path $RepoRoot "LICENSE"
 
 foreach ($path in @(
     $GroupsFile,
@@ -20,11 +24,14 @@ foreach ($path in @(
     $PublicPackageBuilder,
     $ServerPropertiesSource,
     $DatapackPropertiesSource,
+    $VersionFile,
+    $ReadmeFile,
     $InstallGuide,
     $CreditsFile,
     $SybillianLicense,
-    $NoticeFile,
-    $AssetLicenseFile
+    $AssetLicenseFile,
+    $BrandingFile,
+    $RootLicenseFile
 )) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
         throw "Missing public configuration input: $path"
@@ -51,14 +58,18 @@ if ($builderText -notmatch 'Jays-Patch/server-config/tab') {
 
 foreach ($requiredBuilderToken in @(
     'Jays-Patch/public-package',
+    'README.md',
     'InstallInstructionsSource',
+    'Licenses',
     'CREDITS.md',
-    'NOTICE.md',
     'THIRD-PARTY-LICENSES'
 )) {
     if ($builderText -notmatch [regex]::Escape($requiredBuilderToken)) {
         throw "Public package builder is missing release-document input: $requiredBuilderToken"
     }
+}
+if ($builderText -match [regex]::Escape('NOTICE.md')) {
+    throw "Public package builder still includes the retired NOTICE.md file."
 }
 
 $serverPropertiesText = Get-Content -LiteralPath $ServerPropertiesSource -Raw
@@ -86,6 +97,21 @@ foreach ($token in $requiredInstallTokens) {
 }
 if ($installText -match 'Simple Voice Chat') {
     throw "Public installation guide contains unnecessary upstream Simple Voice Chat instructions."
+}
+
+$patchVersion = (Get-Content -LiteralPath $VersionFile -Raw).Trim()
+$readmeText = Get-Content -LiteralPath $ReadmeFile -Raw
+foreach ($readmeToken in @(
+    "Download Jay's Patch v$patchVersion",
+    "refs/tags/v$patchVersion.zip",
+    'Licenses/CREDITS.md',
+    'Licenses/ASSET_LICENSE.md',
+    'Licenses/BRANDING.md',
+    'Licenses/THIRD-PARTY-LICENSES/'
+)) {
+    if (-not $readmeText.Contains($readmeToken)) {
+        throw "Public README is missing required text: $readmeToken"
+    }
 }
 
 $creditsText = Get-Content -LiteralPath $CreditsFile -Raw
@@ -118,21 +144,7 @@ foreach ($licenseToken in @(
     }
 }
 
-$noticeText = Get-Content -LiteralPath $NoticeFile -Raw
 $assetLicenseText = Get-Content -LiteralPath $AssetLicenseFile -Raw
-foreach ($noticeToken in @(
-    'permission to release this add-on publicly',
-    'version 1.5.4',
-    'THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt',
-    'Discord community',
-    'tomozbot',
-    'community-created-content-policy',
-    'not a license'
-)) {
-    if (-not $noticeText.Contains($noticeToken)) {
-        throw "NOTICE.md is missing required rights or attribution text: $noticeToken"
-    }
-}
 if ($assetLicenseText -notmatch 'They are not Jay-owned\s+handmade art') {
     throw "ASSET_LICENSE.md does not clearly exclude the copied upstream role icons."
 }

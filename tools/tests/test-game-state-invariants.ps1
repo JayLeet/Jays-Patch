@@ -135,8 +135,8 @@ Assert-Contains $patchSybillian 'scoreboard players set patch_items_enabled botc
 Assert-Contains $patchSybillian 'scoreboard players set patch_setup_bag_enabled botc_patch 0' "Sybillian setup-bag state disables only Jay's setup bag"
 Assert-DoesNotContain $patchSybillian 'scoreboard players set patch_items_enabled botc_patch 0' "Sybillian setup-bag state disables all Jay items"
 Assert-Contains $patchDisabled 'scoreboard players set patch_items_enabled botc_patch 0[\s\S]*scoreboard players set patch_setup_bag_enabled botc_patch 0[\s\S]*scoreboard players set patch_dialog_mode botc_patch 0' "disabled state clears all mode flags"
-Assert-Contains $patchSybillian 'OP is required to run the game in this mode.*color":"red","bold":true' "Sybillian setup-bag state warns that OP is required"
-Assert-Contains $patchDisabled 'OP is required to run the game in this mode.*color":"red","bold":true' "Jay-items-disabled state warns that OP is required"
+Assert-Contains $patchSybillian 'You need OP to start the game in this mode.*color":"red","bold":true' "Sybillian setup-bag state warns that OP is required"
+Assert-Contains $patchDisabled 'You need OP to start the game in this mode.*color":"red","bold":true' "Jay-items-disabled state warns that OP is required"
 
 # Dialog actions are client-submitted trigger values. Authority, mode, and
 # phase are rechecked server-side before any existing wrapper is called.

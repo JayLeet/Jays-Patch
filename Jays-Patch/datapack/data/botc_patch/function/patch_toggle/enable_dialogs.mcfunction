@@ -6,4 +6,4 @@ function botc_patch:patch_toggle/clear_jay_items
 clear @a[tag=storyteller] minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["ct_bag"]}]
 function botc_patch:patch_toggle/item_checks
 scoreboard players set botc_item_maintenance_pending botc_patch 1
-tellraw @s [{"text":"OK ","color":"green","bold":true},{"text":"Jay's Patch dialog mode is enabled.","color":"gray","bold":false}]
+tellraw @s [{"text":"\u2713 ","color":"green","bold":true},{"text":"Dialog mode is on. Right-click again for Sybillian's setup bag.","color":"gray","bold":false}]
