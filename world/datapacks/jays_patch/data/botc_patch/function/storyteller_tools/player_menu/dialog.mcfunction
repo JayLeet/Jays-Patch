@@ -3,7 +3,7 @@
 # Builds player-and-role labels from Sybillian's game-start seats and current Storyteller role state.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"Teleport to Player is only available during an active game.","color":"red"}
+execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only teleport to a player during an active game.","color":"red"}
 function botc_patch:grim/editor/refresh_live_roles
 function botc_patch:grim/editor/player_labels/prepare
 scoreboard players set botc_tp_dialog_size botc_patch 0

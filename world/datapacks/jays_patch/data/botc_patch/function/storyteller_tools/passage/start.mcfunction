@@ -25,8 +25,8 @@ execute if entity @s[gamemode=spectator] run tag @s add botc_st_passage_prev_spe
 function botc_patch:storyteller_tools/passage/snapshot_start_zone
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_passage"]}]
 gamemode spectator @s
-tellraw @s [{"text":"Storyteller's Passage opened. Enter a voice chat zone to return back to your previous state.","color":"aqua"}]
-title @s actionbar [{"text":"Fly, spectate, and enter a house to return.","color":"aqua"}]
+tellraw @s [{"text":"Storyteller's Passage is open. Enter a voice-chat zone when you're ready to return.","color":"aqua"}]
+title @s actionbar [{"text":"Fly into a house to return.","color":"aqua"}]
 playsound minecraft:entity.enderman.teleport voice @s ~ ~ ~ 0.8 1.2
 scoreboard players set @s botc_hand_use 0
 scoreboard players set @s botc_music_use 0

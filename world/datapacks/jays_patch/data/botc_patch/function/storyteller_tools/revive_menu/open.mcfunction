@@ -3,5 +3,5 @@
 # Opens the filtered dead-player Revive dialog without replacing the Storyteller hotbar.
 tag @s add botc_st_tool_used
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"Revive is only available during live day phases.",color:"red"}]
+execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only revive players during the day.",color:"red"}]
 function botc_patch:storyteller_tools/revive_menu/dialog
