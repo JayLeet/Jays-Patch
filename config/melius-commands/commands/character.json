@@ -1,0 +1,23 @@
+{
+    "id":  "character",
+    "arguments":  [
+                      {
+                          "id":  "id",
+                          "type":  "brigadier:integer",
+                          "arguments":  [
+                                            {
+                                                "id":  "character",
+                                                "type":  "brigadier:string word",
+                                                "executes":  [
+                                                                 {
+                                                                     "command":  "execute if score phase game_data matches 1.. run function ct:cmd/character {id:${id},character:${character}}",
+                                                                     "as_console":  true,
+                                                                     "silent":  true,
+                                                                     "op_level":  4
+                                                                 }
+                                                             ]
+                                            }
+                                        ]
+                      }
+                  ]
+}

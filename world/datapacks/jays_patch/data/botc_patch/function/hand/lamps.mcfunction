@@ -1,0 +1,2 @@
+execute at @e[type=minecraft:item_display,tag=vote_marker] run fill ~ ~-1 ~ ~ ~-1 ~ minecraft:air replace minecraft:redstone_lamp
+execute if score phase game_data matches 3 as @a[tag=raising_hand,scores={id=1..15}] at @e[type=minecraft:item_display,tag=vote_marker] if score @s id = @e[type=minecraft:item_display,tag=vote_marker,sort=nearest,limit=1] id run setblock ~ ~-1 ~ minecraft:redstone_lamp[lit=true] replace

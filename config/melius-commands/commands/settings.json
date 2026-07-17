@@ -1,0 +1,22 @@
+{
+    "id":  "settings",
+    "literals":  [
+                     {
+                         "id":  "clock_speed",
+                         "arguments":  [
+                                           {
+                                               "id":  "speed",
+                                               "type":  "brigadier:float 1 40",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute as @s[tag=storyteller] run function ct:cmd/clock_speed {n:${speed}}",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ]
+                     }
+                 ]
+}

@@ -1,0 +1,3 @@
+$data modify entity @e[type=minecraft:item_display,tag=vote_marker,scores={id=$(seat)},limit=1] item.components."minecraft:custom_model_data".strings[0] set value "voting_no"
+$execute if entity @a[tag=voting_yes,tag=!dead,scores={id=$(seat)},limit=1] run data modify entity @e[type=minecraft:item_display,tag=vote_marker,scores={id=$(seat)},limit=1] item.components."minecraft:custom_model_data".strings[0] set value "voting_yes"
+$execute if entity @a[tag=voting_yes,tag=dead,tag=!expended_ghost,scores={id=$(seat)},limit=1] run data modify entity @e[type=minecraft:item_display,tag=vote_marker,scores={id=$(seat)},limit=1] item.components."minecraft:custom_model_data".strings[0] set value "voting_ghost"

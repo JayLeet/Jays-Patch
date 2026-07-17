@@ -1,0 +1,27 @@
+{
+    "id":  "request_chat",
+    "literals":  [
+                     {
+                         "id":  "on",
+                         "executes":  [
+                                          {
+                                              "command":  "function ct:cmd/request_chat/on",
+                                              "as_console":  false,
+                                              "silent":  true,
+                                              "op_level":  0
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "off",
+                         "executes":  [
+                                          {
+                                              "command":  "function ct:cmd/request_chat/off",
+                                              "as_console":  false,
+                                              "silent":  true,
+                                              "op_level":  0
+                                          }
+                                      ]
+                     }
+                 ]
+}

@@ -1,0 +1,16 @@
+# Route setup-room carrot-on-a-stick actions before other custom item handlers.
+tag @a remove botc_setup_room_used
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] if score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_bag"]} run function botc_patch:setup_room/open
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] if score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_back"]} run function botc_patch:setup_room/back
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] if score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_custom"]} run function botc_patch:setup_room/custom_script
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] if score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_tb"]} run function botc_patch:setup_room/select_tb
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] if score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_snv"]} run function botc_patch:setup_room/select_snv
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] if score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_bmr"]} run function botc_patch:setup_room/select_bmr
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] if score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_clear"]} run function botc_patch:setup_room/clear_setup
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] if score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_use_bag"]} run function botc_patch:setup_room/use_bag
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] if score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_start"]} run function botc_patch:setup_room/start_game
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=!botc_setup_room_used] unless score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_bag"]} run tag @s add botc_setup_room_used
+execute as @a[tag=storyteller,scores={botc_hand_use=1..},tag=botc_setup_room_used] unless score phase game_data matches 0 if data entity @s SelectedItem.components."minecraft:custom_model_data"{strings:["setup_wall_bag"]} run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Setup Bag is disabled while a game is live.","color":"gray","bold":false}]
+scoreboard players set @a[tag=botc_setup_room_used] botc_hand_use 0
+scoreboard players set @a[tag=botc_setup_room_used] botc_music_use 0
+tag @a remove botc_setup_room_used

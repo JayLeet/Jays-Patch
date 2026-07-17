@@ -1,0 +1,11 @@
+{
+    "id":  "tpchurch",
+    "executes":  [
+                     {
+                         "command":  "execute as @s[tag=storyteller] run function ct:cmd/tpchurch",
+                         "as_console":  true,
+                         "silent":  true,
+                         "op_level":  4
+                     }
+                 ]
+}

@@ -1,0 +1,7 @@
+# Neutral defaults only. Jay's Patch does not distribute group-specific TAB formatting.
+_DEFAULT_:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"
+  customtabname: "%player%"
+  tabsuffix: "%luckperms-suffix%"
+  tagsuffix: "%luckperms-suffix%"

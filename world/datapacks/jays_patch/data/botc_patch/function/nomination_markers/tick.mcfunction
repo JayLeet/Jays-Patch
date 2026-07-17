@@ -1,0 +1,8 @@
+# Sybillian 1.5.4 writes dead votes from seats 13..15 onto markers 10..12.
+# Reconcile only when one of those vote states changes to avoid constant entity writes.
+execute if entity @a[tag=dead,tag=!expended_ghost,tag=voting_yes,scores={id=13},limit=1] unless score ghost_marker_13 botc_patch matches 1 run function botc_patch:nomination_markers/activate {seat:13,overwritten:10,state:"ghost_marker_13"}
+execute unless entity @a[tag=dead,tag=!expended_ghost,tag=voting_yes,scores={id=13},limit=1] if score ghost_marker_13 botc_patch matches 1 run function botc_patch:nomination_markers/deactivate {seat:13,overwritten:10,state:"ghost_marker_13"}
+execute if entity @a[tag=dead,tag=!expended_ghost,tag=voting_yes,scores={id=14},limit=1] unless score ghost_marker_14 botc_patch matches 1 run function botc_patch:nomination_markers/activate {seat:14,overwritten:11,state:"ghost_marker_14"}
+execute unless entity @a[tag=dead,tag=!expended_ghost,tag=voting_yes,scores={id=14},limit=1] if score ghost_marker_14 botc_patch matches 1 run function botc_patch:nomination_markers/deactivate {seat:14,overwritten:11,state:"ghost_marker_14"}
+execute if entity @a[tag=dead,tag=!expended_ghost,tag=voting_yes,scores={id=15},limit=1] unless score ghost_marker_15 botc_patch matches 1 run function botc_patch:nomination_markers/activate {seat:15,overwritten:12,state:"ghost_marker_15"}
+execute unless entity @a[tag=dead,tag=!expended_ghost,tag=voting_yes,scores={id=15},limit=1] if score ghost_marker_15 botc_patch matches 1 run function botc_patch:nomination_markers/deactivate {seat:15,overwritten:12,state:"ghost_marker_15"}
