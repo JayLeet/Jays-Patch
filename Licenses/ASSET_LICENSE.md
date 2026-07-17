@@ -1,21 +1,19 @@
-# Jay-Owned Resource-Pack Art License
+# License for My Resource-Pack Art
 
-Jay-owned resource-pack art in this package is licensed under the Creative
+I license the resource-pack art I made for Jay's Patch under the Creative
 Commons Attribution 4.0 International License.
 
-License URL:
+[Read the Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
-https://creativecommons.org/licenses/by/4.0/
+## What this covers
 
-## What This Covers
-
-This license covers only Jay-owned handmade resource-pack art included with
-Jay's Patch, including:
+This license only covers the handmade resource-pack art I created for Jay's
+Patch, including:
 
 - custom Jay's Patch item textures;
-- custom Jay's Patch resource-pack visual assets created by Jay.
+- other custom Jay's Patch resource-pack visuals I created.
 
-## What This Does Not Cover
+## What this does not cover
 
 This license does not cover:
 
@@ -28,8 +26,8 @@ This license does not cover:
 - Blood on the Clocktower game content owned by The Pandemonium Institute;
 - third-party mods or libraries, including the Melius Commands mod.
 
-The included world template is based on Sybillian's original world. Jay claims
-only Jay's edits, not the underlying Sybillian world. This file does not grant a
+The included world template is based on Sybillian's original world. I only
+claim my edits, not the underlying Sybillian world. This file does not grant a
 separate reusable content license for the world template.
 
 The role-icon textures under the Jay's Patch resource-pack overlay are copied
@@ -39,5 +37,5 @@ handmade art and are not licensed by this file. See `CREDITS.md` and
 
 ## Attribution
 
-If you use, modify, or redistribute Jay-owned resource-pack art from this
-package, credit Jay and indicate if you changed it.
+If you use, modify or redistribute my resource-pack art from this package,
+credit Jay and say whether you changed it.
