@@ -1,11 +1,11 @@
 {
     "schema":  1,
-    "version":  "1.5.0",
+    "version":  "1.5.1",
     "files":  [
                   {
                       "path":  "ASSET_LICENSE.md",
-                      "bytes":  1602,
-                      "sha256":  "ff84e9cac75bf068841574919ba3ef4d3264000fbe8542f83be0add4dcbfc512"
+                      "bytes":  1616,
+                      "sha256":  "0d742d2d9b2da24bd158af730ad4b2bcf1b4e0c8acf2cd7947556cf28bb856b1"
                   },
                   {
                       "path":  "BRANDING.md",
@@ -84,18 +84,23 @@
                   },
                   {
                       "path":  "CREDITS.md",
-                      "bytes":  1072,
-                      "sha256":  "78137d35818deb43e8aa1a82f0a640ebd24bf95c1073489495451c9182a6bb83"
+                      "bytes":  2312,
+                      "sha256":  "c32809f49876adeb2ccda8c53790d46c3d9b77adb4603b2946df90de1e82c75f"
                   },
                   {
                       "path":  "HOW TO INSTALL.txt",
-                      "bytes":  3290,
-                      "sha256":  "92b1e3c212eb8da571b426d550128be82a3c2cab11690148f700d4f1251dce9c"
+                      "bytes":  2441,
+                      "sha256":  "13400bb54806e78f46bb01f79cfb52b958ddc143d7c5675dcca2643f082f625a"
                   },
                   {
                       "path":  "LICENSE",
                       "bytes":  1409,
                       "sha256":  "8b425f8e1b41720123a5c0a7a6fb09ba64680101fd4c0cde45de961c58065d7b"
+                  },
+                  {
+                      "path":  "NOTICE.md",
+                      "bytes":  2736,
+                      "sha256":  "1724d4c2a1a78429dc49dfa4260d3b70a1c5ab4212b88055fa98026fe359ed4b"
                   },
                   {
                       "path":  "resourcepack/Jays-Patch-resourcepack.zip",

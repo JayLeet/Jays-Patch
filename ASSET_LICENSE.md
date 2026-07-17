@@ -34,8 +34,8 @@ separate reusable content license for the world template.
 
 The role-icon textures under the Jay's Patch resource-pack overlay are copied
 from the textures distributed with Sybillian's modpack. They are not Jay-owned
-handmade art and are not licensed by this file. See `CREDITS.md` and
-`THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt`.
+handmade art and are not licensed by this file. See `CREDITS.md`, `NOTICE.md`,
+and `THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt`.
 
 ## Attribution
 
