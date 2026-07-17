@@ -157,7 +157,7 @@ I link back to the original project and name the supported version.
 - [Blood on the Clocktower](https://bloodontheclocktower.com/)
 
 Read [`CREDITS.md`](Licenses/CREDITS.md) for the full list of credits. License
-and ownership details are in [`LICENSE`](Licenses/LICENSE),
+and ownership details are in [`LICENSE`](LICENSE),
 [`ASSET_LICENSE.md`](Licenses/ASSET_LICENSE.md),
 [`BRANDING.md`](Licenses/BRANDING.md) and
 [`THIRD-PARTY-LICENSES`](Licenses/THIRD-PARTY-LICENSES/).
