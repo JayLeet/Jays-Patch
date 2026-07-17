@@ -2,14 +2,13 @@
 
 Jay's Patch is my unofficial server-side add-on for
 [Sybillian's Blood on the Clocktower modpack](https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4).
-It adds circular seating, end-game Grimoire reveals, quicker access to
-Storyteller tools, a different way to set up games and several smaller changes
-that make games easier to run.
+It adds circular seating, end-game Grimoire reveals and a private setup room.
+It also puts Sybillian's Storyteller tools in your hotbar for quicker access.
 
 I made it for **Sybillian's modpack 1.5.4** on
 **Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
 
-**[Download Jay's Patch v1.5.2](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.5.2.zip)**
+**[Download Jay's Patch v1.5.3](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.5.3.zip)**
 
 ## What does it add?
 
@@ -55,13 +54,13 @@ character icons.
 - 🖱️ Right-click characters on the wall to add or remove them from the setup.
 - 🔔 Start the game from the room and reveal each player's character only to that player.
 
-### 5. 🎉 A better ending
+### 5. 🎉 Winner reveals
 
 Good and Evil each get a winner reveal with a short suspense sequence,
 sounds, titles and fireworks. The winning players also receive matching heads
 for the celebration.
 
-### 6. 🏡 World changes
+### 6. 🏡 Setup room and world edits
 
 I added a dedicated setup room, changes to the inn and several interior and
 exterior touch-ups to the included world. These changes are why installation
@@ -97,7 +96,7 @@ Do not install only the `jays_patch` datapack folder.
 1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
 2. Start the server once, then stop it completely.
 3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.5.2](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.5.2.zip) and extract it.
+4. [Download Jay's Patch v1.5.3](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.5.3.zip) and extract it.
 5. Replace your server's `world` folder with the included `world` folder.
 6. Copy the included `config` folder into your server folder. Merge it with the
    existing `config` folder and replace files when asked.
@@ -113,7 +112,7 @@ spawn-protection=0
 resource-pack=https://download.mc-packs.net/pack/d73d89620b05d15ee38db51a3073f66a3308d4a7.zip
 resource-pack-sha1=d73d89620b05d15ee38db51a3073f66a3308d4a7
 resource-pack-id=438930c8-37ac-42cc-8504-0d8b605bba74
-resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resourcepack","color"\:"gold","bold"\:false},{"text"\:"\\nIt is recommended to use this resourcepack","color"\:"gray","bold"\:false}]}
+resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
 ```
 
 If the hosted resource pack stops working, upload
