@@ -54,7 +54,7 @@ function Write-Lines {
 $openLines = New-GeneratedHeader "Opens the active-game player dialog without replacing the Storyteller hotbar."
 $openLines.Add("tag @s add botc_st_tool_used")
 $openLines.Add("execute unless entity @s[tag=storyteller] run return 0")
-$openLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"Teleport to Player is only available during an active game.","color":"red"}')
+$openLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only teleport to a player during an active game.","color":"red"}')
 $openLines.Add('execute if score phase game_data matches 4 run tellraw @s {"text":"Teleporting...","color":"gray"}')
 $openLines.Add("execute if score phase game_data matches 4 run function botc_patch:storyteller_tools/teleport_den")
 $openLines.Add("execute if score phase game_data matches 4 run function botc_patch:storyteller_tools/teleport_sound")
@@ -64,7 +64,7 @@ Write-Lines -Path (Join-Path $OutputRoot "open.mcfunction") -Lines $openLines
 $dialogLines = New-GeneratedHeader "Builds player-and-role labels from Sybillian's game-start seats and current Storyteller role state."
 $dialogLines.Add("dialog clear @s")
 $dialogLines.Add("execute unless entity @s[tag=storyteller] run return 0")
-$dialogLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"Teleport to Player is only available during an active game.","color":"red"}')
+$dialogLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only teleport to a player during an active game.","color":"red"}')
 $dialogLines.Add("function botc_patch:grim/editor/refresh_live_roles")
 $dialogLines.Add("function botc_patch:grim/editor/player_labels/prepare")
 $dialogLines.Add("scoreboard players set botc_tp_dialog_size botc_patch 0")
@@ -101,7 +101,7 @@ Write-Lines -Path (Join-Path $OutputRoot "cancel.mcfunction") -Lines $cancelLine
 $teleportSelectedLines = New-GeneratedHeader "Validates a dialog seat selection before dispatching to its fixed target function."
 $teleportSelectedLines.Add("dialog clear @s")
 $teleportSelectedLines.Add("execute unless entity @s[tag=storyteller] run return 0")
-$teleportSelectedLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"Teleport to Player is only available during an active game.","color":"red"}')
+$teleportSelectedLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only teleport to a player during an active game.","color":"red"}')
 $teleportSelectedLines.Add('$function botc_patch:storyteller_tools/player_menu/to_seat_$(seat)')
 Write-Lines -Path (Join-Path $OutputRoot "teleport_selected.mcfunction") -Lines $teleportSelectedLines
 

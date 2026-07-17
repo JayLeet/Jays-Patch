@@ -85,7 +85,7 @@ internal static partial class BotcLauncher
         }
         catch (Exception ex)
         {
-            WriteErrorBlock(Branding.ShortName + " launcher failed", ex.Message, new[] { "Fix the named issue, then open BOTC.exe again." });
+            WriteErrorBlock(Branding.ShortName + " launcher failed", ex.Message, new[] { "Fix the issue above, then open BOTC.exe again." });
             PauseOnError();
             return 1;
         }
@@ -136,8 +136,8 @@ internal static partial class BotcLauncher
                 ex.Message,
                 new[]
                 {
-                    "Docker update/startup was not allowed to continue after this failure.",
-                    "Fix the named issue, then open BOTC.exe again."
+                    "Startup stopped here, so Docker did not continue.",
+                    "Fix the issue above, then open BOTC.exe again."
                 });
             PauseOnError();
             return 1;
@@ -148,7 +148,7 @@ internal static partial class BotcLauncher
         if (!IsInteractiveConsole())
         {
             Header("Online");
-            Console.WriteLine("Open BOTC.exe by double-clicking it to use the interactive command console.");
+            Console.WriteLine("Double-click BOTC.exe to use the interactive command console.");
             return 0;
         }
 
@@ -173,7 +173,7 @@ internal static partial class BotcLauncher
         {
             Header("Needs window");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Open BOTC.exe by double-clicking it so the console has a real keyboard input window.");
+            Console.WriteLine("Double-click BOTC.exe so the console opens in a window that accepts keyboard input.");
             Console.ResetColor();
             PauseOnError();
             return 1;
@@ -371,8 +371,8 @@ internal static partial class BotcLauncher
     private static bool ConfirmBackupBeforeStop()
     {
         Console.WriteLine();
-        Notice("Create/update the standard backup before stopping? This replaces backups\\standard after the new backup is complete.");
-        Console.Write("Type Y to back up and stop, N to stop without backup, or anything else to cancel: ");
+        Notice("Back up the server before stopping? This replaces backups\\standard only after the new backup finishes.");
+        Console.Write("Type Y to back up and stop, N to stop without a backup, or anything else to cancel: ");
         string answer = (Console.ReadLine() ?? "").Trim();
 
         if (EqualsIgnoreCase(answer, "Y") || EqualsIgnoreCase(answer, "YES"))
@@ -2700,7 +2700,7 @@ internal static partial class BotcLauncher
         Console.WriteLine();
         WriteRule("HELP");
         Console.WriteLine("  Type Minecraft server commands without the slash.");
-        Console.WriteLine("  Minecraft commands are sent directly to the server.");
+        Console.WriteLine("  They are sent directly to the server.");
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("  Console Commands");
@@ -2709,10 +2709,10 @@ internal static partial class BotcLauncher
         {
             { "help", "Show this help panel" },
             { "backup", "Back up the standard slot without stopping" },
-            { "restart", "Ask, then restart only the Minecraft server" },
+            { "restart", "Confirm, then restart only the Minecraft server" },
             { "cls", "Clear the window" },
             { "exit", "Close this window, keep server online" },
-            { "stop", "Ask for backup, then stop server and launcher-started services" }
+            { "stop", "Choose whether to back up, then stop the server and launcher-started services" }
         });
         WriteRule("");
         Console.WriteLine();

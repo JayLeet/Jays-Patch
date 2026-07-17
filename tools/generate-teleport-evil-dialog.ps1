@@ -45,7 +45,7 @@ $entryLines = New-Header "Builds private in-play Demon and Minion role-icon rows
 $entryLines.Add('tag @s add botc_st_tool_used')
 $entryLines.Add('dialog clear @s')
 $entryLines.Add('execute unless entity @s[tag=storyteller] run return 0')
-$entryLines.Add('execute unless score phase game_data matches 4 run return run tellraw @s {text:"Evil-team teleporting is only available at night.",color:"red"}')
+$entryLines.Add('execute unless score phase game_data matches 4 run return run tellraw @s {text:"You can only teleport the evil team at night.",color:"red"}')
 $entryLines.Add('function botc_patch:grim/editor/refresh_live_roles')
 $entryLines.Add('function botc_patch:grim/editor/player_labels/prepare')
 $entryLines.Add('data remove storage botc_patch:dialogs teleport_evil')
@@ -84,7 +84,7 @@ $title = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icon
 $back = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id 'back') -Font 'botc_patch:ui_icons' -Text 'Back' -Color 'gray'
 
 $showLines = New-Header "Shows private evil-team choices with the actual in-play role icons."
-$showLines.Add('$dialog show @s {type:"multi_action",title:' + $title + ',body:{type:"plain_message",contents:{text:"Choose who travels with you to the church.",color:"gray"},width:340},actions:[{label:[' + ($demonLabel -join ',') + '],action:{type:"run_command",command:"/botc teleport_evil demon"}},{label:[' + ($minionLabel -join ',') + '],action:{type:"run_command",command:"/botc teleport_evil minions"}},{label:[' + ($bothLabel -join ',') + '],action:{type:"run_command",command:"/botc teleport_evil both"}}],exit_action:{label:' + $back + ',action:{type:"run_command",command:"/botc dialog_cancel"}}}')
+$showLines.Add('$dialog show @s {type:"multi_action",title:' + $title + ',body:{type:"plain_message",contents:{text:"Pick who comes with you to the church.",color:"gray"},width:340},actions:[{label:[' + ($demonLabel -join ',') + '],action:{type:"run_command",command:"/botc teleport_evil demon"}},{label:[' + ($minionLabel -join ',') + '],action:{type:"run_command",command:"/botc teleport_evil minions"}},{label:[' + ($bothLabel -join ',') + '],action:{type:"run_command",command:"/botc teleport_evil both"}}],exit_action:{label:' + $back + ',action:{type:"run_command",command:"/botc dialog_cancel"}}}')
 Write-Lines -Path (Join-Path $OutputRoot 'teleport_evil/show.mcfunction') -Lines $showLines
 
 Write-Host "Generated private evil-team teleport dialog with current role icons." -ForegroundColor Green

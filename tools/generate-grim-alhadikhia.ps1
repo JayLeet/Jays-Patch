@@ -29,11 +29,11 @@ function New-Header {
 $dispatchLines = New-Header "Shows the Al-Hadikhia public-target picker from Sybillian's game-start player snapshot."
 $dispatchLines.Add('dialog clear @s')
 $dispatchLines.Add('execute unless entity @s[tag=storyteller] run return 0')
-$dispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"The Al-Hadikhia target can only be announced during an active game.","color":"red"}')
-$dispatchLines.Add('execute if score grim_editor_reveal_started botc_patch matches 1 run return run tellraw @s {"text":"The target announcement is only available before Reveal Grimoire begins.","color":"red"}')
-$dispatchLines.Add('execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=128}] run return run tellraw @s {"text":"The Al-Hadikhia is not currently in play.","color":"red"}')
+$dispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only announce an Al-Hadikhia target during an active game.","color":"red"}')
+$dispatchLines.Add('execute if score grim_editor_reveal_started botc_patch matches 1 run return run tellraw @s {"text":"You can only announce the target before Reveal Grimoire begins.","color":"red"}')
+$dispatchLines.Add('execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=128}] run return run tellraw @s {"text":"Al-Hadikhia isn''t in play.","color":"red"}')
 $dispatchLines.Add('execute unless score grim_editor_game_captured botc_patch matches 1 run function botc_patch:grim/editor/capture_game')
-$dispatchLines.Add('execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s {"text":"Game-start player data is not available yet.","color":"red"}')
+$dispatchLines.Add('execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s {"text":"The player list from the start of the game isn''t available yet.","color":"red"}')
 $dispatchLines.Add('function botc_patch:grim/editor/refresh_live_roles')
 $dispatchLines.Add('function botc_patch:grim/editor/player_labels/prepare')
 for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
@@ -53,7 +53,7 @@ for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
     }
 
     $macroPrefix = if ($seatCount -gt 0) { '$' } else { '' }
-    $line = $macroPrefix + 'dialog show @s {type:"multi_action",title:"Announce Al-Hadikhia Target",body:{type:"plain_message",contents:{text:"Choose the player whose name should be announced publicly.",color:"gray"},width:360},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire confirm"}}}'
+    $line = $macroPrefix + 'dialog show @s {type:"multi_action",title:"Announce Al-Hadikhia Target",body:{type:"plain_message",contents:{text:"Pick the player whose name you want to announce.",color:"gray"},width:360},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire confirm"}}}'
     $lines = New-Header "Al-Hadikhia target dialog for $seatCount occupied seats."
     $lines.Add($line)
     Write-Lines -Path (Join-Path $DialogRoot "count_$seatCount.mcfunction") -Lines $lines

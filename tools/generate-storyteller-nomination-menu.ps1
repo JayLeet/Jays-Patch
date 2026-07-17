@@ -104,7 +104,7 @@ foreach ($seatColor in $seatColors) {
 $open = New-GeneratedHeader "Opens the nomination player dialog while preserving the normal hotbar."
 $open.Add("tag @s add botc_st_tool_used")
 $open.Add("execute unless entity @s[tag=storyteller] run return 0")
-$open.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Nominate is only available during nominations.",color:"red"}]')
+$open.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"You can only nominate during nominations.",color:"red"}]')
 $open.Add("function botc_patch:storyteller_tools/nomination_menu/dialog")
 Write-Lines -Path (Join-Path $OutputRoot "open.mcfunction") -Lines $open
 
@@ -118,13 +118,13 @@ Write-BotcFilteredPlayerDialog `
     -EligibilitySelectorTemplate '@a[tag=!storyteller,tag=!spectator,scores={id=<seat>},limit=1]' `
     -ActionCommand "nominate_player" `
     -PhaseCondition "score phase game_data matches 3" `
-    -InvalidPhaseMessage "Nominate is only available during nominations." `
-    -NoPlayersMessage "No seated players are available to nominate."
+    -InvalidPhaseMessage "You can only nominate during nominations." `
+    -NoPlayersMessage "There are no seated players to nominate."
 
 $selectPlayer = New-GeneratedHeader "Validates a dialog seat before dispatching to the fixed nomination function."
 $selectPlayer.Add("dialog clear @s")
 $selectPlayer.Add("execute unless entity @s[tag=storyteller] run return 0")
-$selectPlayer.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Nominate is only available during nominations.",color:"red"}]')
+$selectPlayer.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"You can only nominate during nominations.",color:"red"}]')
 $selectPlayer.Add('$function botc_patch:storyteller_tools/nomination_menu/select_seat_$(seat)')
 Write-Lines -Path (Join-Path $OutputRoot "select_player.mcfunction") -Lines $selectPlayer
 
@@ -165,7 +165,7 @@ Write-Lines -Path (Join-Path $OutputRoot "cancel_vote.mcfunction") -Lines $cance
 $rescind = New-GeneratedHeader "Cancels the active vote and removes only the current nominee."
 $rescind.Add("function botc_patch:storyteller_tools/nomination_menu/cancel_vote")
 $rescind.Add("tag @a remove nominee")
-$rescind.Add('tellraw @a [{text:"Nomination rescinded.",color:"yellow"}]')
+$rescind.Add('tellraw @a [{text:"The nomination was rescinded.",color:"yellow"}]')
 Write-Lines -Path (Join-Path $OutputRoot "rescind.mcfunction") -Lines $rescind
 
 $close = New-GeneratedHeader "Closes nomination UI state and restores the normal Storyteller hotbar."
@@ -214,7 +214,7 @@ $startVote.Add("tag @s add botc_st_tool_used")
 $startVote.Add('execute unless entity @a[tag=botc_st_nom_selected,limit=1] run return run tellraw @s [{text:"The selected player is no longer available.",color:"red"}]')
 $startVote.Add("execute if entity @s[tag=botc_st_nom_vote_started] run function botc_patch:storyteller_tools/nomination_menu/cancel_vote")
 $startVote.Add("execute if entity @s[tag=botc_st_nom_vote_started] as @a[tag=botc_st_nom_selected,limit=1] run function ct:admin/nomination")
-$startVote.Add('execute unless entity @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run return run tellraw @s [{text:"The selected player could not be nominated.",color:"red"}]')
+$startVote.Add('execute unless entity @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run return run tellraw @s [{text:"That player couldn''t be nominated.",color:"red"}]')
 $startVote.Add("execute as @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run function botc_patch:seat_layout/sync_nominee_name")
 $startVote.Add("tag @s add botc_st_nom_vote_started")
 $startVote.Add("tag @s remove botc_st_nom_vote_finished")
@@ -231,7 +231,7 @@ Write-Lines -Path (Join-Path $OutputRoot "vote_finished.mcfunction") -Lines $vot
 $mark = New-GeneratedHeader "Toggles the completed nominee's execution mark in place so it can be changed again without rerunning the vote."
 $mark.Add("tag @s add botc_st_tool_used")
 $mark.Add('execute unless entity @s[tag=botc_st_nom_vote_finished] run return run tellraw @s [{text:"Finish the nomination vote before marking a player.",color:"red"}]')
-$mark.Add('execute unless entity @a[tag=botc_st_nom_selected,tag=last_nom,limit=1] run return run tellraw @s [{text:"The completed nominee is no longer available.",color:"red"}]')
+$mark.Add('execute unless entity @a[tag=botc_st_nom_selected,tag=last_nom,limit=1] run return run tellraw @s [{text:"That nominee is no longer available.",color:"red"}]')
 $mark.Add("tag @s remove botc_st_nom_clear_mark")
 $mark.Add("execute if entity @a[tag=botc_st_nom_selected,tag=last_nom,tag=marked_for_execution,limit=1] run tag @s add botc_st_nom_clear_mark")
 $mark.Add("execute if entity @s[tag=botc_st_nom_clear_mark] run function ct:kill/execute/remove_mark")

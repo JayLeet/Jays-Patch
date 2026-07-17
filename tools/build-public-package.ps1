@@ -14,19 +14,18 @@ $ServerPackageStage = Join-Path $DistRoot "server-package-staging-build"
 $RequiredProperties = Join-Path $RepoRoot "Jays-Patch/server-config/jays-patch-required-server-properties.txt"
 $DatapackRequiredProperties = Join-Path $RepoRoot "Jays-Patch/datapack/jays-patch-required-server-properties.txt"
 $PublicPackageDocsRoot = Join-Path $RepoRoot "Jays-Patch/public-package"
+$ReadmeSource = Join-Path $PublicPackageDocsRoot "README.md"
 $InstallInstructionsName = "HOW TO INSTALL.txt"
 $InstallInstructionsSource = Join-Path $PublicPackageDocsRoot $InstallInstructionsName
-$CreditsSource = Join-Path $PublicPackageDocsRoot "CREDITS.md"
-$ThirdPartyLicensesSource = Join-Path $PublicPackageDocsRoot "THIRD-PARTY-LICENSES"
+$PublicLicensesSource = Join-Path $PublicPackageDocsRoot "Licenses"
+$CreditsSource = Join-Path $PublicLicensesSource "CREDITS.md"
+$ThirdPartyLicensesSource = Join-Path $PublicLicensesSource "THIRD-PARTY-LICENSES"
+$AssetLicenseSource = Join-Path $PublicLicensesSource "ASSET_LICENSE.md"
+$BrandingSource = Join-Path $PublicLicensesSource "BRANDING.md"
+$RootLicenseSource = Join-Path $RepoRoot "LICENSE"
 $SourceSafetyTest = Join-Path $RepoRoot "tools/tests/test-source-safety.ps1"
 $PublicPackageTest = Join-Path $RepoRoot "tools/tests/test-public-package-resourcepack.ps1"
 $WorldTemplateTest = Join-Path $RepoRoot "tools/tests/test-world-template-manifest.ps1"
-$PublicLicenseFiles = @(
-    "LICENSE",
-    "ASSET_LICENSE.md",
-    "BRANDING.md",
-    "NOTICE.md"
-)
 
 function Read-PropertiesFile {
     param([string] $Path)
@@ -88,9 +87,14 @@ if (-not (Test-Path -LiteralPath $RequiredProperties -PathType Leaf)) {
 
 foreach ($requiredPublicPath in @(
     $DatapackRequiredProperties,
+    $ReadmeSource,
     $InstallInstructionsSource,
+    $PublicLicensesSource,
     $CreditsSource,
-    $ThirdPartyLicensesSource
+    $ThirdPartyLicensesSource,
+    $AssetLicenseSource,
+    $BrandingSource,
+    $RootLicenseSource
 )) {
     if (-not (Test-Path -LiteralPath $requiredPublicPath)) {
         throw "Missing public package input: $requiredPublicPath"
@@ -101,13 +105,6 @@ $serverPropertiesText = Get-Content -LiteralPath $RequiredProperties -Raw
 $datapackPropertiesText = Get-Content -LiteralPath $DatapackRequiredProperties -Raw
 if ($serverPropertiesText -cne $datapackPropertiesText) {
     throw "Server-config and datapack copies of jays-patch-required-server-properties.txt differ. Keep the public setup notice values synchronized."
-}
-
-foreach ($licenseFile in $PublicLicenseFiles) {
-    $licensePath = Join-Path $RepoRoot $licenseFile
-    if (-not (Test-Path -LiteralPath $licensePath -PathType Leaf)) {
-        throw "Missing public package license/notice file: $licensePath"
-    }
 }
 
 [System.IO.Directory]::CreateDirectory($DistRoot) | Out-Null
@@ -169,13 +166,10 @@ Get-ChildItem -LiteralPath (Join-Path $RepoRoot "Jays-Patch/melius-commands/comm
 
 Copy-Item -LiteralPath (Join-Path $RepoRoot "Jays-Patch/server-config/tab") -Destination (Join-Path $ServerPackageStage "config/tab") -Recurse -Force
 Copy-Item -LiteralPath (Join-Path $RepoRoot "Jays-Patch/server-config/yawp-common.toml") -Destination (Join-Path $ServerPackageStage "config/yawp-common.toml") -Force
+Copy-Item -LiteralPath $ReadmeSource -Destination (Join-Path $ServerPackageStage "README.md") -Force
 Copy-Item -LiteralPath $InstallInstructionsSource -Destination (Join-Path $ServerPackageStage $InstallInstructionsName) -Force
-Copy-Item -LiteralPath $CreditsSource -Destination (Join-Path $ServerPackageStage "CREDITS.md") -Force
-Copy-Item -LiteralPath $ThirdPartyLicensesSource -Destination (Join-Path $ServerPackageStage "THIRD-PARTY-LICENSES") -Recurse -Force
-
-foreach ($licenseFile in $PublicLicenseFiles) {
-    Copy-Item -LiteralPath (Join-Path $RepoRoot $licenseFile) -Destination (Join-Path $ServerPackageStage $licenseFile) -Force
-}
+Copy-Item -LiteralPath $PublicLicensesSource -Destination (Join-Path $ServerPackageStage "Licenses") -Recurse -Force
+Copy-Item -LiteralPath $RootLicenseSource -Destination (Join-Path $ServerPackageStage "LICENSE") -Force
 
 $resourceFolder = Join-Path $ServerPackageStage "resourcepack"
 New-Item -ItemType Directory -Force -Path $resourceFolder | Out-Null

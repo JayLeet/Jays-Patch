@@ -18,4 +18,4 @@ short=BOTC
 name=Jay's Clocktower
 patch=Jay's Patch
 motd.subtitle=Come in, get comfy, and take a seat
-resourcepack.message=Jay's custom resourcepack
+resourcepack.message=Jay's Patch resource pack

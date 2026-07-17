@@ -44,10 +44,7 @@ function Get-BaselineFiles {
         "launcher/local-settings.example.properties",
         "Start.bat",
         "Console.bat",
-        "LICENSE",
-        "ASSET_LICENSE.md",
-        "BRANDING.md",
-        "NOTICE.md"
+        "LICENSE"
     )) {
         $path = Join-Path $RepoRoot $relative
         if (Test-Path -LiteralPath $path -PathType Leaf) {

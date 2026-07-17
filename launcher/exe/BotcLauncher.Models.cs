@@ -20,7 +20,7 @@ internal static partial class BotcLauncher
                 ServerName = "Jay's Clocktower",
                 PatchName = "Jay's Patch",
                 MotdSubtitle = "Come in, get comfy, and take a seat",
-                ResourcePackMessage = "Jay's custom resourcepack"
+                ResourcePackMessage = "Jay's Patch resource pack"
             };
         }
 

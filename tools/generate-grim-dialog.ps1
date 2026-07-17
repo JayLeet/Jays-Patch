@@ -89,7 +89,7 @@ $appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(
 Write-Lines -Path (Join-Path $VariantDir "append.mcfunction") -Lines $appendLines
 
 $lines = New-Header "Compacts unrevealed seats and dispatches the stable one-page reveal dialog."
-$lines.Add('execute unless score grim_active botc_patch matches 1 run tellraw @s {"text":"Start reveal mode with /botc grimoire start first.","color":"red"}')
+$lines.Add('execute unless score grim_active botc_patch matches 1 run tellraw @s {"text":"Start Reveal Grimoire with /botc grimoire start first.","color":"red"}')
 $lines.Add("execute if score grim_active botc_patch matches 1 run function botc_patch:grim/dialog/prepare")
 $lines.Add("execute if score grim_active botc_patch matches 1 run data remove storage botc_patch:grim reveal_dialog_visible")
 $lines.Add("execute if score grim_active botc_patch matches 1 run scoreboard players set grim_dialog_visible_size botc_patch 0")

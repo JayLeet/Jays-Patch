@@ -57,7 +57,7 @@ $options = @(
 )
 
 $confirmLines = New-Header "Routes the pre-reveal controls through one contextual option mask."
-$confirmLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"Grimoire reveal can only be started during an active game.","color":"red"}')
+$confirmLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only start Reveal Grimoire during an active game.","color":"red"}')
 $confirmLines.Add('scoreboard players set grim_confirm_options botc_patch 0')
 foreach ($option in $options) {
     $confirmLines.Add("execute $($option.Condition) run scoreboard players add grim_confirm_options botc_patch $($option.Bit)")

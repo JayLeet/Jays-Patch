@@ -45,7 +45,7 @@ function Write-Lines {
 $open = New-GeneratedHeader "Opens the filtered dead-player Revive dialog without replacing the Storyteller hotbar."
 $open.Add("tag @s add botc_st_tool_used")
 $open.Add("execute unless entity @s[tag=storyteller] run return 0")
-$open.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"Revive is only available during live day phases.",color:"red"}]')
+$open.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only revive players during the day.",color:"red"}]')
 $open.Add("function botc_patch:storyteller_tools/revive_menu/dialog")
 Write-Lines -Path (Join-Path $OutputRoot "open.mcfunction") -Lines $open
 
@@ -59,13 +59,13 @@ Write-BotcFilteredPlayerDialog `
     -EligibilitySelectorTemplate '@a[tag=!storyteller,tag=!spectator,tag=dead,scores={id=<seat>},limit=1]' `
     -ActionCommand "revive_player" `
     -PhaseCondition "score phase game_data matches 1..2" `
-    -InvalidPhaseMessage "Revive is only available during live day phases." `
+    -InvalidPhaseMessage "You can only revive players during the day." `
     -NoPlayersMessage "No seated players are dead."
 
 $selectPlayer = New-GeneratedHeader "Validates a dialog seat before dispatching to its fixed Revive function."
 $selectPlayer.Add("dialog clear @s")
 $selectPlayer.Add("execute unless entity @s[tag=storyteller] run return 0")
-$selectPlayer.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"Revive is only available during live day phases.",color:"red"}]')
+$selectPlayer.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only revive players during the day.",color:"red"}]')
 $selectPlayer.Add('$function botc_patch:storyteller_tools/revive_menu/to_seat_$(seat)')
 Write-Lines -Path (Join-Path $OutputRoot "select_player.mcfunction") -Lines $selectPlayer
 

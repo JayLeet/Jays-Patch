@@ -137,5 +137,5 @@ execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_xaan
 execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_yaggababble] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"yaggababble",name:"Yaggababble"}
 execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_zealot] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"zealot",name:"Zealot"}
 execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_zombuul] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"zombuul",name:"Zombuul"}
-execute unless score phase game_data matches 0 on target if entity @s[tag=storyteller] run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Setup wall is disabled while a game is live.","color":"gray","bold":false}]
+execute unless score phase game_data matches 0 on target if entity @s[tag=storyteller] run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can't use the setup wall while a game is live.","color":"gray","bold":false}]
 data remove entity @s interaction

@@ -67,7 +67,7 @@ $menuLines.Add('dialog show @s {type:"multi_action",title:' + $title + ',columns
 Write-Lines -Path (Join-Path $OutputRoot "menu.mcfunction") -Lines $menuLines
 
 $selectLines = New-Header "Routes stable trigger values into music controls or a selected track."
-$selectLines.Add('execute unless score phase game_data matches 4 run tellraw @s [{text:"Night music can only be changed during night.",color:"gray"}]')
+$selectLines.Add('execute unless score phase game_data matches 4 run tellraw @s [{text:"You can only change night music at night.",color:"gray"}]')
 $selectLines.Add('execute unless score phase game_data matches 4 run return 0')
 $selectLines.Add('')
 $selectLines.Add('execute if score @s botc_music_select matches 1 run function botc_patch:music/off')
