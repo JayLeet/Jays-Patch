@@ -1,6 +1,6 @@
 {
     "schema":  1,
-    "version":  "1.5.0",
+    "version":  "1.5.1",
     "files":  [
                   {
                       "path":  ".gitattributes",
@@ -3534,13 +3534,13 @@
                   },
                   {
                       "path":  "Jays-Patch/public-package/CREDITS.md",
-                      "bytes":  2332,
-                      "sha256":  "eecea991c5203910c229fe9d40f3d65d597dffcca55c1e027dc39536546bcea3"
+                      "bytes":  2312,
+                      "sha256":  "c32809f49876adeb2ccda8c53790d46c3d9b77adb4603b2946df90de1e82c75f"
                   },
                   {
                       "path":  "Jays-Patch/public-package/HOW TO INSTALL.txt",
-                      "bytes":  3288,
-                      "sha256":  "06407bb65f16de6589d538e4be8e00290f30fb416676df45cd2491d119cda34f"
+                      "bytes":  2441,
+                      "sha256":  "13400bb54806e78f46bb01f79cfb52b958ddc143d7c5675dcca2643f082f625a"
                   },
                   {
                       "path":  "Jays-Patch/public-package/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
@@ -5465,12 +5465,12 @@
                   {
                       "path":  "Jays-Patch/version.txt",
                       "bytes":  6,
-                      "sha256":  "acb57a7135b2d7d6e665f67f056e21353023b93835f54def1ae523bf76f1bfb3"
+                      "sha256":  "dfe7d71b3f428eb73ed853f8fded65e2986896e21d69f45ebf06bb623b450e14"
                   },
                   {
                       "path":  "Jays-Patch/world-template-manifest.json",
                       "bytes":  17543,
-                      "sha256":  "ccf9fe54c9db3bf939bc9988fac9cc2f6615c37e382b06c8fdbbd15dbd147c31"
+                      "sha256":  "0bdc5e5b84c46a01edc3350a79b8cf55a2281914b3cbdbba1fce686f6adcc04c"
                   },
                   {
                       "path":  "launcher/branding.txt",
@@ -5519,8 +5519,8 @@
                   },
                   {
                       "path":  "NOTICE.md",
-                      "bytes":  2436,
-                      "sha256":  "afdec2bd82a80e28768af29f09feee0e60bd9bb88c49dff32232dd969367e85b"
+                      "bytes":  2736,
+                      "sha256":  "1724d4c2a1a78429dc49dfa4260d3b70a1c5ab4212b88055fa98026fe359ed4b"
                   },
                   {
                       "path":  "Start.bat",
@@ -5769,13 +5769,13 @@
                   },
                   {
                       "path":  "tools/tests/test-public-config-hygiene.ps1",
-                      "bytes":  5357,
-                      "sha256":  "1ac075fd421bd6323eabf0b9f6f500f371552c44d58b81a2865eae7d3a48af5f"
+                      "bytes":  5256,
+                      "sha256":  "aeaa2f0d0a481e2a230620cc1e235931f91c3ef3244af06ddb4e807e4015843a"
                   },
                   {
                       "path":  "tools/tests/test-public-package-resourcepack.ps1",
-                      "bytes":  12433,
-                      "sha256":  "00fc7c6a94be24c22707c61dac59a8655371a648070a6d49ca0d5143bfb6e4eb"
+                      "bytes":  12721,
+                      "sha256":  "7d83ee26e723f0d4509d1b6703f2986a14941451c5ea70573f0c11fdd93d1210"
                   },
                   {
                       "path":  "tools/tests/test-resourcepack-mappings.ps1",

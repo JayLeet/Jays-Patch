@@ -1,12 +1,14 @@
-# Notices And Third-Party Credits
+# Notices and third-party credits
 
-Jay's Patch is an unofficial add-on layer for Sybillian's Blood on the
+Jay's Patch is a free, unofficial add-on layer for Sybillian's Blood on the
 Clocktower Minecraft modpack. It targets Sybillian's version 1.5.4 on
 Minecraft Java Edition 1.21.10.
 
-Sybillian's project:
+Sybillian gave Jay permission to release this add-on publicly, provided that
+the release links back to Sybillian's project and clearly identifies the
+upstream version for which it was made:
 
-- https://modrinth.com/modpack/blood-on-the-clocktower
+- https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4
 - https://github.com/Sybillian/minecraft-botc
 
 The public package includes a modified copy of Sybillian's base world,
@@ -14,41 +16,43 @@ Sybillian's `ct_biome` datapack, and role-icon textures distributed by
 Sybillian's modpack. Sybillian's exact MIT license is preserved in
 `THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt`.
 
-## Ownership Notes
+## Ownership and attribution
 
-- Jay's Patch code, launcher source, tools, and handmade resource-pack art are
-  owned by Jay.
-- Jay wrote the included Jay's Patch documentation, but the public package does
-  not grant a separate reusable content license for the docs.
-- Jay made edits to the included world template, including the setup room and
-  inn interior, but the public package does not grant a separate reusable
-  content license for the world template.
-- The included world template is a modified version of Sybillian's Blood on the
-  Clocktower world. Jay's Patch does not claim ownership of Sybillian's
-  original world.
+- Jay's Patch code, launcher source, tools, handmade resource-pack art, and
+  Jay-authored world additions are Jay's work.
+- The included world template is a modified version of Sybillian's world. Jay
+  claims only Jay's changes, not the underlying upstream world.
 - Sybillian's original datapack, resource-pack assets, menus, modpack files,
   and world content remain Sybillian's work.
-- The role-icon textures copied into the Jay's Patch overlay remain credited to
-  the community artists and contributors identified by Sybillian. Sybillian's
-  project also credits tomozbot's `botc-icons` collection for default/playtest
-  icons used with permission: https://github.com/tomozbot/botc-icons
-- The package includes Jay-owned Melius command overlay configuration files.
-  The Melius Commands mod itself is third-party work and is not owned by Jay.
-- Minecraft and related assets are owned by Mojang/Microsoft.
-- Blood on the Clocktower is owned by The Pandemonium Institute.
+- Sybillian's project credits members of its Discord community for its
+  pixel-art character icons.
+- Sybillian's project credits tomozbot's `botc-icons` collection for
+  playtest-art icons used with permission:
+  https://github.com/tomozbot/botc-icons
+- The package includes Jay-owned Melius command-overlay configuration. The
+  Melius Commands mod itself is third-party work and is not owned by Jay.
+- Minecraft and related assets are owned by Mojang Studios / Microsoft.
+- Blood on the Clocktower was created by Steven Medway and is published by The
+  Pandemonium Institute.
 
-## Credit Request
+Do not present upstream or community-created work as Jay's work. If you
+redistribute a modified package, preserve the applicable credits and license
+notices and identify your own changes.
 
-If you use, modify, or redistribute Jay's Patch code or resource-pack art,
-please credit:
+## Community-content status
 
-- Jay, for Jay's Patch;
-- Sybillian, for the Blood on the Clocktower Minecraft modpack and base world;
-- The Pandemonium Institute, for Blood on the Clocktower;
-- Mojang/Microsoft, for Minecraft;
-- any community artists or contributors credited by Sybillian's original
-  modpack.
+Jay's Patch is distributed for free, is clearly identified as unofficial,
+requires the upstream Minecraft modpack, and does not distribute the Blood on
+the Clocktower rules. It is not affiliated with or endorsed by Sybillian, The
+Pandemonium Institute, Mojang Studios, Microsoft, or the upstream community
+contributors.
 
-Do not claim ownership of work you did not create.
+The Pandemonium Institute's current community-created-content policy is:
+
+https://bloodontheclocktower.com/pages/community-created-content-policy
+
+That policy is maintained by TPI, may change, and expressly states that it is
+not a license. A future commercial, competing, app-store, or differently
+branded distribution requires a fresh rights review.
 
 See `CREDITS.md` for the prominent human-readable attribution list.

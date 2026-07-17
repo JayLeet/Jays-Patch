@@ -53,6 +53,7 @@ foreach ($requiredBuilderToken in @(
     'Jays-Patch/public-package',
     'InstallInstructionsSource',
     'CREDITS.md',
+    'NOTICE.md',
     'THIRD-PARTY-LICENSES'
 )) {
     if ($builderText -notmatch [regex]::Escape($requiredBuilderToken)) {
@@ -72,11 +73,8 @@ $requiredInstallTokens = @(
     'version 1.5.4',
     'Minecraft Java Edition 1.21.10',
     'FIRST-TIME INSTALL',
-    "UPDATING AN EXISTING JAY'S PATCH SERVER",
-    'Do not merge the two world folders',
-    'Do not replace or delete the complete server.properties file',
-    'Replace the server''s complete world folder with the included world folder',
-    'setup-room, seat-marker, voice-zone, and game infrastructure',
+    'Start and then stop the server completely',
+    'Replace the config folder into the server''s existing config folder',
     'REQUIRED SERVER.PROPERTIES VALUES',
     'CREDITS.md',
     'THIRD-PARTY-LICENSES'
@@ -86,10 +84,6 @@ foreach ($token in $requiredInstallTokens) {
         throw "Public installation guide is missing required text: $token"
     }
 }
-if ($installText.IndexOf('FIRST-TIME INSTALL', [System.StringComparison]::Ordinal) -gt
-    $installText.IndexOf("UPDATING AN EXISTING JAY'S PATCH SERVER", [System.StringComparison]::Ordinal)) {
-    throw "Public installation guide must explain first-time installation before updates."
-}
 if ($installText -match 'Simple Voice Chat') {
     throw "Public installation guide contains unnecessary upstream Simple Voice Chat instructions."
 }
@@ -97,11 +91,15 @@ if ($installText -match 'Simple Voice Chat') {
 $creditsText = Get-Content -LiteralPath $CreditsFile -Raw
 foreach ($creditToken in @(
     '**Sybillian**',
+    'permission to release',
+    'version 1.5.4',
     'https://modrinth.com/modpack/blood-on-the-clocktower',
     'https://github.com/Sybillian/minecraft-botc',
     'SYBILLIAN-MIT-LICENSE.txt',
+    'Discord community',
     'tomozbot',
     'The Pandemonium Institute',
+    'community-created-content-policy',
     'Mojang Studios'
 )) {
     if (-not $creditsText.Contains($creditToken)) {
@@ -122,8 +120,18 @@ foreach ($licenseToken in @(
 
 $noticeText = Get-Content -LiteralPath $NoticeFile -Raw
 $assetLicenseText = Get-Content -LiteralPath $AssetLicenseFile -Raw
-if (-not $noticeText.Contains('THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt')) {
-    throw "NOTICE.md does not route readers to Sybillian's preserved MIT license."
+foreach ($noticeToken in @(
+    'permission to release this add-on publicly',
+    'version 1.5.4',
+    'THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt',
+    'Discord community',
+    'tomozbot',
+    'community-created-content-policy',
+    'not a license'
+)) {
+    if (-not $noticeText.Contains($noticeToken)) {
+        throw "NOTICE.md is missing required rights or attribution text: $noticeToken"
+    }
 }
 if ($assetLicenseText -notmatch 'They are not Jay-owned\s+handmade art') {
     throw "ASSET_LICENSE.md does not clearly exclude the copied upstream role icons."
