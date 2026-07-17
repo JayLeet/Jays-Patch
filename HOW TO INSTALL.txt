@@ -10,7 +10,6 @@ REQUIREMENTS
 - Sybillian's Blood on the Clocktower modpack version 1.5.4
   https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4
 - Minecraft Java Edition 1.21.10
-- Access to your server's root folder and server.properties
 
 FIRST-TIME INSTALL
 
@@ -48,11 +47,11 @@ resource-pack-sha1, and resource-pack-id with the values from the new host.
 
 CREDITS AND LICENSES
 
-Read Licenses/CREDITS.md before redistributing this package. Jay's Patch builds on
+Read Legal/CREDITS.md before redistributing this package. Jay's Patch builds on
 Sybillian's Blood on the Clocktower modpack and includes a modified copy of
 Sybillian's base world. License and ownership details are in:
 
 - LICENSE
-- Licenses/ASSET_LICENSE.md
-- Licenses/BRANDING.md
-- Licenses/THIRD-PARTY-LICENSES
+- Legal/ASSET_LICENSE.md
+- Legal/BRANDING.md
+- Legal/THIRD-PARTY-LICENSES

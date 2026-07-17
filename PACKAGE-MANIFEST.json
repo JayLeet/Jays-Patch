@@ -1,6 +1,6 @@
 {
     "schema":  1,
-    "version":  "1.5.3",
+    "version":  "1.5.4",
     "files":  [
                   {
                       "path":  "config/melius-commands/commands/botc.json",
@@ -74,8 +74,28 @@
                   },
                   {
                       "path":  "HOW TO INSTALL.txt",
-                      "bytes":  2559,
-                      "sha256":  "f3ac4cf2184114c7b03e9838f2ecabeb9ee89bde2bfc2aa9ebf6b94602b30c25"
+                      "bytes":  2487,
+                      "sha256":  "3d09be13b079b31e4d0bda2a98791112e8e426a57f02a16003f166e634b3bb9b"
+                  },
+                  {
+                      "path":  "Legal/ASSET_LICENSE.md",
+                      "bytes":  1641,
+                      "sha256":  "da617286292ce74b9c15024b97d57ce74d7d5783c0ae6c6afc8bef14ba08bd91"
+                  },
+                  {
+                      "path":  "Legal/BRANDING.md",
+                      "bytes":  589,
+                      "sha256":  "2332a66f2657528a5b2c859a29db594b7ab6a278278ac4f7ee1e65ba60bc0998"
+                  },
+                  {
+                      "path":  "Legal/CREDITS.md",
+                      "bytes":  2572,
+                      "sha256":  "1a4884d9d2884c05c8969c2bb4335de84d4f9ccb42cc91147561793331920eac"
+                  },
+                  {
+                      "path":  "Legal/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
+                      "bytes":  1066,
+                      "sha256":  "d9eb14e1dbffb2561a252253eed47ec35429a3782cc571f64a628c15bc4efa4f"
                   },
                   {
                       "path":  "LICENSE",
@@ -83,29 +103,9 @@
                       "sha256":  "c44b11bf327eecd6ea6bda697bced9397f57826736089ec738414645ad2b7295"
                   },
                   {
-                      "path":  "Licenses/ASSET_LICENSE.md",
-                      "bytes":  1641,
-                      "sha256":  "da617286292ce74b9c15024b97d57ce74d7d5783c0ae6c6afc8bef14ba08bd91"
-                  },
-                  {
-                      "path":  "Licenses/BRANDING.md",
-                      "bytes":  589,
-                      "sha256":  "2332a66f2657528a5b2c859a29db594b7ab6a278278ac4f7ee1e65ba60bc0998"
-                  },
-                  {
-                      "path":  "Licenses/CREDITS.md",
-                      "bytes":  2572,
-                      "sha256":  "1a4884d9d2884c05c8969c2bb4335de84d4f9ccb42cc91147561793331920eac"
-                  },
-                  {
-                      "path":  "Licenses/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
-                      "bytes":  1066,
-                      "sha256":  "d9eb14e1dbffb2561a252253eed47ec35429a3782cc571f64a628c15bc4efa4f"
-                  },
-                  {
                       "path":  "README.md",
-                      "bytes":  7300,
-                      "sha256":  "bbfb9236195cb5cd38e4915a69a0af6f2836fcfa2cab022c12f3dfa94cab160d"
+                      "bytes":  7288,
+                      "sha256":  "75bd42424fbfb93e9be3f3da2ba49f8a796954fd1d22c6b86483c991303ef3b7"
                   },
                   {
                       "path":  "resourcepack/Jays-Patch-resourcepack.zip",
