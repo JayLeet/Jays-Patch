@@ -33,9 +33,9 @@ server setting already present in that file.
 
 function-permission-level=3
 spawn-protection=0
-resource-pack=https://download.mc-packs.net/pack/e19596fa01a6d1bd34bc10deaf06a983bec17e6c.zip
-resource-pack-sha1=e19596fa01a6d1bd34bc10deaf06a983bec17e6c
-resource-pack-id=0f722861-6c20-4468-88d9-db87d1bab61f
+resource-pack=https://download.mc-packs.net/pack/1441b43c2a7300679f10fa1cf2254ce93e922043.zip
+resource-pack-sha1=1441b43c2a7300679f10fa1cf2254ce93e922043
+resource-pack-id=3c91f0a2-7ecc-443d-b5b2-4b072fe10e78
 require-resource-pack=false
 resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
 

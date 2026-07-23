@@ -8,7 +8,7 @@ setup room. It also gives the Storyteller quicker access to Sybillian's tools.
 I made it for **Sybillian's modpack 1.5.4** on
 **Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
 
-**[Download Jay's Patch v1.6.0](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.6.0.zip)**
+**[Download Jay's Patch v1.6.1](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.6.1.zip)**
 
 ## What does it add?
 
@@ -119,7 +119,7 @@ Do not install only the `jays_patch` datapack folder.
 1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
 2. Start the server once, then stop it completely.
 3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.6.0](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.6.0.zip) and extract it.
+4. [Download Jay's Patch v1.6.1](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.6.1.zip) and extract it.
 5. Replace your server's `world` folder with the included `world` folder.
 6. Copy the included `config` folder into your server folder. Merge it with the
    existing `config` folder and replace files when asked.
@@ -132,9 +132,9 @@ Do not install only the `jays_patch` datapack folder.
 ```properties
 function-permission-level=3
 spawn-protection=0
-resource-pack=https://download.mc-packs.net/pack/e19596fa01a6d1bd34bc10deaf06a983bec17e6c.zip
-resource-pack-sha1=e19596fa01a6d1bd34bc10deaf06a983bec17e6c
-resource-pack-id=0f722861-6c20-4468-88d9-db87d1bab61f
+resource-pack=https://download.mc-packs.net/pack/1441b43c2a7300679f10fa1cf2254ce93e922043.zip
+resource-pack-sha1=1441b43c2a7300679f10fa1cf2254ce93e922043
+resource-pack-id=3c91f0a2-7ecc-443d-b5b2-4b072fe10e78
 require-resource-pack=false
 resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
 ```
