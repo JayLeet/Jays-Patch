@@ -1,11 +1,11 @@
 {
     "schema":  1,
-    "version":  "1.5.4",
+    "version":  "1.6.0",
     "files":  [
                   {
                       "path":  "config/melius-commands/commands/botc.json",
-                      "bytes":  99561,
-                      "sha256":  "165cbbbd138559a3aedb9139b38f6bb039619c8b34a73a5bb96331f5d6817c4f"
+                      "bytes":  103437,
+                      "sha256":  "752f07157eb64651391d3a3de536ba635ea9aef88100fd047835a5e74d67c56a"
                   },
                   {
                       "path":  "config/melius-commands/commands/character.json",
@@ -74,8 +74,8 @@
                   },
                   {
                       "path":  "HOW TO INSTALL.txt",
-                      "bytes":  2487,
-                      "sha256":  "3d09be13b079b31e4d0bda2a98791112e8e426a57f02a16003f166e634b3bb9b"
+                      "bytes":  2515,
+                      "sha256":  "bb26e6d9c5792fac95582bca8a198ef7ef16808028fc7be5d9d74945c6ffc278"
                   },
                   {
                       "path":  "Legal/ASSET_LICENSE.md",
@@ -89,8 +89,8 @@
                   },
                   {
                       "path":  "Legal/CREDITS.md",
-                      "bytes":  2572,
-                      "sha256":  "1a4884d9d2884c05c8969c2bb4335de84d4f9ccb42cc91147561793331920eac"
+                      "bytes":  2305,
+                      "sha256":  "4c9c9850ca08f53970fe9c6dcf3bab25fe7ac853684a21836a270eae51356f38"
                   },
                   {
                       "path":  "Legal/THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt",
@@ -104,13 +104,13 @@
                   },
                   {
                       "path":  "README.md",
-                      "bytes":  7288,
-                      "sha256":  "75bd42424fbfb93e9be3f3da2ba49f8a796954fd1d22c6b86483c991303ef3b7"
+                      "bytes":  8448,
+                      "sha256":  "3cd9c3aabd304908804cef19d7cfc5a1cdd94d001c81eeeef76ab61f772e7b87"
                   },
                   {
                       "path":  "resourcepack/Jays-Patch-resourcepack.zip",
-                      "bytes":  175063,
-                      "sha256":  "998ec6ea9b695ba802575d06e5ea20c595f9a6493a6f19253af75b26c6ea8709"
+                      "bytes":  180399,
+                      "sha256":  "b50bdd2e7e07bdd4b98731429270bdca5f730e4543bffa5c1c7569937e0a3b1c"
                   },
                   {
                       "path":  "world/data/chunks.dat",
@@ -234,8 +234,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/cmd/start.mcfunction",
-                      "bytes":  1109,
-                      "sha256":  "d26ea92502ff6f54a1f527d9f04516774dcf5d688b25778920cdbc848990cffd"
+                      "bytes":  1154,
+                      "sha256":  "002e8f342e1efaa840adc7d5f8e610c2ecaecfcf6af01164b71983e5fc829020"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/config/owners.mcfunction",
@@ -244,13 +244,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/announce_seat.mcfunction",
-                      "bytes":  721,
-                      "sha256":  "cf9af38e012a1831d5d636b9907ec7806c9285046bf16babf3798868f8f860cc"
+                      "bytes":  719,
+                      "sha256":  "e279861a35c107baef6fb9fde8e137c485d0661471b2af70e935bb783a9c126a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog.mcfunction",
-                      "bytes":  4173,
-                      "sha256":  "ff6a21622bda505895349f577921016514e16457b7c8e71c13870c2ee800abfc"
+                      "bytes":  4296,
+                      "sha256":  "e9edd8a46dde1480b2160543a8997be28b73244437c45deb364e313bad53f9eb"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/alhadikhia/player_dialog/count_0.mcfunction",
@@ -334,13 +334,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/announce_fearmonger.mcfunction",
-                      "bytes":  349,
-                      "sha256":  "be94af7f0d8f52a2a5a64ba861ecf253d09540050a14fcaf77a1dd908681667a"
+                      "bytes":  477,
+                      "sha256":  "c0a8bab626232f53dd670683df257f10453fca16bb6f06f1fcb169f9184b8797"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/awaken_banshee.mcfunction",
-                      "bytes":  1221,
-                      "sha256":  "7703c125870e15744f63675e3a0d02d7a64235ff8b4b82e38c444fb00f23af93"
+                      "bytes":  1346,
+                      "sha256":  "fabd068bf681bb994d3b1063724808450dd4f5b6f81817fe195be019a776f880"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/cancel.mcfunction",
@@ -354,8 +354,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/cleanup.mcfunction",
-                      "bytes":  792,
-                      "sha256":  "c27318f433621fe88c766980d1540be7b0405928317fb523224c27df39506ab6"
+                      "bytes":  902,
+                      "sha256":  "49006026d5a108e4d0b367f0658620978a9b8c734fb6a5cc48e2e837db56e08f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/clear.mcfunction",
@@ -379,8 +379,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm.mcfunction",
-                      "bytes":  1701,
-                      "sha256":  "4c478e74b42b24e6e1acd8e5f52c62c2adc6b67e45cf328a703a524e4eec1e09"
+                      "bytes":  5627,
+                      "sha256":  "eee6d353b35077bcced0089c4ed8e41c5fa705db1c7e747680b7aa369af3a740"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_0.mcfunction",
@@ -389,38 +389,78 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_1.mcfunction",
-                      "bytes":  1177,
-                      "sha256":  "aef203abfd5085c828f1fa715d145a5ed9a0c88c00b26b71a50fa7dfa9e7cf79"
+                      "bytes":  1166,
+                      "sha256":  "887a70a030c733520a8b87d06e27de848829d544a02f78f5886a6ca8645bc849"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_10.mcfunction",
+                      "bytes":  1374,
+                      "sha256":  "ace4e929ef1dae0fe1ef5b9361071d613ed27e620d48f3b5effcb669507dbb10"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_11.mcfunction",
+                      "bytes":  1584,
+                      "sha256":  "b4669e7be6761e2c93875ecb29c0ffe471c9f2b7f82f3da66ad9e7b5a7920e3c"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_12.mcfunction",
+                      "bytes":  1383,
+                      "sha256":  "75662473cdb3fc2b1d632d71452d28d2e26b9db6336bfa2fc34c2a8c826cbc08"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_13.mcfunction",
+                      "bytes":  1593,
+                      "sha256":  "95b06e5223f16c53cbf49ec40c115aac8400230fe8d6d9c730ec425bc020a293"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_14.mcfunction",
+                      "bytes":  1590,
+                      "sha256":  "17786fb27aa3563b7042415a5bbbf5d51927478194de2477183d5143f5598186"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_15.mcfunction",
+                      "bytes":  1800,
+                      "sha256":  "d4d60523c0416e47d64eba16e46fd420227c169f3bb1f897b8a59b65466c47de"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_2.mcfunction",
-                      "bytes":  1168,
-                      "sha256":  "4a7c3ffee6f6f081144147f6928a318909bd5b729aa32b1dcd5b317e24453043"
+                      "bytes":  1163,
+                      "sha256":  "cc8e7fbb21a935cfd484a9bd508a68320844ed258d2fcbebe6c57cd41455b24b"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_3.mcfunction",
-                      "bytes":  1390,
-                      "sha256":  "18b0f20bfebb5ae82ef6272c20d651cbc6310a95b841a7ee299dea0f7ed5efc5"
+                      "bytes":  1373,
+                      "sha256":  "ce8e7d9cf079fba554322f0abdcf3cec58227aaa3e5844458d6d6ea76967eb76"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_4.mcfunction",
-                      "bytes":  1190,
-                      "sha256":  "8f83f8c011338e453614635e12c8a531097017df73388a144fe055f518205de3"
+                      "bytes":  1172,
+                      "sha256":  "b5ff7c35474a8f4f408395006420a09b5572726139dd5a12eefbcf8179b4e6d3"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_5.mcfunction",
-                      "bytes":  1412,
-                      "sha256":  "ef1662d4e60fea50b0ebb596744140f7a891dab867be510f11ea8487e83a53ae"
+                      "bytes":  1382,
+                      "sha256":  "904e8d7f1a7b5666d277d1e7b02ff73edfd032d17b6ad59363cc2af4905328e6"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_6.mcfunction",
-                      "bytes":  1403,
-                      "sha256":  "44b9f1860ae9f388b99c1b464c42d4db3e9cb06eb31e0b60b284461f4c33344a"
+                      "bytes":  1379,
+                      "sha256":  "864d417747df3e17b9b170169c1d001d83786d03485f155766815c6ca27ff72f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_7.mcfunction",
-                      "bytes":  1625,
-                      "sha256":  "ca344a82f0e994ab5ce634f392caab1d0a710ba236046051e16ff74e77767b55"
+                      "bytes":  1589,
+                      "sha256":  "09a5bd3292915d871e1bd1d6a7dcaf69cf50e1779afa7bf821427cdc597366b3"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_8.mcfunction",
+                      "bytes":  1166,
+                      "sha256":  "e604e347758b5142f0f1f43f069fa98c994d2f86f14b6566d571f4790b95a03b"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_9.mcfunction",
+                      "bytes":  1376,
+                      "sha256":  "663f6fa172f989cf965f5d92b2650eccf4e8655a86f039322e3f2533438a965c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/dialog.mcfunction",
@@ -898,9 +938,14 @@
                       "sha256":  "db573ff7a6dded17d16d04ce0283f4e9d733de024ddd188dac028e269340b4f7"
                   },
                   {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/give_notification_fallback.mcfunction",
+                      "bytes":  19459,
+                      "sha256":  "459ec90207ccff358c054fa510a4a0682c96ae36d48ab7af5d50dc12ca818800"
+                  },
+                  {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/give_reveal_fallback.mcfunction",
-                      "bytes":  17409,
-                      "sha256":  "6ec2d2932329c24af8774de9f2ccc61134e5794db3bad38679f5e0fef31f70c5"
+                      "bytes":  18039,
+                      "sha256":  "0e2eaf26bf1b8d530e34cb8177905ac42fe7b7017c932690b7884eb9ade4c051"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/hide_vote_markers.mcfunction",
@@ -909,13 +954,33 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/item_checks.mcfunction",
-                      "bytes":  2617,
-                      "sha256":  "36b16331d9aa682be67ad656d808adc1fe4692f84469f1bd57290d5b259b88b2"
+                      "bytes":  5479,
+                      "sha256":  "dc597a72d50478cf31a4887d530328fede1a5dda10e7ae28f63d93f3651f7478"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/menu.mcfunction",
                       "bytes":  32,
                       "sha256":  "427b9e844ebae9b3d81a220f250eed22b4b4abb89d9ace75c5b7714bc716cffa"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/notifications/acknowledge_outer.mcfunction",
+                      "bytes":  1318,
+                      "sha256":  "fab82c78219f634be9b513e21394fc87b53a4413cd758276ac3844f2d8b8a218"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/notifications/prepare_dashboard.mcfunction",
+                      "bytes":  1821,
+                      "sha256":  "134af11e145477f3a5d68d0c3aecf732b35754ab3c5d32c4e7ec03a6492e23a3"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/notifications/reset.mcfunction",
+                      "bytes":  1024,
+                      "sha256":  "99d7a6664662307bb8477c1d4e2060d9071fe0c4b311f314abdb644d2a92f3a8"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/notifications/tick.mcfunction",
+                      "bytes":  2450,
+                      "sha256":  "1c70dfc4a972043f9221383020e84c14029790b230984ae52533059d0844cd73"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/rescind.mcfunction",
@@ -1189,13 +1254,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/tick.mcfunction",
-                      "bytes":  1705,
-                      "sha256":  "ca5d1904614a4eaa74609c16369e1bfffe8b530b3e6a6dea771605458e778ede"
+                      "bytes":  1749,
+                      "sha256":  "c721a6a7bf7cfe00c07beb478bc7be1b213459fa046115519c6cccd97fb13857"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/tick_input.mcfunction",
-                      "bytes":  1278,
-                      "sha256":  "b8b06cbc6b6a6976c2ed150e9f724a665596f8d5b9d01604ca05b39b28755d5d"
+                      "bytes":  2523,
+                      "sha256":  "f89bbd3777f0f82fbbec57c63fa54ef93710ca080a43d11f3658e4fc3d8eef9c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/hand/give_lower_fallback.mcfunction",
@@ -1244,8 +1309,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/load.mcfunction",
-                      "bytes":  10548,
-                      "sha256":  "dffc27961419235646b20227779da8db4094aabea30f108f78c8607a15185224"
+                      "bytes":  12851,
+                      "sha256":  "58a78079b718ce1076f0f71fa8f88dca3b1760c51d85397f4b778bcb308b1f68"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/maintenance/drop_cleanup.mcfunction",
@@ -1254,8 +1319,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/maintenance/item_checks.mcfunction",
-                      "bytes":  682,
-                      "sha256":  "c0e984236fd4afccf4e08750dc758a29ad9cce93f0130958cf60fb417d8be163"
+                      "bytes":  725,
+                      "sha256":  "76e663d198f099de9d70045549614acbd2310c0ebdb42f5043704b513679ecc7"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/music/default_off.mcfunction",
@@ -1358,6 +1423,41 @@
                       "sha256":  "ccd06814df55764fd348943f2f29758d4bbcb6a2deb1a2b1fe00d8a7210ee0ae"
                   },
                   {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/night_chat/init_group.mcfunction",
+                      "bytes":  243,
+                      "sha256":  "304fd64f39fd0ce43989c555a59b748274d231e61d2f12fb64770480b625d63e"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/night_chat/item_checks.mcfunction",
+                      "bytes":  2665,
+                      "sha256":  "bb03621780bf021300e8eb352313e54b2ccbbf0b07cc4755796f0ae5d23f12ca"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/night_chat/join.mcfunction",
+                      "bytes":  258,
+                      "sha256":  "2b8c9656780c7de264bfee22ec1fe6b7fc429d58840121f67176909a534594d7"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/night_chat/leave_silent.mcfunction",
+                      "bytes":  164,
+                      "sha256":  "93448e804880560213ecdc00b85d446383e0c83282d5aadf8b972327eb497540"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/night_chat/rejoin.mcfunction",
+                      "bytes":  225,
+                      "sha256":  "11e607ba010ab67aa72747472813f0f1cd6ec44ddb50388dcd8478b2aec1c1cc"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/night_chat/shutdown.mcfunction",
+                      "bytes":  323,
+                      "sha256":  "daa9b9082c90f6f96fb7051c014d2690fce2872555adf68f2ae5b618270a4f5a"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/night_chat/tick.mcfunction",
+                      "bytes":  2043,
+                      "sha256":  "d8f395daeac4e28ffdfdeebb67577814f0d5ef76c5785142bcfe3ca24ed5febc"
+                  },
+                  {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/nomination_markers/activate.mcfunction",
                       "bytes":  187,
                       "sha256":  "6a61aa9d245aa5b5a96e34e79fa201f0fb1ef0dbf5c58ebb0c498e14c8a1a4fa"
@@ -1379,8 +1479,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/patch_toggle/clear_jay_items.mcfunction",
-                      "bytes":  1559,
-                      "sha256":  "8c8ad3043684ebfefa7681c7e1bd890103e97433746acce1cce02fc94bfea543"
+                      "bytes":  1600,
+                      "sha256":  "c4d8160a11677c7f5c4e7b13fa57be3a8957dd2447c44da65478eac9d0e7b2a7"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/patch_toggle/cycle.mcfunction",
@@ -1514,8 +1614,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/reset/player_state.mcfunction",
-                      "bytes":  6345,
-                      "sha256":  "7dcc4f8e96f8aba8e7741b70cbfda96320da3de6434efc31467d088de7a02342"
+                      "bytes":  6825,
+                      "sha256":  "f807cbff0ff2eb1f61e8fee329ea9dcfc254ef3e1e3b2ed0e8887887e97aff89"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/reset/tick.mcfunction",
@@ -2089,8 +2189,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_tools/reset_storyteller_state.mcfunction",
-                      "bytes":  4488,
-                      "sha256":  "6a320c1b7a90d2303d046d58e2f25711053e4b0c6466988ed39fa7f13e06d72e"
+                      "bytes":  4580,
+                      "sha256":  "f08f6e75329d673ae049b32b8a448f5369dd1ff34199546d5d5625393c2f2def"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/setup_tools/tick.mcfunction",
@@ -2384,33 +2484,43 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/day.mcfunction",
-                      "bytes":  1816,
-                      "sha256":  "da39eef348bc605c6a5f3550742d865a303cecf5c4250d089a5a9f4424c20387"
+                      "bytes":  1820,
+                      "sha256":  "612094ef5e34645605bb4d0a447c32e7cbbbfc7e5f027533096f9df9ffae0b12"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/night.mcfunction",
-                      "bytes":  1857,
-                      "sha256":  "5aedb7efd0f0412bff73e93308293304871e813dab62de0e0faca2d9e5039ba9"
+                      "bytes":  1861,
+                      "sha256":  "57e1fdda3994ced7cbe63f10409ca3ab2924c0d2c2b4db93964fa2e90fb1daee"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/nomination.mcfunction",
-                      "bytes":  2042,
-                      "sha256":  "5bff16e5a28b607c7bf434ae9dfbbc07cd4d9394c43f91194179d1842a68ee60"
+                      "bytes":  2046,
+                      "sha256":  "6b8c8064b4afd4b91dbea136af60d52d5198176041ee8721dbc26e495f5d5ee2"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/open.mcfunction",
-                      "bytes":  1226,
-                      "sha256":  "00d2e53d99dc4f473ce0d249717d248def32223dd1b9ea1ba81701c0f51fd8c4"
+                      "bytes":  2527,
+                      "sha256":  "c164a401b0e299d0ed7b35b312ba263966678b1882a447bb1d73db0d3843842c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/post_execution.mcfunction",
-                      "bytes":  1106,
-                      "sha256":  "f97f9681c50b104f1383b58f167b26f38476c4b459d6caf740b16f093d432d76"
+                      "bytes":  1110,
+                      "sha256":  "e6fc0904f3a48458955022536b57d6935585525152e600fb4ea9c42fa1381006"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/post_execution_boomdandy.mcfunction",
-                      "bytes":  1326,
-                      "sha256":  "22a6b6560742a37b591be0b7e047da94c72e29906310052014c291598480cdc6"
+                      "bytes":  1328,
+                      "sha256":  "00495226130172551b353dc0e7276c8180ea71ba299ba4ecfe715d3bc49e412b"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/post_execution_resolved.mcfunction",
+                      "bytes":  917,
+                      "sha256":  "2a3508d1e44832615c213090930cf1c8895d1c9d6ce611004c30d44502af4575"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/post_execution_resolved_boomdandy.mcfunction",
+                      "bytes":  1147,
+                      "sha256":  "f4d8eee0d3bdd3d8dd05316f873f0c004084819ad3ec11046763f1f8e845db76"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/dashboard/route.mcfunction",
@@ -2429,8 +2539,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/item_checks.mcfunction",
-                      "bytes":  34869,
-                      "sha256":  "d97e77d873f818af99c6ddbac22540d99926f79641b9c4c1a4583f418e3c6f23"
+                      "bytes":  35787,
+                      "sha256":  "8ff6559a5539613ad6aee020bf86e1979040931a40b39c212eb48c57f03858e7"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/kill_menu/cleanup_items.mcfunction",
@@ -2618,6 +2728,186 @@
                       "sha256":  "0ff7387e8912608ae273776b97abbb13ba54956c091392816584601647b1d4c1"
                   },
                   {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog.mcfunction",
+                      "bytes":  13895,
+                      "sha256":  "12382b48f0f3da7746907c0645452f1fa18f532e8356666b4cf16ebb43fff5cc"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/append.mcfunction",
+                      "bytes":  869,
+                      "sha256":  "08b8edfdf7971fcd4cb3eacd7b1674776fbc6e129ee6745dbd652846e3940f07"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_1.mcfunction",
+                      "bytes":  817,
+                      "sha256":  "7d6aff60bbbac8533b5bbb8697fd908f664f413c973f482230271497d7b7a0d3"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_10.mcfunction",
+                      "bytes":  3893,
+                      "sha256":  "f96e89b2cc3fed373083eb8b10286e0db5e7b6cefa8234233be34b3ab2b35a80"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_11.mcfunction",
+                      "bytes":  4240,
+                      "sha256":  "991f50dabeeb6cd706aaabff4c965d96ed5f644f9fafacdb254f8c4498d8ec16"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_12.mcfunction",
+                      "bytes":  4587,
+                      "sha256":  "7ead77b9e3875309cc3306f495b5b809b8a733b30b3247199115eebf15708de3"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_13.mcfunction",
+                      "bytes":  4934,
+                      "sha256":  "1a423b116675036b4df88dace1b4ff0c76e181840e5baaba1d2fe37619143e42"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_14.mcfunction",
+                      "bytes":  5281,
+                      "sha256":  "c271f29ea7792d87f7a8fa613ae8ba83eb042ccbfc7d623bab2bfbe355c5eafd"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_15.mcfunction",
+                      "bytes":  5628,
+                      "sha256":  "b234332cdb43eae3478f36321a29aab01a1a4b090bb1ad5c325b21f36bb3b3bf"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_2.mcfunction",
+                      "bytes":  1158,
+                      "sha256":  "a004ddb0e40eb04ca52f71fe3441395b9a136efd2f0647d88d428b9363431082"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_3.mcfunction",
+                      "bytes":  1499,
+                      "sha256":  "37b6b44ff82ea307badcc51f6feb14a1a834c3326f54e2fd2d3991bd5513f1f9"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_4.mcfunction",
+                      "bytes":  1840,
+                      "sha256":  "2de0c018c99ccdb7064c050e0371386b381fc5c45474003283168f3f620b70a6"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_5.mcfunction",
+                      "bytes":  2181,
+                      "sha256":  "d13676cd2ac4aea840d43015fd067ef5b4db90f23abd59d765af4d0eb229c88f"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_6.mcfunction",
+                      "bytes":  2522,
+                      "sha256":  "8b5cea76996ac9ab68c79211bbd92f6e360f7654655705b9cdb41cb62ee56818"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_7.mcfunction",
+                      "bytes":  2863,
+                      "sha256":  "bf79b62a8de9ad07894dbb6406c814fb603bef01dcff28b96dfd905b8f7fcc05"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_8.mcfunction",
+                      "bytes":  3204,
+                      "sha256":  "4164c1598a6da3db45c09467962af081182d2e2bc0a174dbbfe242bb87396e57"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/dialog/count_9.mcfunction",
+                      "bytes":  3545,
+                      "sha256":  "63ed3cb444a5cc71fc18c67d682930b1249622a226024400eed3b432336fadec"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/execute_selected.mcfunction",
+                      "bytes":  341,
+                      "sha256":  "908b9010e21538e376c8ed1b8c1399e8c410e99f278f4486168769e1a0bfcba6"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/open.mcfunction",
+                      "bytes":  766,
+                      "sha256":  "7861c96b4999b784b4bedc4088ffa98a558ca36920ad119531fb7abb3611307b"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/select_player.mcfunction",
+                      "bytes":  1569,
+                      "sha256":  "660cf6b2cd860dcd5da67e0b7c42e120fc05cbfd65e1f649808d72dfff4f2cbc"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/show_confirm.mcfunction",
+                      "bytes":  903,
+                      "sha256":  "696e5dba82dc91e3559d80d92e0fcb173108b2da6d3ef35f0b4ad3c6090c6698"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_1.mcfunction",
+                      "bytes":  1410,
+                      "sha256":  "48eccd8432150a2b6aec26581509411fa47da351e5041bcd088e24cb42d39a8b"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_10.mcfunction",
+                      "bytes":  1416,
+                      "sha256":  "9953944267acd773c077c29f8a64aaf4c34306c8eb1983a231583302b51d79a6"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_11.mcfunction",
+                      "bytes":  1416,
+                      "sha256":  "e599dc63a8cd12948f04d03980e7c356e5e1f46740fd2699930010cc035535b5"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_12.mcfunction",
+                      "bytes":  1416,
+                      "sha256":  "d412a588430980abcd02327825d348de37c5f68e9a1c19ee79e2fdfb2226032f"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_13.mcfunction",
+                      "bytes":  1416,
+                      "sha256":  "af0a33ed793e4b884d84f61eefe88010c76a37cc6509e1e0c04810f72a854672"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_14.mcfunction",
+                      "bytes":  1416,
+                      "sha256":  "22928813bbe689d3c560b54930dcab0d8b04f863bf364d1ef96f98ff2629d322"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_15.mcfunction",
+                      "bytes":  1416,
+                      "sha256":  "0c68e7944ad3d84e84bc6927150127cd476b6cc808c140248b325f5af05ec29d"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_2.mcfunction",
+                      "bytes":  1410,
+                      "sha256":  "b73347675305a7a0f760a428523996ed6ef9bf38ba62510ce9d79ece0439c96f"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_3.mcfunction",
+                      "bytes":  1410,
+                      "sha256":  "8b8a24f2c60256c92009384e624c15bd929930f75a3d341e7805650e02472ca1"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_4.mcfunction",
+                      "bytes":  1410,
+                      "sha256":  "ceebc93e680534b1c84a09e02ad4bee256d7ae1e01e51c930ad6b14c6d495498"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_5.mcfunction",
+                      "bytes":  1410,
+                      "sha256":  "d0c0d41e10ea2fe3e66113791e008ab9d5635e5871fa21825e5280e3a4357731"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_6.mcfunction",
+                      "bytes":  1410,
+                      "sha256":  "5f334317da5888b598dbb3120210785eef7a3942ba620f305764f5b1cfc12a34"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_7.mcfunction",
+                      "bytes":  1410,
+                      "sha256":  "ca4533393263ecfb2281d4ee5d5184ccc40610e643a70c9a3964436ce3ce7bcd"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_8.mcfunction",
+                      "bytes":  1410,
+                      "sha256":  "96f598878fe82ecd6763f7c3d373a6a1a6807b2ed3aa99e1b6269c3fa964aa2f"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/madness_execution/to_seat_9.mcfunction",
+                      "bytes":  1410,
+                      "sha256":  "da724b2d6eb1b2cb8599d91e3ef19898b8bb503203ab142de5317150885a8c7c"
+                  },
+                  {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/night.mcfunction",
                       "bytes":  796,
                       "sha256":  "309da119cf963774709855f8b0b5902422d1f0a2333a59afc2e7116c04b7a61e"
@@ -2749,8 +3039,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/execute.mcfunction",
-                      "bytes":  942,
-                      "sha256":  "3fb30edf6d0f9302f7b65fd54be4a5474d6b5af50396f79a81a8aef513646fd2"
+                      "bytes":  983,
+                      "sha256":  "2f2abbd218e05a30be1e69c8b959b370b07a8af5ea90213f633f1b202cfb0515"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/nomination_menu/mark.mcfunction",
@@ -3124,23 +3414,23 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/post_execution/boomdandy.mcfunction",
-                      "bytes":  376,
-                      "sha256":  "fca63cc4a8094cb370386a141662c8ebd1224a10535b3c44241ff23e90cccaf7"
+                      "bytes":  505,
+                      "sha256":  "fc1b5c888de0e962ed011c12e239751175008b6aec25dd6413476177130ff68c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/post_execution/kill.mcfunction",
-                      "bytes":  797,
-                      "sha256":  "a99722db76133951cf5e86fcc898c0dc041866d41ff16ef17801e7fe010c00b0"
+                      "bytes":  1008,
+                      "sha256":  "9db7ff23b52ac44da83b9faa30d8c32412c66c14315756af0a8a745c2d652bdd"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/post_execution/replace_items.mcfunction",
-                      "bytes":  2581,
-                      "sha256":  "d4206b6a4f14624bee2e9c9d6bfaee76b10e773bfbc151e936e0a1f7966dc65b"
+                      "bytes":  3216,
+                      "sha256":  "99932afa1124c3041aa96b657e71b6853570ae6815d13722ce7b1858d81a74cf"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/replace_items.mcfunction",
-                      "bytes":  10514,
-                      "sha256":  "be3305bb41c60d4f2a6ca874d401c586d08e5dbc7749ca0f17e62d603da0ac82"
+                      "bytes":  10755,
+                      "sha256":  "c44fc2f947b2c23eb9ba893ffe1b48cb60c34d169a45b4bc25c49954ef1566d9"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/reset_cancel.mcfunction",
@@ -3414,8 +3704,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/tick.mcfunction",
-                      "bytes":  4704,
-                      "sha256":  "f724dd5aa0dd4da548976669d62135f8ac1dbd6330d89b87e5cf8172321ed280"
+                      "bytes":  4740,
+                      "sha256":  "e39a6c1d61538b434e63a7bd8d050f0b58cb93d7dc5c379b19dd066a0ecdf596"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/vote/cast.mcfunction",
@@ -3593,6 +3883,11 @@
                       "sha256":  "1f0e2497306de3cfeacf3f4fc4421b1af3c4a758cd2c2e1650a9aebcf944311e"
                   },
                   {
+                      "path":  "world/datapacks/jays_patch/data/ct/function/loop/player/join_vc.mcfunction",
+                      "bytes":  10965,
+                      "sha256":  "dc676149d735703a8c4149065c7f81c5baa7608ee52a2dd9fab3c896e6c242d0"
+                  },
+                  {
                       "path":  "world/datapacks/jays_patch/data/minecraft/tags/function/load.json",
                       "bytes":  44,
                       "sha256":  "ced05d5540dd6ed6eac28d7021ed16ff7896a589e64c1caef7d8f5ba4a58851b"
@@ -3605,7 +3900,7 @@
                   {
                       "path":  "world/datapacks/jays_patch/jays-patch-required-server-properties.txt",
                       "bytes":  826,
-                      "sha256":  "f6a1df9a0fa7c1f8b873d1bde8ad03b6b5e91b28ed5694b2c599d39ddfe26f8c"
+                      "sha256":  "1df017a6a5ec4ceb12e3ee272c2a617f69a6523e52ac2a649eb225aac7d3e951"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/pack.mcmeta",

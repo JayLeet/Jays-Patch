@@ -348,6 +348,51 @@
                                                                                           "op_level":  4
                                                                                       }
                                                                                   ]
+                                                                  }
+                                                              ]
+                                           },
+                                           {
+                                               "id":  "madness_execute",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/madness_execution/open",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                           },
+                                           {
+                                               "id":  "madness_execute_select",
+                                               "arguments":  [
+                                                                 {
+                                                                     "id":  "seat",
+                                                                     "type":  "brigadier:integer 1 15",
+                                                                     "executes":  [
+                                                                                      {
+                                                                                          "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/madness_execution/select_player {seat:${seat}}",
+                                                                                          "as_console":  true,
+                                                                                          "silent":  true,
+                                                                                          "op_level":  4
+                                                                                      }
+                                                                                  ]
+                                                                 }
+                                                             ]
+                                           },
+                                           {
+                                               "id":  "madness_execute_confirm",
+                                               "arguments":  [
+                                                                 {
+                                                                     "id":  "seat",
+                                                                     "type":  "brigadier:integer 1 15",
+                                                                     "executes":  [
+                                                                                      {
+                                                                                          "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/madness_execution/execute_selected {seat:${seat}}",
+                                                                                          "as_console":  true,
+                                                                                          "silent":  true,
+                                                                                          "op_level":  4
+                                                                                      }
+                                                                                  ]
                                                                  }
                                                              ]
                                            },
@@ -1365,4 +1410,3 @@
                      }
                  ]
 }
-

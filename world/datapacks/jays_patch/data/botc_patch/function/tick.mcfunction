@@ -18,6 +18,7 @@ execute if score phase game_data matches 0 if score patch_items_enabled botc_pat
 function botc_patch:storyteller_tools/passive_tick
 execute if score patch_items_enabled botc_patch matches 1 run function botc_patch:storyteller_tools/tick
 function botc_patch:grim/tick
+function botc_patch:night_chat/tick
 execute unless score patch_items_enabled botc_patch matches 1 run scoreboard players set @a[scores={botc_hand_use=1..}] botc_hand_use 0
 execute unless score patch_items_enabled botc_patch matches 1 run scoreboard players set @a[scores={botc_music_use=1..}] botc_music_use 0
 execute if score patch_items_enabled botc_patch matches 1 if entity @a[scores={botc_hand_use=1..}] run function botc_patch:hand/tick

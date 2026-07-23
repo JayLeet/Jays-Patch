@@ -35,6 +35,7 @@ tag @s remove botc_st_nom_back_done
 tag @s remove botc_st_nom_execute_done
 tag @s remove botc_st_nom_selected
 tag @s remove botc_st_post_execution
+tag @s remove botc_st_post_kill_resolved
 tag @s remove botc_st_last_executed
 tag @s remove botc_st_post_kill_done
 tag @s remove botc_st_menu_owner
@@ -81,6 +82,7 @@ scoreboard players reset @s botc_hand_use
 scoreboard players reset @s botc_hand_raise
 scoreboard players reset @s botc_hand_lower
 scoreboard players reset @s botc_grim_items
+scoreboard players reset @s botc_grim_notice_items
 scoreboard players reset @s botc_setup_items
 scoreboard players reset @s botc_storyteller_items
 scoreboard players reset @s botc_st_tp_page
