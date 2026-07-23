@@ -797,15 +797,26 @@
                                           }
                                       ]
                      },
-                     {
-                         "id":  "kill_player",
+                      {
+                          "id":  "kill",
+                          "executes":  [
+                                           {
+                                               "command":  "execute if score phase game_data matches 1..3 as @s[tag=storyteller] run function botc_patch:storyteller_tools/kill_menu/open",
+                                               "as_console":  true,
+                                               "silent":  true,
+                                               "op_level":  4
+                                           }
+                                       ]
+                      },
+                      {
+                          "id":  "kill_player",
                          "arguments":  [
                                            {
                                                "id":  "seat",
                                                "type":  "brigadier:integer 1 15",
                                                "executes":  [
                                                                 {
-                                                                    "command":  "execute if score phase game_data matches 1..2 as @s[tag=storyteller] run function botc_patch:storyteller_tools/kill_menu/select_player {seat:${seat}}",
+                                                                    "command":  "execute if score phase game_data matches 1..3 as @s[tag=storyteller] run function botc_patch:storyteller_tools/kill_menu/select_player {seat:${seat}}",
                                                                     "as_console":  true,
                                                                     "silent":  true,
                                                                     "op_level":  4
@@ -813,9 +824,53 @@
                                                             ]
                                            }
                                        ]
-                     },
-                     {
-                         "id":  "revive_player",
+                      },
+                      {
+                          "id":  "boomdandy",
+                          "literals":  [
+                                           {
+                                               "id":  "select",
+                                               "arguments":  [
+                                                                 {
+                                                                     "id":  "seat",
+                                                                     "type":  "brigadier:integer 1 15",
+                                                                     "executes":  [
+                                                                                      {
+                                                                                          "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/boomdandy/select_player {seat:${seat}}",
+                                                                                          "as_console":  true,
+                                                                                          "silent":  true,
+                                                                                          "op_level":  4
+                                                                                      }
+                                                                                  ]
+                                                                 }
+                                                             ]
+                                           },
+                                           {
+                                               "id":  "restart",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/boomdandy/restart",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           },
+                                           {
+                                               "id":  "confirm",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/boomdandy/confirm",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ]
+                      },
+                      {
+                          "id":  "revive_player",
                          "arguments":  [
                                            {
                                                "id":  "seat",
