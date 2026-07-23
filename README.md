@@ -8,7 +8,7 @@ setup room. It also gives the Storyteller quicker access to Sybillian's tools.
 I made it for **Sybillian's modpack 1.5.4** on
 **Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
 
-**[Download Jay's Patch v1.6.1](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.6.1.zip)**
+**[Download Jay's Patch v1.7.0](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.7.0.zip)**
 
 ## What does it add?
 
@@ -95,6 +95,8 @@ replaces your existing world folder.
 - 🗳️ **Votekicks** that show the current vote count and remove the player when the vote succeeds.
 - 👻 **Banshee voting controls** for single or double votes after the Banshee dies.
 - 🎭 **Character tools** for Fearmonger announcements, Banshee awakening, Al-Hadikhia targets, Cerenovus madness executions and Boomdandy.
+- 💥 **Boomdandy final three** lets the Storyteller choose exactly three living players before the countdown starts.
+- 💀 **Nomination deaths** let the Storyteller apply Golem, Witch and similar role-caused deaths without changing the vote or execution.
 - ❗ **Notification badges** show the Storyteller when an in-play character has a relevant action available.
 - 🛠️ **Useful commands** for setup, game phases, teleporting, timers and player management.
 
@@ -119,7 +121,7 @@ Do not install only the `jays_patch` datapack folder.
 1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
 2. Start the server once, then stop it completely.
 3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.6.1](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.6.1.zip) and extract it.
+4. [Download Jay's Patch v1.7.0](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.7.0.zip) and extract it.
 5. Replace your server's `world` folder with the included `world` folder.
 6. Copy the included `config` folder into your server folder. Merge it with the
    existing `config` folder and replace files when asked.

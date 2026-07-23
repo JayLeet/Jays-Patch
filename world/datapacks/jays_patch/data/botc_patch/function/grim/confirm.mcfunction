@@ -2,6 +2,7 @@
 # Do not hand-edit this file; update the generator and regenerate.
 # Routes the pre-reveal controls through one contextual option mask.
 execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only start Reveal Grimoire during an active game.","color":"red"}
+execute if score phase game_data matches 3 unless score boomdandy_stage botc_patch matches 2 if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/start
 function botc_patch:grim/notifications/acknowledge_outer
 data modify storage botc_patch:grim notifications set value {fearmonger_font:"botc_patch:role_icons",banshee_font:"botc_patch:role_icons",alhadikhia_font:"botc_patch:role_icons",madness_font:"botc_patch:role_icons"}
 execute if score grim_notice_fearmonger_done botc_patch matches 0 run data modify storage botc_patch:grim notifications.fearmonger_font set value "botc_patch:role_icons_notification"
@@ -17,6 +18,7 @@ execute if score phase game_data matches 4 unless score grim_active botc_patch m
 execute if score phase game_data matches 4 unless score grim_active botc_patch matches 1 if entity @a[tag=!storyteller,tag=!spectator,tag=!active_banshee,scores={id=1..15,role=55}] run scoreboard players add grim_confirm_options botc_patch 2
 execute if score phase game_data matches 4 unless score grim_active botc_patch matches 1 if entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=128}] run scoreboard players add grim_confirm_options botc_patch 4
 execute if score phase game_data matches 3 unless score grim_active botc_patch matches 1 if entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=100}] run scoreboard players add grim_confirm_options botc_patch 8
+execute if score phase game_data matches 3 unless score grim_active botc_patch matches 1 run scoreboard players add grim_confirm_options botc_patch 16
 execute if score grim_confirm_options botc_patch matches 0 run function botc_patch:grim/confirm/options_0
 execute if score grim_confirm_options botc_patch matches 1 run function botc_patch:grim/confirm/options_1 with storage botc_patch:grim notifications
 execute if score grim_confirm_options botc_patch matches 2 run function botc_patch:grim/confirm/options_2 with storage botc_patch:grim notifications
@@ -33,3 +35,19 @@ execute if score grim_confirm_options botc_patch matches 12 run function botc_pa
 execute if score grim_confirm_options botc_patch matches 13 run function botc_patch:grim/confirm/options_13 with storage botc_patch:grim notifications
 execute if score grim_confirm_options botc_patch matches 14 run function botc_patch:grim/confirm/options_14 with storage botc_patch:grim notifications
 execute if score grim_confirm_options botc_patch matches 15 run function botc_patch:grim/confirm/options_15 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 16 run function botc_patch:grim/confirm/options_16 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 17 run function botc_patch:grim/confirm/options_17 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 18 run function botc_patch:grim/confirm/options_18 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 19 run function botc_patch:grim/confirm/options_19 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 20 run function botc_patch:grim/confirm/options_20 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 21 run function botc_patch:grim/confirm/options_21 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 22 run function botc_patch:grim/confirm/options_22 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 23 run function botc_patch:grim/confirm/options_23 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 24 run function botc_patch:grim/confirm/options_24 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 25 run function botc_patch:grim/confirm/options_25 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 26 run function botc_patch:grim/confirm/options_26 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 27 run function botc_patch:grim/confirm/options_27 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 28 run function botc_patch:grim/confirm/options_28 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 29 run function botc_patch:grim/confirm/options_29 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 30 run function botc_patch:grim/confirm/options_30 with storage botc_patch:grim notifications
+execute if score grim_confirm_options botc_patch matches 31 run function botc_patch:grim/confirm/options_31 with storage botc_patch:grim notifications

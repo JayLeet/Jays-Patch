@@ -84,6 +84,8 @@ execute unless score grim_notice_madness_done botc_patch matches 0..1 run scoreb
 execute unless score grim_notice_madness_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_madness_menu_seen botc_patch 0
 execute unless score grim_notice_boomdandy_seen botc_patch matches 0..1 run scoreboard players set grim_notice_boomdandy_seen botc_patch 0
 execute unless score grim_notice_boomdandy_done botc_patch matches 0..1 run scoreboard players set grim_notice_boomdandy_done botc_patch 0
+execute unless score boomdandy_stage botc_patch matches 0..2 run scoreboard players set boomdandy_stage botc_patch 0
+execute unless score boomdandy_selected botc_patch matches 0..3 run scoreboard players set boomdandy_selected botc_patch 0
 execute unless score grim_notice_pending botc_patch matches 0..1 run scoreboard players set grim_notice_pending botc_patch 0
 execute unless score reset_requested botc_patch matches -2147483648..2147483647 run scoreboard players set reset_requested botc_patch 0
 execute unless score reset_generation botc_patch matches -2147483648..2147483647 run scoreboard players set reset_generation botc_patch 0

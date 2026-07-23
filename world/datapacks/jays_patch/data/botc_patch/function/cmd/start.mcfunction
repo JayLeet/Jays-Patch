@@ -5,6 +5,7 @@ execute as @a[tag=!storyteller,tag=!spectator] run scoreboard players add start_
 execute unless score phase game_data matches 0 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"A game is already active.","color":"gray","bold":false}]
 execute unless score start_player_count botc_patch matches 5..15 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"A game requires 5 to 15 players, excluding Storytellers and spectators.","color":"gray","bold":false}]
 function botc_patch:grim/notifications/reset
+function botc_patch:storyteller_tools/boomdandy/cleanup
 function botc_patch:setup/prepare_new_game_inventory
 function botc_patch:setup/prepare_players_for_start
 function botc_patch:seat_layout/prepare_upstream_start
