@@ -1,6 +1,6 @@
 {
     "schema":  1,
-    "version":  "1.6.0",
+    "version":  "1.6.1",
     "files":  [
                   {
                       "path":  "config/melius-commands/commands/botc.json",
@@ -75,7 +75,7 @@
                   {
                       "path":  "HOW TO INSTALL.txt",
                       "bytes":  2515,
-                      "sha256":  "bb26e6d9c5792fac95582bca8a198ef7ef16808028fc7be5d9d74945c6ffc278"
+                      "sha256":  "3dc96262d0ff846b7e2a9da87a44ab046f08fd9a010574c2b6b5445df71df386"
                   },
                   {
                       "path":  "Legal/ASSET_LICENSE.md",
@@ -105,12 +105,12 @@
                   {
                       "path":  "README.md",
                       "bytes":  8448,
-                      "sha256":  "3cd9c3aabd304908804cef19d7cfc5a1cdd94d001c81eeeef76ab61f772e7b87"
+                      "sha256":  "d5b3800eee2b6c48d45af7b64a003979d8afbd6843656c6112eb575e100c56c4"
                   },
                   {
                       "path":  "resourcepack/Jays-Patch-resourcepack.zip",
-                      "bytes":  180399,
-                      "sha256":  "b50bdd2e7e07bdd4b98731429270bdca5f730e4543bffa5c1c7569937e0a3b1c"
+                      "bytes":  180427,
+                      "sha256":  "a4da2cb11cdf0ac7d08d974bd3c4aadbcbaafbbfd3e46587ae9f7e1a56cdd373"
                   },
                   {
                       "path":  "world/data/chunks.dat",
@@ -339,8 +339,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/awaken_banshee.mcfunction",
-                      "bytes":  1346,
-                      "sha256":  "fabd068bf681bb994d3b1063724808450dd4f5b6f81817fe195be019a776f880"
+                      "bytes":  1320,
+                      "sha256":  "4045b7991f3fba33e80bcb8d1e0734e0bf1c5a1aeb66ee306f2e2d0fc9bd37b1"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/cancel.mcfunction",
@@ -379,8 +379,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm.mcfunction",
-                      "bytes":  5627,
-                      "sha256":  "eee6d353b35077bcced0089c4ed8e41c5fa705db1c7e747680b7aa369af3a740"
+                      "bytes":  5609,
+                      "sha256":  "30d5fdc6280bc4f660d0af1788f15187e115e6e5a3f898c7def571f3d89c28e1"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_0.mcfunction",
@@ -964,13 +964,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/notifications/acknowledge_outer.mcfunction",
-                      "bytes":  1318,
-                      "sha256":  "fab82c78219f634be9b513e21394fc87b53a4413cd758276ac3844f2d8b8a218"
+                      "bytes":  1309,
+                      "sha256":  "d64d3076ca83346212385b9b84ff445820d9d4e83a8de3ee2241263a1a1fa703"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/notifications/prepare_dashboard.mcfunction",
-                      "bytes":  1821,
-                      "sha256":  "134af11e145477f3a5d68d0c3aecf732b35754ab3c5d32c4e7ec03a6492e23a3"
+                      "bytes":  1812,
+                      "sha256":  "8d93893a9403cf95667fa17043eafe02a3ab472f1a5f3db202fc38ff83772494"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/notifications/reset.mcfunction",
@@ -979,8 +979,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/notifications/tick.mcfunction",
-                      "bytes":  2450,
-                      "sha256":  "1c70dfc4a972043f9221383020e84c14029790b230984ae52533059d0844cd73"
+                      "bytes":  2441,
+                      "sha256":  "14b0b23c2d158aed0d7a58b2255f21f48f4c66dbeb30d95a96c582d56ca7f681"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/rescind.mcfunction",
@@ -1309,8 +1309,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/load.mcfunction",
-                      "bytes":  12851,
-                      "sha256":  "58a78079b718ce1076f0f71fa8f88dca3b1760c51d85397f4b778bcb308b1f68"
+                      "bytes":  12938,
+                      "sha256":  "f06327f6b92c72177fef55daadb929d4f30fa646e3013532d7122be1c3a2f8c9"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/maintenance/drop_cleanup.mcfunction",
@@ -3789,8 +3789,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/cleanup_dropped_fireworks.mcfunction",
-                      "bytes":  231,
-                      "sha256":  "32ccfec33fc250dc9c5209f49c9dac51a613fe0fecebf9eda5412c774d73108d"
+                      "bytes":  467,
+                      "sha256":  "e45d59c979cfa314a86ac7bf92c793214328eb31eb6d4a51172892f7c64dae5b"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/cleanup_dropped_heads.mcfunction",
@@ -3809,8 +3809,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/clear_stale_fireworks.mcfunction",
-                      "bytes":  260,
-                      "sha256":  "a891c50848675df1ae57ea352c736aad351ec07dae362d8962793c6d9bda0723"
+                      "bytes":  430,
+                      "sha256":  "5cf6c48c15e796adce4218688cceb5ee9c56bf2b724990e7e6b36fcfe57799cd"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/equip_evil.mcfunction",
@@ -3828,19 +3828,29 @@
                       "sha256":  "9f83fc8bd6adcfaac5fb6a4b9a85b38180998f11b4b938f28c821312bd78d832"
                   },
                   {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/firework_tick.mcfunction",
+                      "bytes":  357,
+                      "sha256":  "752f6afa552c47e91f77387ca97d21c9625a5b16f09ed9a6b72927717dd1260f"
+                  },
+                  {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/give_evil_fireworks.mcfunction",
-                      "bytes":  2041,
-                      "sha256":  "52f71b1a2a1f18b48ed47492906a656cc4ecf74a7f57fc8f9285d6517cdef8fd"
+                      "bytes":  1974,
+                      "sha256":  "c4c2c65434390144014bca874d981327b4eb3dbdf687bdf8ba0c011b52b729a6"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/give_good_fireworks.mcfunction",
-                      "bytes":  2026,
-                      "sha256":  "5935db20117e854f2ee8542daedd2f54f18e742effc6a542887181230cf2a4f4"
+                      "bytes":  1966,
+                      "sha256":  "3cb35062a38b3915cf403fbb329242ca2c21a28fb6df8172420fe44f442a42f5"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/good.mcfunction",
                       "bytes":  324,
                       "sha256":  "acada6fb71bf4feb57c5dde27f73b03f91bb4c18da2707ecfa4a6ed2d7606de2"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/launch_held_firework.mcfunction",
+                      "bytes":  6135,
+                      "sha256":  "bf2a2bb6fd7508a1372a23b99095dfc80015bfbab9d9ef504b3a7b21e2cabf6f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/maintain_heads.mcfunction",
@@ -3874,8 +3884,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/winner/tick.mcfunction",
-                      "bytes":  1166,
-                      "sha256":  "f9fe8fc9eddcc8113d3d2a43d3fe643fe347b870fa463322e4776ccd29cca3cf"
+                      "bytes":  1264,
+                      "sha256":  "c0053dda7e3a2de52e5e2ee900acd4c6fbf46ea7bb50973beb4c2865bfba8f04"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/tags/block/safe_body_space.json",
@@ -3900,7 +3910,7 @@
                   {
                       "path":  "world/datapacks/jays_patch/jays-patch-required-server-properties.txt",
                       "bytes":  826,
-                      "sha256":  "1df017a6a5ec4ceb12e3ee272c2a617f69a6523e52ac2a649eb225aac7d3e951"
+                      "sha256":  "453e1f2aff22a5edad8f73e0f2c8866502330b313a45f529b1a63f785a284a41"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/pack.mcmeta",

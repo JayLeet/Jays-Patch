@@ -30,6 +30,7 @@ scoreboard objectives add botc_reset_seen dummy
 scoreboard objectives add botc_outsider_seen dummy
 scoreboard objectives add botc_firework_seen dummy
 scoreboard objectives add botc_firework_award dummy
+scoreboard objectives add botc_firework_use minecraft.used:minecraft.carrot_on_a_stick
 scoreboard objectives add botc_queue dummy
 scoreboard objectives add botc_st_gen dummy
 scoreboard objectives add botc_setup_bridge_cd dummy
