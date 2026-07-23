@@ -28,14 +28,16 @@ clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["stor
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_revive_back"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_revive_next"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_post_kill"]}]
+clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["grim_reveal_menu_notification"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_role_boomdandy"]}]
+clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_role_boomdandy_notification"]}]
 function botc_patch:storyteller_tools/player_menu/clear_items
 function botc_patch:storyteller_tools/player_menu/clear_role_items
 function botc_patch:storyteller_tools/revive_menu/clear_items
 function botc_patch:storyteller_tools/kill_menu/clear_items
 function botc_patch:storyteller_tools/nomination_menu/clear_items
 function ct:admin/give_script
-execute if score phase game_data matches 1.. run item replace entity @s hotbar.6 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["grim_reveal_menu"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Storyteller Tools",color:"gold",bold:true,italic:false}]]
+execute if score phase game_data matches 1.. run item replace entity @s hotbar.6 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["grim_reveal_menu"]},minecraft:custom_data={botc_patch_tool:1b,botc_grim_tool:1b},custom_name=[{text:"Storyteller Tools",color:"gold",bold:true,italic:false}]]
 execute if score phase game_data matches 1..3 unless score patch_dialog_mode botc_patch matches 1 run item replace entity @s hotbar.0 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_advance_phase"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Advance Phase",color:"aqua",bold:true,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}]]
 execute if score phase game_data matches 1..2 unless score patch_dialog_mode botc_patch matches 1 run item replace entity @s hotbar.1 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_tp_seats"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Teleport Seats",color:"yellow",bold:true,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}]]
 execute if score phase game_data matches 1..2 unless score patch_dialog_mode botc_patch matches 1 run item replace entity @s hotbar.2 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_passage"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Storyteller's Passage",color:"gold",bold:true,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}],lore=[{text:"Fly, spectate, and enter a house to return.",color:"gray",italic:false}]]

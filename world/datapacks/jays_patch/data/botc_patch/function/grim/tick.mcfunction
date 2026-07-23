@@ -1,6 +1,7 @@
 # Handle Storyteller grimoire actions when a hand item interaction happens.
 execute if score phase game_data matches 0 if score grim_editor_game_captured botc_patch matches 1 run function botc_patch:grim/editor/clear_game
 execute if score phase game_data matches 1.. if score grim_editor_reveal_started botc_patch matches 0 unless score grim_editor_game_captured botc_patch matches 1 run function botc_patch:grim/editor/capture_game
+function botc_patch:grim/notifications/tick
 execute if entity @a[scores={botc_hand_use=1..},tag=storyteller] run function botc_patch:grim/tick_input
 
 # Keep active reveal and winner-flow maintenance every tick.

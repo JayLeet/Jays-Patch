@@ -36,6 +36,9 @@ scoreboard objectives add botc_setup_bridge_cd dummy
 scoreboard objectives add botc_vote_cd dummy
 scoreboard objectives add botc_item_maintenance_pending dummy
 scoreboard objectives add botc_item_maintenance dummy
+scoreboard objectives add botc_grim_notice_items dummy
+scoreboard objectives add botc_night_chat_seen dummy
+scoreboard objectives add botc_night_chat_items dummy
 scoreboard objectives add botc_hand_lamp_clock dummy
 scoreboard objectives add botc_pass_zone dummy
 scoreboard objectives add botc_pass_start dummy
@@ -66,6 +69,21 @@ execute unless score winner_firework_epoch botc_patch matches -2147483648..21474
 execute unless score grim_active botc_patch matches -2147483648..2147483647 run scoreboard players set grim_active botc_patch 0
 execute unless score grim_spotlight botc_patch matches -2147483648..2147483647 run scoreboard players set grim_spotlight botc_patch -1
 execute unless score grim_sweep_timer botc_patch matches -2147483648..2147483647 run scoreboard players set grim_sweep_timer botc_patch -1
+execute unless score grim_notice_fearmonger_seen botc_patch matches 0..1 run scoreboard players set grim_notice_fearmonger_seen botc_patch 0
+execute unless score grim_notice_fearmonger_done botc_patch matches 0..1 run scoreboard players set grim_notice_fearmonger_done botc_patch 0
+execute unless score grim_notice_fearmonger_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_fearmonger_menu_seen botc_patch 0
+execute unless score grim_notice_banshee_seen botc_patch matches 0..1 run scoreboard players set grim_notice_banshee_seen botc_patch 0
+execute unless score grim_notice_banshee_done botc_patch matches 0..1 run scoreboard players set grim_notice_banshee_done botc_patch 0
+execute unless score grim_notice_banshee_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_banshee_menu_seen botc_patch 0
+execute unless score grim_notice_alhadikhia_seen botc_patch matches 0..1 run scoreboard players set grim_notice_alhadikhia_seen botc_patch 0
+execute unless score grim_notice_alhadikhia_done botc_patch matches 0..1 run scoreboard players set grim_notice_alhadikhia_done botc_patch 0
+execute unless score grim_notice_alhadikhia_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_alhadikhia_menu_seen botc_patch 0
+execute unless score grim_notice_madness_seen botc_patch matches 0..1 run scoreboard players set grim_notice_madness_seen botc_patch 0
+execute unless score grim_notice_madness_done botc_patch matches 0..1 run scoreboard players set grim_notice_madness_done botc_patch 0
+execute unless score grim_notice_madness_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_madness_menu_seen botc_patch 0
+execute unless score grim_notice_boomdandy_seen botc_patch matches 0..1 run scoreboard players set grim_notice_boomdandy_seen botc_patch 0
+execute unless score grim_notice_boomdandy_done botc_patch matches 0..1 run scoreboard players set grim_notice_boomdandy_done botc_patch 0
+execute unless score grim_notice_pending botc_patch matches 0..1 run scoreboard players set grim_notice_pending botc_patch 0
 execute unless score reset_requested botc_patch matches -2147483648..2147483647 run scoreboard players set reset_requested botc_patch 0
 execute unless score reset_generation botc_patch matches -2147483648..2147483647 run scoreboard players set reset_generation botc_patch 0
 execute unless score queue_next botc_patch matches -2147483648..2147483647 run scoreboard players set queue_next botc_patch 1
@@ -112,5 +130,6 @@ execute if score setup_wall_teams_ready botc_patch matches 0 run scoreboard play
 function botc_patch:config/owners
 function botc_patch:grim/editor/roles/init
 execute if score phase game_data matches 0 run function botc_patch:grim/editor/clear_game
+function botc_patch:night_chat/init_group
 function botc_patch:repair/static_markers
 schedule function botc_patch:startup/yawp_init 20s replace

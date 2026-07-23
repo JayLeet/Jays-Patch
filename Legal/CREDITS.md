@@ -16,11 +16,6 @@ which version I made it for.
   `ct_biome` datapack, and role-icon textures distributed with the modpack.
   Those upstream files remain Sybillian's and their original contributors'
   work.
-- Sybillian's project credits members of its Discord community for the
-  pixel-art character icons.
-- Sybillian's project credits **tomozbot's `botc-icons` collection** for
-  playtest-art character icons used with permission:
-  https://github.com/tomozbot/botc-icons
 - The exact upstream MIT notice is preserved at
   `THIRD-PARTY-LICENSES/SYBILLIAN-MIT-LICENSE.txt`.
 

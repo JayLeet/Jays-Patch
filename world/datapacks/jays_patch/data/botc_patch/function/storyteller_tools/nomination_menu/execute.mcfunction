@@ -3,6 +3,7 @@
 # Executes the marked player while preserving the post-execution target.
 tag @s add botc_st_tool_used
 tag @s remove botc_st_nom_execute_done
+tag @s remove botc_st_post_kill_resolved
 tag @a remove botc_st_last_executed
 execute if entity @a[tag=marked_for_execution,limit=1] run tag @s add botc_st_nom_execute_done
 execute if entity @s[tag=botc_st_nom_execute_done] run tag @a[tag=marked_for_execution,limit=1] add botc_st_last_executed

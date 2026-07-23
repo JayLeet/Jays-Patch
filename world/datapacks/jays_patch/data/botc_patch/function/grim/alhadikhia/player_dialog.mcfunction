@@ -3,9 +3,11 @@
 # Shows the Al-Hadikhia public-target picker from Sybillian's game-start player snapshot.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only announce an Al-Hadikhia target during an active game.","color":"red"}
+execute unless score phase game_data matches 4 run return run tellraw @s {"text":"You can only announce an Al-Hadikhia target during the night.","color":"red"}
 execute if score grim_editor_reveal_started botc_patch matches 1 run return run tellraw @s {"text":"You can only announce the target before Reveal Grimoire begins.","color":"red"}
 execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=128}] run return run tellraw @s {"text":"Al-Hadikhia isn't in play.","color":"red"}
+scoreboard players set grim_notice_alhadikhia_done botc_patch 1
+scoreboard players set botc_item_maintenance_pending botc_patch 1
 execute unless score grim_editor_game_captured botc_patch matches 1 run function botc_patch:grim/editor/capture_game
 execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s {"text":"The player list from the start of the game isn't available yet.","color":"red"}
 function botc_patch:grim/editor/refresh_live_roles
