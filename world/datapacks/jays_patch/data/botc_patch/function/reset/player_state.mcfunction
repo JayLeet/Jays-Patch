@@ -54,6 +54,7 @@ tag @s remove botc_st_post_execution
 tag @s remove botc_st_post_kill_resolved
 tag @s remove botc_st_last_executed
 tag @s remove botc_st_post_kill_done
+tag @s remove botc_rps_first
 tag @s remove botc_st_menu_owner
 tag @s remove botc_st_night_mode
 tag @s remove botc_st_night_prev_survival

@@ -826,6 +826,56 @@
                                        ]
                       },
                       {
+                          "id":  "rps",
+                          "literals":  [
+                                           {
+                                               "id":  "start",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/rps/open",
+                                                                    "as_console":  true,
+                                                                    "silent":  true,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           },
+                                           {
+                                               "id":  "first",
+                                               "arguments":  [
+                                                                 {
+                                                                     "id":  "seat",
+                                                                     "type":  "brigadier:integer 1 15",
+                                                                     "executes":  [
+                                                                                      {
+                                                                                          "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/rps/first/select_player {seat:${seat}}",
+                                                                                          "as_console":  true,
+                                                                                          "silent":  true,
+                                                                                          "op_level":  4
+                                                                                      }
+                                                                                  ]
+                                                                 }
+                                                             ]
+                                           },
+                                           {
+                                               "id":  "second",
+                                               "arguments":  [
+                                                                 {
+                                                                     "id":  "seat",
+                                                                     "type":  "brigadier:integer 1 15",
+                                                                     "executes":  [
+                                                                                      {
+                                                                                          "command":  "execute as @s[tag=storyteller] run function botc_patch:storyteller_tools/rps/second/select_player {seat:${seat}}",
+                                                                                          "as_console":  true,
+                                                                                          "silent":  true,
+                                                                                          "op_level":  4
+                                                                                      }
+                                                                                  ]
+                                                                 }
+                                                             ]
+                                           }
+                                       ]
+                      },
+                      {
                           "id":  "boomdandy",
                           "literals":  [
                                            {
