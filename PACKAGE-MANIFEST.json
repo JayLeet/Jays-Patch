@@ -1,11 +1,11 @@
 {
     "schema":  1,
-    "version":  "1.7.0",
+    "version":  "1.8.0",
     "files":  [
                   {
                       "path":  "config/melius-commands/commands/botc.json",
-                      "bytes":  107435,
-                      "sha256":  "5cb3547628b1bc76625874b7bcbc1fc40ec1ef9c904ea9d009891dcf2b279195"
+                      "bytes":  111411,
+                      "sha256":  "ce0230907e80e57f76d88f88d7d6168fa23c03292f956fdc06c829dbf9947064"
                   },
                   {
                       "path":  "config/melius-commands/commands/character.json",
@@ -104,8 +104,8 @@
                   },
                   {
                       "path":  "README.md",
-                      "bytes":  8706,
-                      "sha256":  "4919debf76ca3817c60f53855baab6036fe1aadc995464e7d65de03da2429a92"
+                      "bytes":  8865,
+                      "sha256":  "835a662ec41ec9e27024eac71d63e47eb8653fb390f406c03b821fa3c0fe7fdb"
                   },
                   {
                       "path":  "resourcepack/Jays-Patch-resourcepack.zip",
@@ -384,163 +384,163 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_0.mcfunction",
-                      "bytes":  955,
-                      "sha256":  "b2cdb9cc12a6fc9de072e658749bfeca3027df858cf9161243e1113d7c66d6ee"
+                      "bytes":  1151,
+                      "sha256":  "a2d580aafda8be98d2f6d66e1f5a2d0155f369e43eb435403af81ac85b6a0a93"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_1.mcfunction",
-                      "bytes":  1166,
-                      "sha256":  "887a70a030c733520a8b87d06e27de848829d544a02f78f5886a6ca8645bc849"
+                      "bytes":  1362,
+                      "sha256":  "01e15779acb2c767805c70a29c8962611e3336d91e7a8bc251af2dae9c4a2eaa"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_10.mcfunction",
-                      "bytes":  1374,
-                      "sha256":  "ace4e929ef1dae0fe1ef5b9361071d613ed27e620d48f3b5effcb669507dbb10"
+                      "bytes":  1570,
+                      "sha256":  "f10c7437c1cf3c140079151c9f46af589ed6a4e399228cfda7fd9ab4c8503c83"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_11.mcfunction",
-                      "bytes":  1584,
-                      "sha256":  "b4669e7be6761e2c93875ecb29c0ffe471c9f2b7f82f3da66ad9e7b5a7920e3c"
+                      "bytes":  1780,
+                      "sha256":  "0fb0742550fe1931f25c461df6f7ce3680f90c5b13653b50679539c827f3b55a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_12.mcfunction",
-                      "bytes":  1383,
-                      "sha256":  "75662473cdb3fc2b1d632d71452d28d2e26b9db6336bfa2fc34c2a8c826cbc08"
+                      "bytes":  1579,
+                      "sha256":  "3e8a937ae246866674b0d1843f5a5a4545b3c30c6a75ef1785a8d7d5bd0e03ef"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_13.mcfunction",
-                      "bytes":  1593,
-                      "sha256":  "95b06e5223f16c53cbf49ec40c115aac8400230fe8d6d9c730ec425bc020a293"
+                      "bytes":  1789,
+                      "sha256":  "542024ec99f1bd30cdf63579318fdeb71c670c24bf975ba43ac1c66dd3fc5980"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_14.mcfunction",
-                      "bytes":  1590,
-                      "sha256":  "17786fb27aa3563b7042415a5bbbf5d51927478194de2477183d5143f5598186"
+                      "bytes":  1786,
+                      "sha256":  "ab889e02f35d5a170478c1a1ab9187f2d682e2502d78d0febaa28c4a93f54424"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_15.mcfunction",
-                      "bytes":  1800,
-                      "sha256":  "d4d60523c0416e47d64eba16e46fd420227c169f3bb1f897b8a59b65466c47de"
+                      "bytes":  1996,
+                      "sha256":  "a01d9d7f3db3a4a4ca3ee8ce5f6e53bc32028b0ebe1850ecddb7e7c5be07d870"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_16.mcfunction",
-                      "bytes":  1149,
-                      "sha256":  "d6996b295307fe3808fbcb83da9a5505660d9898f02836ad82447b32c8c446c9"
+                      "bytes":  1345,
+                      "sha256":  "a9ac03456d98b897e1c09cbb463b36540e2a62fa100dd2d42f332adaa9f806aa"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_17.mcfunction",
-                      "bytes":  1360,
-                      "sha256":  "6e372f36050d81549d6b07134d15a758cfdd3d157ef6a77d05fe7a74cc00c2b6"
+                      "bytes":  1556,
+                      "sha256":  "340b9b63f76a3560c6da713f7938a4a5ee69fa280262b7a4a427264a630b662e"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_18.mcfunction",
-                      "bytes":  1357,
-                      "sha256":  "080d64e9d7af321df78dff67b300ca48e89a9b8faf07c54f0127e46898586cf0"
+                      "bytes":  1553,
+                      "sha256":  "d68910715f073a71c69ba3cc45d86592cab2aeabfb95a6805c768e133537b35f"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_19.mcfunction",
-                      "bytes":  1567,
-                      "sha256":  "246f00ca7943e3f44c02260b3d0ce2891e039658955252c96af12c517ae6a1db"
+                      "bytes":  1763,
+                      "sha256":  "563b91cc92285cda6967a5bbb01302f6ab418170f3fb9b7d87922164b6f353a9"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_2.mcfunction",
-                      "bytes":  1163,
-                      "sha256":  "cc8e7fbb21a935cfd484a9bd508a68320844ed258d2fcbebe6c57cd41455b24b"
+                      "bytes":  1359,
+                      "sha256":  "1dbb9aef5082bd2bab33a537a3ffc896f19eea04377c28621956abda4cd2d07c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_20.mcfunction",
-                      "bytes":  1366,
-                      "sha256":  "add6f2deaf699f001d883354a743bb1a6875f2c7a3febae0132ca59875431c2d"
+                      "bytes":  1562,
+                      "sha256":  "eb308decb1740120480e7dfb1dd9ff6c890105bb9e8c594a0e92c53116723e4d"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_21.mcfunction",
-                      "bytes":  1576,
-                      "sha256":  "e48de39e76ebfc3eb8c7318286967e9b9e0bbf1e1bca7dfac857f8dbc94f6e5a"
+                      "bytes":  1772,
+                      "sha256":  "7d498afffd45414dfe4f11dc4b99e092b0dbdd7954a31a58961c8c57069f9b3c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_22.mcfunction",
-                      "bytes":  1573,
-                      "sha256":  "71d54a8e7d95d02458acc2544473ed882a153c40c89c983676e668652bd673b7"
+                      "bytes":  1769,
+                      "sha256":  "e7b257986ab2ff6ffc03cfe70acdb2de58773f4b3c4e3d66e713bd10614fd534"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_23.mcfunction",
-                      "bytes":  1783,
-                      "sha256":  "c39be0d2775ce4bcce10709de0ff4af9994e362ebe228201f68b1a82dedf8255"
+                      "bytes":  1979,
+                      "sha256":  "16ab7990b00fb92c0d5099e48481a0c19e9a03270968f906e59b33d684154db8"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_24.mcfunction",
-                      "bytes":  1360,
-                      "sha256":  "8f26e3522f53d7d4f6e4b9c1eb7f3b07d8f61e53ec5c777a921eb8189f98a394"
+                      "bytes":  1556,
+                      "sha256":  "adebc5d5e6f246f0f6af0acfe032ab2ca87af153d96e771a33e2a01d965a4f28"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_25.mcfunction",
-                      "bytes":  1570,
-                      "sha256":  "fd09fc99a45809a2c975f4c5cd868b6de31a1d8b0b6c3bf8c5235783984e8582"
+                      "bytes":  1766,
+                      "sha256":  "b8e5cfb3fbba9b823fbf867f6bca0bd3a0180ff9fa7e23a0c1a20d686b4862ae"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_26.mcfunction",
-                      "bytes":  1567,
-                      "sha256":  "b9adcf748c36dfbc1f5a48b41a835396d788b28a763a0bc5296955f498d4fe72"
+                      "bytes":  1763,
+                      "sha256":  "dd87e6e43ea577be0c116aec8fff4062cc4fa98985fc8adecd32ddd15318bf8d"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_27.mcfunction",
-                      "bytes":  1777,
-                      "sha256":  "ab2b53e0a8fa75819d09bdbe1af02a89cdb156c583d465b86ce4ccf60268cc2e"
+                      "bytes":  1973,
+                      "sha256":  "5b68ec9eeb99a800a745a46b79d7d4c68e16d3ab31f140d28b5e60eaa6d2d2ed"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_28.mcfunction",
-                      "bytes":  1576,
-                      "sha256":  "b5e44f8e53bca590b6c9ffbb5aefd6e9f82e3bb4d134e16b4e17922486083282"
+                      "bytes":  1772,
+                      "sha256":  "b3480cb751d2368355f9142b252734ad6b1153826d882236bfd470eb931d8b95"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_29.mcfunction",
-                      "bytes":  1786,
-                      "sha256":  "9b402c4e7acd19a7739d499fc0eabd5dd31245f5e9001c98b7e0720b67772a31"
+                      "bytes":  1982,
+                      "sha256":  "7ac5b4eb1a25a0f66a5f12b4fec8e7f54da65e882be8eaf23a8739a3a3683e6b"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_3.mcfunction",
-                      "bytes":  1373,
-                      "sha256":  "ce8e7d9cf079fba554322f0abdcf3cec58227aaa3e5844458d6d6ea76967eb76"
+                      "bytes":  1569,
+                      "sha256":  "ee1e6f2f5895d05fb97bb101a7bea16c29a5802905cdb9ddc06fca889e01ff95"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_30.mcfunction",
-                      "bytes":  1783,
-                      "sha256":  "2c81991eb5e4e169397d47ad33cfb06684baa670a7eb486380d9e870a4be51a4"
+                      "bytes":  1979,
+                      "sha256":  "5a1e81a4e1fe5879de7e396fab220858c5bde8a9d2cc96305aca103cf707f1ee"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_31.mcfunction",
-                      "bytes":  1993,
-                      "sha256":  "786af6a285fce56f628d4e3c0057ef17b74a78f258ca052bdaacfd2a1f054349"
+                      "bytes":  2189,
+                      "sha256":  "0f7b30948d26d16b484c113aba8a23958bfe3d42d32cccd0e31f0b78ef32f578"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_4.mcfunction",
-                      "bytes":  1172,
-                      "sha256":  "b5ff7c35474a8f4f408395006420a09b5572726139dd5a12eefbcf8179b4e6d3"
+                      "bytes":  1368,
+                      "sha256":  "88b16dc9a587e2177e2eeb6493ba0fdb66ec2017afb838f243f0f2bbdfdd553a"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_5.mcfunction",
-                      "bytes":  1382,
-                      "sha256":  "904e8d7f1a7b5666d277d1e7b02ff73edfd032d17b6ad59363cc2af4905328e6"
+                      "bytes":  1578,
+                      "sha256":  "9bf1e21ec82449ca6451f22cebface2087de5353f88aa76de029c069acc200bc"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_6.mcfunction",
-                      "bytes":  1379,
-                      "sha256":  "864d417747df3e17b9b170169c1d001d83786d03485f155766815c6ca27ff72f"
+                      "bytes":  1575,
+                      "sha256":  "39fb291758053cef2793cc7d9ae7820c852bd9e57dbe8ac1385e169835733167"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_7.mcfunction",
-                      "bytes":  1589,
-                      "sha256":  "09a5bd3292915d871e1bd1d6a7dcaf69cf50e1779afa7bf821427cdc597366b3"
+                      "bytes":  1785,
+                      "sha256":  "4abea6cceff2d08846a5948c3d00f2ea18a689d60eefcfc0a7751945effffbc3"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_8.mcfunction",
-                      "bytes":  1166,
-                      "sha256":  "e604e347758b5142f0f1f43f069fa98c994d2f86f14b6566d571f4790b95a03b"
+                      "bytes":  1362,
+                      "sha256":  "403eebba09d860e5bab7becb650a082555f7be2cfbb30693d638795b9694f768"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/confirm/options_9.mcfunction",
-                      "bytes":  1376,
-                      "sha256":  "663f6fa172f989cf965f5d92b2650eccf4e8655a86f039322e3f2533438a965c"
+                      "bytes":  1572,
+                      "sha256":  "5174713b8b29029ba5ad8fe61592b8cba6ecb1ae92a34b850325e80784a51f1c"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/grim/dialog.mcfunction",
@@ -1694,8 +1694,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/reset/player_state.mcfunction",
-                      "bytes":  6825,
-                      "sha256":  "f807cbff0ff2eb1f61e8fee329ea9dcfc254ef3e1e3b2ed0e8887887e97aff89"
+                      "bytes":  6854,
+                      "sha256":  "3f5a9dec8eeb0ca5d6f0c5ca0e702a984da8301f9a43e9c68f6efe8f9bbf40b1"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/reset/tick.mcfunction",
@@ -3851,6 +3851,341 @@
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/revive_menu/to_seat_9.mcfunction",
                       "bytes":  505,
                       "sha256":  "505f535779a4a81aca863189ec0de7ec029cec41e3bbfc6364d16280c1be54c4"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog.mcfunction",
+                      "bytes":  14045,
+                      "sha256":  "2a63008cd048ed5c075f597465034be7b8ba9e8acecd6b0ec55faea5bfcf399b"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/append.mcfunction",
+                      "bytes":  815,
+                      "sha256":  "8124b4a1282b322016987d4eebd2d8821cacca598beab5c59cd1b3920caad81d"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_1.mcfunction",
+                      "bytes":  797,
+                      "sha256":  "285c4d8ed95dcc8bb225aff24bdc803e6e9d4ab69a04f91017a20b8dc02f36c5"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_10.mcfunction",
+                      "bytes":  3675,
+                      "sha256":  "8b147cd411485e0beb3b285fa7ba9b488f0f35e6f9bf19533a460ac23be9515d"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_11.mcfunction",
+                      "bytes":  4000,
+                      "sha256":  "210de8e2b262c58b01e55562bfdbaa05b2e64f45bb69239d7c0e57fbb64bbba8"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_12.mcfunction",
+                      "bytes":  4325,
+                      "sha256":  "2e771b4a7b43567938d046dd282c336724107ed72bbb138fc6de04119d2bcc4e"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_13.mcfunction",
+                      "bytes":  4650,
+                      "sha256":  "856b54f1331aa4fc2d02a705154ace615cdcc1ed2594edffe573b640a0a5dc67"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_14.mcfunction",
+                      "bytes":  4975,
+                      "sha256":  "ee534a2501ab2481207966962b731eda4b1acac0aef712f56b24224c7b7dab0a"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_15.mcfunction",
+                      "bytes":  5300,
+                      "sha256":  "76b274763dabb675851f09cced528469ec202c98e09beca99e2d84f523cd804f"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_2.mcfunction",
+                      "bytes":  1116,
+                      "sha256":  "a23067f599194121725c722ff36071abd98add66a5f0b3cb36f1d5aa7afe0137"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_3.mcfunction",
+                      "bytes":  1435,
+                      "sha256":  "036e9db6f8488b391e518c6b43ded0822b4b11697924ce0d2a3136d1d6bb1671"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_4.mcfunction",
+                      "bytes":  1754,
+                      "sha256":  "fb3140f9c3f376c7e2e1b1d7589a1ed64fb9ae9b9e6226247d9036cc8dce4981"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_5.mcfunction",
+                      "bytes":  2073,
+                      "sha256":  "1040161621822f1df1a3ba2ab5c6d28f20dcffb7e836e3b373b74db17c3beb71"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_6.mcfunction",
+                      "bytes":  2392,
+                      "sha256":  "17e9539dc2713b9e1c62b4acf70d87427a397476f2a9348bb02c89d544ae709d"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_7.mcfunction",
+                      "bytes":  2711,
+                      "sha256":  "4bec656f99e866618113fbe0685d03e55c074df03e772d232805139dabd7077d"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_8.mcfunction",
+                      "bytes":  3030,
+                      "sha256":  "73ef3ab40b266dbfdcc1671f2dc0d704da3b3dfb44afffdcc87fe382ae4564d4"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/dialog/count_9.mcfunction",
+                      "bytes":  3349,
+                      "sha256":  "607901de7f8f31212d87c4792c887c9aba3061747bfcaa1c3a9fd839ed343ce6"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/select_player.mcfunction",
+                      "bytes":  564,
+                      "sha256":  "50aa7e56857d2825cbd39565a53d16bb183ca883bfef670e9f5f184f16555f0d"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_1.mcfunction",
+                      "bytes":  587,
+                      "sha256":  "2481a838aa7982d8d7c2e9210bc804afc5ddb5fa190c837903c1c701c4904421"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_10.mcfunction",
+                      "bytes":  590,
+                      "sha256":  "578735d3f868248d94ef8055302ce13a45b439b9feeff54acb858d9a1b32ab7c"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_11.mcfunction",
+                      "bytes":  590,
+                      "sha256":  "8f551984123957c8dc73b5538754ccf4d7888ffe5433fd43e82c2f3f3874b577"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_12.mcfunction",
+                      "bytes":  590,
+                      "sha256":  "60f9064aa442407e9f47d076f11b263e84e6b6f96920bdb148e515de6f702990"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_13.mcfunction",
+                      "bytes":  590,
+                      "sha256":  "d99c356fb6ac07d72f97b14efa481fcfc416eaa3d1e77ed9817b3ad61631e348"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_14.mcfunction",
+                      "bytes":  590,
+                      "sha256":  "e73cd7f64a24f8c53d7a47294bd13293b587cad21774ec025d8be85da36c490a"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_15.mcfunction",
+                      "bytes":  590,
+                      "sha256":  "dc80a981ba56f4004545771bdeb4019190c290fa8e117fa41535c6d278be493a"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_2.mcfunction",
+                      "bytes":  587,
+                      "sha256":  "6d7988029aabc60bbb20ceb5d0ca254ac9c0fd5943e0c5695c73f5c47facb506"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_3.mcfunction",
+                      "bytes":  587,
+                      "sha256":  "3e646bfb104563505e305f2311198b0283280112a38c3cd15a4a6967c9b7b144"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_4.mcfunction",
+                      "bytes":  587,
+                      "sha256":  "870c4bfcc67cf1e665fb7b7f8bb1f97a76cd241059d25ad531a1d17c77ff1134"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_5.mcfunction",
+                      "bytes":  587,
+                      "sha256":  "00e0d23a0a7db93ae4e840ab460fa7f658cb103bb009008910032565c3e33d3d"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_6.mcfunction",
+                      "bytes":  587,
+                      "sha256":  "304357217405c1a71433e08992c0272b6791115e25fbb6b1d8f1e29ce7245f07"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_7.mcfunction",
+                      "bytes":  587,
+                      "sha256":  "56676104b2c76572e36558bd93277f5bdb3fc23bf21ed10fa055f53384b0ed84"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_8.mcfunction",
+                      "bytes":  587,
+                      "sha256":  "a9656c726deedfceb3e736973fe3d3fd3611b9457ef484f16221ee875d24b013"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/first/to_seat_9.mcfunction",
+                      "bytes":  587,
+                      "sha256":  "32e2487ebf2a5d2c7f6970bed451b9c2910b59948fc2c15215900546181ebb8e"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/open.mcfunction",
+                      "bytes":  616,
+                      "sha256":  "cf9e965d4e9fe75120bb1215fc52406eb8d6b5ffb65fc6f3a43cb328967dd88c"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog.mcfunction",
+                      "bytes":  15297,
+                      "sha256":  "104c4b0b4f4bcd5a6d964f04736cb9c230451d0e71041f581ade72abff426c14"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/append.mcfunction",
+                      "bytes":  820,
+                      "sha256":  "a86add38bccca8c8109f8b346e5bf40715e8a8b17ae5a2cf5286f245628be0d2"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_1.mcfunction",
+                      "bytes":  796,
+                      "sha256":  "01063b709f879e33870872e8a209addec311f7959eb959618e2a19f4a4ff33e4"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_10.mcfunction",
+                      "bytes":  3683,
+                      "sha256":  "78e741431871e4e0c5d263c1b4225c9b46edb1bdd597ac535138622626aaa18f"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_11.mcfunction",
+                      "bytes":  4009,
+                      "sha256":  "dcdc4414c9672db37a586642abce1764901806452d19bdc4fd97980916b86be2"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_12.mcfunction",
+                      "bytes":  4335,
+                      "sha256":  "f68e0025d97af6452f17a202aea677b44684d81ef11f0fd395884b0d7b60e145"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_13.mcfunction",
+                      "bytes":  4661,
+                      "sha256":  "2e367a3d221d8226811be5ce5556db31071961169f5a5b4f67fddb06330bb316"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_14.mcfunction",
+                      "bytes":  4987,
+                      "sha256":  "100ba5a40230765144bea368c0d32839f416bbcdc434521f1af3167fff576d0b"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_15.mcfunction",
+                      "bytes":  5313,
+                      "sha256":  "c924d0c698e9320736bb0edc375f554028844ec9bd6a3cf4ac46c8247a5ba8c4"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_2.mcfunction",
+                      "bytes":  1116,
+                      "sha256":  "18d8e1522908206f7be8f26727f3977a69b6cf4681d3711864c8e4f41678623b"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_3.mcfunction",
+                      "bytes":  1436,
+                      "sha256":  "88d41514a18cceef15cc231aabf026589f641365a6b187adedce30957069831a"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_4.mcfunction",
+                      "bytes":  1756,
+                      "sha256":  "200a91e18866ad6a1d6553ece2a92b624fe7379c493e6d839b055b58cb38b252"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_5.mcfunction",
+                      "bytes":  2076,
+                      "sha256":  "fdf3b0324f0310a6df4df18f16a023ecd8502252f24ecd17e6c3ed8a1ae68969"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_6.mcfunction",
+                      "bytes":  2396,
+                      "sha256":  "94c4cccb99f648f64d4760b3b54121ea872dec12eeb054b6f3ea1f2ea14aaf02"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_7.mcfunction",
+                      "bytes":  2716,
+                      "sha256":  "fae48d81344750de2831fe0b0e1370930961a3f5c1eeb32e63f0dc977bb713a7"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_8.mcfunction",
+                      "bytes":  3036,
+                      "sha256":  "0e758e10ca6f287a26e2d437b5835755677e1d36d674d1112442ec783c523055"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/dialog/count_9.mcfunction",
+                      "bytes":  3356,
+                      "sha256":  "0d6b7178247fe8e837cbc3f9ca8b75dafb787af5ad877ddc3f5cff556ba0efeb"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/select_player.mcfunction",
+                      "bytes":  566,
+                      "sha256":  "e4bf126dc92676387489037c0334c75d1e39e0d9dbe7952725838a1569d5d49e"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_1.mcfunction",
+                      "bytes":  974,
+                      "sha256":  "c21ebd1c68a4c3320e0da19cd6ab8cbecb6da57b3a58e75c1e37e68902ba7492"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_10.mcfunction",
+                      "bytes":  977,
+                      "sha256":  "0a71d291526d851f87e1a99a0b1e99704da43a84b3cd94e406aac7cf9a82a61b"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_11.mcfunction",
+                      "bytes":  977,
+                      "sha256":  "e04862f26b93619dfd60c3c500438cd1f300e2f912d20ba8f9be0f38c26cb274"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_12.mcfunction",
+                      "bytes":  977,
+                      "sha256":  "646ce3431a283a22866fec6693b186d2d60dea0a3eff6652a6bb7c4393f91427"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_13.mcfunction",
+                      "bytes":  977,
+                      "sha256":  "e30cab7bfeea194867d303ffbbae19600b29bb7744b34dc861ba900efb794d30"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_14.mcfunction",
+                      "bytes":  977,
+                      "sha256":  "2169ee0d4fc5e3ac94632e35c7e30afdb0c5f04231c7754f5dbf4dec8b8bc34a"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_15.mcfunction",
+                      "bytes":  977,
+                      "sha256":  "bc37344e04d27eeed562119ed773a9e664efe0f597b23377e24ae0f7ed6d97e5"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_2.mcfunction",
+                      "bytes":  974,
+                      "sha256":  "1658a4708ebb33c07f5312dd480087be5029447f47f72fb4d46e89ff12ff89d8"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_3.mcfunction",
+                      "bytes":  974,
+                      "sha256":  "8b3067682c8c99f808f0fcad841277441f19b4d834558137343cafc5f2d5934f"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_4.mcfunction",
+                      "bytes":  974,
+                      "sha256":  "f58df60664424e42da4b2f5f2be2fa625aeaeea827f5152d284d1956943b2665"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_5.mcfunction",
+                      "bytes":  974,
+                      "sha256":  "c7a541b1c2be655cfb6143715809d9cfbe9c3efbf1023d99cbce4b131e96cec5"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_6.mcfunction",
+                      "bytes":  974,
+                      "sha256":  "b5aa6d67ebf499037478d353aa4594f44a5feea0922918ebd8553d825a049922"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_7.mcfunction",
+                      "bytes":  974,
+                      "sha256":  "b06c72a7cc837b195782f6c64bfd3761ec98664f2f669ca40a23664d32d7dd7d"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_8.mcfunction",
+                      "bytes":  974,
+                      "sha256":  "0c4f82ac08d2accdfe9a98f480b5443b6fc1f806a396b783307d2b401225077c"
+                  },
+                  {
+                      "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/rps/second/to_seat_9.mcfunction",
+                      "bytes":  974,
+                      "sha256":  "bc20d5465e9c8c4975070af3e9ddc5caf5a5ceab548f96a5487031db50ad97df"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/teleport_den.mcfunction",
