@@ -9,15 +9,17 @@ function botc_patch:queue/tick
 function botc_patch:vote/tick
 function botc_patch:install_notice/tick
 execute as @a[scores={botc_setup_bridge_cd=1..}] run scoreboard players remove @s botc_setup_bridge_cd 1
+function botc_patch:buffet/tick
 execute if entity @a[scores={botc_hand_use=1..},tag=storyteller] run function botc_patch:patch_toggle/tick
-execute if score patch_items_enabled botc_patch matches 1 if score patch_setup_bag_enabled botc_patch matches 1 if entity @a[scores={botc_hand_use=1..},tag=storyteller] run function botc_patch:setup_room/tick
-execute if score patch_items_enabled botc_patch matches 1 if entity @a[scores={botc_hand_use=1..}] run function botc_patch:setup_tools/tick
+execute unless score buffet_mode botc_patch matches 1..2 if score patch_items_enabled botc_patch matches 1 if score patch_setup_bag_enabled botc_patch matches 1 if entity @a[scores={botc_hand_use=1..},tag=storyteller] run function botc_patch:setup_room/tick
+execute unless score buffet_mode botc_patch matches 1..2 if score patch_items_enabled botc_patch matches 1 if entity @a[scores={botc_hand_use=1..}] run function botc_patch:setup_tools/tick
 execute if score phase game_data matches 0 run scoreboard players set setup_wall_live_cleanup_done botc_patch 0
 execute unless score phase game_data matches 0 unless score setup_wall_live_cleanup_done botc_patch matches 1 run function botc_patch:setup_wall/live_cleanup
 execute if score phase game_data matches 0 if score patch_items_enabled botc_patch matches 1 if score patch_setup_bag_enabled botc_patch matches 1 if entity @e[type=minecraft:interaction,tag=botc_setup_wall_hitbox,limit=1] run function botc_patch:setup_wall/tick
 function botc_patch:storyteller_tools/passive_tick
 execute if score patch_items_enabled botc_patch matches 1 run function botc_patch:storyteller_tools/tick
 function botc_patch:grim/tick
+function botc_patch:wraith/tick
 function botc_patch:night_chat/tick
 execute unless score patch_items_enabled botc_patch matches 1 run scoreboard players set @a[scores={botc_hand_use=1..}] botc_hand_use 0
 execute unless score patch_items_enabled botc_patch matches 1 run scoreboard players set @a[scores={botc_music_use=1..}] botc_music_use 0

@@ -133,6 +133,7 @@ execute if score phase game_data matches 0 if score washerwoman role_list matche
 execute if score phase game_data matches 0 if score widow role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_widow,limit=1] run function botc_patch:setup_wall/particles_evil
 execute if score phase game_data matches 0 if score witch role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_witch,limit=1] run function botc_patch:setup_wall/particles_evil
 execute if score phase game_data matches 0 if score wizard role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_wizard,limit=1] run function botc_patch:setup_wall/particles_evil
+execute if score phase game_data matches 0 if score wraith role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_wraith,limit=1] run function botc_patch:setup_wall/particles_evil
 execute if score phase game_data matches 0 if score xaan role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_xaan,limit=1] run function botc_patch:setup_wall/particles_evil
 execute if score phase game_data matches 0 if score yaggababble role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_yaggababble,limit=1] run function botc_patch:setup_wall/particles_evil
 execute if score phase game_data matches 0 if score zealot role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_zealot,limit=1] run function botc_patch:setup_wall/particles_good

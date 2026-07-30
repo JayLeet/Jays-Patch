@@ -10,6 +10,7 @@ function botc_patch:setup/prepare_new_game_inventory
 function botc_patch:setup/prepare_players_for_start
 function botc_patch:seat_layout/prepare_upstream_start
 function ct:start_game/setup
+function botc_patch:wraith/sync_roles
 execute if score phase game_data matches 1.. run function botc_patch:seat_layout/lock_after_start
 scoreboard players set botc_item_maintenance_pending botc_patch 1
 execute as @a run fmvariable set day_start false now

@@ -2,7 +2,7 @@
 execute unless entity @s[tag=storyteller] run return 0
 execute unless score patch_items_enabled botc_patch matches 1 run return 0
 execute unless score patch_dialog_mode botc_patch matches 1 run return 0
-execute if score phase game_data matches 3 unless score boomdandy_stage botc_patch matches 2 if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/start
+execute if score phase game_data matches 3 unless score boomdandy_stage botc_patch matches 2..5 if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/start
 function botc_patch:grim/notifications/prepare_dashboard
 function botc_patch:grim/notifications/acknowledge_outer
 data modify storage botc_patch:grim notifications.boomdandy_font set value "botc_patch:role_icons"

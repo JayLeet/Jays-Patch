@@ -279,3 +279,5 @@ data modify storage botc_patch:grim editor.catalog.riot set value {id:"riot",nam
 data modify storage botc_patch:grim editor.score_catalog.s136 set from storage botc_patch:grim editor.catalog.riot
 data modify storage botc_patch:grim editor.catalog.yaggababble set value {id:"yaggababble",name:"Yaggababble",score:137,alignment:2,color:"#ff5555",glyph:""}
 data modify storage botc_patch:grim editor.score_catalog.s137 set from storage botc_patch:grim editor.catalog.yaggababble
+data modify storage botc_patch:grim editor.catalog.wraith set value {id:"wraith",name:"Wraith",score:325,alignment:2,color:"#ffaa00",glyph:""}
+data modify storage botc_patch:grim editor.score_catalog.s325 set from storage botc_patch:grim editor.catalog.wraith

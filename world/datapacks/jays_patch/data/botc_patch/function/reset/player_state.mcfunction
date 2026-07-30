@@ -1,6 +1,7 @@
 # Return an online user to normal player state during reset.
 scoreboard players operation @s botc_reset_seen = reset_generation botc_patch
 execute if entity @s[tag=botc_patch_night_chat] at @s run function botc_patch:night_chat/leave_silent
+function botc_patch:wraith/cleanup_player
 team leave @s
 gamemode adventure @s
 fmvariable set storyteller false false
@@ -85,6 +86,8 @@ clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setu
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_tb"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_snv"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_bmr"]}]
+clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_other_modes"]}]
+clear @s minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_tool:1b}]
 function botc_patch:setup_tools/clear_items
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_reset_game"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_advance_phase"]}]

@@ -138,3 +138,4 @@ execute if data storage botc_patch:grim editor.request{role:"lord_of_typhon"} if
 execute if data storage botc_patch:grim editor.request{role:"ojo"} if data storage ct:script in_characters{demons:["ojo"]} run function botc_patch:grim/editor/apply_character {role:"ojo",score:135}
 execute if data storage botc_patch:grim editor.request{role:"riot"} if data storage ct:script in_characters{demons:["riot"]} run function botc_patch:grim/editor/apply_character {role:"riot",score:136}
 execute if data storage botc_patch:grim editor.request{role:"yaggababble"} if data storage ct:script in_characters{demons:["yaggababble"]} run function botc_patch:grim/editor/apply_character {role:"yaggababble",score:137}
+execute if data storage botc_patch:grim editor.request{role:"wraith"} if data storage ct:script in_characters{minions:["wraith"]} run function botc_patch:grim/editor/apply_character {role:"wraith",score:325}

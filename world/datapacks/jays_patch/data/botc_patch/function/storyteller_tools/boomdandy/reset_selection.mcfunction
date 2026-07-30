@@ -4,5 +4,6 @@
 scoreboard players set boomdandy_selected botc_patch 0
 scoreboard players set boomdandy_actual_selected botc_patch 0
 tag @a remove botc_boomdandy_finalist
+tag @a remove botc_boomdandy_eliminate
 data remove storage botc_patch:dialogs boomdandy
 data remove storage botc_patch:dialogs boomdandy_selection
