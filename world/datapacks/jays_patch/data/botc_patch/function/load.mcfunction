@@ -40,6 +40,12 @@ scoreboard objectives add botc_item_maintenance dummy
 scoreboard objectives add botc_grim_notice_items dummy
 scoreboard objectives add botc_night_chat_seen dummy
 scoreboard objectives add botc_night_chat_items dummy
+scoreboard objectives add botc_wraith_use minecraft.used:minecraft.carrot_on_a_stick
+scoreboard objectives add botc_wraith_choice trigger
+scoreboard objectives add botc_wraith_mode dummy
+scoreboard objectives add botc_wraith_items dummy
+scoreboard objectives add botc_wraith_zone dummy
+scoreboard objectives add botc_wraith_seen_leave dummy
 scoreboard objectives add botc_hand_lamp_clock dummy
 scoreboard objectives add botc_pass_zone dummy
 scoreboard objectives add botc_pass_start dummy
@@ -84,7 +90,7 @@ execute unless score grim_notice_madness_done botc_patch matches 0..1 run scoreb
 execute unless score grim_notice_madness_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_madness_menu_seen botc_patch 0
 execute unless score grim_notice_boomdandy_seen botc_patch matches 0..1 run scoreboard players set grim_notice_boomdandy_seen botc_patch 0
 execute unless score grim_notice_boomdandy_done botc_patch matches 0..1 run scoreboard players set grim_notice_boomdandy_done botc_patch 0
-execute unless score boomdandy_stage botc_patch matches 0..2 run scoreboard players set boomdandy_stage botc_patch 0
+execute unless score boomdandy_stage botc_patch matches 0..5 run scoreboard players set boomdandy_stage botc_patch 0
 execute unless score boomdandy_selected botc_patch matches 0..3 run scoreboard players set boomdandy_selected botc_patch 0
 execute unless score grim_notice_pending botc_patch matches 0..1 run scoreboard players set grim_notice_pending botc_patch 0
 execute unless score reset_requested botc_patch matches -2147483648..2147483647 run scoreboard players set reset_requested botc_patch 0
@@ -98,6 +104,9 @@ execute unless score seat_layout_active_count botc_patch matches -1..15 run scor
 execute unless score seat_layout_target_count botc_patch matches 0..15 run scoreboard players set seat_layout_target_count botc_patch 0
 execute unless score seat_layout_locked_count botc_patch matches 0..15 run scoreboard players set seat_layout_locked_count botc_patch 0
 execute unless score seat_layout_poll botc_patch matches 0..10 run scoreboard players set seat_layout_poll botc_patch 10
+execute unless score wraith_night_active botc_patch matches 0..1 run scoreboard players set wraith_night_active botc_patch 0
+execute unless score wraith_visit_zone botc_patch matches 0..15 run scoreboard players set wraith_visit_zone botc_patch 0
+execute unless score wraith_previous_zone botc_patch matches 0..15 run scoreboard players set wraith_previous_zone botc_patch 0
 scoreboard players set ghost_marker_13 botc_patch 0
 scoreboard players set ghost_marker_14 botc_patch 0
 scoreboard players set ghost_marker_15 botc_patch 0
@@ -134,5 +143,6 @@ function botc_patch:config/owners
 function botc_patch:grim/editor/roles/init
 execute if score phase game_data matches 0 run function botc_patch:grim/editor/clear_game
 function botc_patch:night_chat/init_group
+function botc_patch:buffet/load
 function botc_patch:repair/static_markers
 schedule function botc_patch:startup/yawp_init 20s replace

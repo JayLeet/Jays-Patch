@@ -5,8 +5,7 @@
 
 function-permission-level=3
 spawn-protection=0
-resource-pack=https://download.mc-packs.net/pack/1441b43c2a7300679f10fa1cf2254ce93e922043.zip
-resource-pack-sha1=1441b43c2a7300679f10fa1cf2254ce93e922043
-resource-pack-id=3c91f0a2-7ecc-443d-b5b2-4b072fe10e78
-require-resource-pack=false
+resource-pack=https://download.mc-packs.net/pack/5f3b624c1e7f488c969adefa5e6673f8a724348b.zip
+resource-pack-id=b3fed73e-fec2-4de2-b34b-236a7d1095fe
 resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
+resource-pack-sha1=5f3b624c1e7f488c969adefa5e6673f8a724348b

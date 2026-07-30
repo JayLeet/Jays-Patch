@@ -1,0 +1,4 @@
+# Open Jay's server-controlled special setup mode picker.
+tag @s add botc_setup_room_used
+scoreboard players enable @s botc_buffet_action
+dialog show @s {type:"multi_action",title:{text:"Other Gamemodes",color:"gold",bold:true},body:[{type:"plain_message",contents:{text:"Choose a gamemode.",color:"gray"},width:380}],columns:2,actions:[{label:{text:"Greedy Whalebuffet",color:"gold",bold:true},tooltip:{text:"A chaotic gamemode with freedom of character choice. All characters are enabled.",color:"gray"},action:{type:"run_command",command:"/trigger botc_buffet_action set 1"}},{label:{text:"Draft Buffet",color:"aqua",bold:true},tooltip:{text:"A more balanced gamemode where players can draft between specific character choices. All characters are enabled.",color:"gray"},action:{type:"run_command",command:"/trigger botc_buffet_action set 2"}}],exit_action:{label:"Back"}}

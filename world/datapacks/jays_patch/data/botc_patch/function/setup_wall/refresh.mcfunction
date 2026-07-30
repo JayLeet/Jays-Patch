@@ -134,6 +134,7 @@ execute if score washerwoman role_list matches 1 as @e[type=minecraft:item_displ
 execute if score widow role_list matches 1 as @e[type=minecraft:item_display,tag=botc_setup_wall_widow] run function botc_patch:setup_wall/highlight_evil
 execute if score witch role_list matches 1 as @e[type=minecraft:item_display,tag=botc_setup_wall_witch] run function botc_patch:setup_wall/highlight_evil
 execute if score wizard role_list matches 1 as @e[type=minecraft:item_display,tag=botc_setup_wall_wizard] run function botc_patch:setup_wall/highlight_evil
+execute if score wraith role_list matches 1 as @e[type=minecraft:item_display,tag=botc_setup_wall_wraith] run function botc_patch:setup_wall/highlight_evil
 execute if score xaan role_list matches 1 as @e[type=minecraft:item_display,tag=botc_setup_wall_xaan] run function botc_patch:setup_wall/highlight_evil
 execute if score yaggababble role_list matches 1 as @e[type=minecraft:item_display,tag=botc_setup_wall_yaggababble] run function botc_patch:setup_wall/highlight_evil
 execute if score zealot role_list matches 1 as @e[type=minecraft:item_display,tag=botc_setup_wall_zealot] run function botc_patch:setup_wall/highlight_good

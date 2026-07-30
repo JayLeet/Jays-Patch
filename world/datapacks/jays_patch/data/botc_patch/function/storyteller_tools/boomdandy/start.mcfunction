@@ -6,7 +6,8 @@ execute unless entity @s[tag=storyteller] run return 0
 execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Boomdandy can only be resolved during nominations.",color:"red"}]
 execute unless entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run tellraw @s [{text:"The last executed player is not the Boomdandy.",color:"red"}]
 execute if score boomdandy_stage botc_patch matches 1 run return run function botc_patch:storyteller_tools/boomdandy/dialog
-execute if score boomdandy_stage botc_patch matches 2 run return run tellraw @s [{text:"Boomdandy has already been resolved this game.",color:"yellow"}]
+execute if score boomdandy_stage botc_patch matches 2..4 run return run tellraw @s [{text:"Boomdandy is already resolving.",color:"yellow"}]
+execute if score boomdandy_stage botc_patch matches 5 run return run tellraw @s [{text:"Boomdandy has already been resolved this game.",color:"yellow"}]
 function botc_patch:storyteller_tools/boomdandy/validate_population
 execute unless score boomdandy_population_ok botc_patch matches 1 run return 0
 function botc_patch:storyteller_tools/boomdandy/reset_selection

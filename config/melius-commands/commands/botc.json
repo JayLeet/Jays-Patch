@@ -441,9 +441,9 @@
                                                                }
                                                            ]
                                           },
-                                          {
-                                              "id":  "set_evil",
-                                              "executes":  [
+                                           {
+                                               "id":  "set_evil",
+                                               "executes":  [
                                                                {
                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/editor/set_evil",
                                                                    "as_console":  true,
@@ -451,10 +451,32 @@
                                                                    "op_level":  4
                                                                }
                                                            ]
-                                          },
-                                          {
-                                              "id":  "clear",
-                                              "executes":  [
+                                           },
+                                           {
+                                               "id":  "show_spy_grimoire",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/true_grimoire/spy",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                           },
+                                           {
+                                               "id":  "show_widow_grimoire",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/true_grimoire/widow",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                           },
+                                           {
+                                               "id":  "clear",
+                                               "executes":  [
                                                                {
                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/clear",
                                                                    "as_console":  true,

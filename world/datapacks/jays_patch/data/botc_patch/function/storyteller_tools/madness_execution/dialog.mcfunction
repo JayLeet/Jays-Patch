@@ -3,7 +3,7 @@
 # Compacts only currently eligible seated players into a bounded Player (Role) dialog.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Madness executions are only available during nominations.",color:"red"}]
+execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Executions are only available during nominations.",color:"red"}]
 function botc_patch:grim/editor/refresh_live_roles
 function botc_patch:grim/editor/player_labels/prepare
 data remove storage botc_patch:dialogs madness_execution
@@ -68,7 +68,7 @@ execute if entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=15},li
 execute if entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=15},limit=1] run data modify storage botc_patch:dialogs lookup set value {source:15,target:0}
 execute if entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=15},limit=1] store result storage botc_patch:dialogs lookup.target int 1 run scoreboard players get @s botc_st_menu_slot
 execute if entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=15},limit=1] run function botc_patch:storyteller_tools/madness_execution/dialog/append with storage botc_patch:dialogs lookup
-execute if score @s botc_st_menu_slot matches 0 run tellraw @s [{text:"There are no alive seated players to execute.",color:"yellow"}]
+execute if score @s botc_st_menu_slot matches 0 run tellraw @s [{text:"There are no living seated players to execute.",color:"yellow"}]
 execute if score @s botc_st_menu_slot matches 1 run function botc_patch:storyteller_tools/madness_execution/dialog/count_1 with storage botc_patch:dialogs madness_execution
 execute if score @s botc_st_menu_slot matches 2 run function botc_patch:storyteller_tools/madness_execution/dialog/count_2 with storage botc_patch:dialogs madness_execution
 execute if score @s botc_st_menu_slot matches 3 run function botc_patch:storyteller_tools/madness_execution/dialog/count_3 with storage botc_patch:dialogs madness_execution

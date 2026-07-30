@@ -6,4 +6,4 @@ scoreboard players set boomdandy_selection_stale botc_patch 0
 execute as @a[tag=botc_boomdandy_finalist,tag=!dead,scores={id=1..15}] run scoreboard players add boomdandy_actual_selected botc_patch 1
 execute unless score boomdandy_actual_selected botc_patch = boomdandy_selected botc_patch run scoreboard players set boomdandy_selection_stale botc_patch 1
 execute if score boomdandy_selection_stale botc_patch matches 1 run function botc_patch:storyteller_tools/boomdandy/reset_selection
-execute if score boomdandy_selection_stale botc_patch matches 1 run tellraw @s [{text:"The final-three selection changed and was safely reset.",color:"yellow"}]
+execute if score boomdandy_selection_stale botc_patch matches 1 run tellraw @s [{text:"The selected finalists changed, so the selection was reset.",color:"yellow"}]

@@ -2,13 +2,14 @@
 
 Jay's Patch is my unofficial server-side add-on for
 [Sybillian's Blood on the Clocktower modpack](https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4).
-It adds circular seating, end-game Grimoire reveals, Night Chat and a private
-setup room. It also gives the Storyteller quicker access to Sybillian's tools.
+It adds circular seating, end-game Grimoire reveals and a private setup room.
+It also gives the Storyteller quicker access to Sybillian's tools and backports
+Night Chat from Sybillian's newer beta.
 
 I made it for **Sybillian's modpack 1.5.4** on
 **Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
 
-**[Download Jay's Patch v1.8.0](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.8.0.zip)**
+**[Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.9.0-beta.1.zip)**
 
 ## What does it add?
 
@@ -65,21 +66,38 @@ Custom imports keep their script name and author, ignore unrelated JSON fields
 and reject scripts that contain too many characters in one category. An invalid
 script does not clear the current setup.
 
-### 5. 🎙️ Night Chat
+### 5. 🎲 Beta game modes
 
-During the night, seated players inside a house receive a microphone in their
-second hotbar slot. Hold it to speak with anyone else holding a Night Chat
-microphone, even when they are in another house.
+Jay's Setup Bag includes two different ways to choose characters before the
+ordinary game begins.
+
+- **Greedy Whalebuffet** lets everyone submit private character preferences at
+  the same time. Players can also choose Dealer's Choice and leave the final
+  decision to the Storyteller.
+- **Draft Buffet** gives players private turns in a random order. Each player
+  chooses from a changing set of legal characters while the remaining setup
+  adjusts around earlier choices.
+
+Both modes return to Sybillian's normal game flow after the Storyteller reviews
+and starts the final setup. They are still beta features and need more live
+multiplayer testing.
+
+### 6. 🎙️ Night Chat
+
+This backports Sybillian's Night Chat from the 1.6.0 beta for servers using
+modpack 1.5.4. During the night, seated players inside a house receive a
+microphone in their second hotbar slot. Hold it to speak with anyone else
+holding a Night Chat microphone, even when they are in another house.
 
 Switch items or leave the house to return to the normal private voice area.
 
-### 6. 🎉 Winner reveals
+### 7. 🎉 Winner reveals
 
 Good and Evil each get a winner reveal with a short suspense sequence,
 sounds, titles and fireworks. The winning players also receive matching heads
 for the celebration.
 
-### 7. 🏡 Setup room and world edits
+### 8. 🏡 Setup room and world edits
 
 I added a dedicated setup room, changes to the inn and several interior and
 exterior touch-ups to the included world. These changes are why installation
@@ -94,8 +112,14 @@ replaces your existing world folder.
 - 🧑‍⚖️ **Storyteller queue** so players can join, leave and check their place in line.
 - 🗳️ **Votekicks** that show the current vote count and remove the player when the vote succeeds.
 - 👻 **Banshee voting controls** for single or double votes after the Banshee dies.
-- 🎭 **Character tools** for Fearmonger announcements, Banshee awakening, Al-Hadikhia targets, Cerenovus madness executions and Boomdandy.
-- 💥 **Boomdandy final three** lets the Storyteller choose exactly three living players before the countdown starts.
+- 🎭 **Character tools** for Fearmonger announcements, Banshee awakening,
+  Al-Hadikhia targets, Cerenovus madness executions and Boomdandy finales.
+- 👻 **Wraith support** with Closed, Peek and Eyes Open choices during the
+  night, including private visits and a chance for good players to spot the
+  Wraith.
+- 📕 **Spy and Widow Grimoire views** let the Storyteller show the true characters
+  in their personal Grimoire at the correct time.
+- 💥 **Boomdandy final three** removes every other chair, eliminates non-finalists one at a time and lets the survivors vote by standing near the player they want to die.
 - 💀 **Nomination deaths** let the Storyteller apply Golem, Witch and similar role-caused deaths without changing the vote or execution.
 - ✊ **Rock Paper Scissors** lets the Storyteller start Sybillian's original
   two-player countdown from Grimoire Tools after both players make their choice.
@@ -123,7 +147,7 @@ Do not install only the `jays_patch` datapack folder.
 1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
 2. Start the server once, then stop it completely.
 3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.8.0](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.8.0.zip) and extract it.
+4. [Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.9.0-beta.1.zip) and extract it.
 5. Replace your server's `world` folder with the included `world` folder.
 6. Copy the included `config` folder into your server folder. Merge it with the
    existing `config` folder and replace files when asked.
@@ -136,11 +160,10 @@ Do not install only the `jays_patch` datapack folder.
 ```properties
 function-permission-level=3
 spawn-protection=0
-resource-pack=https://download.mc-packs.net/pack/1441b43c2a7300679f10fa1cf2254ce93e922043.zip
-resource-pack-sha1=1441b43c2a7300679f10fa1cf2254ce93e922043
-resource-pack-id=3c91f0a2-7ecc-443d-b5b2-4b072fe10e78
-require-resource-pack=false
+resource-pack=https://download.mc-packs.net/pack/5f3b624c1e7f488c969adefa5e6673f8a724348b.zip
+resource-pack-id=b3fed73e-fec2-4de2-b34b-236a7d1095fe
 resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
+resource-pack-sha1=5f3b624c1e7f488c969adefa5e6673f8a724348b
 ```
 
 If the hosted resource pack stops working, upload

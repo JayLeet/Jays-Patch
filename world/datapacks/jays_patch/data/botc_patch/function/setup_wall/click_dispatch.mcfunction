@@ -133,6 +133,7 @@ execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_wash
 execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_widow] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"widow",name:"Widow"}
 execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_witch] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"witch",name:"Witch"}
 execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_wizard] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"wizard",name:"Wizard"}
+execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_wraith] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"wraith",name:"Wraith"}
 execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_xaan] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"xaan",name:"Xaan"}
 execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_yaggababble] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"yaggababble",name:"Yaggababble"}
 execute if score phase game_data matches 0 if entity @s[tag=botc_setup_wall_zealot] on target if entity @s[tag=storyteller] run function botc_patch:setup_wall/toggle {character:"zealot",name:"Zealot"}
