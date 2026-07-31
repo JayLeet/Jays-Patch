@@ -1657,6 +1657,58 @@ internal static partial class BotcLauncher
         File.WriteAllLines(path, lines.ToArray(), new UTF8Encoding(false));
     }
 
+    private static void SetPropertiesFileValuesInOrder(
+        string path,
+        Dictionary<string, string> values,
+        string[] orderedKeys,
+        string[] removedKeys)
+    {
+        string dir = Path.GetDirectoryName(path);
+        if (!Directory.Exists(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
+
+        List<string> lines = File.Exists(path) ? File.ReadAllLines(path).ToList() : new List<string>();
+        int insertionIndex = lines.Count;
+        HashSet<string> keys = new HashSet<string>(orderedKeys, StringComparer.OrdinalIgnoreCase);
+        foreach (string key in removedKeys)
+        {
+            keys.Add(key);
+        }
+
+        for (int i = lines.Count - 1; i >= 0; i--)
+        {
+            int separator = lines[i].IndexOf('=');
+            if (separator < 0)
+            {
+                continue;
+            }
+
+            string key = lines[i].Substring(0, separator).Trim();
+            if (!keys.Contains(key))
+            {
+                continue;
+            }
+
+            insertionIndex = Math.Min(insertionIndex, i);
+            lines.RemoveAt(i);
+        }
+
+        foreach (string key in orderedKeys)
+        {
+            if (!values.ContainsKey(key))
+            {
+                throw new Exception("Missing ordered property value: " + key);
+            }
+        }
+
+        lines.InsertRange(
+            insertionIndex,
+            orderedKeys.Select(key => key + "=" + values[key]));
+        File.WriteAllLines(path, lines.ToArray(), new UTF8Encoding(false));
+    }
+
     private static List<string> GetCustomBackupPaths()
     {
         string[] candidates =

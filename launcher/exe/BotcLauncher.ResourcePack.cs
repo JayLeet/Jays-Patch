@@ -34,7 +34,6 @@ internal static partial class BotcLauncher
             string configuredUrl = RequiredProperty(configured, "resource-pack");
             string configuredSha1 = RequiredProperty(configured, "resource-pack-sha1").ToLowerInvariant();
             string configuredId = RequiredProperty(configured, "resource-pack-id");
-            string configuredRequired = RequiredProperty(configured, "require-resource-pack").ToLowerInvariant();
 
             if (!Regex.IsMatch(configuredSha1, "^[0-9a-f]{40}$"))
             {
@@ -45,11 +44,6 @@ internal static partial class BotcLauncher
             {
                 throw new Exception("Invalid resource-pack-id in " + RequiredServerPropertiesFile);
             }
-            if (configuredRequired != "true" && configuredRequired != "false")
-            {
-                throw new Exception("require-resource-pack must be true or false in " + RequiredServerPropertiesFile);
-            }
-
             string resourcePackUrl = GetSetting("BOTC_RESOURCE_PACK_URL", configuredUrl).Trim();
             string serverResourcePackSha1 = configuredSha1;
             string serverResourcePackId = configuredId;
@@ -80,9 +74,18 @@ internal static partial class BotcLauncher
             values["resource-pack"] = resourcePackUrl;
             values["resource-pack-sha1"] = serverResourcePackSha1;
             values["resource-pack-id"] = serverResourcePackId;
-            values["require-resource-pack"] = configuredRequired;
             values["resource-pack-prompt"] = Branding.ResourcePackPrompt();
-            SetPropertiesFileValues(Path.Combine(ServerDataDir, "server.properties"), values);
+            SetPropertiesFileValuesInOrder(
+                Path.Combine(ServerDataDir, "server.properties"),
+                values,
+                new[]
+                {
+                    "resource-pack",
+                    "resource-pack-id",
+                    "resource-pack-prompt",
+                    "resource-pack-sha1"
+                },
+                new[] { "require-resource-pack" });
 
             Detail("Local custom resource pack built: " + localZipPath);
             Detail("Custom resource pack URL configured from " + RequiredServerPropertiesFile);

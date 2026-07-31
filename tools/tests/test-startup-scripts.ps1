@@ -138,6 +138,9 @@ if ($sourceText -match 'if \(HeaderStatusTop >= 0\)\s*\{\s*int left = Console\.C
 
 Assert-TextContains $sourceText ([regex]::Escape("jays-patch-required-server-properties.txt")) "canonical resource-pack metadata source"
 Assert-TextContains $sourceText ([regex]::Escape("ReadRequiredServerProperties")) "resource-pack properties parser"
+Assert-TextContains $sourceText ([regex]::Escape("SetPropertiesFileValuesInOrder")) "ordered resource-pack properties writer"
+Assert-TextContains $sourceText '\"resource-pack\"[\s\S]*?\"resource-pack-id\"[\s\S]*?\"resource-pack-prompt\"[\s\S]*?\"resource-pack-sha1\"' "resource-pack properties stay in the screenshot copy-paste order"
+Assert-TextContains $sourceText 'new\[\] \{ \"require-resource-pack\" \}' "launcher removes the unnecessary explicit resource-pack requirement"
 Assert-TextContains $sourceText ([regex]::Escape("ZipContentsMatchDirectory")) "content-based hosted resource-pack comparison"
 if ($sourceText -match 'Settings\["BOTC_RESOURCE_PACK_URL"\]\s*=\s*"https?://' -or
     $sourceText -match 'values\["resource-pack-id"\]\s*=\s*"[0-9a-fA-F-]{36}"') {
