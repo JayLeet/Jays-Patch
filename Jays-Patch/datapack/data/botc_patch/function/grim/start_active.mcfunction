@@ -22,6 +22,6 @@ scoreboard players reset @a botc_grim_edit_alignment
 scoreboard players reset @a botc_grim_edit_valid
 time set midnight
 gamerule doDaylightCycle false
-item replace entity @s hotbar.5 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["grim_reveal_menu"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Storyteller Tools",color:"gold",bold:true,italic:false}]]
+item replace entity @s hotbar.5 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["grim_reveal_menu"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Storyteller Tools",color:"gold",bold:false,italic:false}]]
 scoreboard players set botc_item_maintenance_pending botc_patch 1
 function botc_patch:grim/sweep/start

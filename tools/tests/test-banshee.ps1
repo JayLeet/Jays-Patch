@@ -26,6 +26,18 @@ function Assert-Contains {
     }
 }
 
+function Assert-DoesNotContain {
+    param(
+        [string] $Text,
+        [string] $Pattern,
+        [string] $Description
+    )
+
+    if ($Text -match $Pattern) {
+        throw "Unexpected $Description"
+    }
+}
+
 $load = Read-RequiredFile (Join-Path $FunctionRoot "load.mcfunction")
 $tick = Read-RequiredFile (Join-Path $FunctionRoot "tick.mcfunction")
 $bansheeTick = Read-RequiredFile (Join-Path $FunctionRoot "banshee/tick.mcfunction")
@@ -36,6 +48,9 @@ $voteBonus = Read-RequiredFile (Join-Path $FunctionRoot "banshee/stage_vote_bonu
 $awaken = Read-RequiredFile (Join-Path $FunctionRoot "grim/awaken_banshee.mcfunction")
 $confirm = Read-RequiredFile (Join-Path $FunctionRoot "grim/confirm.mcfunction")
 $confirmBanshee = Read-RequiredFile (Join-Path $FunctionRoot "grim/confirm/options_2.mcfunction")
+$notificationAcknowledge = Read-RequiredFile (Join-Path $FunctionRoot "grim/notifications/acknowledge_outer.mcfunction")
+$notificationDashboard = Read-RequiredFile (Join-Path $FunctionRoot "grim/notifications/prepare_dashboard.mcfunction")
+$notificationTick = Read-RequiredFile (Join-Path $FunctionRoot "grim/notifications/tick.mcfunction")
 $reset = Read-RequiredFile (Join-Path $FunctionRoot "reset/player_state.mcfunction")
 $commands = Read-RequiredFile (Join-Path $RepoRoot "Jays-Patch/melius-commands/commands/botc.json")
 $registry = Get-Content -LiteralPath (Join-Path $RepoRoot "Jays-Patch/tool-items.json") -Raw | ConvertFrom-Json
@@ -44,7 +59,10 @@ Assert-Contains $load 'scoreboard objectives add botc_banshee_use minecraft\.use
 Assert-Contains $load 'scoreboard objectives add botc_banshee_items dummy' "Banshee item maintenance objective"
 Assert-Contains $tick 'function botc_patch:banshee/tick' "Banshee tick integration"
 
-Assert-Contains $awaken 'tag=!storyteller,tag=!spectator,tag=dead,tag=!active_banshee,scores=\{id=1\.\.15,role=55\}' "dead in-play local Banshee activation guard"
+Assert-Contains $awaken 'tag=!storyteller,tag=!spectator,tag=!active_banshee,scores=\{id=1\.\.15,role=55\}' "alive-or-dead in-play local Banshee activation guard"
+foreach ($bansheePath in @($awaken, $confirm, $notificationAcknowledge, $notificationDashboard, $notificationTick)) {
+    Assert-DoesNotContain $bansheePath 'tag=dead[^\r\n]*role=55' "dead-only Banshee announcement gate"
+}
 Assert-Contains $awaken 'tag @a\[tag=botc_banshee_newly_active\] remove botc_banshee_double_vote' "safe x1 activation default"
 Assert-Contains $awaken 'function ct:cmd/banshee/announce' "Sybillian Banshee announcement reuse"
 Assert-Contains $confirm 'role=55.*grim_confirm_options botc_patch 2' "Banshee contextual option bit"

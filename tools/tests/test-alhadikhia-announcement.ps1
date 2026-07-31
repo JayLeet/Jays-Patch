@@ -43,8 +43,8 @@ $announceSeat = Read-RequiredFile (Join-Path $FunctionRoot "grim/alhadikhia/anno
 $commands = Read-RequiredFile $CommandPath
 
 Assert-Contains $confirm 'scores=\{id=1\.\.15,role=128\}.*grim_confirm_options botc_patch 4' "Al-Hadikhia contextual option bit"
-Assert-NotContains $withoutAlhadikhia 'Announce Al-Hadikhia Target' "Al-Hadikhia action when its option bit is absent"
-Assert-Contains $withAlhadikhia 'Announce Al-Hadikhia Target' "contextual Al-Hadikhia action"
+Assert-NotContains $withoutAlhadikhia 'text:" Al-Hadikhia"' "Al-Hadikhia action when its option bit is absent"
+Assert-Contains $withAlhadikhia 'text:" Al-Hadikhia"' "contextual Al-Hadikhia action"
 Assert-Contains $withAlhadikhia '/botc grimoire announce_alhadikhia' "Al-Hadikhia picker command"
 
 $pickerDialogs = @(Get-ChildItem -LiteralPath (Join-Path $FunctionRoot "grim/alhadikhia/player_dialog") -Filter "count_*.mcfunction" -File)
@@ -53,7 +53,7 @@ if ($pickerDialogs.Count -ne 16) {
 }
 
 Assert-Contains $picker 'unless entity @s\[tag=storyteller\] run return 0' "Storyteller picker guard"
-Assert-Contains $picker 'unless score phase game_data matches 1\.\.' "active-game picker guard"
+Assert-Contains $picker 'unless score phase game_data matches 4' "night-only picker guard"
 Assert-Contains $picker 'grim_editor_reveal_started botc_patch matches 1' "pre-reveal picker guard"
 Assert-Contains $picker 'scores=\{id=1\.\.15,role=128\}' "in-play Al-Hadikhia picker guard"
 Assert-Contains $picker 'grim/editor/player_labels/prepare' "shared Player (Role) labels"
@@ -65,7 +65,7 @@ Assert-Contains $pickerThree 'announce_alhadikhia_seat 3' "third occupied-seat t
 Assert-NotContains $pickerThree 'after_action:"wait_for_response"' "terminal target-action wait state"
 
 Assert-Contains $announceSeat 'unless entity @s\[tag=storyteller\] run return 0' "Storyteller announcement guard"
-Assert-Contains $announceSeat 'unless score phase game_data matches 1\.\.' "active-game announcement guard"
+Assert-Contains $announceSeat 'unless score phase game_data matches 4' "night-only announcement guard"
 Assert-Contains $announceSeat 'grim_editor_reveal_started botc_patch matches 1' "pre-reveal announcement guard"
 Assert-Contains $announceSeat 'players\.p\$\(seat\)' "selected game-start seat lookup"
 Assert-Contains $announceSeat 'alhadikhia\.p set from storage ct:players' "literal target-name handoff"
