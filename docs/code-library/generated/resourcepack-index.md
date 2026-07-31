@@ -9,6 +9,7 @@
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `raise_hand` | `botc_patch:item/raise_hand` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `lower_hand` | `botc_patch:item/lower_hand` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `grim_reveal_menu` | `botc_patch:item/reveal_roles` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `grim_reveal_menu_notification` | `botc_patch:item/storyteller_tools_notification` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `music_selector` | `botc_patch:item/music_selector` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `storyteller_reset_game` | `botc_patch:item/reset_game` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `setup_reset_game` | `botc_patch:item/reset_game` |
@@ -38,6 +39,11 @@
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `setup_wall_clear` | `botc_patch:item/setup_wall_clear` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `setup_wall_use_bag` | `botc_patch:item/setup_wall_use_bag` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `setup_wall_start` | `botc_patch:item/setup_wall_start` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `setup_wall_other_modes` | `minecraft:item/nether_star` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `buffet_choices` | `minecraft:item/book` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `buffet_review` | `minecraft:item/spyglass` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `buffet_start` | `minecraft:item/emerald` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `buffet_take_seat` | `botc_patch:item/setup_become_player` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `script` | `minecraft:item/knowledge_book` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `grimoire` | `minecraft:item/grimoire` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `ct_bag` | `minecraft:item/ct_bag` |
@@ -84,6 +90,7 @@
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_baron` | `botc_patch:item/role/baron` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_boffin` | `botc_patch:item/role/boffin` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_boomdandy` | `botc_patch:item/role/boomdandy` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_boomdandy_notification` | `botc_patch:item/role_notification/boomdandy` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_bounty_hunter` | `botc_patch:item/role/bounty_hunter` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_butler` | `botc_patch:item/role/butler` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_cannibal` | `botc_patch:item/role/cannibal` |
@@ -184,6 +191,10 @@
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_shabaloth` | `botc_patch:item/role/shabaloth` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_shugenja` | `botc_patch:item/role/shugenja` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_slayer` | `botc_patch:item/role/slayer` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_slayer` | `botc_patch:item/role/slayer` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_boomdandy` | `botc_patch:item/role/boomdandy` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_hot_potato` | `botc_patch:item/role/imp` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_king` | `botc_patch:item/role/king` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_snake_charmer` | `botc_patch:item/role/snake_charmer` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_snitch` | `botc_patch:item/role/snitch` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_soldier` | `botc_patch:item/role/soldier` |
@@ -201,6 +212,7 @@
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_vizier` | `botc_patch:item/role/vizier` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_vortox` | `botc_patch:item/role/vortox` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_washerwoman` | `botc_patch:item/role/washerwoman` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_wraith` | `botc_patch:item/role/wraith` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_widow` | `botc_patch:item/role/widow` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_witch` | `botc_patch:item/role/witch` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_wizard` | `botc_patch:item/role/wizard` |
@@ -280,6 +292,7 @@
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `storyteller_revive_white` | `botc_patch:item/nomination/white` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `storyteller_revive_gray` | `botc_patch:item/nomination/gray` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `storyteller_revive_black` | `botc_patch:item/nomination/black` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `winner_firework` | `minecraft:item/firework_rocket` |
 | `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_acrobat` | `botc_patch:item/role/acrobat` |
 | `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_al_hadikhia` | `botc_patch:item/role/al_hadikhia` |
 | `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_alchemist` | `botc_patch:item/role/alchemist` |
@@ -411,6 +424,7 @@
 | `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_vizier` | `botc_patch:item/role/vizier` |
 | `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_vortox` | `botc_patch:item/role/vortox` |
 | `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_washerwoman` | `botc_patch:item/role/washerwoman` |
+| `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_wraith` | `botc_patch:item/role/wraith` |
 | `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_widow` | `botc_patch:item/role/widow` |
 | `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_witch` | `botc_patch:item/role/witch` |
 | `minecraft:paper` | `assets/minecraft/items/paper.json` | `botc_role_wizard` | `botc_patch:item/role/wizard` |
@@ -451,6 +465,7 @@
 | `assets/botc_patch/models/item/storyteller_passage.json` | `botc_patch:item/storyteller_passage` |
 | `assets/botc_patch/models/item/storyteller_post_kill.json` | `botc_patch:item/storyteller_post_kill` |
 | `assets/botc_patch/models/item/storyteller_revive.json` | `botc_patch:item/storyteller_revive` |
+| `assets/botc_patch/models/item/storyteller_tools_notification.json` | `botc_patch:item/notification/storyteller_tools` |
 | `assets/botc_patch/models/item/storyteller_tp_evil.json` | `botc_patch:item/storyteller_tp_evil` |
 | `assets/botc_patch/models/item/storyteller_tp_home.json` | `botc_patch:item/storyteller_tp_home` |
 | `assets/botc_patch/models/item/storyteller_tp_player_menu.json` | `botc_patch:item/storyteller_tp_player_menu` |
@@ -458,7 +473,7 @@
 
 ## Role Icon Models
 
-Total role models: 138
+Total role models: 139
 
 | Role | Texture references |
 | --- | --- |
@@ -596,6 +611,7 @@ Total role models: 138
 | `widow` | `botc_patch:item/role/widow` |
 | `witch` | `botc_patch:item/role/witch` |
 | `wizard` | `botc_patch:item/role/wizard` |
+| `wraith` | `botc_patch:item/role/wraith` |
 | `xaan` | `botc_patch:item/role/xaan` |
 | `yaggababble` | `botc_patch:item/role/yaggababble` |
 | `zealot` | `botc_patch:item/role/zealot` |
