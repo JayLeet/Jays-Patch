@@ -52,10 +52,10 @@ if (($expectedPicks -join ',') -ne ($actualPicks -join ',')) {
 }
 
 $menuActions = [System.Collections.Generic.List[string]]::new()
-$menuActions.Add('{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "music") -Font "botc_patch:ui_icons" -Text "Resume Current" -Color "green" -Bold $true) + ',action:{type:"run_command",command:"/trigger botc_music_select set 2"}}')
-$menuActions.Add('{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "random") -Font "botc_patch:ui_icons" -Text "Random Track" -Color "gold" -Bold $true) + ',action:{type:"run_command",command:"/trigger botc_music_select set 3"}}')
-$menuActions.Add('{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "pitch") -Font "botc_patch:ui_icons" -Text "Toggle Pitch" -Color "aqua" -Bold $true) + ',action:{type:"run_command",command:"/trigger botc_music_select set ' + [int] $music.togglePitchTrigger + '"}}')
-$menuActions.Add('{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "off") -Font "botc_patch:ui_icons" -Text "Turn Off" -Color "dark_red" -Bold $true) + ',action:{type:"run_command",command:"/trigger botc_music_select set 1"}}')
+$menuActions.Add('{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "music") -Font "botc_patch:ui_icons" -Text "Resume Current" -Color "green") + ',action:{type:"run_command",command:"/trigger botc_music_select set 2"}}')
+$menuActions.Add('{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "random") -Font "botc_patch:ui_icons" -Text "Random Track" -Color "gold") + ',action:{type:"run_command",command:"/trigger botc_music_select set 3"}}')
+$menuActions.Add('{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "pitch") -Font "botc_patch:ui_icons" -Text "Toggle Pitch" -Color "aqua") + ',action:{type:"run_command",command:"/trigger botc_music_select set ' + [int] $music.togglePitchTrigger + '"}}')
+$menuActions.Add('{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "off") -Font "botc_patch:ui_icons" -Text "Turn Off" -Color "dark_red") + ',action:{type:"run_command",command:"/trigger botc_music_select set 1"}}')
 foreach ($track in @($tracks | Sort-Object { [int] $_.menuOrder })) {
     $label = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "music_$($track.id)") -Font "botc_patch:ui_icons" -Text ([string] $track.label) -Color "white"
     $menuActions.Add('{label:' + $label + ',action:{type:"run_command",command:"/trigger botc_music_select set ' + [int] $track.trigger + '"}}')

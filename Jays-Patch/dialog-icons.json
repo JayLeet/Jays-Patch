@@ -121,6 +121,11 @@
       "id": "boomdandy",
       "codePoint": "E117",
       "texture": "botc_patch:item/role/boomdandy.png"
+    },
+    {
+      "id": "next",
+      "codePoint": "E118",
+      "texture": "botc_patch:item/next.png"
     }
   ]
 }

@@ -404,6 +404,12 @@ Tasks:
 - [x] Put `Announce Fearmonger` in the pre-reveal Storyteller confirmation
   without consuming another hotbar slot, and show it only while Fearmonger is
   actually in play.
+- [x] Add one-time-per-game, icon-only notification badges for the contextual
+  Fearmonger, Banshee, Al-Hadikhia, Cerenovus madness, and Boomdandy actions.
+  Opening Storyteller Tools clears its outer badge, opening Grimoire Tools
+  clears the parent-menu badge, and using an action clears its role-icon badge
+  until the next game starts. Scope actions to night, nominations, or
+  post-execution as appropriate.
 - [x] Complete Sybillian 1.5.4's Banshee scaffold through a Jay-owned adapter:
   contextual Storyteller activation, reusable dead votes, and a player-owned
   nomination-phase x1/x2 vote toggle that defaults to x1. Keep the second
@@ -490,6 +496,62 @@ Tasks:
 - [x] Sanitize active participant inventories before Sybillian builds the next
   game inventory, while excluding Storytellers and spectators.
 
+## Night Chat Backport
+
+- [x] Audit Sybillian's 1.6.0 beta Night Chat implementation and the current
+  1.5.4 InstantGroup voice router.
+- [x] Prove that a separate repeating Night Chat join would fight the current
+  location router and risk repeated group switching.
+- [x] Add an active compatibility router pinned to the exact 1.5.4
+  `ct:loop/player/join_vc` SHA-256.
+- [x] Add a fail-closed generator that preserves the upstream router and guards
+  only its 25 voice-group commands while Night Chat is active.
+- [x] Add static checks proving the generated router, active load/tick routes,
+  item lifecycle, reconnect behavior, and Sybillian microphone mapping.
+- [x] On the local development server, confirm highest-priority router loading,
+  normal location routing when untagged, complete suppression while tagged,
+  idempotent group initialization, phase/eligibility cleanup, one-shot
+  reconnect handling, and clean current-window logs with Carpet players.
+- [x] Activate the player-facing Night Chat hold item through the shared
+  maintenance cycle and duplicate/drop cleanup. Keep exactly one microphone in
+  visual slot 2 only while a seated player is inside a player house at night;
+  holding it joins Night Chat and selecting another item restores normal
+  location voice routing.
+- [ ] Confirm actual cross-house audio with two real clients on the local
+  development server, including manual leave, movement between voice zones,
+  and a same-night reconnect.
+- [ ] Do not publish Night Chat in the public package until Jay confirms the
+  two-real-client audio QA passes.
+
+## Wraith Backport
+
+- [x] Add Wraith as Jay-owned role `325` without changing Sybillian's pinned
+  1.5.4 role catalog.
+- [x] Generate setup-wall, custom-import, grimoire-editor, reveal, translation,
+  model, texture, and dialog-glyph support from the shared role extension.
+- [x] Add night-only Closed, Peek, and Eyes Open modes with assigned-house
+  restoration, Storyteller house-visit tracking, Night Chat isolation, and
+  cleanup for role loss, death, invalid seating, disconnect, reset, and dawn.
+- [x] Use an exact 7% discovery roll for a Good house. A successful roll makes
+  the Wraith visible in adventure mode for that visit and gives only the Good
+  player who caught them a noticeable sound cue; Evil-house visits are always
+  visible and never grant creative mode.
+- [ ] Live-test one Wraith and one Storyteller through Peek, hidden Eyes Open,
+  successful discovery, Evil-house visibility, deliberate exit, Storyteller
+  exit, reconnect, role loss, death, reset, and dawn.
+
+## Spy And Widow Grimoire
+
+- [x] Add contextual Storyteller Grimoire Tools buttons only while a living Spy
+  or Widow is in play.
+- [x] Keep the Spy control night-only and the Widow control first-night-only.
+- [x] Refresh the matching player's existing personal Grimoire from Jay's
+  current effective role snapshot instead of adding a second custom book.
+- [x] Keep the true Grimoire private to the matching role-holder and never open
+  the Storyteller-facing Grimoire for them.
+- [ ] Live-test the Spy and Widow paths with non-op Storyteller authority and a
+  second real client.
+
 ## Implementation Notes
 
 - Do not jump straight to a Fabric plugin or full Fabric mod. Use the escalation
@@ -554,6 +616,8 @@ These items are intentionally outside the active stabilization goal.
 - [x] `/botc vote-kick <player>`
 - [x] `/botc vote-remove`
 - [x] `/botc queue help`
+- [ ] `/botc give imp` — Storyteller-only; give the issuing Storyteller an Imp
+  token for manual use.
 
 ### Owner Immunity
 

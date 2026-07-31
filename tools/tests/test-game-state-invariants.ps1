@@ -63,6 +63,11 @@ $dashboardOpen = Read-Function "storyteller_tools/dashboard/open.mcfunction"
 $storytellerToolTick = Read-Function "storyteller_tools/tick.mcfunction"
 $postExecutionRow = Read-Function "storyteller_tools/post_execution/replace_items.mcfunction"
 $postExecutionBoomdandy = Read-Function "storyteller_tools/post_execution/boomdandy.mcfunction"
+$boomdandyStart = Read-Function "storyteller_tools/boomdandy/start.mcfunction"
+$boomdandyConfirm = Read-Function "storyteller_tools/boomdandy/confirm.mcfunction"
+$boomdandyEliminate = Read-Function "storyteller_tools/boomdandy/eliminate_one.mcfunction"
+$boomdandyAnnouncementFinish = Read-Function "storyteller_tools/boomdandy/announce/finish.mcfunction"
+$boomdandyResolveVote = Read-Function "storyteller_tools/boomdandy/resolve_vote.mcfunction"
 
 # Offline reset cleanup must happen before queue promotion can inspect stale
 # Storyteller tags on a returning player.
@@ -96,19 +101,24 @@ Assert-DoesNotContain $queueTick 'matches 1\.\..*tag=botc_queue,tag=!storyteller
 
 # Temporary Storyteller action states must close when their owning phase ends.
 Assert-Contains $passiveTick 'unless score phase game_data matches 1\.\.2.*botc_st_revive_menu.*revive_menu/close' "Revive menu closes outside live day"
-Assert-Contains $passiveTick 'unless score phase game_data matches 1\.\.2.*botc_st_kill_menu.*kill_menu/close' "Kill menu closes outside live day"
+Assert-Contains $passiveTick 'unless score phase game_data matches 1\.\.3.*botc_st_kill_menu.*kill_menu/close' "Kill menu closes outside live day or nominations"
 Assert-Contains $passiveTick 'unless score phase game_data matches 3.*botc_st_nom_menu.*nomination_menu/close' "Nomination menu closes outside nomination phase"
 Assert-Contains $passiveTick 'unless score phase game_data matches 3 run tag @a remove botc_st_post_execution' "post-execution state clears outside nomination phase"
 
-# Boomdandy is a server-authority post-execution tool, not a restored public
-# command alias. Both the click route and wrapper must retain their guards.
+# Boomdandy remains a server-authority post-execution tool, but Jay's Patch
+# must select the final three before starting Sybillian's countdown.
 Assert-Contains $postExecutionRow 'hotbar\.2.*strings:\["botc_role_boomdandy"\]' "post-execution row gives Boomdandy in visual slot 3"
-Assert-Contains $postExecutionRow 'if entity @a\[tag=!storyteller,tag=!spectator,scores=\{id=1\.\.15,role=107\}\].*hotbar\.2' "post-execution Boomdandy item requires the role in play"
+Assert-Contains $postExecutionRow 'if entity @a\[tag=botc_st_last_executed,scores=\{id=1\.\.15,role=107\}\].*hotbar\.2' "post-execution Boomdandy item requires an executed Boomdandy"
 Assert-Contains $storytellerToolTick 'unless score patch_dialog_mode botc_patch matches 1 if score phase game_data matches 3 as @a\[tag=storyteller,tag=botc_st_post_execution.*strings:\["botc_role_boomdandy"\].*post_execution/boomdandy' "Boomdandy item click requires item mode, Storyteller, and post-execution state"
-Assert-Contains $postExecutionBoomdandy 'unless entity @s\[tag=storyteller,tag=botc_st_post_execution\] run return 0' "Boomdandy wrapper repeats its caller-state guard"
-Assert-Contains $postExecutionBoomdandy 'unless score phase game_data matches 3 run return 0' "Boomdandy wrapper requires nomination phase"
-Assert-Contains $postExecutionBoomdandy 'unless entity @a\[tag=!storyteller,tag=!spectator,scores=\{id=1\.\.15,role=107\}\] run return 0' "Boomdandy wrapper rechecks that the role is in play"
-Assert-Contains $postExecutionBoomdandy '(?m)^function ct:loop/boomdandy/start\s*$' "Boomdandy wrapper calls Sybillian's implementation"
+Assert-Contains $postExecutionBoomdandy '(?m)^function botc_patch:storyteller_tools/boomdandy/start\s*$' "Boomdandy wrapper enters Jay's final-three flow"
+Assert-Contains $boomdandyStart 'unless entity @s\[tag=storyteller\] run return 0' "Boomdandy start repeats its Storyteller guard"
+Assert-Contains $boomdandyStart 'unless score phase game_data matches 3 run return' "Boomdandy start requires nomination phase"
+Assert-Contains $boomdandyStart 'unless entity @a\[tag=botc_st_last_executed,scores=\{id=1\.\.15,role=107\},limit=1\] run return' "Boomdandy start rechecks the executed role"
+Assert-Contains $boomdandyConfirm 'tag @a\[tag=!storyteller,tag=!spectator,tag=!dead,tag=!botc_boomdandy_finalist,scores=\{id=1\.\.15\}\] add botc_boomdandy_eliminate' "Boomdandy confirmation snapshots unselected living players"
+Assert-Contains $boomdandyConfirm 'boomdandy_elimination_timer botc_patch 30' "Boomdandy confirmation delays the first death"
+Assert-Contains $boomdandyEliminate '(?m)^function ct:kill/die\s*$' "Boomdandy delayed elimination uses ordinary Sybillian death"
+Assert-Contains $boomdandyAnnouncementFinish '(?m)^function ct:loop/boomdandy/start\s*$' "Boomdandy starts Sybillian's countdown only after the warning"
+Assert-Contains $boomdandyResolveVote 'boomdandy_votes_1 botc_patch matches 2\.\.' "Boomdandy resolution requires a strict finalist majority"
 
 # Character changes are legal only during an active game and before the reveal
 # snapshot is locked. Reveal start must set that lock; setup cleanup must clear it.
@@ -135,8 +145,8 @@ Assert-Contains $patchSybillian 'scoreboard players set patch_items_enabled botc
 Assert-Contains $patchSybillian 'scoreboard players set patch_setup_bag_enabled botc_patch 0' "Sybillian setup-bag state disables only Jay's setup bag"
 Assert-DoesNotContain $patchSybillian 'scoreboard players set patch_items_enabled botc_patch 0' "Sybillian setup-bag state disables all Jay items"
 Assert-Contains $patchDisabled 'scoreboard players set patch_items_enabled botc_patch 0[\s\S]*scoreboard players set patch_setup_bag_enabled botc_patch 0[\s\S]*scoreboard players set patch_dialog_mode botc_patch 0' "disabled state clears all mode flags"
-Assert-Contains $patchSybillian 'You need OP to start the game in this mode.*color":"red","bold":true' "Sybillian setup-bag state warns that OP is required"
-Assert-Contains $patchDisabled 'You need OP to start the game in this mode.*color":"red","bold":true' "Jay-items-disabled state warns that OP is required"
+Assert-Contains $patchSybillian '"text":"! ","color":"red","bold":true.*"text":"OP","color":"yellow","bold":true.*to start the game in this mode' "Sybillian setup-bag state explains that OP is required"
+Assert-Contains $patchDisabled '"text":"! ","color":"red","bold":true.*"text":"OP","color":"yellow","bold":true.*to start the game in this mode' "Jay-items-disabled state explains that OP is required"
 
 # Dialog actions are client-submitted trigger values. Authority, mode, and
 # phase are rechecked server-side before any existing wrapper is called.
@@ -147,7 +157,8 @@ Assert-Contains $dashboardRoute 'unless score patch_dialog_mode botc_patch match
 Assert-Contains $dashboardRoute 'matches 14 if score phase game_data matches 4 run function botc_patch:storyteller_tools/teleport_evil' "dashboard preserves the evil-team submenu"
 Assert-Contains $dashboardRoute 'matches 18 if score phase game_data matches 3.*nomination_menu/open' "dashboard preserves the nomination player submenu"
 Assert-Contains $dashboardRoute 'matches 21 if score phase game_data matches 1\.\. run function botc_patch:grim/confirm' "dashboard preserves Grimoire Tools submenus"
-Assert-Contains $dashboardOpen 'matches 3 if entity @s\[tag=botc_st_post_execution\].*post_execution' "dashboard selects the post-execution control set"
+Assert-Contains $dashboardOpen 'matches 3 if entity @s\[tag=botc_st_post_execution,tag=!botc_st_post_kill_resolved\].*post_execution' "dashboard selects the unresolved post-execution control set"
+Assert-Contains $dashboardOpen 'matches 3 if entity @s\[tag=botc_st_post_execution,tag=botc_st_post_kill_resolved\].*post_execution_resolved' "dashboard selects the resolved post-execution control set"
 
 # Distributed world templates can persist scoreboard values. A versioned,
 # one-time migration must establish the documented fresh-install state before

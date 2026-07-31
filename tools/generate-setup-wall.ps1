@@ -8,6 +8,7 @@ $CtFunctionRoot = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/
 $CtCharactersPath = Join-Path $CtFunctionRoot "admin/setup/characters.mcfunction"
 $CtSetFromMenuPath = Join-Path $CtFunctionRoot "admin/setup/set_from_menu.mcfunction"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
+$RoleExtensionPath = Join-Path $RepoRoot "Jays-Patch/role-extensions.json"
 $BaseScriptsPath = Join-Path $RepoRoot "Jays-Patch/base-scripts.json"
 $InvariantCulture = [Globalization.CultureInfo]::InvariantCulture
 $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
@@ -74,7 +75,7 @@ function Write-GeneratedFile {
 }
 
 . $RoleCatalogHelper
-$roleCatalog = @(Get-SybillianRoleCatalog -SetFromMenuPath $CtSetFromMenuPath -CharactersPath $CtCharactersPath)
+$roleCatalog = @(Get-SybillianRoleCatalog -SetFromMenuPath $CtSetFromMenuPath -CharactersPath $CtCharactersPath -ExtensionPath $RoleExtensionPath)
 $setupWallRoles = @(
     $roleCatalog | ForEach-Object {
         [pscustomobject]@{

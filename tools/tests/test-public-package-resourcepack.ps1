@@ -216,7 +216,7 @@ function Assert-MirroredTree {
 }
 
 $expectedProperties = Read-PropertiesFile $RequiredProperties
-foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "require-resource-pack", "resource-pack-prompt")) {
+foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "resource-pack-prompt")) {
     if (-not $expectedProperties.ContainsKey($key)) {
         throw "Missing $key in source required server properties: $RequiredProperties"
     }
@@ -225,7 +225,7 @@ foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "r
 $expectedUrl = $expectedProperties["resource-pack"]
 $expectedSha1 = $expectedProperties["resource-pack-sha1"]
 $expectedId = $expectedProperties["resource-pack-id"]
-$expectedRequire = $expectedProperties["require-resource-pack"]
+$expectedRequire = "false"
 $expectedPrompt = $expectedProperties["resource-pack-prompt"]
 
 if (Test-Path -LiteralPath $ResourcePackZip -PathType Leaf) {

@@ -1448,6 +1448,17 @@
                                 {
                                     "when":  {
                                                  "strings":  [
+                                                                 "botc_role_wraith"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/wraith"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
                                                                  "botc_role_widow"
                                                              ]
                                              },

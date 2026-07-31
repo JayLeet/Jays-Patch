@@ -6,8 +6,8 @@ function Get-JaysPatchVersion {
     }
 
     $version = (Get-Content -LiteralPath $Path -Raw).Trim()
-    if ($version -notmatch '^\d+\.\d+\.\d+$') {
-        throw "Jay's Patch version must use semantic versioning (major.minor.patch): $version"
+    if ($version -notmatch '^\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$') {
+        throw "Jay's Patch version must use semantic versioning (major.minor.patch with an optional prerelease suffix): $version"
     }
     return $version
 }

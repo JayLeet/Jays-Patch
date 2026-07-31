@@ -10,6 +10,12 @@ $publicCommands = [System.Collections.Generic.HashSet[string]]::new([System.Stri
     "function botc_patch:music/on",
     "function botc_patch:music/off",
     "function botc_patch:music/toggle",
+    "function botc_patch:fun/sillyjuice/give",
+    "function botc_patch:fun/boomdandy/give",
+    "function botc_patch:fun/hot_potato/start",
+    "function botc_patch:fun/dice_roll/start",
+    "function botc_patch:fun/entrance/king/give",
+    "function botc_patch:fun/slayer/give",
     "function botc_patch:queue/join",
     "function botc_patch:queue/leave",
     "function botc_patch:queue/status",
@@ -175,5 +181,3 @@ if ($failures.Count -gt 0) {
 }
 
 Write-Host ("Command overlay safety checks passed for {0} execute entries." -f $executeCount) -ForegroundColor Green
-
-

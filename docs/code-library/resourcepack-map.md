@@ -54,6 +54,9 @@ hand-edit the font or generated music command tables.
 | `lower_hand` | `minecraft:carrot_on_a_stick` | `botc_patch:item/lower_hand` | `assets/botc_patch/textures/item/lower_hand.png` | `hand/tick`, generated hand fallback functions |
 | `grim_reveal_menu` | `minecraft:carrot_on_a_stick` | `botc_patch:item/reveal_roles` | `assets/botc_patch/textures/item/reveal_roles.png` | `grim/tick`, generated grimoire fallback function |
 | `music_selector` | `minecraft:carrot_on_a_stick` | `botc_patch:item/music_selector` | `assets/botc_patch/textures/item/music_selector.png` | `music/item`, generated night music selector fallback function |
+| `winner_firework` | `minecraft:carrot_on_a_stick` | `minecraft:item/firework_rocket` | Vanilla Firework Rocket texture | YAWP-safe Good/Evil winner launchers in `winner/give_*_fireworks`; right-clicking the sky routes through `winner/firework_tick` |
+| `mic` | `minecraft:carrot_on_a_stick` | `minecraft:item/microphone` | Sybillian required pack: `assets/ct/textures/item/microphone.png` | `night_chat/item_checks` |
+| `botc_role_wraith` | `minecraft:carrot_on_a_stick`, `minecraft:paper` | `botc_patch:item/role/wraith` | generated copy of Sybillian's available `ct:role/wraith` texture | Wraith Sight, setup wall, grimoire editor, and reveal displays |
 | `storyteller_reset_game` | `minecraft:carrot_on_a_stick` | `botc_patch:item/reset_game` | `assets/botc_patch/textures/item/reset_game.png` | `storyteller_tools/reset_game`, `storyteller_tools/item_checks` |
 | `setup_reset_game` | `minecraft:carrot_on_a_stick` | `botc_patch:item/reset_game` | `assets/botc_patch/textures/item/reset_game.png` | `setup_tools/reset_game`, `setup_tools/item_checks` |
 | `setup_become_player` | `minecraft:carrot_on_a_stick` | `botc_patch:item/setup_become_player` | `assets/botc_patch/textures/item/setup_become_player.png` | `setup_tools/become_player`, `setup_tools/item_checks` |
@@ -130,13 +133,25 @@ renaming, moving, or sharing a tool item model string, fixed tool slot, displaye
 tool name, generated cleanup/repair ownership, or generated tool resource-model
 mapping.
 
+Night Chat deliberately reuses Sybillian's `mic` custom-model string and
+`minecraft:item/microphone` model. The verified microphone texture is identical
+in the local 1.5.4 resource pack and Sybillian's 1.6.0 beta source, so this
+feature requires no copied texture, Jay model, or new resource-pack upload.
+
 Item fallback functions are generated from `Jays-Patch/item-fallbacks.json` by
 `tools/generate-item-fallbacks.ps1`. Update that table instead of hand-editing
 `give_*_fallback.mcfunction` files.
 
-Role icon model files, copied role PNGs, and the dialog bitmap font are generated from
-`Jays-Patch/role-icons.json` by `tools/generate-role-icons.ps1`. Update those
-source tables and generators instead of hand-editing generated role files.
+Role icon model files, copied role PNGs, and the dialog bitmap font are generated
+from `Jays-Patch/role-icons.json` by `tools/generate-role-icons.ps1`. Supported
+Jay-owned backported roles are defined in `Jays-Patch/role-extensions.json` and
+merged with the pinned Sybillian catalog by the generator. Update those source
+tables and generators instead of hand-editing generated role files.
+
+One-time Storyteller notification variants are generated from the normal item
+and role textures by `tools/generate-notification-icons.ps1`, using
+`Jays-Patch/notification-icons.json`. The generator owns the badged PNGs, their
+models, and `botc_patch:role_icons_notification`; do not hand-edit those files.
 
 Jay-owned visual mappings for carrot/paper tools belong in
 `assets/minecraft/items/paper.json` and
@@ -161,6 +176,8 @@ sequentially because they write related function and resource output.
 Run `tools/tests/test-resourcepack-mappings.ps1` after item, role-icon, or custom
 model data changes. It verifies that datapack item stacks, root selector files,
 model files, and textures still agree before anything is deployed.
+Run `tools/tests/test-storyteller-role-notifications.ps1` after changing the
+badge, notification roles, or their per-game acknowledgement behavior.
 
 Hosted URL, SHA1, cache UUID, optional/required state, and installation prompt
 are owned by
@@ -169,4 +186,3 @@ are owned by
 that source. `server.properties` must use the SHA1 from the hosted URL; the
 launcher compares extracted contents with the exact cached hosted fallback
 instead of treating different ZIP metadata as changed pack content.
-

@@ -55,11 +55,13 @@ function New-ItemStack {
         [object] $Item,
         [string] $CustomDataMarker,
         [string] $CustomNameComponent,
-        [string] $LoreComponent = ""
+        [string] $LoreComponent = "",
+        [string] $ModelString = ""
     )
 
     $components = [System.Collections.Generic.List[string]]::new()
-    $components.Add(('minecraft:custom_model_data={{strings:["{0}"]}}' -f [string] $Item.modelString))
+    $effectiveModelString = if ([string]::IsNullOrWhiteSpace($ModelString)) { [string] $Item.modelString } else { $ModelString }
+    $components.Add(('minecraft:custom_model_data={{strings:["{0}"]}}' -f $effectiveModelString))
     $components.Add(('minecraft:custom_data={{{0}}}' -f $CustomDataMarker))
     $components.Add(('custom_name={0}' -f $CustomNameComponent))
     if (-not [string]::IsNullOrWhiteSpace($LoreComponent)) {
@@ -713,6 +715,29 @@ foreach ($item in @($registry.items | Where-Object { $_.PSObject.Properties["pos
         [string] $item.postExecutionTool.inPlaySelector -notmatch '^@a(?:\[.*\])?$') {
         throw "postExecutionTool '$($item.id)' inPlaySelector must be an @a selector."
     }
+    if ($item.postExecutionTool.PSObject.Properties["excludeOwnerTag"] -and
+        [string] $item.postExecutionTool.excludeOwnerTag -notmatch '^[a-z0-9_+.-]+$') {
+        throw "postExecutionTool '$($item.id)' excludeOwnerTag is not a valid entity tag."
+    }
+    $notificationProperties = @("notificationScoreHolder", "notificationScoreObjective", "notificationModelString")
+    $notificationPropertyCount = @($notificationProperties | Where-Object { $item.postExecutionTool.PSObject.Properties[$_] }).Count
+    if ($notificationPropertyCount -ne 0 -and $notificationPropertyCount -ne $notificationProperties.Count) {
+        throw "postExecutionTool '$($item.id)' must define all notification properties or none of them."
+    }
+    if ($notificationPropertyCount -gt 0) {
+        foreach ($prop in $notificationProperties) {
+            Assert-Property $item.postExecutionTool $prop "postExecutionTool '$($item.id)'"
+        }
+        if ([string] $item.postExecutionTool.notificationScoreHolder -notmatch '^[A-Za-z0-9_.+#:-]+$') {
+            throw "postExecutionTool '$($item.id)' has an invalid notification score holder."
+        }
+        if ([string] $item.postExecutionTool.notificationScoreObjective -notmatch '^[a-z0-9_.+-]+$') {
+            throw "postExecutionTool '$($item.id)' has an invalid notification score objective."
+        }
+        if ([string] $item.postExecutionTool.notificationModelString -notmatch '^[a-z0-9_:-]+$') {
+            throw "postExecutionTool '$($item.id)' has an invalid notification model string."
+        }
+    }
 
     $postExecutionRows.Add([pscustomobject]@{
         Item = $item
@@ -759,12 +784,12 @@ foreach ($entry in @($postExecutionRows | Sort-Object { [int] $_.Row.order })) {
     }
     $seenPostExecutionOrders[$order] = [string] $entry.Item.id
 
-    $replaceCommand = ('item replace entity @s {0} with {1}' -f `
-        [string] $entry.Row.slot,
-        (New-ItemStack -Item $entry.Item -CustomDataMarker $markerText -CustomNameComponent ([string] $entry.Row.customNameComponent)))
     $conditions = [System.Collections.Generic.List[string]]::new()
     if ($entry.Row.PSObject.Properties["inPlaySelector"]) {
         $conditions.Add(('if entity {0}' -f [string] $entry.Row.inPlaySelector))
+    }
+    if ($entry.Row.PSObject.Properties["excludeOwnerTag"]) {
+        $conditions.Add(('unless entity @s[tag={0}]' -f [string] $entry.Row.excludeOwnerTag))
     }
     $modeCondition = Get-ModeConditionFragment `
         -Row $entry.Row `
@@ -772,6 +797,29 @@ foreach ($entry in @($postExecutionRows | Sort-Object { [int] $_.Row.order })) {
     if (-not [string]::IsNullOrWhiteSpace($modeCondition)) {
         $conditions.Add($modeCondition)
     }
+    $customDataMarker = $markerText
+    if ($entry.Row.PSObject.Properties["customDataMarker"]) {
+        $customDataMarker = [string] $entry.Row.customDataMarker
+    }
+    $normalStack = New-ItemStack -Item $entry.Item -CustomDataMarker $customDataMarker -CustomNameComponent ([string] $entry.Row.customNameComponent)
+    if ($entry.Row.PSObject.Properties["notificationModelString"]) {
+        $notificationStack = New-ItemStack `
+            -Item $entry.Item `
+            -CustomDataMarker $customDataMarker `
+            -CustomNameComponent ([string] $entry.Row.customNameComponent) `
+            -ModelString ([string] $entry.Row.notificationModelString)
+        $notificationConditions = @($conditions) + @(
+            ('if score {0} {1} matches 0' -f [string] $entry.Row.notificationScoreHolder, [string] $entry.Row.notificationScoreObjective)
+        )
+        $normalConditions = @($conditions) + @(
+            ('unless score {0} {1} matches 0' -f [string] $entry.Row.notificationScoreHolder, [string] $entry.Row.notificationScoreObjective)
+        )
+        $postExecutionLines.Add(('execute {0} run item replace entity @s {1} with {2}' -f ($notificationConditions -join ' '), [string] $entry.Row.slot, $notificationStack))
+        $postExecutionLines.Add(('execute {0} run item replace entity @s {1} with {2}' -f ($normalConditions -join ' '), [string] $entry.Row.slot, $normalStack))
+        continue
+    }
+
+    $replaceCommand = ('item replace entity @s {0} with {1}' -f [string] $entry.Row.slot, $normalStack)
     if ($conditions.Count -gt 0) {
         $replaceCommand = 'execute {0} run {1}' -f ($conditions -join ' '), $replaceCommand
     }
@@ -981,18 +1029,26 @@ $postExecutionSelector = "@a[tag=storyteller,tag=botc_st_post_execution,tag=!bot
 $storytellerItemCheckLines.Add("")
 foreach ($entry in @($postExecutionRows | Sort-Object { [int] $_.Row.order })) {
     $phaseCondition = "score phase game_data matches 3"
+    $entryPostExecutionSelector = $postExecutionSelector
+    if ($entry.Row.PSObject.Properties["excludeOwnerTag"]) {
+        $excludedTag = [string] $entry.Row.excludeOwnerTag
+        $entryPostExecutionSelector = $postExecutionSelector.Substring(0, $postExecutionSelector.Length - 1) + ",tag=!$excludedTag]"
+        $storytellerItemCheckLines.Add(('execute if score phase game_data matches 3 as @a[tag=storyteller,tag=botc_st_post_execution,tag={0}] run clear @s {1}' -f `
+            $excludedTag,
+            (New-StackSelector -Item $entry.Item -Row $entry.Row)))
+    }
     if ($entry.Row.PSObject.Properties["inPlaySelector"]) {
         $inPlaySelector = [string] $entry.Row.inPlaySelector
         $phaseCondition += " if entity $inPlaySelector"
         $storytellerItemCheckLines.Add(('execute if score phase game_data matches 3 as {0} unless entity {1} run clear @s {2}' -f `
-            $postExecutionSelector,
+            $entryPostExecutionSelector,
             $inPlaySelector,
             (New-StackSelector -Item $entry.Item -Row $entry.Row)))
     }
     Add-RepairCheckLines `
         -Lines $storytellerItemCheckLines `
         -PhaseCondition $phaseCondition `
-        -PlayerSelector $postExecutionSelector `
+        -PlayerSelector $entryPostExecutionSelector `
         -Entry $entry
 }
 

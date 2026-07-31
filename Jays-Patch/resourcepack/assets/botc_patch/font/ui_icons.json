@@ -218,6 +218,15 @@
                       },
                       {
                           "type":  "bitmap",
+                          "file":  "botc_patch:item/next.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
+                      },
+                      {
+                          "type":  "bitmap",
                           "file":  "minecraft:item/music_disc_11.png",
                           "height":  16,
                           "ascent":  12,

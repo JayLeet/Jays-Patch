@@ -1,5 +1,7 @@
 # Return an online user to normal player state during reset.
 scoreboard players operation @s botc_reset_seen = reset_generation botc_patch
+execute if entity @s[tag=botc_patch_night_chat] at @s run function botc_patch:night_chat/leave_silent
+function botc_patch:wraith/cleanup_player
 team leave @s
 gamemode adventure @s
 fmvariable set storyteller false false
@@ -12,6 +14,8 @@ tag @s remove botc_banshee_double_vote
 tag @s remove botc_banshee_toggle_used
 tag @s remove botc_banshee_slot_protected
 tag @s remove botc_banshee_repair
+tag @s remove botc_night_chat_repair
+tag @s remove botc_night_chat_slot_protected
 tag @s remove botc_grim_revealed
 tag @s remove botc_grim_current
 tag @s remove botc_grim_slot_protected
@@ -48,8 +52,10 @@ tag @s remove botc_st_nom_back_done
 tag @s remove botc_st_nom_execute_done
 tag @s remove botc_st_nom_selected
 tag @s remove botc_st_post_execution
+tag @s remove botc_st_post_kill_resolved
 tag @s remove botc_st_last_executed
 tag @s remove botc_st_post_kill_done
+tag @s remove botc_rps_first
 tag @s remove botc_st_menu_owner
 tag @s remove botc_st_night_mode
 tag @s remove botc_st_night_prev_survival
@@ -80,6 +86,8 @@ clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setu
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_tb"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_snv"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_bmr"]}]
+clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_other_modes"]}]
+clear @s minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_tool:1b}]
 function botc_patch:setup_tools/clear_items
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_reset_game"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_advance_phase"]}]
@@ -101,13 +109,17 @@ clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["grim
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["raise_hand"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["lower_hand"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_data={botc_banshee_vote_toggle:1b}]
+clear @s minecraft:carrot_on_a_stick[minecraft:custom_data={botc_patch_tool:1b,botc_night_chat_tool:1b}]
 effect clear @s minecraft:invisibility
 scoreboard players reset @s botc_hand_use
 scoreboard players reset @s botc_hand_raise
 scoreboard players reset @s botc_hand_lower
 scoreboard players reset @s botc_banshee_use
+scoreboard players reset @s botc_night_chat_seen
+scoreboard players reset @s botc_night_chat_items
 scoreboard players reset @s botc_banshee_items
 scoreboard players reset @s botc_grim_items
+scoreboard players reset @s botc_grim_notice_items
 scoreboard players reset @s botc_grim_edit_seat
 scoreboard players reset @s botc_grim_edit_role
 scoreboard players reset @s botc_grim_edit_alignment

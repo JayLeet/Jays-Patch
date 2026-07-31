@@ -75,6 +75,7 @@ function Assert-SetupPresetRoles {
 $dataRootTest = Join-Path $PSScriptRoot "test-data-root.ps1"
 $startupTest = Join-Path $PSScriptRoot "test-startup-scripts.ps1"
 $commandTest = Join-Path $PSScriptRoot "test-command-overlays.ps1"
+$playerFacingMessageStyleTest = Join-Path $PSScriptRoot "test-player-facing-message-style.ps1"
 $upstreamCallerPolicyTest = Join-Path $PSScriptRoot "test-upstream-caller-policy.ps1"
 $customScriptImportTest = Join-Path $PSScriptRoot "test-custom-script-import-json.ps1"
 $grimCharacterEditorTest = Join-Path $PSScriptRoot "test-grim-character-editor.ps1"
@@ -90,6 +91,18 @@ $alhadikhiaAnnouncementTest = Join-Path $PSScriptRoot "test-alhadikhia-announcem
 $grimRescindTest = Join-Path $PSScriptRoot "test-grim-rescind.ps1"
 $winnerFireworkInventoryTest = Join-Path $PSScriptRoot "test-winner-fireworks-and-start-inventory.ps1"
 $upstreamContractTest = Join-Path $PSScriptRoot "test-upstream-contract.ps1"
+$yawpStartupCompatibilityTest = Join-Path $PSScriptRoot "test-yawp-startup-compatibility.ps1"
+$nightChatTest = Join-Path $PSScriptRoot "test-night-chat.ps1"
+$wraithTest = Join-Path $PSScriptRoot "test-wraith.ps1"
+$spyWidowGrimoireTest = Join-Path $PSScriptRoot "test-spy-widow-grimoire.ps1"
+$madnessExecutionTest = Join-Path $PSScriptRoot "test-madness-execution.ps1"
+$storytellerRoleNotificationTest = Join-Path $PSScriptRoot "test-storyteller-role-notifications.ps1"
+$boomdandyAndNominationKillsTest = Join-Path $PSScriptRoot "test-boomdandy-and-nomination-kills.ps1"
+$storytellerRpsTest = Join-Path $PSScriptRoot "test-storyteller-rps.ps1"
+$buffetGamemodeTest = Join-Path $PSScriptRoot "test-buffet-gamemodes.ps1"
+$funDrunkTest = Join-Path $PSScriptRoot "test-fun-drunk.ps1"
+$funSlayerTest = Join-Path $PSScriptRoot "test-fun-slayer.ps1"
+$funToyboxTest = Join-Path $PSScriptRoot "test-fun-toybox.ps1"
 $commandBudgetTest = Join-Path $PSScriptRoot "test-command-budget.ps1"
 $resourcepackTest = Join-Path $PSScriptRoot "test-resourcepack-mappings.ps1"
 $dialogUiMusicTest = Join-Path $PSScriptRoot "test-dialog-ui-and-music.ps1"
@@ -121,6 +134,7 @@ $grimDevProofPattern = 'disabled_(button|state)_test|dev_disabled_(button|state)
 Assert-FileExists $dataRootTest "live data-root safety test"
 Assert-FileExists $startupTest "startup smoke test"
 Assert-FileExists $commandTest "command overlay safety test"
+Assert-FileExists $playerFacingMessageStyleTest "player-facing message style test"
 Assert-FileExists $upstreamCallerPolicyTest "upstream caller capability policy test"
 Assert-FileExists $customScriptImportTest "custom script import JSON test"
 Assert-FileExists $grimCharacterEditorTest "Reveal Grimoire character editor test"
@@ -136,6 +150,17 @@ Assert-FileExists $alhadikhiaAnnouncementTest "Al-Hadikhia announcement test"
 Assert-FileExists $grimRescindTest "Storyteller Tools rename and grimoire rescind test"
 Assert-FileExists $winnerFireworkInventoryTest "winner fireworks and new-game inventory safety test"
 Assert-FileExists $upstreamContractTest "Sybillian upstream compatibility contract test"
+Assert-FileExists $yawpStartupCompatibilityTest "parse-safe YAWP startup compatibility test"
+Assert-FileExists $nightChatTest "active Night Chat compatibility test"
+Assert-FileExists $wraithTest "Wraith adapter and state-machine test"
+Assert-FileExists $spyWidowGrimoireTest "Spy and Widow personal-Grimoire test"
+Assert-FileExists $madnessExecutionTest "guarded Cerenovus madness execution test"
+Assert-FileExists $storytellerRoleNotificationTest "one-time Storyteller role notification test"
+Assert-FileExists $boomdandyAndNominationKillsTest "Boomdandy final-three and nomination role-kill test"
+Assert-FileExists $storytellerRpsTest "Storyteller RPS broker test"
+Assert-FileExists $buffetGamemodeTest "Greedy and Draft Buffet gamemode test"
+Assert-FileExists $funDrunkTest "Drunk fun command and consumable test"
+Assert-FileExists $funToyboxTest "fun toybox and entrance test"
 Assert-FileExists $commandBudgetTest "command-budget safety test"
 Assert-FileExists $resourcepackTest "resource-pack mapping test"
 Assert-FileExists $dialogUiMusicTest "dialog UI and music catalog test"
@@ -167,6 +192,21 @@ if ($invalidExecuteChains.Count -gt 0) {
     throw "Invalid Minecraft execute chain detected. Use 'execute if ... if ... run ...', not 'execute if ... run if ...'.`n$($details -join "`n")"
 }
 
+$invalidMacroCommands = [System.Collections.Generic.List[string]]::new()
+foreach ($file in Get-ChildItem -LiteralPath $datapackFunctionRoot -Filter "*.mcfunction" -File -Recurse) {
+    $lineNumber = 0
+    foreach ($line in Get-Content -LiteralPath $file.FullName) {
+        $lineNumber++
+        if ($line.StartsWith('$') -and $line -notmatch '\$\([^)]+\)') {
+            $relative = $file.FullName.Substring($datapackFunctionRoot.Length).TrimStart('\', '/')
+            $invalidMacroCommands.Add("$relative`:$lineNumber`: $line")
+        }
+    }
+}
+if ($invalidMacroCommands.Count -gt 0) {
+    throw "Datapack macro command(s) contain no macro variables. Remove the leading `$ or add a valid `$()` substitution:`n$($invalidMacroCommands -join "`n")"
+}
+
 $adjacentDuplicateCommands = [System.Collections.Generic.List[string]]::new()
 foreach ($file in Get-ChildItem -LiteralPath $datapackFunctionRoot -Filter "*.mcfunction" -File -Recurse) {
     $lines = @(Get-Content -LiteralPath $file.FullName)
@@ -186,6 +226,7 @@ if ($adjacentDuplicateCommands.Count -gt 0) {
 & $dataRootTest
 & $startupTest
 & $commandTest
+& $playerFacingMessageStyleTest
 & $upstreamCallerPolicyTest
 & $customScriptImportTest
 & $grimCharacterEditorTest
@@ -201,6 +242,18 @@ if ($adjacentDuplicateCommands.Count -gt 0) {
 & $grimRescindTest
 & $winnerFireworkInventoryTest
 & $upstreamContractTest
+& $yawpStartupCompatibilityTest
+& $nightChatTest
+& $wraithTest
+& $spyWidowGrimoireTest
+& $madnessExecutionTest
+& $storytellerRoleNotificationTest
+& $boomdandyAndNominationKillsTest
+& $storytellerRpsTest
+& $buffetGamemodeTest
+& $funDrunkTest
+& $funSlayerTest
+& $funToyboxTest
 & $commandBudgetTest
 & $dialogUiMusicTest
 & $resourcepackTest
@@ -390,6 +443,3 @@ foreach ($fileName in $requiredGeneratedFiles) {
 }
 
 Write-Host "Source-only safety checks passed." -ForegroundColor Green
-
-
-

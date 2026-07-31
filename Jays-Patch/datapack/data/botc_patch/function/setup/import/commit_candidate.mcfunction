@@ -5,6 +5,7 @@ function ct:admin/setup/convert_to_ids with storage botc_patch:setup import_macr
 function botc_patch:setup/import/restore_metadata
 function ct:admin/setup/reminder_tokens
 function ct:admin/setup/characters
+function botc_patch:setup/import/apply_role_extensions
 function botc_patch:setup/import/validate_limits
 execute if score setup_import_valid botc_patch matches 0 run function botc_patch:setup/import/restore_state
 execute if score setup_import_valid botc_patch matches 0 as @a run function ct:admin/give_script

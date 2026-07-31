@@ -13,6 +13,7 @@ $ModelRoot = Join-Path $ResourcepackRoot "assets/botc_patch/models"
 $MinecraftItemRoot = Join-Path $ResourcepackRoot "assets/minecraft/items"
 $SybillianRolePath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\set_from_menu.mcfunction"
 $SybillianCharactersPath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\characters.mcfunction"
+$RoleExtensionPath = Join-Path $RepoRoot "Jays-Patch/role-extensions.json"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
 $RoleGlyphHelper = Join-Path $RepoRoot "tools/lib/role-icon-glyphs.ps1"
 
@@ -160,6 +161,21 @@ function Assert-SelectorContains {
     }
 }
 
+function Assert-SelectorMapsTo {
+    param(
+        [hashtable] $Cases,
+        [string] $ModelString,
+        [string] $ExpectedModel,
+        [string] $Description
+    )
+
+    Assert-SelectorContains -Cases $Cases -ModelString $ModelString -Description $Description
+    $actualModel = [string] $Cases[$ModelString]
+    if ($actualModel -ne $ExpectedModel) {
+        throw "$Description custom-model string '$ModelString' maps to '$actualModel'; expected '$ExpectedModel'."
+    }
+}
+
 foreach ($path in @($DatapackRoot, $ResourcepackRoot)) {
     if (-not (Test-Path -LiteralPath $path -PathType Container)) {
         throw "Missing required folder: $path"
@@ -168,8 +184,10 @@ foreach ($path in @($DatapackRoot, $ResourcepackRoot)) {
 
 $CarrotSelectorPath = Join-Path $MinecraftItemRoot "carrot_on_a_stick.json"
 $PaperSelectorPath = Join-Path $MinecraftItemRoot "paper.json"
+$PotionSelectorPath = Join-Path $MinecraftItemRoot "potion.json"
+$GlassBottleSelectorPath = Join-Path $MinecraftItemRoot "glass_bottle.json"
 
-foreach ($path in @($RoleIconsFile, $ToolRegistryFile, $FallbacksFile, $PackMetaFile, $RoleFontFile, $RoleCatalogHelper, $RoleGlyphHelper, $CarrotSelectorPath, $PaperSelectorPath)) {
+foreach ($path in @($RoleIconsFile, $ToolRegistryFile, $FallbacksFile, $PackMetaFile, $RoleFontFile, $RoleCatalogHelper, $RoleGlyphHelper, $CarrotSelectorPath, $PaperSelectorPath, $PotionSelectorPath, $GlassBottleSelectorPath)) {
     Assert-FileExists $path "required resource-pack check file"
 }
 
@@ -186,6 +204,43 @@ if ($packFormat -gt 64) {
 
 $carrotCases = Get-SelectorCaseMap $CarrotSelectorPath "carrot-on-a-stick"
 $paperCases = Get-SelectorCaseMap $PaperSelectorPath "paper"
+$potionCases = Get-SelectorCaseMap $PotionSelectorPath "potion"
+$glassBottleCases = Get-SelectorCaseMap $GlassBottleSelectorPath "glass bottle"
+Assert-SelectorMapsTo `
+    -Cases $carrotCases `
+    -ModelString "buffet_take_seat" `
+    -ExpectedModel "botc_patch:item/setup_become_player" `
+    -Description "Greedy Whalebuffet Take Open Seat"
+Assert-SelectorMapsTo `
+    -Cases $carrotCases `
+    -ModelString "botc_fun_slayer" `
+    -ExpectedModel "botc_patch:item/role/slayer" `
+    -Description "Slayer's Bow"
+Assert-SelectorMapsTo `
+    -Cases $carrotCases `
+    -ModelString "botc_fun_boomdandy" `
+    -ExpectedModel "botc_patch:item/role/boomdandy" `
+    -Description "Boomdandy Party Popper"
+Assert-SelectorMapsTo `
+    -Cases $carrotCases `
+    -ModelString "botc_fun_hot_potato" `
+    -ExpectedModel "botc_patch:item/role/imp" `
+    -Description "Pass the Imp"
+Assert-SelectorMapsTo `
+    -Cases $carrotCases `
+    -ModelString "botc_fun_king" `
+    -ExpectedModel "botc_patch:item/role/king" `
+    -Description "Claim King"
+Assert-SelectorMapsTo `
+    -Cases $potionCases `
+    -ModelString "botc_fun_drunk_full" `
+    -ExpectedModel "botc_patch:item/role/drunk" `
+    -Description "Silly Juice"
+Assert-SelectorMapsTo `
+    -Cases $glassBottleCases `
+    -ModelString "botc_fun_drunk_empty" `
+    -ExpectedModel "botc_patch:item/fun/drunk_empty" `
+    -Description "Empty Drunk mug"
 
 $requiredCarrotStrings = New-StringSet
 $requiredPaperStrings = New-StringSet
@@ -229,7 +284,7 @@ foreach ($role in @($roleIcons.roles) | Sort-Object) {
     [void] $requiredPaperStrings.Add("botc_role_$role")
 }
 
-$roleCatalog = @(Get-SybillianRoleCatalog -SetFromMenuPath $SybillianRolePath -CharactersPath $SybillianCharactersPath)
+$roleCatalog = @(Get-SybillianRoleCatalog -SetFromMenuPath $SybillianRolePath -CharactersPath $SybillianCharactersPath -ExtensionPath $RoleExtensionPath)
 $font = Read-JsonFile $RoleFontFile
 $fontRoles = @([pscustomobject]@{ Role = "none"; Id = 0 }) + $roleCatalog
 $providers = @($font.providers)
@@ -298,4 +353,4 @@ foreach ($modelString in $requiredPaperStrings | Sort-Object) {
     Assert-SelectorContains $paperCases $modelString "paper"
 }
 
-Write-Host ("Resource-pack selector checks passed for {0} carrot string(s), {1} paper string(s), {2} role icon(s), and {3} dialog glyph(s)." -f $requiredCarrotStrings.Count, $requiredPaperStrings.Count, @($roleIcons.roles).Count, $providers.Count) -ForegroundColor Green
+Write-Host ("Resource-pack selector checks passed for {0} carrot string(s), {1} paper string(s), {2} fun-drink string(s), {3} role icon(s), and {4} dialog glyph(s)." -f $requiredCarrotStrings.Count, $requiredPaperStrings.Count, ($potionCases.Count + $glassBottleCases.Count), @($roleIcons.roles).Count, $providers.Count) -ForegroundColor Green

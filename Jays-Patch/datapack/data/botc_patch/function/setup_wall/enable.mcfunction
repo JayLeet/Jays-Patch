@@ -1,4 +1,4 @@
 $scoreboard players set $(character) role_list 1
-function ct:admin/setup/set_from_menu
+function botc_patch:setup/apply_silent
 function botc_patch:setup_wall/refresh
-$tellraw @s [{"text":"Enabled role: ","color":"gray"},{"text":"$(name)","color":"yellow"}]
+$tellraw @s [{"text":"\u2714 ","color":"green","bold":true},{"text":"Enabled ","color":"gray","bold":false},{"text":"$(name)","color":"yellow","bold":true},{"text":".","color":"gray","bold":false}]

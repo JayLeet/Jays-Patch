@@ -18,6 +18,7 @@ tag @a remove botc_st_kill_menu
 tag @a remove botc_st_nom_menu
 tag @a remove botc_st_nom_action
 tag @a remove botc_st_post_execution
+tag @a remove botc_st_post_kill_resolved
 tag @a remove raising_hand
 scoreboard players reset @a botc_st_tp_page
 scoreboard players reset @a botc_st_revive_page
