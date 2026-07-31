@@ -3,6 +3,16 @@ execute unless score phase game_data matches 0 run clear @a minecraft:carrot_on_
 execute unless score buffet_mode botc_patch matches 1..2 run clear @a minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_tool:1b}]
 clear @a minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_start:1b}]
 
+# Replace either setup-bag variant with Reset Game in the setup-bag slot.
+execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=storyteller] run clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["ct_bag"]}]
+execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=storyteller] run clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_bag"]}]
+tag @a remove botc_buffet_reset_repair
+execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=storyteller] store result score @s botc_setup_items run clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_reset_game"]}] 0
+execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=storyteller] unless score @s botc_setup_items matches 1 run tag @s add botc_buffet_reset_repair
+execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=storyteller] unless data entity @s Inventory[{Slot:6b}].components."minecraft:custom_model_data"{strings:["setup_reset_game"]} run tag @s add botc_buffet_reset_repair
+execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=storyteller,tag=botc_buffet_reset_repair] run function botc_patch:buffet/items/give_reset
+tag @a remove botc_buffet_reset_repair
+
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1 run scoreboard players set buffet_open_seats botc_patch 0
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 2 run scoreboard players set buffet_open_seats botc_patch 0
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1 if data storage botc_patch:buffet greedy.seats.s1{active:0b} run scoreboard players add buffet_open_seats botc_patch 1

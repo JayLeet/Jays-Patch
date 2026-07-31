@@ -167,6 +167,7 @@ Assert-NotContains $assignRoster 'team join [0-9a-z_]+ @a\[' "Buffet seating can
 $sharedHandleAction = Read-RequiredFile (Join-Path $BuffetRoot "handle_action.mcfunction")
 $tick = Read-RequiredFile (Join-Path $BuffetRoot "tick.mcfunction")
 $itemChecks = Read-RequiredFile (Join-Path $BuffetRoot "item_checks.mcfunction")
+$giveReset = Read-RequiredFile (Join-Path $BuffetRoot "items/give_reset.mcfunction")
 $redactPlayerScript = Read-RequiredFile (Join-Path $BuffetRoot "script/redact_player.mcfunction")
 $cleanup = Read-RequiredFile (Join-Path $BuffetRoot "cleanup.mcfunction")
 $buffetLoad = Read-RequiredFile (Join-Path $BuffetRoot "load.mcfunction")
@@ -182,6 +183,16 @@ Assert-Contains $sharedHandleAction 'buffet_mode botc_patch matches 2.*function 
 Assert-Contains $sharedHandleAction 'buffet_mode botc_patch matches 1.*tag=storyteller.*matches 6500\.\.6997.*greedy/review/hermit/dispatch' "only a Greedy Storyteller can use Hermit assignment controls"
 Assert-Contains $tick 'buffet_mode botc_patch matches 2.*function botc_patch:buffet/draft/open_current' "Draft choice item reopens only for the current player"
 Assert-Contains $tick 'buffet_mode botc_patch matches 2.*tag=storyteller.*function botc_patch:buffet/draft/review/open' "Draft review is Storyteller-only"
+Assert-Contains $selectGreedy 'function botc_patch:buffet/item_checks' "Greedy immediately installs its setup tools"
+Assert-Contains $selectDraft 'function botc_patch:buffet/item_checks' "Draft immediately installs its setup tools"
+Assert-Contains $itemChecks 'buffet_mode botc_patch matches 1\.\.2 as @a\[tag=storyteller\] run clear @s.*strings:\["ct_bag"\]' "Buffet removes Sybillian's setup bag from the Storyteller"
+Assert-Contains $itemChecks 'buffet_mode botc_patch matches 1\.\.2 as @a\[tag=storyteller\] run clear @s.*strings:\["setup_wall_bag"\]' "Buffet removes Jay's setup bag from the Storyteller"
+Assert-Contains $itemChecks 'Inventory\[\{Slot:6b\}\].*strings:\["setup_reset_game"\].*botc_buffet_reset_repair' "Buffet keeps Reset Game in the former setup-bag slot"
+Assert-Contains $itemChecks 'tag=storyteller,tag=botc_buffet_reset_repair.*function botc_patch:buffet/items/give_reset' "Buffet repairs a missing or misplaced reset tool"
+Assert-Contains $giveReset 'item replace entity @s hotbar\.6 with minecraft:carrot_on_a_stick.*strings:\["setup_reset_game"\].*botc_patch_tool:1b' "the Buffet reset tool reuses Jay's marked Reset Game item in visual slot 7"
+Assert-Contains $tick 'buffet_mode botc_patch matches 1\.\.2 as @a\[tag=storyteller,scores=\{botc_hand_use=1\.\.\}.*strings:\["setup_reset_game"\].*function botc_patch:setup_tools/reset_game' "both Buffet modes route the held reset tool through the existing confirmation"
+Assert-Contains $tick 'buffet_mode botc_patch matches 1\.\.2 run scoreboard players set @a\[tag=botc_setup_tool_used\] botc_hand_use 0[\s\S]*buffet_mode botc_patch matches 1\.\.2 run tag @a remove botc_setup_tool_used' "Buffet consumes the reset click without leaving shared setup-use state"
+Assert-Contains $rootTick 'unless score buffet_mode botc_patch matches 1\.\.2.*function botc_patch:setup_tools/tick' "Buffet exposes only Reset Game instead of every ordinary setup action"
 Assert-Contains $tick 'phase game_data matches 0\.\. if score buffet_mode botc_patch matches 1\.\.2 as @a\[tag=botc_buffet_roster,tag=!storyteller\].*botc_buffet_public_script:1b.*function botc_patch:buffet/script/redact_player' "both Buffet modes redact every player's public Script throughout setup, active play, and reconnect"
 Assert-Contains $redactPlayerScript 'clear @s minecraft:carrot_on_a_stick\[minecraft:custom_model_data=\{strings:\["script"\]\}\]' "Script redaction removes every potentially moved secret Script copy"
 Assert-Contains $redactPlayerScript 'buffet_mode botc_patch matches 1.*name:"Greedy Whalebuffet"' "Greedy players receive a mode-labelled empty Script"
