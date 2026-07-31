@@ -146,10 +146,10 @@ Do not install only the `jays_patch` datapack folder.
 ```properties
 function-permission-level=3
 spawn-protection=0
-resource-pack=https://download.mc-packs.net/pack/5f3b624c1e7f488c969adefa5e6673f8a724348b.zip
-resource-pack-id=b3fed73e-fec2-4de2-b34b-236a7d1095fe
+resource-pack=https://download.mc-packs.net/pack/99a40287ce07843ff096f875a43a79fcae23ae6c.zip
+resource-pack-id=defe6e17-4df6-4eef-a291-18573f9c2d28
 resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
-resource-pack-sha1=5f3b624c1e7f488c969adefa5e6673f8a724348b
+resource-pack-sha1=99a40287ce07843ff096f875a43a79fcae23ae6c
 ```
 
 If the hosted resource pack stops working, upload
