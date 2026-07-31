@@ -173,7 +173,7 @@ Assert-Contains $tickText 'storyteller_nom_mark' "nomination Mark click route"
 foreach ($command in @("kill_player", "revive_player", "nominate_player", "dialog_cancel")) {
     Assert-Contains $commandText ('"id"\s*:\s*"' + [regex]::Escape($command) + '"') "/botc $command command"
 }
-Assert-Contains $commandText 'phase game_data matches 1\.\.2 as @s\[tag=storyteller\].*kill_menu/select_player' "guarded Kill dialog bridge"
+Assert-Contains $commandText 'phase game_data matches 1\.\.3 as @s\[tag=storyteller\].*kill_menu/select_player' "guarded Kill dialog bridge"
 Assert-Contains $commandText 'phase game_data matches 1\.\.2 as @s\[tag=storyteller\].*revive_menu/select_player' "guarded Revive dialog bridge"
 Assert-Contains $commandText 'phase game_data matches 3 as @s\[tag=storyteller\].*nomination_menu/select_player' "guarded Nominate dialog bridge"
 

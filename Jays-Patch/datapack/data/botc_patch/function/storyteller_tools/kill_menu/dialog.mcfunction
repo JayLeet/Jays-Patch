@@ -3,7 +3,7 @@
 # Compacts only currently eligible seated players into a bounded Player (Role) dialog.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only kill players during the day.",color:"red"}]
+execute unless score phase game_data matches 1..3 run return run tellraw @s [{text:"You can only kill players during the day or nominations.",color:"red"}]
 function botc_patch:grim/editor/refresh_live_roles
 function botc_patch:grim/editor/player_labels/prepare
 data remove storage botc_patch:dialogs kill

@@ -13,7 +13,8 @@ function Write-BotcFilteredPlayerDialog {
         [Parameter(Mandatory)] [string] $ActionCommand,
         [Parameter(Mandatory)] [string] $PhaseCondition,
         [Parameter(Mandatory)] [string] $InvalidPhaseMessage,
-        [Parameter(Mandatory)] [string] $NoPlayersMessage
+        [Parameter(Mandatory)] [string] $NoPlayersMessage,
+        [string] $ExitCommand = "/botc dialog_cancel"
     )
 
     if ($StorageKey -notmatch '^[a-z][a-z0-9_]*$') {
@@ -24,6 +25,9 @@ function Write-BotcFilteredPlayerDialog {
     }
     if ($EligibilitySelectorTemplate -notmatch '<seat>') {
         throw "Eligibility selector template must contain <seat>."
+    }
+    if ([string]::IsNullOrWhiteSpace($ExitCommand) -or $ExitCommand -notmatch '^/botc(?:\s|$)') {
+        throw "Filtered-player dialog exit command must use a /botc route."
     }
 
     $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
@@ -92,7 +96,7 @@ function Write-BotcFilteredPlayerDialog {
             $actions.Add('{label:{text:"$(e' + $index + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(e' + $index + '_name)",font:"minecraft:default",color:"white"},{text:" ($(e' + $index + '_role))",font:"minecraft:default",color:"$(e' + $index + '_color)"}]},tooltip:{text:"Seat $(e' + $index + '_seat)",color:"gray"},action:{type:"run_command",command:"/botc ' + $ActionCommand + ' $(e' + $index + '_seat)"}}')
         }
 
-        $line = '$dialog show @s {type:"multi_action",title:"' + $Title + '",body:{type:"plain_message",contents:{text:"' + $BodyText + '",color:"gray"},width:360},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc dialog_cancel"}}}'
+        $line = '$dialog show @s {type:"multi_action",title:"' + $Title + '",body:{type:"plain_message",contents:{text:"' + $BodyText + '",color:"gray"},width:360},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"' + $ExitCommand + '"}}}'
         $variant = & $newHeader "Filtered player dialog with $count eligible seat(s)."
         $variant.Add($line)
         & $writeLines (Join-Path $dialogRoot "count_$count.mcfunction") $variant

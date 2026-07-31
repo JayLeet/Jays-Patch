@@ -8,5 +8,5 @@ tag @s remove botc_st_nom_vote_finished
 tag @s remove botc_st_nom_clear_mark
 scoreboard players set @s botc_st_nom_page 0
 function botc_patch:storyteller_tools/player_menu/clear_hotbar
-item replace entity @s hotbar.0 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_nom_back"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Back",color:"yellow",bold:true,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}]]
-item replace entity @s hotbar.1 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_nom_start_vote"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Start Vote",color:"white",bold:true,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}]]
+item replace entity @s hotbar.0 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_nom_back"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Back",color:"yellow",bold:false,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}]]
+item replace entity @s hotbar.1 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["storyteller_nom_start_vote"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Start Vote",color:"white",bold:false,italic:false},{text:" [Right-Click]",color:"gray",bold:false,italic:false}]]

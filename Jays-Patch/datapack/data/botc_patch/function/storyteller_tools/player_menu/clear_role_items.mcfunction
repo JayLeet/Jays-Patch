@@ -135,6 +135,7 @@ clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_role_widow"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_role_witch"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_role_wizard"]}]
+clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_role_wraith"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_role_xaan"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_role_yaggababble"]}]
 clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_role_zealot"]}]
