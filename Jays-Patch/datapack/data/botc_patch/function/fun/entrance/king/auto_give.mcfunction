@@ -1,0 +1,3 @@
+execute unless items entity @s inventory.* minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_fun_king"]}] unless items entity @s hotbar.* minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_fun_king"]}] unless items entity @s weapon.offhand minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_fun_king"]}] run loot give @s loot botc_patch:fun/king
+scoreboard players operation @s botc_fun_king_seen = active_game game_id
+tellraw @s [{"text":"♛ ","color":"gold"},{"text":"Your King entrance is ready. Right-click it whenever you wish to make your claim.","color":"yellow"}]

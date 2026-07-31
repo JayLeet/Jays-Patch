@@ -1,0 +1,25 @@
+# Low counts are re-emitted for 40 ticks, making the chosen effect visible for two seconds.
+execute if score @s botc_fun_silly_particle matches 1 run particle minecraft:happy_villager ~ ~ ~ 0.30 0.30 0.30 0.08 3 force @s
+execute if score @s botc_fun_silly_particle matches 2 run particle minecraft:enchant ~ ~ ~ 0.30 0.30 0.30 0.20 3 force @s
+execute if score @s botc_fun_silly_particle matches 3 run particle minecraft:electric_spark ~ ~ ~ 0.25 0.25 0.25 0.05 2 force @s
+execute if score @s botc_fun_silly_particle matches 4 run particle minecraft:end_rod ~ ~ ~ 0.25 0.25 0.25 0.02 2 force @s
+execute if score @s botc_fun_silly_particle matches 5 run particle minecraft:dust{color:[0.95,0.45,1.00],scale:1.05} ~ ~ ~ 0.30 0.30 0.30 0.04 3 force @s
+execute if score @s botc_fun_silly_particle matches 6 run particle minecraft:smoke ~ ~ ~ 0.25 0.25 0.25 0.02 2 force @s
+execute if score @s botc_fun_silly_particle matches 7 run particle minecraft:flame ~ ~ ~ 0.25 0.25 0.25 0.02 2 force @s
+execute if score @s botc_fun_silly_particle matches 8 run particle minecraft:small_flame ~ ~ ~ 0.25 0.25 0.25 0.02 2 force @s
+execute if score @s botc_fun_silly_particle matches 9 run particle minecraft:soul_fire_flame ~ ~ ~ 0.25 0.25 0.25 0.02 2 force @s
+execute if score @s botc_fun_silly_particle matches 10 run particle minecraft:crit ~ ~ ~ 0.30 0.30 0.30 0.08 3 force @s
+execute if score @s botc_fun_silly_particle matches 11 run particle minecraft:ash ~ ~ ~ 0.35 0.35 0.35 0.02 3 force @s
+execute if score @s botc_fun_silly_particle matches 12 run particle minecraft:firework ~ ~ ~ 0.25 0.25 0.25 0.04 2 force @s
+execute if score @s botc_fun_silly_particle matches 13 run particle minecraft:dust{color:[0.35,1.00,0.20],scale:1.10} ~ ~ ~ 0.30 0.30 0.30 0.04 3 force @s
+execute if score @s botc_fun_silly_particle matches 14 run particle minecraft:dust{color:[0.10,0.95,1.00],scale:1.10} ~ ~ ~ 0.30 0.30 0.30 0.04 3 force @s
+execute if score @s botc_fun_silly_particle matches 15 run particle minecraft:dust{color:[1.00,0.45,0.05],scale:1.10} ~ ~ ~ 0.30 0.30 0.30 0.04 3 force @s
+execute if score @s botc_fun_silly_particle matches 16 run particle minecraft:dust{color:[0.55,0.10,1.00],scale:1.10} ~ ~ ~ 0.30 0.30 0.30 0.04 3 force @s
+execute if score @s botc_fun_silly_particle matches 17 run particle minecraft:dust{color:[1.00,1.00,1.00],scale:1.05} ~ ~ ~ 0.30 0.30 0.30 0.04 3 force @s
+execute if score @s botc_fun_silly_particle matches 18 run particle minecraft:dust{color:[1.00,0.08,0.05],scale:1.10} ~ ~ ~ 0.30 0.30 0.30 0.04 3 force @s
+execute if score @s botc_fun_silly_particle matches 19 run particle minecraft:large_smoke ~ ~ ~ 0.20 0.20 0.20 0.01 1 force @s
+execute if score @s botc_fun_silly_particle matches 20 run particle minecraft:note ~ ~ ~ 0.20 0.20 0.20 0.50 2 force @s
+execute if score @s botc_fun_silly_particle matches 21 run particle minecraft:heart ~ ~ ~ 0.25 0.25 0.25 0.03 2 force @s
+execute if score @s botc_fun_silly_particle matches 22 run particle minecraft:cloud ~ ~ ~ 0.25 0.25 0.25 0.02 2 force @s
+execute if score @s botc_fun_silly_particle matches 23 run particle minecraft:portal ~ ~ ~ 0.25 0.25 0.25 0.20 3 force @s
+execute if score @s botc_fun_silly_particle matches 24 run particle minecraft:totem_of_undying ~ ~ ~ 0.25 0.25 0.25 0.05 2 force @s
