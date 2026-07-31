@@ -5,6 +5,7 @@ function botc_patch:setup/import/commit
 execute unless score setup_import_success botc_patch matches 1 run return 0
 scoreboard players reset setup_import_success botc_patch
 function botc_patch:setup/clear_known_roles
+execute if data storage ct:script {in_characters:{minions:["wraith"]}} run scoreboard players set wraith role_list 1
 function botc_patch:setup/apply_silent
 function botc_patch:setup_wall/show_current
 function botc_patch:setup_room/give_action_controls

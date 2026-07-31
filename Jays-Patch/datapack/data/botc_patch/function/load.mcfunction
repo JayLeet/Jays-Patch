@@ -30,12 +30,41 @@ scoreboard objectives add botc_reset_seen dummy
 scoreboard objectives add botc_outsider_seen dummy
 scoreboard objectives add botc_firework_seen dummy
 scoreboard objectives add botc_firework_award dummy
+scoreboard objectives add botc_firework_use minecraft.used:minecraft.carrot_on_a_stick
 scoreboard objectives add botc_queue dummy
 scoreboard objectives add botc_st_gen dummy
 scoreboard objectives add botc_setup_bridge_cd dummy
 scoreboard objectives add botc_vote_cd dummy
 scoreboard objectives add botc_item_maintenance_pending dummy
 scoreboard objectives add botc_item_maintenance dummy
+scoreboard objectives add botc_grim_notice_items dummy
+scoreboard objectives add botc_night_chat_seen dummy
+scoreboard objectives add botc_night_chat_items dummy
+scoreboard objectives add botc_wraith_use minecraft.used:minecraft.carrot_on_a_stick
+scoreboard objectives add botc_fun_slayer_use minecraft.used:minecraft.carrot_on_a_stick
+scoreboard objectives add botc_fun_slayer_range dummy
+scoreboard objectives add botc_fun_slayer_hit dummy
+scoreboard objectives add botc_fun_item_use minecraft.used:minecraft.carrot_on_a_stick
+scoreboard objectives add botc_fun_boom_timer dummy
+scoreboard objectives add botc_fun_hot_range dummy
+scoreboard objectives add botc_fun_hot_hit dummy
+scoreboard objectives add botc_fun_hot_pass_cd dummy
+scoreboard objectives add botc_fun_hot_immunity dummy
+scoreboard objectives add botc_fun_hot_generation dummy
+scoreboard objectives add botc_fun_king_seen dummy
+scoreboard objectives add botc_fun_dice_cooldown dummy
+scoreboard objectives add botc_fun_silly_use minecraft.used:minecraft.potion
+scoreboard objectives add botc_fun_silly_timer dummy
+scoreboard objectives add botc_fun_silly_event dummy
+scoreboard objectives add botc_fun_silly_particle dummy
+scoreboard objectives add botc_fun_silly_sound dummy
+scoreboard objectives add botc_fun_silly_location dummy
+scoreboard objectives add botc_fun_silly_duration dummy
+scoreboard objectives add botc_wraith_choice trigger
+scoreboard objectives add botc_wraith_mode dummy
+scoreboard objectives add botc_wraith_items dummy
+scoreboard objectives add botc_wraith_zone dummy
+scoreboard objectives add botc_wraith_seen_leave dummy
 scoreboard objectives add botc_hand_lamp_clock dummy
 scoreboard objectives add botc_pass_zone dummy
 scoreboard objectives add botc_pass_start dummy
@@ -44,6 +73,8 @@ scoreboard objectives add botc_leave_game minecraft.custom:minecraft.leave_game
 scoreboard objectives add botc_install_seen_leave dummy
 scoreboard objectives add id dummy
 scoreboard objectives add house_id dummy
+scoreboard objectives add botc_seat_guide_day dummy
+scoreboard objectives add botc_seat_guide_game dummy
 execute unless score winner_timer botc_patch matches -2147483648..2147483647 run scoreboard players set winner_timer botc_patch -1
 execute unless score winner_reveal_timer botc_patch matches -2147483648..2147483647 run scoreboard players set winner_reveal_timer botc_patch -1
 execute unless score winner_pending botc_patch matches -2147483648..2147483647 run scoreboard players set winner_pending botc_patch 0
@@ -66,6 +97,23 @@ execute unless score winner_firework_epoch botc_patch matches -2147483648..21474
 execute unless score grim_active botc_patch matches -2147483648..2147483647 run scoreboard players set grim_active botc_patch 0
 execute unless score grim_spotlight botc_patch matches -2147483648..2147483647 run scoreboard players set grim_spotlight botc_patch -1
 execute unless score grim_sweep_timer botc_patch matches -2147483648..2147483647 run scoreboard players set grim_sweep_timer botc_patch -1
+execute unless score grim_notice_fearmonger_seen botc_patch matches 0..1 run scoreboard players set grim_notice_fearmonger_seen botc_patch 0
+execute unless score grim_notice_fearmonger_done botc_patch matches 0..1 run scoreboard players set grim_notice_fearmonger_done botc_patch 0
+execute unless score grim_notice_fearmonger_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_fearmonger_menu_seen botc_patch 0
+execute unless score grim_notice_banshee_seen botc_patch matches 0..1 run scoreboard players set grim_notice_banshee_seen botc_patch 0
+execute unless score grim_notice_banshee_done botc_patch matches 0..1 run scoreboard players set grim_notice_banshee_done botc_patch 0
+execute unless score grim_notice_banshee_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_banshee_menu_seen botc_patch 0
+execute unless score grim_notice_alhadikhia_seen botc_patch matches 0..1 run scoreboard players set grim_notice_alhadikhia_seen botc_patch 0
+execute unless score grim_notice_alhadikhia_done botc_patch matches 0..1 run scoreboard players set grim_notice_alhadikhia_done botc_patch 0
+execute unless score grim_notice_alhadikhia_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_alhadikhia_menu_seen botc_patch 0
+execute unless score grim_notice_madness_seen botc_patch matches 0..1 run scoreboard players set grim_notice_madness_seen botc_patch 0
+execute unless score grim_notice_madness_done botc_patch matches 0..1 run scoreboard players set grim_notice_madness_done botc_patch 0
+execute unless score grim_notice_madness_menu_seen botc_patch matches 0..1 run scoreboard players set grim_notice_madness_menu_seen botc_patch 0
+execute unless score grim_notice_boomdandy_seen botc_patch matches 0..1 run scoreboard players set grim_notice_boomdandy_seen botc_patch 0
+execute unless score grim_notice_boomdandy_done botc_patch matches 0..1 run scoreboard players set grim_notice_boomdandy_done botc_patch 0
+execute unless score boomdandy_stage botc_patch matches 0..5 run scoreboard players set boomdandy_stage botc_patch 0
+execute unless score boomdandy_selected botc_patch matches 0..3 run scoreboard players set boomdandy_selected botc_patch 0
+execute unless score grim_notice_pending botc_patch matches 0..1 run scoreboard players set grim_notice_pending botc_patch 0
 execute unless score reset_requested botc_patch matches -2147483648..2147483647 run scoreboard players set reset_requested botc_patch 0
 execute unless score reset_generation botc_patch matches -2147483648..2147483647 run scoreboard players set reset_generation botc_patch 0
 execute unless score queue_next botc_patch matches -2147483648..2147483647 run scoreboard players set queue_next botc_patch 1
@@ -77,6 +125,10 @@ execute unless score seat_layout_active_count botc_patch matches -1..15 run scor
 execute unless score seat_layout_target_count botc_patch matches 0..15 run scoreboard players set seat_layout_target_count botc_patch 0
 execute unless score seat_layout_locked_count botc_patch matches 0..15 run scoreboard players set seat_layout_locked_count botc_patch 0
 execute unless score seat_layout_poll botc_patch matches 0..10 run scoreboard players set seat_layout_poll botc_patch 10
+execute unless score seat_guide_clock botc_patch matches 0..5 run scoreboard players set seat_guide_clock botc_patch 0
+execute unless score wraith_night_active botc_patch matches 0..1 run scoreboard players set wraith_night_active botc_patch 0
+execute unless score wraith_visit_zone botc_patch matches 0..15 run scoreboard players set wraith_visit_zone botc_patch 0
+execute unless score wraith_previous_zone botc_patch matches 0..15 run scoreboard players set wraith_previous_zone botc_patch 0
 scoreboard players set ghost_marker_13 botc_patch 0
 scoreboard players set ghost_marker_14 botc_patch 0
 scoreboard players set ghost_marker_15 botc_patch 0
@@ -94,6 +146,7 @@ execute unless score patch_config_version botc_patch matches 2.. run scoreboard 
 execute unless score patch_config_version botc_patch matches 2.. run scoreboard players set patch_config_version botc_patch 2
 execute unless score passage_chunks_forced botc_patch matches 0..1 run scoreboard players set passage_chunks_forced botc_patch 0
 execute unless score passage_chunks_previous botc_patch matches 0..1 store result score passage_chunks_previous botc_patch run gamerule spectatorsGenerateChunks
+gamerule pvp false
 execute unless score vote_timer botc_patch matches -2147483648..2147483647 run scoreboard players set vote_timer botc_patch 0
 execute unless score vote_count botc_patch matches -2147483648..2147483647 run scoreboard players set vote_count botc_patch 0
 execute unless score vote_needed botc_patch matches -2147483648..2147483647 run scoreboard players set vote_needed botc_patch 0
@@ -104,6 +157,8 @@ scoreboard players set botc_item_maintenance botc_patch 0
 scoreboard players set botc_item_maintenance_pending botc_patch 0
 scoreboard players set botc_hand_lamp_clock botc_patch 0
 scoreboard players set yawp_startup_done botc_patch 0
+scoreboard players set fun_twenty botc_patch 20
+execute unless score fun_hot_generation botc_patch matches -2147483648..2147483647 run scoreboard players set fun_hot_generation botc_patch 0
 execute if score setup_wall_teams_ready botc_patch matches 0 run team add botc_setup_good
 execute if score setup_wall_teams_ready botc_patch matches 0 run team modify botc_setup_good color blue
 execute if score setup_wall_teams_ready botc_patch matches 0 run team add botc_setup_evil
@@ -112,5 +167,8 @@ execute if score setup_wall_teams_ready botc_patch matches 0 run scoreboard play
 function botc_patch:config/owners
 function botc_patch:grim/editor/roles/init
 execute if score phase game_data matches 0 run function botc_patch:grim/editor/clear_game
+function botc_patch:night_chat/init_group
+function botc_patch:buffet/load
+function botc_patch:fun/load
 function botc_patch:repair/static_markers
 schedule function botc_patch:startup/yawp_init 20s replace

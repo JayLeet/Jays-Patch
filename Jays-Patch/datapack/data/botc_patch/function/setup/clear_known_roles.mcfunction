@@ -135,6 +135,7 @@ scoreboard players reset washerwoman role_list
 scoreboard players reset widow role_list
 scoreboard players reset witch role_list
 scoreboard players reset wizard role_list
+scoreboard players reset wraith role_list
 scoreboard players reset xaan role_list
 scoreboard players reset yaggababble role_list
 scoreboard players reset zealot role_list

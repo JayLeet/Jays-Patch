@@ -293,10 +293,16 @@ for ($index = 0; $index -lt $BaselineSeats.Count; $index++) {
 Add-MarkerCommands $baselineLines $BaselineSeats
 Write-GeneratedFile (Join-Path $SeatRoot "restore_upstream_baseline.mcfunction") $baselineLines.ToArray()
 
-$dispatch = @("# Generated count dispatch. Counts above Sybillian's maximum are capped at 15.", "execute if score seat_layout_target_count botc_patch matches 16.. run scoreboard players set seat_layout_target_count botc_patch 15")
+$dispatch = @(
+    "# Generated count dispatch. Counts above Sybillian's maximum are capped at 15.",
+    "# Temporarily remove Sybillian's team prefix so resolved sign components contain only player names.",
+    "function ct:util/color_names",
+    "execute if score seat_layout_target_count botc_patch matches 16.. run scoreboard players set seat_layout_target_count botc_patch 15"
+)
 for ($count = 0; $count -le 15; $count++) {
     $dispatch += "execute if score seat_layout_target_count botc_patch matches $count run function botc_patch:seat_layout/apply/$count"
 }
+$dispatch += "function ct:util/color_prefixes"
 Write-GeneratedFile (Join-Path $SeatRoot "apply_target.mcfunction") $dispatch
 
 $teleportDispatch = @("# Generated locked-layout teleport dispatch.")

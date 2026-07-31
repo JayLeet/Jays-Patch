@@ -36,6 +36,11 @@ longer match source, without rewriting documentation during a test run.
   trigger IDs, playback indexes, and disc/environment icons.
 - `../../Jays-Patch/source-baseline.json`: generated known-good hashes for
   owned source and build inputs.
+- `../project-notes/buffet-gamemodes-design-journal.md`: complete
+  human-readable rules, workflows, fine print, and implementation checkpoint
+  for Greedy Whalebuffet and Draft Buffet.
+- `../../Jays-Patch/buffet-rules.json`: machine-readable Buffet constants. Read
+  the design journal first; this file is not the complete mode specification.
 - `generated/function-index.md`: generated function list and call map.
 - `generated/command-index.md`: generated Melius command overlay index.
 - `generated/resourcepack-index.md`: generated item/model mapping index.

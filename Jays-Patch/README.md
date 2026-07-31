@@ -13,6 +13,13 @@ Jay's Patch is the server-side add-on for this BOTC server.
 - The datapack source is `Jays-Patch/datapack`.
 - The Melius command overlay source is `Jays-Patch/melius-commands`.
 - The resource-pack overlay source is `Jays-Patch/resourcepack`.
+- Jay's Patch owns five explicitly pinned compatibility paths in the upstream
+  namespace. Night Chat owns:
+  `datapack/data/ct/function/loop/player/join_vc.mcfunction`. It is generated
+  from the exact SHA-pinned Sybillian 1.5.4 router by
+  `tools/generate-night-chat.ps1`. Four parse-safe YAWP startup shims are pinned
+  by `Jays-Patch/yawp-compatibility.json`. Do not hand-edit the Night Chat
+  router or add uncontracted `ct:` source.
 - Server-list branding assets live in `Jays-Patch/server-root`.
 - Startup can build `Jays-Patch/dist/Jays-Patch-resourcepack.zip` from that
   overlay for local checks. Public package builds must bundle the exact hosted
@@ -78,11 +85,21 @@ upstream `ct:` files directly. If an upstream edit is temporarily unavoidable,
 document why it was needed and move it back into Jay's Patch as soon as there is
 a clean path.
 
+Night Chat and YAWP startup parsing are the two narrow exceptions to the normal
+namespace rule. The generated Night Chat router preserves every pinned 1.5.4
+command and adds only a guard to its 25 voice-group join/leave commands while a
+player has the Jay Night Chat tag. The four YAWP shims preserve Sybillian's
+exact command sequences but defer them to macro functions after YAWP config is
+available. Tests fail closed if either pinned upstream surface changes.
+
 Role metadata is read from Sybillian's installed `set_from_menu` and
 `characters` functions through `tools/lib/sybillian-role-catalog.ps1`.
 Jay-owned base-script membership lives in `Jays-Patch/base-scripts.json`.
+Jay-owned backported role metadata lives in `Jays-Patch/role-extensions.json`.
 Generators should consume those sources instead of rebuilding role IDs,
-display names, categories, or alignments independently.
+display names, categories, or alignments independently. The upstream contract
+continues to validate Sybillian's 137-role catalog separately so a Jay-owned
+extension cannot hide upstream drift.
 
 Before a public build, `tools/build-public-package.ps1` runs the non-live source
 gate, reads the version file, bundles the exact hosted resource pack, writes an
@@ -119,28 +136,72 @@ BOTC.exe reads that file instead of carrying another hardcoded URL or UUID. Its
 local diagnostic ZIP is separate from the exact hosted fallback and pack drift
 is decided by extracted file contents, not ZIP metadata.
 
+## Player-facing formatting
+
+Keep normal feedback short and predictable:
+
+- A failed action or hard blocker starts with a bold red `!`. The explanation
+  is gray, with only the player, role, item, setting, or action that needs
+  attention highlighted.
+- An ordinary completed action starts with a bold green `✔`. The explanation
+  is gray, with the changed value highlighted when that helps.
+- Dialog titles are headings and may be bold. Ordinary buttons, navigation,
+  category labels, item names, and supporting text are not bold by default.
+- Color carries meaning: red for errors or destructive actions, green for
+  completion, yellow for warnings or choices needing attention, and gray for
+  supporting words.
+- Cinematic titles, role announcements, winner reveals, voting sequences,
+  exact jinx rules, and other formats that carry game meaning stay
+  feature-owned. Do not force a generic prefix onto them.
+
+Write from what the player sees. Say what happened and what they can do next;
+avoid implementation terms such as storage, dispatch, validation, or internal
+phase names in player-facing text.
+
 Current owned behavior:
 
 - `/botc` non-setup Jay's Patch command bridge.
 - Server-authority Sybillian-style Storyteller/setup brokers through Melius.
 - Raise/lower hand item cleanup and seat lamps.
 - Banshee activation through the Storyteller's pre-reveal controls, with
-  Sybillian's announcement reused directly, reusable dead votes, and a
-  nomination-phase Banshee item that toggles each YES vote between x1 and x2.
-  The default is x1; the second-nomination allowance remains Storyteller
+  Sybillian's announcement reused directly. The Storyteller may confirm the
+  Demon-caused death while the Banshee is still alive in server state, before
+  deaths are publicly applied at day. The active Banshee gets reusable dead
+  votes and a nomination-phase item that toggles each YES vote between x1 and
+  x2. The default is x1; the second-nomination allowance remains Storyteller
   managed because Sybillian 1.5.4 does not track the nominator server-side.
+- Wraith backport as Jay-owned role `325`. During night, a living seated Wraith
+  can keep their Sight Closed, Peek from their assigned house, or open their
+  Eyes and follow a Storyteller into player houses. Peek privately identifies
+  the visited player. Eyes Open hides the Wraith in spectator mode for a Good
+  visit and makes them visible in adventure mode on an exact 7% discovery roll.
+  The Good player who catches the Wraith receives a private, noticeable sound
+  cue; Evil visits are always visible in adventure mode. Leaving the visited
+  house deliberately returns the Wraith home in Peek mode. When the Storyteller
+  leaves, the Wraith returns home while Eyes Open remains armed. Night Chat is
+  suspended during an Eyes Open visit, and reset, reconnect, role loss, death,
+  invalid seating, or night end clean up the state.
+- Spy and Widow true-Grimoire controls inside Grimoire Tools. At night, the
+  Storyteller can refresh a living Spy's existing personal Grimoire with the
+  real current roles. The same control is available to a living Widow only on
+  the first night. This updates the player's private Sybillian Grimoire instead
+  of giving them a second custom book.
 - Delayed datapack startup repair for Sybillian/YAWP flags, reset, and regions
   on hosted servers that do not use `BOTC.exe`; this uses Jay-owned macro
   wrappers because Sybillian's direct `yawp ...` functions can fail to parse
-  before YAWP's config has loaded.
+  before YAWP's config has loaded. Four SHA-pinned `ct:` compatibility shims
+  prevent those upstream startup functions from failing during initial datapack
+  parsing while preserving their behavior after startup.
 - First-install server-properties notice that points joining players to
   `world/datapacks/jays_patch/jays-patch-required-server-properties.txt` until
   the server owner disables it with the clickable setup-notice trigger.
 - Storyteller queue promotion and handoff cleanup.
 - Good/evil winner reveal, temporary heads, cleanup timer, and five distinct
-  alignment-colored victory fireworks per winner. Marked fireworks survive
-  normal game reset and are removed only when the next supported game begins;
-  an epoch check also cleans an offline winner when they next join.
+  alignment-colored victory fireworks per winner. They use server-routed
+  right-click-in-air launchers so Sybillian's global YAWP block-use protection
+  remains intact. Marked fireworks survive normal game reset and are removed
+  only when the next supported game begins; an epoch check also cleans an
+  offline winner when they next join.
 - Night music selection from vanilla music events, with a per-player selector
   item for all 21 Minecraft 1.21.10 jukebox discs, six retained ambient tracks,
   mute, random selection, and pitch preference. Each player starts every night
@@ -149,12 +210,42 @@ Current owned behavior:
   environment icon for every track.
 - Live-game Storyteller tools for reset, phase advance, role-icon player
   teleports, church-stair-separated evil-team teleports facing the Storyteller,
-  chair/home teleports, and night invisibility that follows
-  Sybillian house detection. Jay's Patch can use the established item-first
-  hotbar or a dialog-first dashboard; the dashboard routes to the same guarded
+  chair/home teleports, and night invisibility that leaves the Storyteller
+  visible inside player houses and the Church of Miku. Jay's Patch can use the
+  established item-first hotbar or a dialog-first dashboard; the dashboard
+  routes to the same guarded
   confirmations, player pickers, and action submenus. Dynamic chair teleporting
   occurs only after an explicit Storyteller Teleport Seats action; Dawn and
   other phase transitions never move players to their seats automatically.
+- Cerenovus-only Madness Execution through the nomination-phase Storyteller
+  Tools menu. The action requires a second confirmation, accepts any alive
+  seated player, cancels transient vote machinery, and reuses Sybillian's
+  mark, execute, and death functions exactly once. Because the target is
+  already dead, the resulting post-execution controls omit the redundant Kill
+  action.
+- Nomination-phase ordinary Kill access for role-caused deaths such as a Golem
+  punch or Witch kill. This route calls Sybillian's normal death function
+  without changing the current nomination, vote, execution mark, or executed
+  player.
+- A server-authority `Start RPS` control inside Grimoire Tools. It remains
+  available as a general game even without a Psychopath, lists only living
+  seated players who already chose Rock, Paper, or Scissors, and then delegates
+  the countdown, reveal, and cleanup to Sybillian's existing `ct:rps/*` flow.
+- A guarded Boomdandy final-three flow after the Boomdandy is executed. The
+  Storyteller selects and confirms exactly three living players. Every other
+  chair disappears, non-finalists die one at a time with 1.5 seconds between
+  deaths, and a typewriter warning explains the final vote before Sybillian's
+  countdown starts. The three finalists vote by standing near a remaining
+  chair; a strict majority kills that player, while a tie kills nobody. The
+  selection blocks while a game-start player is offline and safely aborts if
+  one of the confirmed finalists dies or disconnects.
+- One-time Storyteller role notifications for in-play Fearmonger, Banshee,
+  Al-Hadikhia, Cerenovus madness execution, and Boomdandy actions. A pending
+  action adds a red-circle/white-exclamation trail to Storyteller Tools,
+  Grimoire Tools, and the relevant role icon. Opening each menu clears only
+  that menu's badge; using the role action clears its role badge until the next
+  game. Fearmonger, Banshee, and Al-Hadikhia are night-only, Cerenovus is
+  nomination-only, and Boomdandy is post-execution-only.
 - Server-side grimoire reveal mode with role icons from Sybillian's textures
   and a seat snapshot so disconnects do not block already-started reveals. The
   pre-reveal confirmation offers a server-side character editor during active
@@ -184,11 +275,22 @@ Current owned behavior:
   cinematic reveal begins.
 - Setup-only Toggle Jay's Patch item with four explicit states: Jay's item-first
   mode, Jay's dialog-first mode, Sybillian's original setup bag, and Jay-held
-  items disabled. The two non-Jay modes warn in bold red that OP is required.
+  items disabled. The two non-Jay modes use the shared error format to explain
+  that OP is required.
   Reset Game, Become a Player, the Setup Bag, and setup-room controls remain
   held during setup in both Jay modes. Storyteller's Passage, Storyteller
   Tools, and temporary nomination action items remain held during active games
   where that interaction is safer or clearer.
+- Beta Greedy Whalebuffet and Draft Buffet setup modes under Jay's Setup Bag.
+  Greedy supports parallel player preferences, late setup joins, Dealer's
+  Choice, private Storyteller assignment, and final legality checks. Draft
+  locks and randomizes the roster, chooses each player's turn privately and at
+  random, uses 3/2/1 offers, recalculates category needs after setup modifiers,
+  and keeps hidden role and dependency fallbacks private. Both modes hand the
+  validated result back to Sybillian's normal start flow. Their generators
+  consume `buffet-rules.json` and the versioned official jinx snapshot instead
+  of duplicating role data. Public Djinn-sheet presentation and live
+  multiplayer QA are still beta limitations.
 - A versioned one-time configuration migration that establishes the documented
   fresh-install toggle state without overwriting later user choices on reload.
 - In-place reset and online player-state cleanup. A supported 5-15 player game
@@ -202,7 +304,8 @@ Current migration state:
   `Jays-Patch/world-template`.
 - Use Sybillian-style Storyteller commands for normal game management and
   setup. Keep `/botc` for Jay-owned non-setup features such as queue, votekick,
-  music, grimoire reveal, and winner reveal.
+  music, the `/botc fun` toybox, King and Vizier entrances, the `/botc slayer` practice shot,
+  grimoire reveal, and winner reveal.
 - Use `Jays-Patch/world-template` as the shareable clean world and manual
   recovery source.
 - Normal `/botc reset_game` does not stop or restart the server. It calls

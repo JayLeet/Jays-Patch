@@ -27,4 +27,4 @@ scoreboard players set scarlet_woman role_list 1
 scoreboard players set baron role_list 1
 scoreboard players set imp role_list 1
 function ct:admin/setup/set_from_menu
-tellraw @s [{"text":"Selected preset: ","color":"gray"},{"text":"Trouble Brewing","color":"yellow"}]
+tellraw @s [{"text":"\u2714 ","color":"green","bold":true},{"text":"Selected ","color":"gray","bold":false},{"text":"Trouble Brewing","color":"gold","bold":true},{"text":".","color":"gray","bold":false}]

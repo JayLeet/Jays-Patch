@@ -1,7 +1,7 @@
 # Cast the caller's vote in the active votekick.
-execute unless entity @a[tag=botc_vote_target] run return run tellraw @s [{"text":"! ","color":"yellow","bold":true},{"text":"No votekick is active.","color":"gray","bold":false}]
-execute if entity @s[tag=botc_vote_target] run return run tellraw @s [{"text":"! ","color":"yellow","bold":true},{"text":"The target cannot vote in their own votekick.","color":"gray","bold":false}]
-execute if entity @s[tag=botc_vote_yes] run return run tellraw @s [{"text":"! ","color":"yellow","bold":true},{"text":"You already voted in this votekick.","color":"gray","bold":false}]
+execute unless entity @a[tag=botc_vote_target] run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"No votekick is active.","color":"gray","bold":false}]
+execute if entity @s[tag=botc_vote_target] run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"The target cannot vote in their own votekick.","color":"gray","bold":false}]
+execute if entity @s[tag=botc_vote_yes] run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You already voted in this votekick.","color":"gray","bold":false}]
 tag @s add botc_vote_yes
 scoreboard players set @s botc_vote_cd 100
 function botc_patch:vote/recount

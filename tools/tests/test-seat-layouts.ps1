@@ -6,6 +6,7 @@ $RepoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 
 $FunctionRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function"
 $SeatRoot = Join-Path $FunctionRoot "seat_layout"
+$SeatGuideRoot = Join-Path $FunctionRoot "seat_guide"
 $NominationMarkerRoot = Join-Path $FunctionRoot "nomination_markers"
 $Generator = Join-Path $RepoRoot "tools/generate-seat-layouts.ps1"
 $BotcCommands = Join-Path $RepoRoot "Jays-Patch/melius-commands/commands/botc.json"
@@ -159,6 +160,16 @@ foreach ($coordinate in $baselineSigns) {
     Assert-Contains $baseline "(?m)^setblock $coordinate minecraft:spruce_wall_sign\[" "Sybillian compatibility sign at $coordinate"
 }
 
+$applyTarget = Read-RequiredText (Join-Path $SeatRoot "apply_target.mcfunction")
+$plainNameMode = $applyTarget.IndexOf("function ct:util/color_names", [System.StringComparison]::Ordinal)
+$firstLayoutApply = $applyTarget.IndexOf("function botc_patch:seat_layout/apply/0", [System.StringComparison]::Ordinal)
+$lastLayoutApply = $applyTarget.IndexOf("function botc_patch:seat_layout/apply/15", [System.StringComparison]::Ordinal)
+$restorePrefixes = $applyTarget.IndexOf("function ct:util/color_prefixes", [System.StringComparison]::Ordinal)
+if ($plainNameMode -lt 0 -or $firstLayoutApply -lt 0 -or $lastLayoutApply -lt 0 -or $restorePrefixes -lt 0 -or
+    $plainNameMode -ge $firstLayoutApply -or $lastLayoutApply -ge $restorePrefixes) {
+    throw "Seat labels must resolve while Sybillian's team prefixes are temporarily disabled, then restore those prefixes."
+}
+
 $ensureMarkers = Read-RequiredText (Join-Path $SeatRoot "ensure_marker_tags.mcfunction")
 foreach ($seat in 1..15) {
     Assert-Contains $ensureMarkers "scores=\{id=$seat\}[^\r\n]+botc_seat_marker_$seat" "score-first persistent marker identity $seat"
@@ -173,6 +184,31 @@ $seatTick = Read-RequiredText (Join-Path $SeatRoot "tick.mcfunction")
 Assert-Contains $seatTick 'if score phase game_data matches 0[^\r\n]+seat_layout/recount' "setup-only roster polling"
 Assert-DoesNotContain $seatTick 'phase game_data[^\r\n]+seat_layout/teleport_players' "automatic phase transition teleports players to seats"
 Assert-Contains $seatTick 'if score phase game_data matches 3 as @a\[tag=nominee,tag=!botc_seat_nom_name_prepared,limit=1\] run function botc_patch:seat_layout/sync_nominee_name' "legacy nomination compatibility repair"
+
+$seatGuideTick = Read-RequiredText (Join-Path $SeatGuideRoot "tick.mcfunction")
+$seatGuidePlayer = Read-RequiredText (Join-Path $SeatGuideRoot "player_tick.mcfunction")
+$seatGuideDispatch = Read-RequiredText (Join-Path $SeatGuideRoot "dispatch.mcfunction")
+$seatGuideRender = Read-RequiredText (Join-Path $SeatGuideRoot "render.mcfunction")
+Assert-Contains $seatGuideTick 'phase game_data matches 1\.\.3 as @a\[tag=!storyteller,tag=!spectator,scores=\{id=1\.\.15\}\]' "day-only seated-player guidance"
+Assert-Contains $seatGuideTick 'if score @s game_id = active_game game_id at @s run function botc_patch:seat_guide/player_tick' "active-game participant guard"
+Assert-Contains $seatGuideTick 'scoreboard players add seat_guide_clock botc_patch 1' "quarter-second seat-guide clock"
+Assert-Contains $seatGuidePlayer 'unless score @s botc_seat_guide_game = active_game game_id run scoreboard players set @s botc_seat_guide_day -1' "new-game seat-guide invalidation"
+Assert-Contains $seatGuidePlayer 'if block ~ -64 ~ minecraft:warped_planks run scoreboard players operation @s botc_seat_guide_day = current_day game_data' "Sybillian Town Square acknowledgement"
+Assert-Contains $seatGuidePlayer 'unless block ~ -64 ~ minecraft:warped_planks unless score @s botc_seat_guide_day = current_day game_data if score seat_guide_clock botc_patch matches 5\.\. run function botc_patch:seat_guide/dispatch' "unacknowledged daily guide dispatch"
+if ($seatGuidePlayer.IndexOf("if block ~ -64 ~ minecraft:warped_planks", [System.StringComparison]::Ordinal) -gt $seatGuidePlayer.IndexOf("function botc_patch:seat_guide/dispatch", [System.StringComparison]::Ordinal)) {
+    throw "Town Square acknowledgement must run before the private seat guide is dispatched."
+}
+foreach ($seat in 1..15) {
+    Assert-Contains $seatGuideDispatch "if score @s id matches $seat at @e\[type=minecraft:item_display,tag=vote_marker,scores=\{id=$seat\},limit=1\] run function botc_patch:seat_guide/render" "private guide dispatch for seat $seat"
+}
+$seatGuideDispatchLines = @($seatGuideDispatch -split "`r?`n" | Where-Object { $_ -match '^execute if score @s id matches ' })
+if ($seatGuideDispatchLines.Count -ne 15) {
+    throw "The private seat guide must dispatch exactly the supported 15 seat IDs."
+}
+Assert-Contains $seatGuideRender 'particle minecraft:dust\{color:\[0\.10,0\.95,1\.00\],scale:1\.60\}.+ force @s' "private aqua seat beacon"
+Assert-Contains $seatGuideRender 'particle minecraft:end_rod.+ force @s' "private end-rod seat beacon"
+Assert-DoesNotContain $seatGuideRender 'force @a' "seat guidance visible to other players"
+Assert-DoesNotContain (($seatGuideTick, $seatGuidePlayer, $seatGuideDispatch, $seatGuideRender) -join "`n") '\b(tp|teleport) ' "seat-guide player movement"
 
 $nomineeName = Read-RequiredText (Join-Path $SeatRoot "sync_nominee_name.mcfunction")
 foreach ($seat in 1..15) {
@@ -225,6 +261,7 @@ foreach ($commandPath in @($BotcCommands, $StCommands)) {
 
 $mainTick = Read-RequiredText (Join-Path $FunctionRoot "tick.mcfunction")
 Assert-Contains $mainTick '(?m)^function botc_patch:seat_layout/tick$' "main tick seat-layout integration"
+Assert-Contains $mainTick '(?m)^function botc_patch:seat_guide/tick$' "main tick private seat-guide integration"
 Assert-Contains $mainTick '(?m)^function botc_patch:nomination_markers/tick$' "main tick high-seat ghost-marker compatibility integration"
 $markerTick = Read-RequiredText (Join-Path $NominationMarkerRoot "tick.mcfunction")
 foreach ($mapping in @(
@@ -241,6 +278,9 @@ $load = Read-RequiredText (Join-Path $FunctionRoot "load.mcfunction")
 foreach ($score in @("seat_layout_active_count", "seat_layout_target_count", "seat_layout_locked_count", "seat_layout_poll")) {
     Assert-Contains $load "score $score botc_patch" "load initialization for $score"
 }
+Assert-Contains $load 'scoreboard objectives add botc_seat_guide_day dummy' "per-player acknowledged seat-guide day objective"
+Assert-Contains $load 'scoreboard objectives add botc_seat_guide_game dummy' "per-player seat-guide game objective"
+Assert-Contains $load 'score seat_guide_clock botc_patch matches 0\.\.5' "seat-guide clock initialization"
 foreach ($seat in 13..15) {
     Assert-Contains $load "scoreboard players set ghost_marker_$seat botc_patch 0" "load reset for high-seat ghost marker $seat"
 }

@@ -1241,6 +1241,15 @@
                           "chars":  [
                                         ""
                                     ]
+                      },
+                      {
+                          "type":  "bitmap",
+                          "file":  "botc_patch:item/role/wraith.png",
+                          "height":  16,
+                          "ascent":  12,
+                          "chars":  [
+                                        ""
+                                    ]
                       }
                   ]
 }

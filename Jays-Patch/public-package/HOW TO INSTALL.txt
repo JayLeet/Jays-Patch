@@ -33,10 +33,10 @@ server setting already present in that file.
 
 function-permission-level=3
 spawn-protection=0
-resource-pack=https://download.mc-packs.net/pack/d73d89620b05d15ee38db51a3073f66a3308d4a7.zip
-resource-pack-sha1=d73d89620b05d15ee38db51a3073f66a3308d4a7
-resource-pack-id=438930c8-37ac-42cc-8504-0d8b605bba74
+resource-pack=https://download.mc-packs.net/pack/99a40287ce07843ff096f875a43a79fcae23ae6c.zip
+resource-pack-id=defe6e17-4df6-4eef-a291-18573f9c2d28
 resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
+resource-pack-sha1=99a40287ce07843ff096f875a43a79fcae23ae6c
 
 RESOURCE-PACK FALLBACK
 

@@ -77,6 +77,9 @@ $datapackPropertiesText = Get-Content -LiteralPath $DatapackPropertiesSource -Ra
 if ($serverPropertiesText -cne $datapackPropertiesText) {
     throw "Server-config and datapack setup-notice property files have drifted."
 }
+if ($serverPropertiesText -match '(?m)^require-resource-pack=') {
+    throw "Required server-properties snippets should omit Minecraft's default-false require-resource-pack setting."
+}
 
 $installText = Get-Content -LiteralPath $InstallGuide -Raw
 $requiredInstallTokens = @(
@@ -125,8 +128,6 @@ foreach ($creditToken in @(
     'https://modrinth.com/modpack/blood-on-the-clocktower',
     'https://github.com/Sybillian/minecraft-botc',
     'SYBILLIAN-MIT-LICENSE.txt',
-    'Discord community',
-    'tomozbot',
     'The Pandemonium Institute',
     'community-created-content-policy',
     'Mojang Studios'

@@ -30,4 +30,4 @@ scoreboard players set pukka role_list 1
 scoreboard players set shabaloth role_list 1
 scoreboard players set po role_list 1
 function ct:admin/setup/set_from_menu
-tellraw @s [{"text":"Selected preset: ","color":"gray"},{"text":"Bad Moon Rising","color":"yellow"}]
+tellraw @s [{"text":"\u2714 ","color":"green","bold":true},{"text":"Selected ","color":"gray","bold":false},{"text":"Bad Moon Rising","color":"red","bold":true},{"text":".","color":"gray","bold":false}]

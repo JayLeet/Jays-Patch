@@ -30,4 +30,4 @@ scoreboard players set vigormortis role_list 1
 scoreboard players set no_dashii role_list 1
 scoreboard players set vortox role_list 1
 function ct:admin/setup/set_from_menu
-tellraw @s [{"text":"Selected preset: ","color":"gray"},{"text":"Sects and Violets","color":"yellow"}]
+tellraw @s [{"text":"\u2714 ","color":"green","bold":true},{"text":"Selected ","color":"gray","bold":false},{"text":"Sects and Violets","color":"aqua","bold":true},{"text":".","color":"gray","bold":false}]

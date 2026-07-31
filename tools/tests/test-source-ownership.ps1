@@ -7,6 +7,7 @@ $DatapackDataRoot = Join-Path $PatchRoot "datapack/data"
 $ResourcepackAssetsRoot = Join-Path $PatchRoot "resourcepack/assets"
 $CommandSourceRoot = Join-Path $PatchRoot "melius-commands/commands"
 $FancyMenuSourceRoot = Join-Path $PatchRoot "fancymenu"
+$YawpCompatibilityContract = Join-Path $PatchRoot "yawp-compatibility.json"
 $ComposeFile = Join-Path $RepoRoot "launcher/compose.yml"
 $LauncherSource = Join-Path $RepoRoot "launcher/exe/BotcLauncher.cs"
 
@@ -48,11 +49,12 @@ function Assert-TextDoesNotContain {
 Assert-PathExists $DatapackDataRoot "Jay's Patch datapack data folder"
 Assert-PathExists $ResourcepackAssetsRoot "Jay's Patch resource-pack assets folder"
 Assert-PathExists $CommandSourceRoot "Jay's Patch Melius command source folder"
+Assert-PathExists $YawpCompatibilityContract "YAWP compatibility contract"
 Assert-PathExists $ComposeFile "Docker compose file"
 Assert-PathExists $LauncherSource "standalone launcher source"
 
 $allowedDatapackNamespaces = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
-@("botc_patch", "minecraft") | ForEach-Object { [void] $allowedDatapackNamespaces.Add($_) }
+@("botc_patch", "minecraft", "ct") | ForEach-Object { [void] $allowedDatapackNamespaces.Add($_) }
 
 $unexpectedDatapackNamespaces = @(
     Get-ChildItem -LiteralPath $DatapackDataRoot -Directory |
@@ -62,6 +64,24 @@ $unexpectedDatapackNamespaces = @(
 
 if ($unexpectedDatapackNamespaces.Count -gt 0) {
     throw "Unexpected Jay's Patch datapack namespace(s): $($unexpectedDatapackNamespaces -join ', '). Keep Sybillian-owned behavior upstream and wrap it from botc_patch."
+}
+
+$ctNamespaceRoot = Join-Path $DatapackDataRoot "ct"
+$yawpCompatibility = Get-Content -LiteralPath $YawpCompatibilityContract -Raw | ConvertFrom-Json
+$allowedCtPaths = @(
+    "function/loop/player/join_vc.mcfunction"
+    @($yawpCompatibility.overrides) | ForEach-Object { "function/$($_.path)" }
+) | Sort-Object
+$ctFiles = @(
+    Get-ChildItem -LiteralPath $ctNamespaceRoot -File -Recurse -ErrorAction SilentlyContinue |
+        ForEach-Object {
+            $_.FullName.Substring($ctNamespaceRoot.Length).TrimStart('\', '/').Replace('\', '/')
+        } |
+        Sort-Object
+)
+$ctPathDifference = Compare-Object -ReferenceObject $allowedCtPaths -DifferenceObject $ctFiles
+if ($ctPathDifference) {
+    throw "Jay's Patch data/ct compatibility files differ from the explicit Night Chat and YAWP contracts. Found: $($ctFiles -join ', ')"
 }
 
 $copiedCtAssets = Join-Path $ResourcepackAssetsRoot "ct"
@@ -93,4 +113,3 @@ Assert-TextDoesNotContain $launcherText 'fancymenuSource|fancymenuDest' "server-
 Assert-TextDoesNotContain $launcherText 'Directory\.GetFiles\(commandsDest, "\*\.json"\)' "broad runtime command deletion"
 
 Write-Host "Jay's Patch source ownership checks passed." -ForegroundColor Green
-

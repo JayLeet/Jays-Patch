@@ -21,7 +21,8 @@ function Get-BaselineFiles {
         "Jays-Patch/resourcepack",
         "Jays-Patch/config",
         "Jays-Patch/server-config",
-        "Jays-Patch/public-package"
+        "Jays-Patch/public-package",
+        "Jays-Patch/prototypes"
     )) {
         $path = Join-Path $RepoRoot $root
         if (Test-Path -LiteralPath $path -PathType Container) {

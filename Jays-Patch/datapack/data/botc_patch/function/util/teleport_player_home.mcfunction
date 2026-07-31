@@ -1,0 +1,16 @@
+# Teleport the executing seated player to the home assigned to their seat.
+execute if score @s id matches 1 run tp @s 84.28 77.00 111.42 -4908.54 4.85
+execute if score @s id matches 2 run tp @s 69.28 76.00 129.70 -549.19 1.70
+execute if score @s id matches 3 run tp @s 48.78 76.06 119.09 194.58 4.19
+execute if score @s id matches 4 run tp @s 97.63 84.00 21.61 -20.29 5.10
+execute if score @s id matches 5 run tp @s 108.12 81.00 12.32 -31.14 7.58
+execute if score @s id matches 6 run tp @s 122.35 80.00 8.30 -37.27 5.84
+execute if score @s id matches 7 run tp @s 146.39 79.00 13.50 37.77 4.19
+execute if score @s id matches 8 run tp @s 165.76 72.00 32.30 11.10 7.50
+execute if score @s id matches 9 run tp @s 176.30 73.00 43.61 307.15 6.59
+execute if score @s id matches 10 run tp @s 186.35 71.00 60.42 753.45 8.58
+execute if score @s id matches 11 run tp @s 156.99 71.06 81.27 1141.03 2.61
+execute if score @s id matches 12 run tp @s 171.98 71.06 86.53 1135.64 8.24
+execute if score @s id matches 13 run tp @s 185.70 72.00 99.85 1191.81 6.75
+execute if score @s id matches 14 run tp @s 166.55 72.00 108.68 1018.77 7.83
+execute if score @s id matches 15 run tp @s 156.29 73.00 115.48 1180.37 5.18

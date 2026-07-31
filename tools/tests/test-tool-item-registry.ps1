@@ -187,8 +187,8 @@ if ([string] $boomdandyItem.modelString -ne "botc_role_boomdandy") {
 if ([string] $boomdandyItem.postExecutionTool.slot -ne "hotbar.2") {
     throw "storyteller_boomdandy must occupy visual slot 3 in the post-execution row."
 }
-if ([string] $boomdandyItem.postExecutionTool.inPlaySelector -ne "@a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=107}]") {
-    throw "storyteller_boomdandy must be gated by the authoritative in-play Boomdandy selector."
+if ([string] $boomdandyItem.postExecutionTool.inPlaySelector -ne "@a[tag=botc_st_last_executed,scores={id=1..15,role=107}]") {
+    throw "storyteller_boomdandy must be gated by the last executed player's Boomdandy role."
 }
 if ([string] $boomdandyItem.phase -ne "post-execution") {
     throw "storyteller_boomdandy must remain scoped to the post-execution state."
@@ -247,6 +247,11 @@ foreach ($id in @("setup_reset_game", "setup_become_player")) {
     if ($entry.Count -ne 1 -or [string] $entry[0].setupTool.mode -ne "both") {
         throw "Setup control '$id' must remain a held item in both Jay modes."
     }
+}
+
+$takeSeatItems = @($items | Where-Object { [string] $_.id -eq "buffet_take_seat" })
+if ($takeSeatItems.Count -ne 1 -or [string] $takeSeatItems[0].itemModel -ne "botc_patch:setup_become_player") {
+    throw "Take Open Seat must reuse the existing Become a Player chair model."
 }
 
 $requiredItemProperties = @("id", "modelString", "itemModel", "item", "label", "owner", "phase", "slot", "source", "status")

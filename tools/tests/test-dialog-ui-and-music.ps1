@@ -13,6 +13,11 @@ function Assert-Contains {
     if ($Text -notmatch $Pattern) { throw "Missing $Description." }
 }
 
+function Assert-NotContains {
+    param([string] $Text, [string] $Pattern, [string] $Description)
+    if ($Text -match $Pattern) { throw "Unexpected $Description." }
+}
+
 function Assert-File {
     param([string] $Path, [string] $Description)
     if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { throw "Missing $Description`: $Path" }
@@ -81,10 +86,11 @@ $tick = Get-Content -LiteralPath (Join-Path $FunctionRoot 'music/tick.mcfunction
 $defaultOff = Get-Content -LiteralPath (Join-Path $FunctionRoot 'music/default_off.mcfunction') -Raw -Encoding UTF8
 Assert-Contains $menu 'font:"botc_patch:ui_icons"' "Night Music UI font"
 Assert-Contains $menu 'columns:4' "four-column Night Music layout"
-Assert-Contains $menu 'Resume Current.*color:"green",bold:true' "green Resume Current control"
-Assert-Contains $menu 'Random Track.*color:"gold",bold:true' "gold Random Track control"
-Assert-Contains $menu 'Toggle Pitch.*color:"aqua",bold:true' "aqua Toggle Pitch control"
-Assert-Contains $menu 'Turn Off.*color:"dark_red",bold:true' "dark-red Turn Off control"
+Assert-Contains $menu 'Resume Current.*color:"green"' "green Resume Current control"
+Assert-Contains $menu 'Random Track.*color:"gold"' "gold Random Track control"
+Assert-Contains $menu 'Toggle Pitch.*color:"aqua"' "aqua Toggle Pitch control"
+Assert-Contains $menu 'Turn Off.*color:"dark_red"' "dark-red Turn Off control"
+Assert-NotContains $menu '(Resume Current|Random Track|Toggle Pitch|Turn Off).*bold:true' "bold ordinary Night Music controls"
 foreach ($track in $tracks) {
     Assert-Contains $menu ([regex]::Escape([string] $track.label) + '.*botc_music_select set ' + [int] $track.trigger) "menu action for $($track.label)"
     Assert-Contains $select ('botc_music_select matches ' + [int] $track.trigger + ' run scoreboard players set @s botc_music_pick ' + [int] $track.pick) "selector route for $($track.label)"
@@ -136,7 +142,7 @@ $dashboardDialogs = @(
 foreach ($relativePath in $dashboardDialogs) {
     $text = Get-Content -LiteralPath (Join-Path $FunctionRoot $relativePath) -Raw -Encoding UTF8
     Assert-Contains $text '/trigger botc_st_dialog set ' "server-routed dashboard action in $relativePath"
-    Assert-Contains $text 'bold:true' "bold dashboard action labels in $relativePath"
+    Assert-Contains $text 'bold:true' "important dashboard emphasis in $relativePath"
     Assert-Contains $text 'color:"(aqua|gold|yellow|green|red|dark_red|light_purple)"' "semantic dashboard colors in $relativePath"
 }
 

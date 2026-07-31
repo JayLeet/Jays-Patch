@@ -40,6 +40,17 @@
                                 {
                                     "when":  {
                                                  "strings":  [
+                                                                 "grim_reveal_menu_notification"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/storyteller_tools_notification"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
                                                                  "music_selector"
                                                              ]
                                              },
@@ -354,6 +365,61 @@
                                     "model":  {
                                                   "type":  "minecraft:model",
                                                   "model":  "botc_patch:item/setup_wall_start"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "setup_wall_other_modes"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "minecraft:item/nether_star"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "buffet_choices"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "minecraft:item/book"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "buffet_review"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "minecraft:item/spyglass"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "buffet_start"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "minecraft:item/emerald"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "buffet_take_seat"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/setup_become_player"
                                               }
                                 },
                                 {
@@ -860,6 +926,17 @@
                                     "model":  {
                                                   "type":  "minecraft:model",
                                                   "model":  "botc_patch:item/role/boomdandy"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_boomdandy_notification"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role_notification/boomdandy"
                                               }
                                 },
                                 {
@@ -1965,6 +2042,50 @@
                                 {
                                     "when":  {
                                                  "strings":  [
+                                                                 "botc_fun_slayer"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/slayer"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_fun_boomdandy"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/boomdandy"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_fun_hot_potato"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/imp"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_fun_king"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/king"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
                                                                  "botc_role_snake_charmer"
                                                              ]
                                              },
@@ -2147,6 +2268,17 @@
                                     "model":  {
                                                   "type":  "minecraft:model",
                                                   "model":  "botc_patch:item/role/washerwoman"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_role_wraith"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/role/wraith"
                                               }
                                 },
                                 {
@@ -3016,6 +3148,17 @@
                                     "model":  {
                                                   "type":  "minecraft:model",
                                                   "model":  "botc_patch:item/nomination/black"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "winner_firework"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "minecraft:item/firework_rocket"
                                               }
                                 }
                             ]

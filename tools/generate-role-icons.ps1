@@ -11,6 +11,7 @@ $RoleFontPath = Join-Path $ResourceRoot "assets/botc_patch/font/role_icons.json"
 $SybillianRoleTextureRoot = Join-Path $RepoRoot "data\resources\resourcepack\required\Blood on the Clocktower\assets\ct\textures\role"
 $SybillianRolePath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\set_from_menu.mcfunction"
 $SybillianCharactersPath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\characters.mcfunction"
+$RoleExtensionPath = Join-Path $PatchRoot "role-extensions.json"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
 $RoleGlyphHelper = Join-Path $RepoRoot "tools/lib/role-icon-glyphs.ps1"
 
@@ -36,7 +37,7 @@ foreach ($helper in @($RoleCatalogHelper, $RoleGlyphHelper)) {
 
 . $RoleCatalogHelper
 . $RoleGlyphHelper
-$catalog = @(Get-SybillianRoleCatalog -SetFromMenuPath $SybillianRolePath -CharactersPath $SybillianCharactersPath)
+$catalog = @(Get-SybillianRoleCatalog -SetFromMenuPath $SybillianRolePath -CharactersPath $SybillianCharactersPath -ExtensionPath $RoleExtensionPath)
 $roleSet = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
 foreach ($role in $roles) {
     [void] $roleSet.Add($role)

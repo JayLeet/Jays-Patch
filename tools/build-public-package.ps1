@@ -121,7 +121,7 @@ finally {
 & $WorldTemplateTest
 
 $properties = Read-PropertiesFile $RequiredProperties
-foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "require-resource-pack", "resource-pack-prompt")) {
+foreach ($key in @("resource-pack", "resource-pack-sha1", "resource-pack-id", "resource-pack-prompt")) {
     if (-not $properties.ContainsKey($key)) {
         throw "Missing $key in $RequiredProperties"
     }
@@ -139,10 +139,6 @@ if ($resourcePackUrl -match '/pack/([0-9a-fA-F]{40})\.zip' -and $Matches[1].ToLo
 if (-not [guid]::TryParse($properties["resource-pack-id"], [ref] $resourcePackId)) {
     throw "Invalid resource-pack-id in $RequiredProperties"
 }
-if ($properties["require-resource-pack"].ToLowerInvariant() -notin @("true", "false")) {
-    throw "require-resource-pack must be true or false in $RequiredProperties"
-}
-
 $downloadPath = Join-Path $env:TEMP "jays-patch-public-resourcepack-$resourcePackSha1.zip"
 Invoke-WebRequest -Uri $resourcePackUrl -OutFile $downloadPath
 Assert-Sha1 $downloadPath $resourcePackSha1 "Downloaded hosted resource pack"
