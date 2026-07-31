@@ -77,9 +77,9 @@ Write-Lines -Path (Join-Path $OutputRoot 'teleport_evil/append_icon.mcfunction')
 
 $demonComponents = New-RoleGlyphComponents -Prefix 'demon'
 $minionComponents = New-RoleGlyphComponents -Prefix 'minion'
-$demonLabel = @($demonComponents) + '{text:" Demon Only",font:"minecraft:default",color:"dark_red",bold:true}'
-$minionLabel = @($minionComponents) + '{text:" Minions Only",font:"minecraft:default",color:"gold",bold:true}'
-$bothLabel = @($demonComponents) + @($minionComponents) + '{text:" Demon + Minions",font:"minecraft:default",color:"red",bold:true}'
+$demonLabel = @($demonComponents) + '{text:" Demon Only",font:"minecraft:default",color:"dark_red"}'
+$minionLabel = @($minionComponents) + '{text:" Minions Only",font:"minecraft:default",color:"gold"}'
+$bothLabel = @($demonComponents) + @($minionComponents) + '{text:" Demon + Minions",font:"minecraft:default",color:"red"}'
 $title = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id 'teleport_evil') -Font 'botc_patch:ui_icons' -Text 'Teleport Evil Team' -Color 'white'
 $back = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id 'back') -Font 'botc_patch:ui_icons' -Text 'Back' -Color 'gray'
 

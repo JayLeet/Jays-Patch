@@ -28,7 +28,7 @@ $nomMarkMetadata = Get-BotcToolMetadata -Tool $nomMarkTool -MetadataProperty "su
 $nomBackStack = New-BotcToolStack -Tool $nomBackTool -MetadataProperty "submenuTool"
 $nomStartVoteStack = New-BotcToolStack -Tool $nomStartVoteTool -MetadataProperty "submenuTool"
 $nomMarkStack = New-BotcToolStack -Tool $nomMarkTool -MetadataProperty "submenuTool"
-$nomClearMarkStack = '{0}[minecraft:custom_model_data={{strings:["{1}"]}},minecraft:custom_data={{botc_patch_tool:1b}},custom_name=[{{text:"Clear Mark",color:"yellow",bold:true,italic:false}},{{text:" [Right-Click]",color:"gray",bold:false,italic:false}}]]' -f `
+$nomClearMarkStack = '{0}[minecraft:custom_model_data={{strings:["{1}"]}},minecraft:custom_data={{botc_patch_tool:1b}},custom_name=[{{text:"Clear Mark",color:"yellow",bold:false,italic:false}},{{text:" [Right-Click]",color:"gray",bold:false,italic:false}}]]' -f `
     [string] $nomMarkTool.item,
     [string] $nomMarkTool.modelString
 $actionModelIds = @(
@@ -249,6 +249,7 @@ Write-Lines -Path (Join-Path $OutputRoot "pyre.mcfunction") -Lines $pyre
 $execute = New-GeneratedHeader "Executes the marked player while preserving the post-execution target."
 $execute.Add("tag @s add botc_st_tool_used")
 $execute.Add("tag @s remove botc_st_nom_execute_done")
+$execute.Add("tag @s remove botc_st_post_kill_resolved")
 $execute.Add("tag @a remove botc_st_last_executed")
 $execute.Add("execute if entity @a[tag=marked_for_execution,limit=1] run tag @s add botc_st_nom_execute_done")
 $execute.Add("execute if entity @s[tag=botc_st_nom_execute_done] run tag @a[tag=marked_for_execution,limit=1] add botc_st_last_executed")

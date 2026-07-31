@@ -45,7 +45,7 @@ function Write-Lines {
 $open = New-GeneratedHeader "Opens the filtered alive-player Kill dialog without replacing the Storyteller hotbar."
 $open.Add("tag @s add botc_st_tool_used")
 $open.Add("execute unless entity @s[tag=storyteller] run return 0")
-$open.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only kill players during the day.",color:"red"}]')
+$open.Add('execute unless score phase game_data matches 1..3 run return run tellraw @s [{text:"You can only kill players during the day or nominations.",color:"red"}]')
 $open.Add("function botc_patch:storyteller_tools/kill_menu/dialog")
 Write-Lines -Path (Join-Path $OutputRoot "open.mcfunction") -Lines $open
 
@@ -58,14 +58,14 @@ Write-BotcFilteredPlayerDialog `
     -BodyText "Choose an alive seated player." `
     -EligibilitySelectorTemplate '@a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=<seat>},limit=1]' `
     -ActionCommand "kill_player" `
-    -PhaseCondition "score phase game_data matches 1..2" `
-    -InvalidPhaseMessage "You can only kill players during the day." `
+    -PhaseCondition "score phase game_data matches 1..3" `
+    -InvalidPhaseMessage "You can only kill players during the day or nominations." `
     -NoPlayersMessage "There are no alive seated players to kill."
 
 $selectPlayer = New-GeneratedHeader "Validates a dialog seat before dispatching to its fixed Kill function."
 $selectPlayer.Add("dialog clear @s")
 $selectPlayer.Add("execute unless entity @s[tag=storyteller] run return 0")
-$selectPlayer.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only kill players during the day.",color:"red"}]')
+$selectPlayer.Add('execute unless score phase game_data matches 1..3 run return run tellraw @s [{text:"You can only kill players during the day or nominations.",color:"red"}]')
 $selectPlayer.Add('$function botc_patch:storyteller_tools/kill_menu/to_seat_$(seat)')
 Write-Lines -Path (Join-Path $OutputRoot "select_player.mcfunction") -Lines $selectPlayer
 
