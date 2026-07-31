@@ -38,6 +38,7 @@ execute if score draft_candidate_town botc_patch < draft_candidate_assigned_town
 execute if score draft_candidate_outsider botc_patch < draft_candidate_assigned_outsider botc_patch run scoreboard players set draft_unassign_ok botc_patch 0
 execute if score draft_candidate_minion botc_patch < draft_candidate_assigned_minion botc_patch run scoreboard players set draft_unassign_ok botc_patch 0
 execute if score draft_candidate_demon botc_patch < draft_candidate_assigned_demon botc_patch run scoreboard players set draft_unassign_ok botc_patch 0
+execute unless score draft_unassign_ok botc_patch matches 1 run function botc_patch:buffet/attention/block_self
 execute unless score draft_unassign_ok botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Later choices depend on this player's character. Restart the Draft or empty the affected seats first.","color":"gray","bold":false}]
 scoreboard players operation draft_target_town botc_patch = draft_candidate_town botc_patch
 scoreboard players operation draft_target_outsider botc_patch = draft_candidate_outsider botc_patch

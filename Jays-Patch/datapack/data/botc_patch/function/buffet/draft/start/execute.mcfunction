@@ -3,6 +3,7 @@
 # Start the ordinary game through Sybillian, then apply exact Draft assignments.
 execute unless score buffet_start_confirmed botc_patch matches 1 run return run function botc_patch:buffet/draft/start/try
 scoreboard players set buffet_start_confirmed botc_patch 0
+execute unless score phase game_data matches 0 run function botc_patch:buffet/attention/block_self
 execute unless score phase game_data matches 0 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"A game is already active.","color":"gray","bold":false}]
 function botc_patch:buffet/draft/start/resolve_specials
 function botc_patch:buffet/draft/start/validate
@@ -10,12 +11,14 @@ execute unless score buffet_hard_valid botc_patch matches 1 run function botc_pa
 execute unless score buffet_hard_valid botc_patch matches 1 run return 0
 tag @a[tag=!storyteller,tag=!botc_buffet_roster] add spectator
 function botc_patch:buffet/draft/start/build_script
+execute unless score setup_import_success botc_patch matches 1 run function botc_patch:buffet/attention/block_self
 execute unless score setup_import_success botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Sybillian did not accept the final setup, so the game did not start.","color":"gray","bold":false}]
 function botc_patch:setup_wall/clear_highlights
 function botc_patch:cmd/start
 execute unless score phase game_data matches 4 run return 0
 function botc_patch:buffet/roster/restore_started_identity
 function botc_patch:buffet/draft/start/apply_roles
+schedule function botc_patch:buffet/roles/sync_storyteller_hidden 2t replace
 function botc_patch:buffet/draft/start/announce_hermit
 function botc_patch:storyteller_tools/teleport_den
 schedule function botc_patch:buffet/roles/you_are 3s replace

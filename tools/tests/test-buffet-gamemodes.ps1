@@ -167,21 +167,46 @@ Assert-NotContains $assignRoster 'team join [0-9a-z_]+ @a\[' "Buffet seating can
 $sharedHandleAction = Read-RequiredFile (Join-Path $BuffetRoot "handle_action.mcfunction")
 $tick = Read-RequiredFile (Join-Path $BuffetRoot "tick.mcfunction")
 $itemChecks = Read-RequiredFile (Join-Path $BuffetRoot "item_checks.mcfunction")
+$giveChoices = Read-RequiredFile (Join-Path $BuffetRoot "items/give_choices.mcfunction")
+$giveDraftChoices = Read-RequiredFile (Join-Path $BuffetRoot "items/give_draft_choices.mcfunction")
+$givePersonalGrimoire = Read-RequiredFile (Join-Path $BuffetRoot "items/give_personal_grimoire.mcfunction")
 $giveReset = Read-RequiredFile (Join-Path $BuffetRoot "items/give_reset.mcfunction")
 $redactPlayerScript = Read-RequiredFile (Join-Path $BuffetRoot "script/redact_player.mcfunction")
 $cleanup = Read-RequiredFile (Join-Path $BuffetRoot "cleanup.mcfunction")
 $buffetLoad = Read-RequiredFile (Join-Path $BuffetRoot "load.mcfunction")
 $buffetRoleCatalog = Read-RequiredFile (Join-Path $BuffetRoot "roles/init.mcfunction")
+$buffetBlockSelf = Read-RequiredFile (Join-Path $BuffetRoot "attention/block_self.mcfunction")
+$buffetBlockStorytellers = Read-RequiredFile (Join-Path $BuffetRoot "attention/block_storytellers.mcfunction")
+$personalGrimoireDialog = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/dialog/count_5.mcfunction")
+$personalGrimoireCategories = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/categories.mcfunction")
+$personalGrimoireTown = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/town.mcfunction")
+$personalGrimoireStore = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/store_character.mcfunction")
+$personalGrimoireOpenSybillian = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/open_sybillian.mcfunction")
+$personalGrimoireSyncName = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/sync_sybillian_name.mcfunction")
+$personalGrimoireSyncSybillian = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/sync_sybillian_apply.mcfunction")
+$personalGrimoireReset = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reset_player.mcfunction")
+$personalGrimoireReminderSlots = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reminders/slots.mcfunction")
+$personalGrimoireReminderReadSlot = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reminders/read_slot.mcfunction")
+$personalGrimoireReminderPrepareSlot = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reminders/prepare_slot.mcfunction")
+$personalGrimoireReminderCategories = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reminders/categories.mcfunction")
+$personalGrimoireReminderTownPage = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reminders/town_1.mcfunction")
+$personalGrimoireReminderSelect = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reminders/select.mcfunction")
+$personalGrimoireReminderStore = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reminders/store.mcfunction")
+$personalGrimoireReminderApply = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reminders/apply.mcfunction")
+$personalGrimoireReminderClear = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/reminders/clear.mcfunction")
 $appendImportRole = Read-RequiredFile (Join-Path $BuffetRoot "greedy/start/append_import_role.mcfunction")
 $rootLoad = Read-RequiredFile (Join-Path $FunctionRoot "load.mcfunction")
 $rootTick = Read-RequiredFile (Join-Path $FunctionRoot "tick.mcfunction")
 Assert-Contains $rootLoad 'function botc_patch:buffet/load' "root load registers Buffet state"
 Assert-Contains $rootTick 'function botc_patch:buffet/tick' "root tick routes Buffet interactions"
+Assert-Contains $buffetBlockSelf 'dialog clear @s[\s\S]*playsound minecraft:block\.note_block\.bass voice @s ~ ~ ~ 1 0\.6' "the shared Buffet blocker closes the affected dialog before playing the established private bass alert"
+Assert-Contains $buffetBlockStorytellers 'execute as @a\[tag=storyteller\] run function botc_patch:buffet/attention/block_self' "shared Storyteller blockers apply the same close-and-alert behavior privately to every Storyteller"
 Assert-Contains $buffetLoad 'scoreboard objectives add botc_buffet_action trigger' "Buffet owns a player-safe trigger objective"
+Assert-Contains $buffetLoad 'scoreboard objectives add botc_bg_target dummy[\s\S]*scoreboard objectives add botc_bg_rslot dummy[\s\S]*scoreboard objectives add botc_bg_rcat dummy[\s\S]*scoreboard objectives add botc_bg_rpage dummy[\s\S]*scoreboard objectives add botc_bg_s15 dummy' "Buffet registers private per-player Personal Grimoire character and reminder navigation state"
 Assert-Contains $buffetLoad 'draft_current_seat botc_patch matches 0\.\.15' "Buffet load preserves or safely initializes the current Draft seat"
 Assert-Contains $sharedHandleAction 'buffet_mode botc_patch matches 2.*function botc_patch:buffet/draft/handle_action' "mode 2 routes through the Draft action broker"
 Assert-Contains $sharedHandleAction 'buffet_mode botc_patch matches 1.*tag=storyteller.*matches 6500\.\.6997.*greedy/review/hermit/dispatch' "only a Greedy Storyteller can use Hermit assignment controls"
-Assert-Contains $tick 'buffet_mode botc_patch matches 2.*function botc_patch:buffet/draft/open_current' "Draft choice item reopens only for the current player"
+Assert-Contains $tick 'buffet_mode botc_patch matches 2.*tag=botc_buffet_roster,tag=!storyteller.*weapon\.offhand.*botc_buffet_choices.*function botc_patch:buffet/draft/open_choices' "every Draft player's offhand choice item routes through private state-aware handling"
 Assert-Contains $tick 'buffet_mode botc_patch matches 2.*tag=storyteller.*function botc_patch:buffet/draft/review/open' "Draft review is Storyteller-only"
 Assert-Contains $selectGreedy 'function botc_patch:buffet/item_checks' "Greedy immediately installs its setup tools"
 Assert-Contains $selectDraft 'function botc_patch:buffet/item_checks' "Draft immediately installs its setup tools"
@@ -194,15 +219,88 @@ Assert-Contains $tick 'buffet_mode botc_patch matches 1\.\.2 as @a\[tag=storytel
 Assert-Contains $tick 'buffet_mode botc_patch matches 1\.\.2 run scoreboard players set @a\[tag=botc_setup_tool_used\] botc_hand_use 0[\s\S]*buffet_mode botc_patch matches 1\.\.2 run tag @a remove botc_setup_tool_used' "Buffet consumes the reset click without leaving shared setup-use state"
 Assert-Contains $rootTick 'unless score buffet_mode botc_patch matches 1\.\.2.*function botc_patch:setup_tools/tick' "Buffet exposes only Reset Game instead of every ordinary setup action"
 Assert-Contains $tick 'phase game_data matches 0\.\. if score buffet_mode botc_patch matches 1\.\.2 as @a\[tag=botc_buffet_roster,tag=!storyteller\].*botc_buffet_public_script:1b.*function botc_patch:buffet/script/redact_player' "both Buffet modes redact every player's public Script throughout setup, active play, and reconnect"
+Assert-Contains $tick 'botc_buffet_public_script:1b,botc_buffet_public_script_version:2' "Buffet upgrades already-issued redacted Scripts when their safe public format changes"
 Assert-Contains $redactPlayerScript 'clear @s minecraft:carrot_on_a_stick\[minecraft:custom_model_data=\{strings:\["script"\]\}\]' "Script redaction removes every potentially moved secret Script copy"
 Assert-Contains $redactPlayerScript 'buffet_mode botc_patch matches 1.*name:"Greedy Whalebuffet"' "Greedy players receive a mode-labelled empty Script"
 Assert-Contains $redactPlayerScript 'buffet_mode botc_patch matches 2.*name:"Draft Buffet"' "Draft players receive a mode-labelled empty Script"
-Assert-Contains $redactPlayerScript 'characters:\{town:\[\],outsiders:\[\],minions:\[\],demons:\[\]\},night_order:\{first:\[\],other:\[\]\},reminders:\[\],reminder_imgs:\[\]' "the public Buffet Script exposes no characters, night order, or reminder clues"
+Assert-Contains $redactPlayerScript 'characters:\{town:\[\],outsiders:\[\],minions:\[\],demons:\[\]\},night_order:\{first:\[\],other:\[\]\}' "the public Buffet Script exposes no selected characters or night-order clues"
+Assert-Contains $redactPlayerScript 'botc_buffet_public_script:1b,botc_buffet_public_script_version:2' "new redacted Scripts carry the current repair version"
 Assert-NotContains $redactPlayerScript 'storage ct:script' "public Script redaction cannot erase Sybillian's authoritative server-side setup"
-Assert-NotContains $redactPlayerScript 'washerwoman|scarlet_woman|imp' "public Script redaction cannot hard-code any character clue"
+Assert-NotContains $redactPlayerScript 'greedy\.seats|draft\.seats|botc_buffet_role|botc_buffet_perceived' "the public reminder catalogue cannot derive from the actual Buffet setup"
+$publicScriptMatches = [regex]::Matches($redactPlayerScript, 'reminders:(\[[^\]]*\]),reminder_imgs:(\[[^\]]*\])')
+if ($publicScriptMatches.Count -ne 2) {
+    throw "Both Buffet modes must receive one fixed public reminder catalogue."
+}
+$greedyReminderLabels = $publicScriptMatches[0].Groups[1].Value | ConvertFrom-Json
+$greedyReminderImages = $publicScriptMatches[0].Groups[2].Value | ConvertFrom-Json
+$draftReminderLabels = $publicScriptMatches[1].Groups[1].Value | ConvertFrom-Json
+$draftReminderImages = $publicScriptMatches[1].Groups[2].Value | ConvertFrom-Json
+if ($greedyReminderLabels.Count -lt 100 -or $greedyReminderLabels.Count -ne $greedyReminderImages.Count) {
+    throw "The public Buffet Script must expose a complete, aligned legal reminder-token catalogue."
+}
+if (($greedyReminderLabels -join "`n") -cne ($draftReminderLabels -join "`n") -or ($greedyReminderImages -join "`n") -cne ($draftReminderImages -join "`n")) {
+    throw "Greedy and Draft must expose the same setup-independent reminder-token catalogue."
+}
+foreach ($requiredReminder in @("good", "evil", "drunk", "marionette", "imp")) {
+    if ($greedyReminderLabels -cnotcontains $requiredReminder) {
+        throw "The public Buffet reminder catalogue is missing '$requiredReminder'."
+    }
+}
 Assert-NotContains $tick 'botc_buffet_start' "the retired Start Game hotbar item has no interaction route"
-Assert-Contains $itemChecks 'buffet_mode botc_patch matches 2.*tag=botc_buffet_draft_current.*botc_buffet_choices' "only the current Draft player receives the choice item"
-Assert-Contains $itemChecks 'buffet_mode botc_patch matches 2.*tag=!botc_buffet_draft_current.*clear @s.*botc_buffet_choices' "non-current Draft players lose the choice item"
+Assert-Contains $giveChoices 'item replace entity @s hotbar\.0.*botc_buffet_choices' "Greedy keeps its existing hotbar choice item"
+Assert-Contains $itemChecks 'buffet_mode botc_patch matches 2.*tag=botc_buffet_roster,tag=!storyteller.*weapon\.offhand.*function botc_patch:buffet/items/give_draft_choices' "every Draft player receives the same maintained offhand choice item"
+Assert-NotContains $itemChecks 'buffet_mode botc_patch matches 2.*tag=!botc_buffet_draft_current.*clear @s.*botc_buffet_choices' "Draft maintenance never identifies waiting players by removing their item"
+Assert-Contains $giveDraftChoices 'clear @s.*botc_buffet_choices[\s\S]*item replace entity @s weapon\.offhand.*strings:\["buffet_choices"\].*botc_buffet_choices:1b.*Choose your characters!' "Draft repairs one identical choice item in the offhand"
+Assert-NotContains $giveDraftChoices 'botc_buffet_(?:role|perceived)|draft_current|draft_waiting' "the shared Draft item contains no private turn or character state"
+Assert-Contains $givePersonalGrimoire 'item replace entity @s hotbar\.7.*strings:\["buffet_personal_grimoire"\].*botc_buffet_personal_grimoire:1b' "Buffet players receive the Jay-owned Personal Grimoire in Sybillian's former Grimoire slot"
+Assert-NotContains $givePersonalGrimoire 'item replace.*strings:\["grimoire"\]' "the Jay-owned Personal Grimoire cannot trigger Sybillian's ordinary item click route"
+Assert-Contains $itemChecks 'buffet_mode botc_patch matches 1\.\.2 as @a\[tag=botc_buffet_roster,tag=!storyteller\] run clear @s.*strings:\["grimoire"\]' "only Buffet players have Sybillian's direct Grimoire item replaced"
+Assert-Contains $itemChecks 'unless data entity @s Inventory\[\{Slot:7b\}\].*botc_buffet_personal_grimoire:1b.*give_personal_grimoire' "both Buffet modes maintain the Personal Grimoire in visual slot 8"
+Assert-Contains $tick 'buffet_mode botc_patch matches 1\.\.2 as @a\[tag=botc_buffet_roster,tag=!storyteller.*botc_buffet_personal_grimoire:1b.*personal_grimoire/open' "the Personal Grimoire opens during setup and active Buffet play"
+Assert-Contains $sharedHandleAction 'matches 8000 run function botc_patch:buffet/personal_grimoire/open' "Buffet players can reopen their private character notes"
+Assert-Contains $sharedHandleAction 'matches 8022 run function botc_patch:buffet/personal_grimoire/open_sybillian' "the Jay dialog exposes the normal Sybillian player Grimoire view"
+Assert-Contains $sharedHandleAction 'matches 8101\.\.8425 run function botc_patch:buffet/personal_grimoire/select_character' "Personal Grimoire character choices are restricted to trusted catalog action ids"
+Assert-Contains $sharedHandleAction 'matches 8500 run function botc_patch:buffet/personal_grimoire/reminders/slots[\s\S]*matches 8501\.\.8506 run function botc_patch:buffet/personal_grimoire/reminders/select_slot[\s\S]*matches 8511\.\.8515 run function botc_patch:buffet/personal_grimoire/reminders/select_category[\s\S]*matches 9000\.\.9999 run function botc_patch:buffet/personal_grimoire/reminders/select' "only Buffet players can route the bounded Personal Grimoire reminder editor"
+Assert-Contains $personalGrimoireDialog 'Open Grimoire View.*set 8022' "the Jay dialog keeps a visible bridge to Sybillian's player-facing Grimoire"
+Assert-Contains $personalGrimoireDialog 'exit_action:\{label:"Close"\}' "the Personal Grimoire overview has an explicit bottom Close button"
+Assert-NotContains $personalGrimoireDialog 'after_action:"wait_for_response"' "the Personal Grimoire Close button cannot fall through to Minecraft's Waiting for Server screen"
+Assert-Contains $personalGrimoireCategories 'Townsfolk.*Outsiders.*Minions.*Demons' "the Personal Grimoire offers all four trusted character categories"
+Assert-Contains $personalGrimoireCategories 'Reminder Tokens.*set 8500' "each private player entry exposes the Jay-owned reminder-token editor"
+Assert-Contains $personalGrimoireCategories 'dynamic\.body\.contents\.extra\[0\]\.text set from storage botc_patch:buffet ui\.personal_grimoire_target[\s\S]*personal_grimoire/show_dynamic' "the character editor renders the selected player's prepared name instead of an unsupported storage-NBT text component"
+Assert-Contains $personalGrimoireTown 'Chef.*set 8104' "the Personal Grimoire lists trusted Greedy-style character choices"
+Assert-Contains $personalGrimoireStore 'scoreboard players set @s botc_bg_s1 \$\(role\)[\s\S]*fmvariable set p1_role false \$\(id\)' "a private character choice updates only the acting player's saved note and local Sybillian role"
+Assert-NotContains $personalGrimoireStore 'draft\.seats|greedy\.seats|botc_buffet_role|scoreboard players set @a' "Personal Grimoire notes cannot mutate authoritative assignments or another player's notes"
+Assert-Contains $personalGrimoireOpenSybillian 'roster\.p1[\s\S]*roster\.p15' "opening Sybillian's view synchronizes every Buffet roster name"
+Assert-Contains $personalGrimoireOpenSybillian 'botc_bg_s1[\s\S]*botc_bg_s15' "opening Sybillian's view synchronizes every saved private character note"
+Assert-Contains $personalGrimoireOpenSybillian 'dialog clear @s[\s\S]*openguiscreen ct-player_grim' "the Buffet bridge clears its waiting server dialog before opening Sybillian's client view"
+Assert-Contains $personalGrimoireSyncName 'player_\$\(seat\) false \$\(name\)' "Sybillian synchronization uses the upstream player-name variables instead of leaving Nobody labels"
+Assert-Contains $personalGrimoireSyncSybillian 'p\$\(seat\)_role false \$\(id\)' "Sybillian synchronization writes only the local character-role variable"
+Assert-NotContains ($personalGrimoireOpenSybillian + $personalGrimoireSyncSybillian + $personalGrimoireReset) 'p(?:\$\(seat\)|[0-9]+)_r[1-6]_(?:text|icon)|reminder' "opening, syncing, or resetting Buffet character notes never erases Sybillian's separate client-local reminder tokens"
+Assert-NotContains $personalGrimoireOpenSybillian '/character|fmvariable set role' "the Sybillian view bridge cannot change a player's real role or call the upstream character command"
+Assert-Contains $personalGrimoireReminderSlots 'text:"1\.".*set 8501[\s\S]*text:"6\.".*set 8506' "the Jay reminder editor exposes all six Sybillian reminder spaces"
+Assert-Contains $personalGrimoireReminderSlots 'UUID\[0\][\s\S]*UUID\[3\][\s\S]*reminders/read_slot[\s\S]*personal_grimoire_reminders\.r6\.label[\s\S]*personal_grimoire/show_dynamic' "the six-slot screen reads and renders the acting player's Jay-dialog reminder mirror"
+Assert-Contains $personalGrimoireReminderSlots 'dynamic\.body\.contents\.extra\[0\]\.text set from storage botc_patch:buffet ui\.personal_grimoire_target' "the reminder editor renders the selected player's prepared name"
+Assert-Contains $personalGrimoireReminderReadSlot 'personal_grimoire_reminders\."u\$\(u0\)_\$\(u1\)_\$\(u2\)_\$\(u3\)"\.s\$\(seat\)\.r\$\(slot\)[\s\S]*reminders/prepare_slot' "reminder display state is isolated by the acting player's UUID and selected player/slot"
+Assert-Contains $personalGrimoireReminderPrepareSlot 'reminder_catalog\.i\$\(index\)' "saved reminder indexes resolve only through the trusted display catalogue"
+Assert-Contains $personalGrimoireReminderCategories 'Good & Evil.*Townsfolk.*Outsiders.*Minions.*Demons.*Clear This Slot' "the reminder editor separates the full catalogue into readable categories and can clear only the selected slot"
+Assert-Contains $personalGrimoireReminderTownPage 'Acrobat: Dead[\s\S]*set 9002[\s\S]*Next.*set 8522' "large reminder categories are paged and retain their source-character context"
+$reminderDispatchMatches = [regex]::Matches($personalGrimoireReminderSelect, 'matches (\d+) run function botc_patch:buffet/personal_grimoire/reminders/store \{index:(\d+),text:"([^"]+)",icon:"([^"]+)"\}')
+if ($reminderDispatchMatches.Count -ne $greedyReminderLabels.Count) {
+    throw "The Personal Grimoire reminder editor must dispatch every public legal reminder token exactly once."
+}
+for ($index = 0; $index -lt $reminderDispatchMatches.Count; $index++) {
+    if ([int] $reminderDispatchMatches[$index].Groups[1].Value -ne (9000 + $index) -or
+        [int] $reminderDispatchMatches[$index].Groups[2].Value -ne (1 + $index) -or
+        $reminderDispatchMatches[$index].Groups[3].Value -cne [string] $greedyReminderLabels[$index] -or
+        $reminderDispatchMatches[$index].Groups[4].Value -cne [string] $greedyReminderImages[$index]) {
+        throw "Personal Grimoire reminder dispatch diverges from the public legal catalogue at index $index."
+    }
+}
+Assert-Contains $personalGrimoireReminderStore 'botc_bg_target matches 1\.\.15[\s\S]*botc_bg_rslot matches 1\.\.6[\s\S]*personal_grimoire/reminders/apply[\s\S]*personal_grimoire/reminders/slots' "reminder writes validate one selected player and slot, then return to that player's reminder spaces"
+Assert-Contains $personalGrimoireReminderStore 'UUID\[0\][\s\S]*UUID\[3\]' "reminder writes capture the acting player identity for private display state"
+Assert-Contains $personalGrimoireReminderApply 'personal_grimoire_reminders\."u\$\(u0\)_\$\(u1\)_\$\(u2\)_\$\(u3\)"\.s\$\(seat\)\.r\$\(slot\) set value \$\(index\)[\s\S]*p\$\(seat\)_r\$\(slot\)_text false \$\(text\)[\s\S]*p\$\(seat\)_r\$\(slot\)_icon false \$\(icon\)' "a reminder choice mirrors its trusted index privately and updates exactly one aligned Sybillian text/icon variable pair"
+Assert-Contains $personalGrimoireReminderClear 'store \{index:0,text:"none",icon:"none"\}' "clearing a reminder uses the empty mirror index and Sybillian's proven none sentinel for only the selected slot"
+Assert-NotContains ($personalGrimoireReminderSelect + $personalGrimoireReminderStore + $personalGrimoireReminderApply + $personalGrimoireReminderClear) 'draft\.seats|greedy\.seats|botc_buffet_role|scoreboard players set @a' "private reminder notes cannot mutate authoritative setup state or another player's variables"
 Assert-Contains $itemChecks 'clear @a minecraft:carrot_on_a_stick\[minecraft:custom_data~\{botc_buffet_start:1b\}\]' "maintenance removes retired Start Game hotbar items"
 Assert-NotContains $itemChecks 'give_start|Slot:1b.*botc_buffet_start' "maintenance cannot issue the retired Start Game hotbar item"
 if (Test-Path -LiteralPath (Join-Path $BuffetRoot "items/give_start.mcfunction") -PathType Leaf) {
@@ -295,7 +393,7 @@ Assert-Contains $greedySubmit 'dealer:1b.*buffet_submit_valid botc_patch 1' "Dea
 Assert-Contains $greedySubmit 'unless score buffet_submit_valid botc_patch matches 1 run title @s times 5 30 10' "an invalid Greedy submission uses a quick private title"
 Assert-Contains $greedySubmit 'unless score buffet_submit_valid botc_patch matches 1 run title @s title \{"text":"Invalid choice, try again","color":"red","bold":true\}' "an invalid Greedy submission shows the requested title"
 Assert-Contains $greedySubmit 'unless score buffet_submit_valid botc_patch matches 1 run tellraw @s' "an invalid Greedy submission explains the unmet requirement in chat"
-Assert-Contains $greedySubmit 'unless score buffet_submit_valid botc_patch matches 1 at @s run playsound minecraft:block\.note_block\.bass voice @s ~ ~ ~ 1 0\.6' "an invalid Greedy submission plays a full-volume private error sound"
+Assert-Contains $greedySubmit 'unless score buffet_submit_valid botc_patch matches 1 run function botc_patch:buffet/attention/block_self' "an invalid Greedy submission uses the shared close-and-alert blocker behavior"
 Assert-NotContains $greedySubmit 'unless score buffet_submit_valid botc_patch matches 1 run function botc_patch:buffet/greedy/open' "an invalid Greedy submission leaves the dialog closed so its chat error remains visible"
 Assert-Contains $greedyCheckAssignment 'dealer:1b.*assignment_selected' "Dealer's Choice keeps any Storyteller assignment valid"
 Assert-Contains $sharedHandleAction 'matches 11\.\.20 store result storage botc_patch:buffet action\.seat int 1 run scoreboard players get @s id' "Greedy main actions capture the trusted caller seat before macro dispatch"
@@ -443,6 +541,10 @@ $nextTurn = Read-RequiredFile (Join-Path $DraftRoot "next_turn.mcfunction")
 $turnCue = Read-RequiredFile (Join-Path $DraftRoot "turn_cue.mcfunction")
 $reopenReminder = Read-RequiredFile (Join-Path $DraftRoot "remind_reopen.mcfunction")
 $openCurrent = Read-RequiredFile (Join-Path $DraftRoot "open_current.mcfunction")
+$openChoices = Read-RequiredFile (Join-Path $DraftRoot "open_choices.mcfunction")
+$prepareCompleted = Read-RequiredFile (Join-Path $DraftRoot "dialog/prepare_completed.mcfunction")
+$prepareCompletedRole = Read-RequiredFile (Join-Path $DraftRoot "dialog/prepare_completed_role.mcfunction")
+$showCompleted = Read-RequiredFile (Join-Path $DraftRoot "dialog/show_completed.mcfunction")
 $draftHandleAction = Read-RequiredFile (Join-Path $DraftRoot "handle_action.mcfunction")
 $offerRoundZero = Read-RequiredFile (Join-Path $DraftRoot "offer_round_0.mcfunction")
 $finalizeTurn = Read-RequiredFile (Join-Path $DraftRoot "finalize_choice.mcfunction")
@@ -469,7 +571,16 @@ Assert-Contains $draftHandleAction 'matches 7011 run function botc_patch:buffet/
 Assert-Contains $reopenReminder "You still need to make a choice, reopen the menu when you're ready" "the close reminder explains how to reopen the preserved offers"
 Assert-Contains $openCurrent 'function botc_patch:buffet/draft/dialog/prepare with storage botc_patch:buffet action' "the Draft Choices item reopens the current dialog with the acting player's seat context"
 Assert-NotContains $openCurrent 'offer_round|random|pick/' "reopening Draft choices cannot reroll offers"
+Assert-Contains $openChoices 'tag=botc_buffet_draft_current.*function botc_patch:buffet/draft/open_current' "the identical item reopens unresolved choices only for the current player"
+Assert-Contains $openChoices 'botc_buffet_status matches 2.*function botc_patch:buffet/draft/dialog/prepare_completed' "a completed player can privately reopen their shown character"
+Assert-Contains $openChoices 'tellraw @s.*not your turn yet' "a waiting player receives only a private not-your-turn message"
+Assert-NotContains $openChoices 'tellraw @a|title @a|playsound.*@a' "using the identical item cannot announce a player's Draft state"
+Assert-Contains $prepareCompleted 'scoreboard players get @s botc_buffet_perceived' "completed-choice reminders use the player's shown character"
+Assert-NotContains ($prepareCompleted + $prepareCompletedRole + $showCompleted) 'botc_buffet_role|\.actual|actual character' "completed-choice reminders cannot reveal a hidden actual character"
+Assert-Contains $showCompleted 'Only you can see this' "the completed-choice reminder clearly labels its privacy"
 Assert-Contains $finalizeTurn 'scoreboard players set draft_current_seat botc_patch 0' "a completed choice releases the private turn"
+Assert-NotContains $finalizeTurn 'clear @s.*botc_buffet_choices' "a completed player keeps the same Draft offhand item"
+Assert-NotContains $beginTurn 'give_choices|give_draft_choices' "turn changes do not create a visible item timing clue"
 Assert-Contains $emptySeat 'draft_current_seat botc_patch matches \$\(seat\).*set draft_current_seat botc_patch 0' "emptying the offline current seat releases the private turn"
 Assert-Contains $emptySeatEntry 'draft_modifier_pending botc_patch matches 1 run return' "seat mutation is blocked while a private setup decision is pending"
 
@@ -598,10 +709,47 @@ foreach ($roleName in @("balloonist", "godfather", "xaan", "kazali", "lord_of_ty
 }
 
 $eligibility = Read-RequiredFile (Join-Path $DraftRoot "pick/prepare_eligibility.mcfunction")
+$applyDelta = Read-RequiredFile (Join-Path $DraftRoot "modifier/apply_delta.mcfunction")
+$applyDeltaHold = Read-RequiredFile (Join-Path $DraftRoot "modifier/apply_delta_hold.mcfunction")
 $setOutsiderTarget = Read-RequiredFile (Join-Path $DraftRoot "modifier/set_outsider_target.mcfunction")
 $absorbOutsiderTarget = Read-RequiredFile (Join-Path $DraftRoot "modifier/absorb_absolute_adjustment.mcfunction")
 $setLegionCount = Read-RequiredFile (Join-Path $DraftRoot "modifier/set_legion_count.mcfunction")
+$balloonistChoices = Read-RequiredFile (Join-Path $DraftRoot "modifier/balloonist/show.mcfunction")
+$godfatherChoices = Read-RequiredFile (Join-Path $DraftRoot "modifier/godfather/show.mcfunction")
+$hermitDeltaChoices = Read-RequiredFile (Join-Path $DraftRoot "modifier/hermit/show_delta.mcfunction")
+$xaanChoices = Read-RequiredFile (Join-Path $DraftRoot "modifier/xaan/show.mcfunction")
+$typhonChoices = Read-RequiredFile (Join-Path $DraftRoot "modifier/lord_of_typhon/show.mcfunction")
+$outsiderTargetPrepare = Read-RequiredFile (Join-Path $DraftRoot "modifier/outsider_target/prepare.mcfunction")
+$outsiderTargetOneToThree = Read-RequiredFile (Join-Path $DraftRoot "modifier/outsider_target/show_1_3.mcfunction")
+$legionChoices = Read-RequiredFile (Join-Path $DraftRoot "modifier/legion/show.mcfunction")
+$legionFiveChoices = Read-RequiredFile (Join-Path $DraftRoot "modifier/legion/show_5.mcfunction")
+$legionFifteenChoices = Read-RequiredFile (Join-Path $DraftRoot "modifier/legion/show_15.mcfunction")
+foreach ($deltaFunction in @($applyDelta, $applyDeltaHold)) {
+    Assert-Contains $deltaFunction '\$scoreboard players set draft_delta_town botc_patch \$\(town\)' "setup modifiers load signed Townsfolk deltas through scoreboard set"
+    Assert-Contains $deltaFunction 'draft_target_town botc_patch \+= draft_delta_town botc_patch' "setup modifiers apply signed Townsfolk deltas through scoreboard operation"
+    Assert-NotContains $deltaFunction '\$scoreboard players add draft_target_(?:town|outsider|minion|demon)' "setup modifiers never pass negative macro values to scoreboard players add"
+}
 Assert-Contains $eligibility "draft_target_outsider botc_patch > draft_assigned_outsider.*draft_target_town botc_patch > draft_assigned_town.*draft_eligible_$($roleIds.godfather)" "Godfather is never offered when neither Outsider adjustment is legal"
+Assert-Contains $balloonistChoices 'draft_target_town botc_patch > draft_assigned_town[\s\S]*draft_plus_legal botc_patch matches 0.*modifier/choose_delta_0' "a final-slot Balloonist automatically keeps the legal no-change result"
+Assert-Contains $godfatherChoices 'draft_target_outsider botc_patch > draft_assigned_outsider' "Godfather calculates whether -1 Outsider remains legal"
+Assert-Contains $godfatherChoices 'draft_target_town botc_patch > draft_assigned_town' "Godfather calculates whether +1 Outsider remains legal"
+Assert-Contains $godfatherChoices 'draft_minus_legal botc_patch matches 1 if score draft_plus_legal botc_patch matches 0.*choose_delta_minus_1' "Godfather automatically applies a forced -1 result"
+Assert-Contains $godfatherChoices 'draft_minus_legal botc_patch matches 0 if score draft_plus_legal botc_patch matches 1.*choose_delta_plus_1' "Godfather automatically applies a forced +1 result"
+Assert-Contains $hermitDeltaChoices 'unless score draft_target_outsider botc_patch > draft_assigned_outsider.*hermit/choose_delta_0' "Hermit automatically keeps the Outsider count when -1 is impossible"
+Assert-Contains $xaanChoices 'modifier/outsider_target/prepare' "Xaan uses the shared legal final-Outsider picker"
+Assert-Contains $typhonChoices 'modifier/outsider_target/prepare' "Lord of Typhon uses the shared legal final-Outsider picker"
+Assert-Contains $outsiderTargetPrepare 'draft_outsider_target_min botc_patch = draft_assigned_outsider' "final Outsider choices cannot go below completed Outsiders"
+Assert-Contains $outsiderTargetPrepare 'draft_outsider_target_max botc_patch -= draft_assigned_town' "final Outsider choices preserve completed Townsfolk"
+Assert-Contains $outsiderTargetPrepare 'draft_outsider_target_min botc_patch = draft_outsider_target_max[\s\S]*modifier/set_outsider_target' "a single legal final Outsider target resolves automatically"
+Assert-Contains $outsiderTargetOneToThree 'set 7501.*set 7502.*set 7503' "the bounded Outsider picker contains every legal target in its range"
+Assert-NotContains $outsiderTargetOneToThree 'set 7500|set 7504' "the bounded Outsider picker hides targets outside its legal range"
+foreach ($count in 5..15) {
+    Assert-Contains $legionChoices "buffet_roster_count botc_patch matches $count.*legion/show_$count" "Legion uses a roster-specific legal count menu for $count players"
+}
+Assert-Contains $legionFiveChoices 'set 7603.*set 7604' "five-player Legion offers only strict-majority totals that leave one good player"
+Assert-NotContains $legionFiveChoices 'set 7602|set 7605' "five-player Legion hides illegal totals"
+Assert-Contains $legionFifteenChoices 'set 7608.*set 7613' "fifteen-player Legion offers its complete legal range"
+Assert-NotContains $legionFifteenChoices 'set 7607|set 7614' "fifteen-player Legion hides non-majority and no-good-player totals"
 foreach ($roleName in @("baron", "fang_gu", "vigormortis", "balloonist", "godfather", "hermit", "xaan", "kazali", "lord_of_typhon")) {
     Assert-Contains $eligibility "draft_outsider_absolute_active botc_patch matches 1.*draft_eligible_$($roleIds[$roleName])" "a final Outsider target blocks later $roleName setup drift"
 }
@@ -618,10 +766,14 @@ Assert-Contains $absorbOutsiderTarget 'delta_outsider' "absorbed target adjustme
 
 $hermitReset = Read-RequiredFile (Join-Path $DraftRoot "modifier/hermit/reset_selection.mcfunction")
 $hermitConfirm = Read-RequiredFile (Join-Path $DraftRoot "modifier/hermit/confirm.mcfunction")
+$hermitFull = Read-RequiredFile (Join-Path $DraftRoot "modifier/hermit/full.mcfunction")
 $hermitAnnouncement = Read-RequiredFile (Join-Path $DraftRoot "start/announce_hermit.mcfunction")
 Assert-Contains $hermitReset "forced_ability:$($roleIds.drunk)" "hidden Hermit keeps its Drunk ability when choices are cleared"
 Assert-Contains $hermitReset "forced_ability:$($roleIds.lunatic)" "hidden Hermit keeps its Lunatic ability when choices are cleared"
 Assert-Contains $hermitConfirm 'matches 3' "Hermit requires exactly three abilities"
+Assert-Contains $hermitConfirm 'unless score draft_hermit_ability_count botc_patch matches 3 run function botc_patch:buffet/attention/block_self' "an incomplete Draft Hermit confirmation closes the picker and plays the shared blocker alert"
+Assert-Contains $hermitFull 'function botc_patch:buffet/attention/block_self' "a full Draft Hermit picker uses the shared blocker behavior"
+Assert-NotContains $hermitFull 'open_abilities|dialog show' "a Draft Hermit limit error stays closed so its chat explanation remains visible"
 Assert-Contains $hermitAnnouncement "actual:$($roleIds.hermit),perceived:$($roleIds.hermit)" "only a directly revealed Hermit learns its abilities"
 
 $greedyHiddenMenu = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/hidden_menu.mcfunction")
@@ -631,8 +783,12 @@ $greedyHermitDrunk = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/her
 $greedyHermitLunatic = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/hermit/begin_hidden_lunatic.mcfunction")
 $greedyHermitClear = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/hermit/clear.mcfunction")
 $greedyHermitConfirm = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/hermit/confirm.mcfunction")
+$greedyHermitFull = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/hermit/full.mcfunction")
+$greedyHermitInvalid = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/hermit/invalid.mcfunction")
 $greedyHermitApply = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/hermit/confirm_apply.mcfunction")
 $greedyApplyAssignment = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/apply_assignment.mcfunction")
+$greedyRecordDuplicate = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/record_duplicate.mcfunction")
+$greedyReportDuplicate = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/report_duplicate.mcfunction")
 $greedyOpenSelected = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/open_selected.mcfunction")
 $greedyOpenSelectedActive = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/open_selected_active.mcfunction")
 $greedyPrepareRole = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/prepare_role.mcfunction")
@@ -650,6 +806,12 @@ $greedySelectedDialog = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/
 $greedyAllMenu = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/all_menu.mcfunction")
 $buffetYouAre = Read-RequiredFile (Join-Path $BuffetRoot "roles/you_are.mcfunction")
 $buffetAnnouncePerceived = Read-RequiredFile (Join-Path $BuffetRoot "roles/announce_perceived.mcfunction")
+$hiddenGrimSync = Read-RequiredFile (Join-Path $BuffetRoot "roles/sync_storyteller_hidden.mcfunction")
+$hiddenGrimDrunk = Read-RequiredFile (Join-Path $BuffetRoot "roles/prepare_hidden_drunk.mcfunction")
+$hiddenGrimLunatic = Read-RequiredFile (Join-Path $BuffetRoot "roles/prepare_hidden_lunatic.mcfunction")
+$hiddenGrimMarionette = Read-RequiredFile (Join-Path $BuffetRoot "roles/prepare_hidden_marionette.mcfunction")
+$hiddenGrimResolve = Read-RequiredFile (Join-Path $BuffetRoot "roles/resolve_hidden_grim_role.mcfunction")
+$hiddenGrimApply = Read-RequiredFile (Join-Path $BuffetRoot "roles/apply_hidden_grim.mcfunction")
 $greedyRemoveSeatOpen4 = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/remove_seat/open_4.mcfunction")
 $greedyRemoveSeatConfirm = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/remove_seat/confirm.mcfunction")
 $greedyRemoveSeatApply4 = Read-RequiredFile (Join-Path $BuffetRoot "greedy/review/remove_seat/apply_4.mcfunction")
@@ -666,10 +828,21 @@ Assert-Contains $greedyHermitLunatic "forced_ability:$($roleIds.lunatic).*r$($ro
 Assert-Contains $greedyHermitClear "forced_ability:$($roleIds.drunk).*abilities\.r$($roleIds.drunk)" "clearing Greedy Hermit choices preserves a locked Drunk"
 Assert-Contains $greedyHermitClear "forced_ability:$($roleIds.lunatic).*abilities\.r$($roleIds.lunatic)" "clearing Greedy Hermit choices preserves a locked Lunatic"
 Assert-Contains $greedyHermitConfirm 'buffet_hermit_ability_count botc_patch matches 3' "Greedy Hermit requires exactly three abilities"
+Assert-Contains $greedyHermitFull 'function botc_patch:buffet/attention/block_self' "a full Greedy Hermit picker uses the shared blocker behavior"
+Assert-Contains $greedyHermitInvalid 'function botc_patch:buffet/attention/block_self' "an incomplete Greedy Hermit confirmation uses the shared blocker behavior"
+Assert-NotContains $greedyHermitFull 'open_abilities|dialog show' "a Greedy Hermit limit error stays closed so its chat explanation remains visible"
+Assert-NotContains $greedyHermitInvalid 'open_abilities|dialog show' "an incomplete Greedy Hermit error stays closed so its chat explanation remains visible"
 Assert-Contains $greedyHermitApply 'buffet_assignment_applied botc_patch matches 1' "Greedy Hermit abilities are stored only after normal assignment checks succeed"
 Assert-Contains $greedyOpenSelected 'open_selected_active with storage botc_patch:buffet action' "Greedy selected-seat review validates the live seat through its captured macro context"
 Assert-Contains $greedyOpenSelectedActive 'unless data storage botc_patch:buffet greedy\.seats\.s\$\(seat\)\{active:1b\} run return run function botc_patch:buffet/greedy/review/remove_seat/open' "an open Greedy seat routes to deliberate removal instead of assignment controls"
 Assert-Contains $greedyApplyAssignment 'unless data storage botc_patch:buffet greedy\.seats\.s\$\(seat\)\{active:1b\} run return run function botc_patch:buffet/greedy/review/open' "a stale Greedy dialog cannot assign a role to an empty seat"
+Assert-Contains $greedyApplyAssignment 'if score buffet_duplicate_found botc_patch matches 1 run function botc_patch:buffet/attention/block_self' "a duplicate Greedy assignment closes review and plays the shared blocker alert"
+Assert-Contains $greedyApplyAssignment 'greedy\.seats\.s1\{active:1b,role:\$\(role\)\} run function botc_patch:buffet/greedy/review/record_duplicate \{role:\$\(role\),seat:1\}' "Greedy records the exact duplicate role and conflicting seat"
+Assert-Contains $greedyRecordDuplicate 'greedy\.seats\.s\$\(seat\)\.name.*greedy\.duplicate\.player' "Greedy resolves the conflicting player's current name"
+Assert-Contains $greedyReportDuplicate 'greedy\.duplicate\.role_name.* is already assigned to .*greedy\.duplicate\.player' "Greedy's duplicate warning names both the character and the player who already has it"
+Assert-NotContains $greedyReportDuplicate '"color":"(?:gray|yellow)"\}' "every Greedy duplicate-message component after the alert icon explicitly resets bold styling"
+Assert-NotContains $greedyApplyAssignment 'That character is already assigned' "Greedy no longer falls back to its generic duplicate warning"
+Assert-NotContains $greedyApplyAssignment 'if score buffet_duplicate_found botc_patch matches 1 run function botc_patch:buffet/greedy/review/open_selected' "a duplicate Greedy assignment cannot immediately hide its chat error behind review"
 Assert-Contains $greedyPrepareRole 'p\$\(seat\)_name_color set from storage botc_patch:buffet catalog\.s\$\(role\)\.color' "assigned Greedy names use their character type color"
 Assert-Contains $greedyPrepareRole 'p\$\(seat\)_role_open set value " \["' "assigned Greedy labels open a normal-font icon bracket"
 Assert-Contains $greedyPrepareRole 'p\$\(seat\)_role_close set value "\]"' "assigned Greedy labels close the icon bracket"
@@ -713,6 +886,17 @@ Assert-Contains $greedyValidateStart "active:1b,role:$($roleIds.damsel).*buffet_
 Assert-Contains $greedyValidateHermit "forced_ability.*$($roleIds.drunk)|buffet_hermit_forced botc_patch matches $($roleIds.drunk)" "Greedy start validation recognizes hidden Hermit-Drunk"
 Assert-Contains $greedyValidateHermit "buffet_hermit_forced botc_patch matches $($roleIds.lunatic)" "Greedy start validation recognizes hidden Hermit-Lunatic"
 Assert-Contains $greedyAnnounceHermit "role:$($roleIds.hermit),perceived:$($roleIds.hermit)" "only a direct Greedy Hermit is privately told their abilities"
+Assert-Contains $greedyStartExecute 'apply_roles[\s\S]*schedule function botc_patch:buffet/roles/sync_storyteller_hidden 2t replace' "Greedy overlays hidden Storyteller tokens after Sybillian receives the actual roles"
+Assert-Contains $hiddenGrimSync "botc_buffet_role=$($roleIds.drunk).*prepare_hidden_drunk" "hidden Drunk assignments receive a Storyteller grimoire overlay"
+Assert-Contains $hiddenGrimSync "botc_buffet_role=$($roleIds.lunatic).*prepare_hidden_lunatic" "hidden Lunatic assignments receive a Storyteller grimoire overlay"
+Assert-Contains $hiddenGrimSync "botc_buffet_role=$($roleIds.marionette).*prepare_hidden_marionette" "hidden Marionette assignments receive a Storyteller grimoire overlay"
+Assert-Contains $hiddenGrimDrunk 'reminder:"drunk"' "hidden Drunk overlays use the Drunk reminder token"
+Assert-Contains $hiddenGrimLunatic 'reminder:"lunatic"' "hidden Lunatic overlays use the Lunatic reminder token"
+Assert-Contains $hiddenGrimMarionette 'reminder:"marionette"' "hidden Marionette overlays use the Marionette reminder token"
+Assert-Contains $hiddenGrimResolve 'catalog\.s\$\(perceived\)\.id' "hidden Storyteller overlays resolve the trusted perceived role slug"
+Assert-Contains $hiddenGrimApply 'p\$\(seat\)_role false \$\(role\)' "the Storyteller grimoire shows the perceived character token"
+Assert-Contains $hiddenGrimApply 'p\$\(seat\)_r1_icon false \$\(reminder\)' "the Storyteller grimoire shows the actual hidden-role reminder icon"
+Assert-Contains $hiddenGrimApply 'p\$\(seat\)_r1_text false \$\(reminder\)' "the hidden-role reminder retains its tooltip text"
 foreach ($jinx in $jinxExclusions) {
     $left = [string] $jinx.roles[0]
     $right = [string] $jinx.roles[1]
@@ -734,6 +918,7 @@ Assert-Contains $greedyInvalidReport "role:$($roleIds.hermit).*greedy/start/repo
 Assert-Contains $greedyInvalidReport 'Assign at least one .*Demon.*\.' "the blocked-start report explains the Demon requirement"
 Assert-Contains $greedyInvalidReport 'Choirboy.* is in play, so assign .*King.* too\.' "the blocked-start report explains the Choirboy dependency"
 Assert-Contains $greedyInvalidReport 'Huntsman.* is in play, so assign .*Damsel.* too\.' "the blocked-start report explains the Huntsman dependency"
+Assert-Contains $greedyInvalidReport 'function botc_patch:buffet/attention/block_self' "a blocked Greedy start closes review and plays the shared blocker alert once"
 Assert-NotContains $greedyInvalidReport 'dialog show|review/open' "hard-start diagnostics stay in chat and cannot reopen a menu"
 Assert-Contains $greedyStartExecute 'unless score phase game_data matches 4 if score start_player_count botc_patch matches 5\.\.15 run tellraw @s .*Sybillian did not enter the first night' "an unexplained Sybillian handoff failure is reported after a valid player count"
 Assert-Contains $greedyStartExecute 'Sybillian did not enter the first night.*roster was unlocked' "the final handoff failure tells the Storyteller that retrying is safe"
@@ -790,8 +975,22 @@ $draftDashboard = Read-RequiredFile (Join-Path $DraftRoot "review/dashboard_5.mc
 $draftReviewOpen = Read-RequiredFile (Join-Path $DraftRoot "review/open.mcfunction")
 $draftReviewRole = Read-RequiredFile (Join-Path $DraftRoot "review/prepare_role.mcfunction")
 $draftSelected = Read-RequiredFile (Join-Path $DraftRoot "review/show_selected.mcfunction")
+$draftSelectedEditable = Read-RequiredFile (Join-Path $DraftRoot "review/show_selected_editable.mcfunction")
+$draftSeatOneReview = Read-RequiredFile (Join-Path $DraftRoot "review/seat_1.mcfunction")
 $draftOpenSelected = Read-RequiredFile (Join-Path $DraftRoot "review/open_selected.mcfunction")
 $draftOpenSeat = Read-RequiredFile (Join-Path $DraftRoot "review/show_open_seat.mcfunction")
+$draftEditorMenu = Read-RequiredFile (Join-Path $DraftRoot "review/editor/all_menu.mcfunction")
+$draftEditorTown = Read-RequiredFile (Join-Path $DraftRoot "review/editor/all_town.mcfunction")
+$draftEditorHidden = Read-RequiredFile (Join-Path $DraftRoot "review/editor/hidden_menu.mcfunction")
+$draftEditorPerceivedTown = Read-RequiredFile (Join-Path $DraftRoot "review/editor/perceived_town.mcfunction")
+$draftEditorDispatch = Read-RequiredFile (Join-Path $DraftRoot "review/editor/assign_dispatch.mcfunction")
+$draftEditorApply = Read-RequiredFile (Join-Path $DraftRoot "review/editor/apply.mcfunction")
+$draftEditorDuplicate = Read-RequiredFile (Join-Path $DraftRoot "review/editor/check_duplicate.mcfunction")
+$draftEditorRecordConflict = Read-RequiredFile (Join-Path $DraftRoot "review/editor/record_conflict.mcfunction")
+$draftEditorReportConflict = Read-RequiredFile (Join-Path $DraftRoot "review/editor/report_conflict.mcfunction")
+$draftEditorNormalize = Read-RequiredFile (Join-Path $DraftRoot "review/editor/normalize.mcfunction")
+$draftEditorRebuildPool = Read-RequiredFile (Join-Path $DraftRoot "review/editor/rebuild_pool.mcfunction")
+$draftEditorHermit = Read-RequiredFile (Join-Path $DraftRoot "review/editor/hermit/show_abilities.mcfunction")
 foreach ($jinx in $jinxExclusions) {
     $left = [string] $jinx.roles[0]
     $right = [string] $jinx.roles[1]
@@ -815,6 +1014,40 @@ Assert-Contains $draftReviewRole 'p\$\(seat\)_name_color.*catalog\.s\$\(role\)\.
 Assert-Contains $draftSelected ('text:"' + [regex]::Escape($Checkmark) + ' ".*\$\(chosen_glyph\).*\$\(chosen\)') "Draft history marks the actual selected role with a checkmark and icon"
 Assert-Contains $draftSelected ('text:"' + [regex]::Escape($BecomePlayerGlyph) + '",font:"botc_patch:ui_icons".*Empty Seat') "Draft Empty Seat uses the shared chair icon"
 Assert-Contains $draftSelected ('exit_action:.*text:"' + [regex]::Escape($BackGlyph) + '",font:"botc_patch:ui_icons".* Back') "Draft history keeps Back separately in the exit row"
+Assert-NotContains $draftSelected 'Change Character|Secret Character' "Draft final-character controls remain hidden until every player completes a turn"
+Assert-Contains $draftSeatOneReview 'draft_ready botc_patch matches 1.*show_selected_editable' "completed Draft history unlocks editing only after the whole Draft is complete"
+Assert-Contains $draftSelectedEditable 'Change Character.*set 3100' "a completed Draft seat exposes the full final-character editor"
+Assert-Contains $draftSelectedEditable 'Secret Character.*set 3105' "a completed Draft seat exposes hidden-role assignment separately"
+Assert-Contains $draftEditorMenu 'Townsfolk.*3111.*Outsiders.*3112.*Minions.*3113.*Demons.*3114' "the Draft editor opens all four character categories"
+Assert-Contains $draftEditorTown 'Washerwoman.*set 4002' "the Draft editor lists ordinary trusted catalog roles"
+Assert-NotContains $draftEditorTown 'Drunk|Lunatic|Marionette' "hidden roles cannot be assigned without choosing their perceived character"
+Assert-Contains $draftEditorHidden 'Drunk.*Lunatic.*Marionette.*Hermit-Drunk.*Hermit-Lunatic' "the hidden editor includes every supported secret assignment"
+Assert-Contains $draftEditorPerceivedTown 'Choose the character this player will be told they are' "hidden final assignments explicitly choose the player's perceived character"
+Assert-Contains $draftEditorDispatch 'matches 4002.*editor/assign \{role:2,alignment:1,category:1\}' "ordinary editor buttons dispatch server-owned role, alignment and category data"
+Assert-Contains $draftEditorDispatch ('matches ' + (5000 + $roleIds.drunk) + '.*editor/select_hidden \{role:' + $roleIds.drunk) "Drunk assignment is routed through the hidden mask flow"
+Assert-Contains $draftHandleAction 'tag=storyteller.*draft_ready botc_patch matches 1.*matches 3100.*review/editor/open' "only a Storyteller can open the editor after every Draft turn completes"
+Assert-Contains $draftHandleAction 'tag=storyteller.*draft_ready botc_patch matches 1.*matches 4001\.\.6325.*editor/assign_dispatch' "only a Storyteller can submit trusted final-character choices"
+Assert-Contains $draftEditorApply 'draft\.seats\.s\$\(seat\)\.actual set value \$\(actual\)[\s\S]*draft\.seats\.s\$\(seat\)\.perceived set value \$\(perceived\)' "a final edit stores actual and perceived roles together"
+Assert-Contains $draftEditorApply 'botc_buffet_role \$\(actual\)[\s\S]*botc_buffet_perceived \$\(perceived\)' "a final edit immediately synchronizes the player's server-owned role scores"
+Assert-Contains $draftEditorApply 'editor/normalize[\s\S]*editor/rebuild_pool[\s\S]*draft/rebuild_requirements' "a final edit rebuilds category, retirement and dependency state before returning"
+Assert-NotContains $draftEditorApply 'history append|history set' "Storyteller final edits preserve the player's private Draft history"
+Assert-Contains $draftEditorApply 'if score buffet_duplicate_found botc_patch matches 1 run function botc_patch:buffet/attention/block_self' "a duplicate final Draft edit closes review and plays the shared blocker alert"
+Assert-Contains $draftEditorApply 'if score buffet_duplicate_found botc_patch matches 1 run function botc_patch:buffet/draft/review/editor/report_conflict' "a duplicate final Draft edit reports its recorded exact conflict"
+Assert-NotContains $draftEditorApply 'if score buffet_duplicate_found botc_patch matches 1 run function botc_patch:buffet/draft/review/open_selected' "a duplicate final Draft edit cannot immediately hide its chat error behind review"
+Assert-Contains $draftEditorApply 'tellraw @s .*Final assignment updated' "the final editor's private success message remains one valid Minecraft command"
+Assert-Contains $draftEditorDuplicate 'draft\.seats\.s1\{actual:\$\(actual\)\}.*record_conflict \{role:\$\(actual\),seat:1,kind:1\}' "duplicate checks identify an actual role already assigned to another seat"
+Assert-Contains $draftEditorDuplicate 'draft\.seats\.s1\{perceived:\$\(actual\)\}.*record_conflict \{role:\$\(actual\),seat:1,kind:2\}' "duplicate checks identify an actual role already shown to another player"
+Assert-Contains $draftEditorDuplicate 'draft\.seats\.s1\.hermit_abilities\.r\$\(actual\).*record_conflict \{role:\$\(actual\),seat:1,kind:3\}' "duplicate checks identify an actual role already used as a Hermit ability"
+Assert-Contains $draftEditorRecordConflict 'draft\.seats\.s\$\(seat\)\.name.*draft\.editor\.conflict\.player' "Draft records the current name of the player causing the exact conflict"
+Assert-Contains $draftEditorReportConflict ' is already assigned to [\s\S]* is already shown to [\s\S]*''s Hermit abilities' "Draft reports whether the exact conflict is assigned, shown, or a Hermit ability"
+Assert-NotContains $draftEditorReportConflict '"color":"(?:gray|yellow)"\}' "every Draft duplicate-message component after the alert icon explicitly resets bold styling"
+Assert-NotContains $draftEditorApply 'That actual, shown, or Hermit ability character is already in use' "Draft no longer mislabels every duplicate as a generic Hermit warning"
+Assert-Contains $draftEditorDuplicate 'draft_recycling botc_patch matches 1.*draft_editor_check_actual.*0' "intentional Draft recycling remains the explicit duplicate override"
+Assert-Contains $draftEditorNormalize 'draft_target_town botc_patch = draft_assigned_town[\s\S]*draft_target_outsider botc_patch = draft_assigned_outsider' "manual edits normalize final category targets to the authoritative seats"
+Assert-Contains $draftEditorNormalize 'draft_manual_override botc_patch 1' "manual final edits are recorded for the Storyteller's start warning"
+Assert-Contains $draftEditorRebuildPool 'hermit_forced_ability.*editor/retire_role' "edited Hermit hidden abilities remain retired from later replacement drafts"
+Assert-Contains $draftEditorHermit '\$dialog show @s' "the final Hermit ability picker remains private to the acting Storyteller"
+Assert-Contains $draftEditorHermit 'Confirm 3.*set 7999' "final Hermit edits still require exactly three abilities"
 Assert-Contains $draftOpenSelected 'active:0b.*return run function botc_patch:buffet/draft/review/show_open_seat' "clicking an open Draft seat uses its dedicated explanation"
 Assert-Contains $draftOpenSeat 'replacement player may claim it.*fresh private turn' "open Draft seats explain their locked-roster replacement behavior"
 Assert-NotContains $draftOpenSeat 'actions:\[\]' "the open Draft seat explanation keeps a valid non-empty action list"
@@ -836,6 +1069,7 @@ $applyDraftRoles = Read-RequiredFile (Join-Path $DraftRoot "start/apply_roles.mc
 Assert-Contains $start 'function botc_patch:cmd/start' "Draft starts through Jay's guarded Sybillian wrapper"
 Assert-Contains $start 'function botc_patch:cmd/start[\s\S]*unless score phase game_data matches 4 run return 0[\s\S]*function botc_patch:buffet/roster/restore_started_identity[\s\S]*function botc_patch:buffet/draft/start/apply_roles' "Draft restores stable player identity before applying exact assignments"
 Assert-Contains $start 'function botc_patch:buffet/draft/start/apply_roles' "Draft applies exact assignments after Sybillian starts"
+Assert-Contains $start 'apply_roles[\s\S]*schedule function botc_patch:buffet/roles/sync_storyteller_hidden 2t replace' "Draft overlays hidden Storyteller tokens after Sybillian receives the actual roles"
 Assert-NotContains $start 'function botc_patch:setup_room/play_start_bell' "Draft relies on Sybillian's night-start bell instead of replaying it"
 Assert-Contains $start 'function botc_patch:buffet/draft/start/resolve_specials' "confirmed start resolves private setup fallbacks"
 Assert-Contains $startTry 'function botc_patch:buffet/draft/start/validate_preflight' "start confirmation uses the non-mutating preflight"
@@ -848,8 +1082,11 @@ Assert-Contains $draftInvalidReport 'Seat .* is open and needs a replacement pla
 Assert-Contains $draftInvalidReport 'has not completed their Draft choice' "Draft blockers identify unfinished players"
 Assert-Contains $draftInvalidReport 'draft_need_town.*Townsfolk.*still needed' "Draft blockers identify remaining category requirements"
 Assert-Contains $draftInvalidReport 'draft_modifier_pending.*Finish the current character setup choice first' "Draft blockers identify pending setup decisions"
+Assert-Contains $draftInvalidReport 'draft_assigned_demon.*Assign at least one.*Demon' "a manual final edit cannot remove every Demon and still start"
 Assert-Contains $draftInvalidReport 'draft_marionette_layout_valid.*Marionette.*must sit next' "Draft blockers identify an invalid hidden Marionette placement"
+Assert-Contains $draftInvalidReport 'function botc_patch:buffet/attention/block_self' "a blocked Draft start closes review and plays the shared blocker alert once"
 Assert-Contains $draftStartWarning 'ui\.start set value.*Start Game.*Back' "Draft builds one private confirmation dialog"
+Assert-Contains $draftStartWarning 'draft_manual_override.*Storyteller override:.*assignments are authoritative' "Start Game clearly identifies a Storyteller-edited final Draft"
 Assert-Contains $draftStartWarning 'draft_present_.*ui\.start\.body append value.* / .*:' "playable Draft jinxes are integrated into Start Game warnings"
 Assert-NotContains $draftStartWarning 'tellraw @a|tellraw @s' "Draft jinx warnings remain inside the private Storyteller dialog"
 Assert-Contains $draftStartDialog '\$dialog show @s \$\(start\)' "Draft shows its dynamically assembled start warning"
@@ -858,6 +1095,7 @@ Assert-Contains $start 'draft/start/report_invalid[\s\S]*return 0' "post-resolut
 Assert-Contains $validatePreflight 'draft_required_demon_replacements.*draft_safe_demon_pool' "preflight proves enough ordinary Demon seats remain for fallback copies"
 Assert-Contains $validatePreflight 'draft_required_vi.*draft_safe_town_pool' "preflight proves enough ordinary Townsfolk seats remain for Village Idiot copies"
 Assert-Contains $validate 'draft_modifier_pending.*buffet_hard_valid' "unresolved setup decisions block game start"
+Assert-Contains $validate 'draft_assigned_demon botc_patch matches 1\.\..*buffet_hard_valid' "final validation requires at least one Demon after manual edits"
 Assert-Contains $validate 'draft_online_count.*buffet_roster_count' "every locked seat must be online before start"
 Assert-Contains $rebuildRequirements 'draft_king_offer_consumed.*draft_required_king botc_patch 2' "rebuilding keeps a rejected King offer consumed"
 Assert-Contains $rebuildRequirements 'draft_damsel_offer_consumed.*draft_required_damsel botc_patch 2' "rebuilding keeps a rejected Damsel offer consumed"
@@ -870,6 +1108,7 @@ Assert-Contains $initFallbackVi 'random value 1\.\.3' "first fallback Village Id
 Assert-Contains $applyDraftRoles 'grim_editor_seat_1_alignment.*botc_buffet_alignment' "Draft actual alignment reaches grimoire and winner snapshots"
 Assert-Contains $applyDraftRoles 'scores=\{botc_buffet_seat=5\}.*draft\.seats\.s5\.actual' "Draft role application maps storage through Buffet-owned seat identity"
 Assert-NotContains $applyDraftRoles 'execute store result score @a\[tag=botc_buffet_roster,scores=\{id=' "Draft role application cannot trust Sybillian's randomized start IDs"
+Assert-Contains $nextTurn 'scoreboard players set draft_ready botc_patch 0[\s\S]*draft_assigned_total botc_patch = buffet_roster_count.*draft_ready botc_patch 1' "reopening a seat relocks final editing until the replacement turn completes"
 
 $protectedFallbackNames = @(
     @($rules.draft.setupModifierRoles) +

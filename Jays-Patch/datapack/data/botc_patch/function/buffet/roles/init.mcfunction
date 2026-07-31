@@ -140,3 +140,147 @@ data modify storage botc_patch:buffet catalog.s135 set value {id:"ojo",script_id
 data modify storage botc_patch:buffet catalog.s136 set value {id:"riot",script_id:"riot",name:"Riot",score:136,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:136,name:"Riot"}}
 data modify storage botc_patch:buffet catalog.s137 set value {id:"yaggababble",script_id:"yaggababble",name:"Yaggababble",score:137,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:137,name:"Yaggababble"}}
 data modify storage botc_patch:buffet catalog.s325 set value {id:"wraith",script_id:"wraith",name:"Wraith",score:325,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:325,name:"Wraith"}}
+data remove storage botc_patch:buffet reminder_catalog
+data modify storage botc_patch:buffet reminder_catalog.i0 set value {label:"Empty",glyph:"",color:"gray"}
+data modify storage botc_patch:buffet reminder_catalog.i1 set value {label:"Good",glyph:"",color:"#55ff55"}
+data modify storage botc_patch:buffet reminder_catalog.i2 set value {label:"Evil",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i3 set value {label:"Acrobat: Dead",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i4 set value {label:"Alchemist: Is the Alchemist",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i5 set value {label:"Al-Hadikhia: 1st selection",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i6 set value {label:"Al-Hadikhia: 2nd selection",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i7 set value {label:"Al-Hadikhia: 3rd selection",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i8 set value {label:"Al-Hadikhia: Chose death",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i9 set value {label:"Al-Hadikhia: Chose life",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i10 set value {label:"Amnesiac: ?",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i11 set value {label:"Artist: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i12 set value {label:"Assassin: Dead",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i13 set value {label:"Assassin: No ability",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i14 set value {label:"Balloonist: Seen",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i15 set value {label:"Banshee: Has ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i16 set value {label:"Barber: Haircuts tonight",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i17 set value {label:"Bounty Hunter: Known",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i18 set value {label:"Butler: Master",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i19 set value {label:"Cannibal: Poisoned",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i20 set value {label:"Cannibal: Lunch",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i21 set value {label:"Cerenovus: Mad",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i22 set value {label:"Courtier: Drunk 1",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i23 set value {label:"Courtier: Drunk 2",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i24 set value {label:"Courtier: Drunk 3",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i25 set value {label:"Courtier: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i26 set value {label:"Damsel: Guess used",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i27 set value {label:"Devil\u0027s Advocate: Survives execution",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i28 set value {label:"Drunk: Drunk",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i29 set value {label:"Evil Twin: Good Twin",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i30 set value {label:"Exorcist: Chosen",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i31 set value {label:"Fang Gu: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i32 set value {label:"Fang Gu: Already jumped",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i33 set value {label:"Fearmonger: Fear",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i34 set value {label:"Fisherman: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i35 set value {label:"Flowergirl: Demon voted",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i36 set value {label:"Flowergirl: Demon did not vote",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i37 set value {label:"Fool: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i38 set value {label:"Fortune Teller: Red herring",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i39 set value {label:"Gambler: Dead",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i40 set value {label:"Goblin: Claimed",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i41 set value {label:"Godfather: Died today",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i42 set value {label:"Godfather: Dead",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i43 set value {label:"Golem: Cannot nominate",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i44 set value {label:"Goon: Drunk",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i45 set value {label:"Gossip: Dead",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i46 set value {label:"Grandmother: Grandchild",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i47 set value {label:"Harpy: Mad",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i48 set value {label:"Harpy: 2nd",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i49 set value {label:"Hatter: Tea Party",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i50 set value {label:"Hermit: 1",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i51 set value {label:"Hermit: 2",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i52 set value {label:"Hermit: 3",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i53 set value {label:"Huntsman: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i54 set value {label:"Imp: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i55 set value {label:"Innkeeper: Protected",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i56 set value {label:"Innkeeper: Drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i57 set value {label:"Investigator: Minion",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i58 set value {label:"Investigator: Wrong",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i59 set value {label:"Juggler: Correct",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i60 set value {label:"Kazali: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i61 set value {label:"Knight: Know",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i62 set value {label:"Legion: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i63 set value {label:"Legion: About to die",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i64 set value {label:"Leviathan: Good player executed",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i65 set value {label:"Librarian: Outsider",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i66 set value {label:"Librarian: Wrong",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i67 set value {label:"Lil\u0027 Monsta: Is the Demon",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i68 set value {label:"Lil\u0027 Monsta: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i69 set value {label:"Lleech: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i70 set value {label:"Lleech: Poisoned",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i71 set value {label:"Lord of Typhon: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i72 set value {label:"Lunatic: Attack",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i73 set value {label:"Lunatic: Attack 2",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i74 set value {label:"Lunatic: Minion",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i75 set value {label:"Lycanthrope: Dead",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i76 set value {label:"Lycanthrope: Faux paw",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i77 set value {label:"Marionette: Is the Marionette",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i78 set value {label:"Mathematician: Worked abnormally",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i79 set value {label:"Mezepheles: Turns evil",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i80 set value {label:"Mezepheles: No ability",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i81 set value {label:"Minstrel: Everyone drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i82 set value {label:"Monk: Protected",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i83 set value {label:"Moonchild: Dead",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i84 set value {label:"Nightwatchman: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i85 set value {label:"Noble: Seen",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i86 set value {label:"No Dashii: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i87 set value {label:"No Dashii: Poisoned",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i88 set value {label:"Ogre: Friend",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i89 set value {label:"Ojo: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i90 set value {label:"Organ Grinder: Drunk",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i91 set value {label:"Organ Grinder: About to die",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i92 set value {label:"Philosopher: Is the Philosopher",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i93 set value {label:"Philosopher: Drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i94 set value {label:"Pixie: Mad",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i95 set value {label:"Pixie: Has ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i96 set value {label:"Plague Doctor: Storyteller ability",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i97 set value {label:"Po: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i98 set value {label:"Po: 3 attacks",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i99 set value {label:"Poisoner: Poisoned",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i100 set value {label:"Poppy Grower: Evil wakes",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i101 set value {label:"Preacher: At a sermon",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i102 set value {label:"Princess: Doesn\u0027t Kill",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i103 set value {label:"Professor: Alive",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i104 set value {label:"Professor: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i105 set value {label:"Pukka: Poisoned",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i106 set value {label:"Pukka: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i107 set value {label:"Puzzlemaster: Drunk",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i108 set value {label:"Puzzlemaster: Guess used",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i109 set value {label:"Sailor: Drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i110 set value {label:"Seamstress: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i111 set value {label:"Shabaloth: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i112 set value {label:"Shabaloth: Alive",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i113 set value {label:"Slayer: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i114 set value {label:"Snake Charmer: Poisoned",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i115 set value {label:"Steward: Know",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i116 set value {label:"Summoner: Night 1",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i117 set value {label:"Summoner: Night 2",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i118 set value {label:"Summoner: Night 3",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i119 set value {label:"Sweetheart: Drunk",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i120 set value {label:"Tea Lady: Cannot die",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i121 set value {label:"Tinker: Dead",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i122 set value {label:"Town Crier: Minions did not nominate",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i123 set value {label:"Town Crier: Minions nominated",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i124 set value {label:"Undertaker: Executed",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i125 set value {label:"Vigormortis: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i126 set value {label:"Vigormortis: Has ability",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i127 set value {label:"Vigormortis: Poisoned",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i128 set value {label:"Village Idiot: Drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i129 set value {label:"Vortox: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i130 set value {label:"Washerwoman: Townsfolk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i131 set value {label:"Washerwoman: Wrong",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i132 set value {label:"Widow: Knows",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i133 set value {label:"Widow: Poisoned",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i134 set value {label:"Witch: Cursed",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i135 set value {label:"Wizard: ?",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i136 set value {label:"Xaan: Night 1",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i137 set value {label:"Xaan: Night 2",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i138 set value {label:"Xaan: Night 3",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i139 set value {label:"Xaan: X",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i140 set value {label:"Yaggababble: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i141 set value {label:"Zombuul: Died today",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i142 set value {label:"Zombuul: Dead",glyph:"",color:"#ff5555"}

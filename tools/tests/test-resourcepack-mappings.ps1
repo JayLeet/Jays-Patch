@@ -213,6 +213,11 @@ Assert-SelectorMapsTo `
     -Description "Greedy Whalebuffet Take Open Seat"
 Assert-SelectorMapsTo `
     -Cases $carrotCases `
+    -ModelString "buffet_personal_grimoire" `
+    -ExpectedModel "minecraft:item/grimoire" `
+    -Description "Buffet Personal Grimoire"
+Assert-SelectorMapsTo `
+    -Cases $carrotCases `
     -ModelString "botc_fun_slayer" `
     -ExpectedModel "botc_patch:item/role/slayer" `
     -Description "Slayer's Bow"

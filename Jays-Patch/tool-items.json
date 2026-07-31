@@ -663,10 +663,22 @@
                       "label":  "Character Choices",
                       "owner":  "locked Buffet player",
                       "phase":  "special setup",
-                      "slot":  "hotbar.0",
+                      "slot":  "hotbar.0 in Greedy; weapon.offhand in Draft",
                       "source":  "buffet/item_checks.mcfunction",
                       "status":  "active",
                       "itemModel":  "minecraft:item/book"
+                  },
+                  {
+                      "id":  "buffet_personal_grimoire",
+                      "modelString":  "buffet_personal_grimoire",
+                      "item":  "minecraft:carrot_on_a_stick",
+                      "label":  "Personal Grimoire",
+                      "owner":  "Buffet player",
+                      "phase":  "Buffet setup and active game",
+                      "slot":  "hotbar.7",
+                      "source":  "buffet/items/give_personal_grimoire.mcfunction",
+                      "status":  "active",
+                      "itemModel":  "minecraft:item/grimoire"
                   },
                   {
                       "id":  "buffet_review",

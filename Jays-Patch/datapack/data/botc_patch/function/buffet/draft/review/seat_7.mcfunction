@@ -24,4 +24,5 @@ execute store result storage botc_patch:buffet action.role int 1 run data get st
 function botc_patch:buffet/draft/review/prepare_selected_role with storage botc_patch:buffet action
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s7.perceived
 function botc_patch:buffet/draft/review/prepare_selected_perceived with storage botc_patch:buffet action
+execute if score draft_ready botc_patch matches 1 run return run function botc_patch:buffet/draft/review/show_selected_editable with storage botc_patch:buffet ui
 function botc_patch:buffet/draft/review/show_selected with storage botc_patch:buffet ui

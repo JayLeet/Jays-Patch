@@ -254,6 +254,16 @@ if ($takeSeatItems.Count -ne 1 -or [string] $takeSeatItems[0].itemModel -ne "bot
     throw "Take Open Seat must reuse the existing Become a Player chair model."
 }
 
+$personalGrimoireItems = @($items | Where-Object { [string] $_.id -eq "buffet_personal_grimoire" })
+if (
+    $personalGrimoireItems.Count -ne 1 -or
+    [string] $personalGrimoireItems[0].modelString -ne "buffet_personal_grimoire" -or
+    [string] $personalGrimoireItems[0].itemModel -ne "minecraft:item/grimoire" -or
+    [string] $personalGrimoireItems[0].slot -ne "hotbar.7"
+) {
+    throw "Buffet Personal Grimoire must keep its unique click route while reusing Sybillian's Grimoire model in visual slot 8."
+}
+
 $requiredItemProperties = @("id", "modelString", "itemModel", "item", "label", "owner", "phase", "slot", "source", "status")
 foreach ($item in $items) {
     foreach ($prop in $requiredItemProperties) {

@@ -163,8 +163,9 @@ The approved Buffet privacy policy is:
 - block automatic `Start Game` if a required public Djinn announcement cannot
   be produced without leaking the setup;
 - do not publish a generated public character sheet for either Buffet mode;
-- keep the player-facing Script item empty, including its character lists,
-  night orders, and reminder tokens;
+- keep the player-facing Script item's character lists and night orders empty;
+- give every Buffet player the same fixed reminder-token catalogue generated
+  from every legal Buffet character, never from the secret final setup;
 - keep the authoritative exact setup only in server storage and private
   Storyteller surfaces.
 
@@ -410,6 +411,12 @@ Rules:
   turn occurs.
 - When a turn begins, play a clear positive jingle only for that player.
 - Immediately open that player's current private choice dialog.
+- Give every locked player the same `Choose your characters!` item in their
+  offhand for the entire draft. Repair it there if they move or drop it so the
+  visible item never identifies whose turn is active.
+- Right-clicking while waiting gives only that player a short not-your-turn
+  message. Right-clicking after choosing privately reopens only the character
+  they were shown, never their hidden actual character.
 - If they close the dialog without choosing or discarding:
   - keep the same generated offers;
   - keep their turn active;
@@ -596,7 +603,9 @@ Examples:
 - If no remaining neighboring seat is legal, Marionette becomes unavailable.
 
 Storyteller choices happen privately. The next player should be chosen through
-the normal random flow after the decision.
+the normal random flow after the decision. Modifier dialogs show only choices
+that still fit completed assignments. When exactly one result remains legal,
+the engine applies it without asking the Storyteller to choose a fake option.
 
 ## Hidden Character Rules
 
@@ -687,6 +696,34 @@ The Storyteller can return to this screen at any time.
 The screen must make hidden state obvious to the Storyteller without turning
 the player-facing flow into a wall of text.
 
+After every locked seat has completed its turn, each completed-seat review
+also becomes a final-character editor:
+
+- `Change Character` opens the full supported non-Traveler catalogue by type.
+- `Secret Character` assigns Drunk, Lunatic, Marionette, Hermit-Drunk, or
+  Hermit-Lunatic and then requires the Storyteller to choose the character the
+  player believes they are.
+- A direct or hidden Hermit still requires exactly three unique Outsider
+  abilities.
+- The private 3/2/1 Draft history remains unchanged. The edit changes only the
+  final actual character, shown character, alignment, and associated hidden
+  state.
+- The edited player's offhand book immediately shows their new perceived
+  character and never exposes the actual hidden character.
+- Final actual, perceived, and locked Hermit-ability characters remain unique
+  unless Draft recycling is explicitly enabled. Village Idiot, Legion, and
+  Riot retain their official duplicate exceptions.
+
+The first final edit makes the resulting seats Storyteller-authoritative, as
+in Greedy Whalebuffet's manual override. Recount the final type distribution,
+normalize the remaining Draft targets to those seats, rebuild role retirement
+and dependency state, and warn only the Storyteller inside their private Start
+Game dialog that they must verify the edited distribution and setup effects.
+Players are never told that the composition was edited. This deliberately
+supports moving a Drunk, Lunatic, or Marionette between players without
+rewriting what anyone originally drafted. At least one actual Demon, legal
+Marionette placement, and hard jinx exclusions still block an invalid start.
+
 ## Disconnects And Empty Seats
 
 - If the current drafter disconnects, pause their turn.
@@ -750,6 +787,13 @@ Messages should:
 - avoid explaining internal scoreboards, tags, generators, or solver state;
 - avoid confirming hidden roles, recycling, dependencies, or forced choices;
 - fit inside their buttons and dialog fields.
+
+When a Buffet blocker needs chat to explain what went wrong, close the
+affected player's or Storyteller's dialog first, play the established private
+bass blocker alert, and leave the dialog closed. The message must say how to
+reopen the relevant screen and continue. Do not play the blocker alert for
+ordinary informational feedback, and do not close a dialog when the blocker is
+already fully presented inside that visible dialog.
 
 # Implementation Checkpoint
 
@@ -833,8 +877,37 @@ Draft's live QA and the public jinx-presentation decision are complete.
   placeholders. Live proof confirmed a five-player roster, a current drafter,
   exactly three first-round offers, and an exact three-offer history snapshot.
 - Extended player Script redaction through Buffet setup phase `0`; stale
-  previous-game scripts are now replaced before they can reveal characters,
-  night order, or reminders during either Buffet selection flow.
+  previous-game scripts are now replaced before they can reveal selected
+  characters or night order during either Buffet selection flow. The redacted
+  Script now carries one setup-independent all-legal reminder catalogue so the
+  normal Sybillian player Grimoire can still add reminder tokens.
+- Made every Draft player keep the same `Choose your characters!` item in their
+  offhand. Waiting clicks stay private, active clicks reopen the current offer,
+  and completed clicks show only the character the player was shown.
+- Limited setup-modifier prompts to results that still fit completed choices,
+  with automatic resolution when only one legal result remains.
+- Added a Storyteller-only final-character editor after every Draft turn is
+  complete. It covers the full role catalogue, hidden perceived-role paths,
+  and Hermit abilities; preserves the private Draft history; immediately
+  updates the player's perceived-role book; rebuilds final bookkeeping; and
+  clearly warns when the final setup became a manual override.
+- Standardized Buffet chat blockers across both modes. They now close the
+  affected dialog, play Greedy's established private bass alert, explain how
+  to continue, and stay closed so a reopened menu cannot hide the message.
+- Replaced only the Buffet players' upstream Grimoire item with a private
+  Jay-owned notes dialog. Its overview has an explicit bottom Close button.
+  Players can privately set a character or choose any of the 142 legal
+  reminders for one of Sybillian's six reminder spaces. The paged reminder
+  picker includes the source character in each label so repeated token text
+  such as `Dead` remains clear.
+- The Sybillian-view button synchronizes `player_1` through `player_15` and
+  `p1_role` through `p15_role`, then clears the server dialog before opening
+  `ct-player_grim`. This prevents `Nobody!` labels and the unfinished
+  `Waiting for Server` screen. Opening either view never clears
+  `pN_r1..r6_text/icon`; the Jay picker changes only the selected text/icon
+  pair, so existing reminders survive closing and reopening for that client
+  session. They remain subject to Sybillian's client-local persistence limits
+  across reconnects or client resets.
 
 ## 2026-07-30
 

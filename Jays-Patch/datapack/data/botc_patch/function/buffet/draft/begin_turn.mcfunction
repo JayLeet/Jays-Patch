@@ -7,6 +7,5 @@ scoreboard players set draft_wait_notice botc_patch 0
 scoreboard players set @s botc_buffet_status 1
 execute store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
 function botc_patch:buffet/draft/mark_turn_active with storage botc_patch:buffet action
-function botc_patch:buffet/items/give_choices
 function botc_patch:buffet/draft/turn_cue
 function botc_patch:buffet/draft/offer_round_0 with storage botc_patch:buffet action

@@ -41,6 +41,7 @@
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `setup_wall_start` | `botc_patch:item/setup_wall_start` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `setup_wall_other_modes` | `minecraft:item/nether_star` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `buffet_choices` | `minecraft:item/book` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `buffet_personal_grimoire` | `minecraft:item/grimoire` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `buffet_review` | `minecraft:item/spyglass` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `buffet_start` | `minecraft:item/emerald` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `buffet_take_seat` | `botc_patch:item/setup_become_player` |

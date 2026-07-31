@@ -3,6 +3,11 @@ execute unless score phase game_data matches 0 run clear @a minecraft:carrot_on_
 execute unless score buffet_mode botc_patch matches 1..2 run clear @a minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_tool:1b}]
 clear @a minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_start:1b}]
 
+# Replace only Buffet players' Sybillian Grimoire with the private dialog tool.
+execute if score buffet_mode botc_patch matches 1..2 as @a[tag=botc_buffet_roster,tag=!storyteller] run clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["grimoire"]}]
+execute if score buffet_mode botc_patch matches 1..2 as @a[tag=botc_buffet_roster,tag=!storyteller] unless data entity @s Inventory[{Slot:7b}].components."minecraft:custom_data"{botc_buffet_personal_grimoire:1b} run function botc_patch:buffet/items/give_personal_grimoire
+execute unless score buffet_mode botc_patch matches 1..2 run clear @a minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_personal_grimoire:1b}]
+
 # Replace either setup-bag variant with Reset Game in the setup-bag slot.
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=storyteller] run clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["ct_bag"]}]
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=storyteller] run clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["setup_wall_bag"]}]
@@ -48,8 +53,7 @@ execute if score phase game_data matches 0 if score buffet_mode botc_patch match
 
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=storyteller] unless data entity @s Inventory[{Slot:0b}].components."minecraft:custom_data"{botc_buffet_review:1b} run function botc_patch:buffet/items/give_review
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1 as @a[tag=botc_buffet_roster,tag=!storyteller] unless data entity @s Inventory[{Slot:0b}].components."minecraft:custom_data"{botc_buffet_choices:1b} run function botc_patch:buffet/items/give_choices
-execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 2 as @a[tag=botc_buffet_draft_current,tag=!storyteller] unless data entity @s Inventory[{Slot:0b}].components."minecraft:custom_data"{botc_buffet_choices:1b} run function botc_patch:buffet/items/give_choices
-execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 2 as @a[tag=botc_buffet_roster,tag=!botc_buffet_draft_current] run clear @s minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_choices:1b}]
+execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 2 as @a[tag=botc_buffet_roster,tag=!storyteller] unless items entity @s weapon.offhand minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_choices:1b}] run function botc_patch:buffet/items/give_draft_choices
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1 if score buffet_roster_locked botc_patch matches 0 if score buffet_open_seats botc_patch matches 1.. as @a[tag=!storyteller,tag=!botc_buffet_roster] unless data entity @s Inventory[{Slot:0b}].components."minecraft:custom_data"{botc_buffet_take_seat:1b} run function botc_patch:buffet/items/give_take_seat
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 2 if score buffet_open_seats botc_patch matches 1.. as @a[tag=!storyteller,tag=!botc_buffet_roster] unless data entity @s Inventory[{Slot:0b}].components."minecraft:custom_data"{botc_buffet_take_seat:1b} run function botc_patch:buffet/items/give_take_seat
 execute if score buffet_open_seats botc_patch matches 0 as @a[tag=!storyteller,tag=!botc_buffet_roster] run clear @s minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_take_seat:1b}]

@@ -8,8 +8,8 @@ execute if score @s botc_buffet_total matches 8.. if score @s botc_buffet_town m
 $execute if data storage botc_patch:buffet greedy.seats.s$(seat){dealer:1b} run scoreboard players set buffet_submit_valid botc_patch 1
 execute unless score buffet_submit_valid botc_patch matches 1 run title @s times 5 30 10
 execute unless score buffet_submit_valid botc_patch matches 1 run title @s title {"text":"Invalid choice, try again","color":"red","bold":true}
+execute unless score buffet_submit_valid botc_patch matches 1 run function botc_patch:buffet/attention/block_self
 execute unless score buffet_submit_valid botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Choose at least 8 characters total and at least 2 of every type or Dealer's Choice before submitting.","color":"gray","bold":false}]
-execute unless score buffet_submit_valid botc_patch matches 1 at @s run playsound minecraft:block.note_block.bass voice @s ~ ~ ~ 1 0.6
 execute unless score buffet_submit_valid botc_patch matches 1 run return 0
 $data modify storage botc_patch:buffet greedy.seats.s$(seat).submitted set value 1b
 scoreboard players set buffet_start_confirmed botc_patch 0

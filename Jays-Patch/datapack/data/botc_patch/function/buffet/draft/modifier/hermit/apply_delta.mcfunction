@@ -6,7 +6,9 @@ scoreboard players operation draft_candidate_outsider botc_patch = draft_target_
 scoreboard players operation draft_candidate_outsider botc_patch += draft_target_delta botc_patch
 scoreboard players operation draft_candidate_town botc_patch = draft_target_town botc_patch
 scoreboard players operation draft_candidate_town botc_patch -= draft_target_delta botc_patch
+execute if score draft_candidate_outsider botc_patch < draft_assigned_outsider botc_patch run function botc_patch:buffet/attention/block_self
 execute if score draft_candidate_outsider botc_patch < draft_assigned_outsider botc_patch run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That setup change would remove an already-assigned Outsider slot.","color":"gray","bold":false}]
+execute if score draft_candidate_town botc_patch < draft_assigned_town botc_patch run function botc_patch:buffet/attention/block_self
 execute if score draft_candidate_town botc_patch < draft_assigned_town botc_patch run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That setup change would remove an already-assigned Townsfolk slot.","color":"gray","bold":false}]
 scoreboard players operation draft_target_outsider botc_patch = draft_candidate_outsider botc_patch
 scoreboard players operation draft_target_town botc_patch = draft_candidate_town botc_patch
