@@ -1,0 +1,25 @@
+# Sounds stay personal and intentionally modest in volume.
+execute if score @s botc_fun_silly_sound matches 1 run playsound minecraft:block.note_block.didgeridoo player @s ~ ~ ~ 0.45 0.72
+execute if score @s botc_fun_silly_sound matches 2 run playsound minecraft:entity.experience_orb.pickup player @s ~ ~ ~ 0.40 0.65
+execute if score @s botc_fun_silly_sound matches 3 run playsound minecraft:item.bundle.insert player @s ~ ~ ~ 0.45 0.80
+execute if score @s botc_fun_silly_sound matches 4 run playsound minecraft:block.amethyst_block.chime player @s ~ ~ ~ 0.45 0.65
+execute if score @s botc_fun_silly_sound matches 5 run playsound minecraft:entity.illusioner.prepare_mirror player @s ~ ~ ~ 0.35 1.45
+execute if score @s botc_fun_silly_sound matches 6 run playsound minecraft:block.note_block.bass player @s ~ ~ ~ 0.45 0.50
+execute if score @s botc_fun_silly_sound matches 7 run playsound minecraft:block.note_block.bell player @s ~ ~ ~ 0.40 1.55
+execute if score @s botc_fun_silly_sound matches 8 run playsound minecraft:block.note_block.chime player @s ~ ~ ~ 0.40 0.55
+execute if score @s botc_fun_silly_sound matches 9 run playsound minecraft:block.note_block.hat player @s ~ ~ ~ 0.40 0.65
+execute if score @s botc_fun_silly_sound matches 10 run playsound minecraft:block.note_block.pling player @s ~ ~ ~ 0.40 1.80
+execute if score @s botc_fun_silly_sound matches 11 run playsound minecraft:block.beacon.power_select player @s ~ ~ ~ 0.35 0.60
+execute if score @s botc_fun_silly_sound matches 12 run playsound minecraft:block.beacon.activate player @s ~ ~ ~ 0.30 1.40
+execute if score @s botc_fun_silly_sound matches 13 run playsound minecraft:block.end_portal.spawn player @s ~ ~ ~ 0.20 1.65
+execute if score @s botc_fun_silly_sound matches 14 run playsound minecraft:block.fire.extinguish player @s ~ ~ ~ 0.35 1.35
+execute if score @s botc_fun_silly_sound matches 15 run playsound minecraft:item.bundle.drop_contents player @s ~ ~ ~ 0.40 0.70
+execute if score @s botc_fun_silly_sound matches 16 run playsound minecraft:item.crossbow.shoot player @s ~ ~ ~ 0.25 1.80
+execute if score @s botc_fun_silly_sound matches 17 run playsound minecraft:item.flintandsteel.use player @s ~ ~ ~ 0.35 0.75
+execute if score @s botc_fun_silly_sound matches 18 run playsound minecraft:item.trident.throw player @s ~ ~ ~ 0.25 1.80
+execute if score @s botc_fun_silly_sound matches 19 run playsound minecraft:entity.enderman.teleport player @s ~ ~ ~ 0.25 1.65
+execute if score @s botc_fun_silly_sound matches 20 run playsound minecraft:entity.warden.heartbeat player @s ~ ~ ~ 0.30 1.55
+execute if score @s botc_fun_silly_sound matches 21 run playsound minecraft:entity.firework_rocket.twinkle player @s ~ ~ ~ 0.30 1.70
+execute if score @s botc_fun_silly_sound matches 22 run playsound minecraft:entity.evoker.prepare_attack player @s ~ ~ ~ 0.20 1.70
+execute if score @s botc_fun_silly_sound matches 23 run playsound minecraft:entity.player.levelup player @s ~ ~ ~ 0.30 0.55
+execute if score @s botc_fun_silly_sound matches 24 run playsound minecraft:block.respawn_anchor.charge player @s ~ ~ ~ 0.25 1.65
