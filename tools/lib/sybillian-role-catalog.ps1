@@ -4,7 +4,9 @@ function Get-SybillianRoleCatalog {
         [string] $SetFromMenuPath,
 
         [Parameter(Mandatory = $true)]
-        [string] $CharactersPath
+        [string] $CharactersPath,
+
+        [string] $ExtensionPath
     )
 
     if (-not (Test-Path -LiteralPath $SetFromMenuPath -PathType Leaf)) {
@@ -15,9 +17,11 @@ function Get-SybillianRoleCatalog {
     }
 
     $categoryByRole = @{}
+    $scriptIdByRole = @{}
     foreach ($line in Get-Content -LiteralPath $CharactersPath) {
-        if ($line -match 'in_characters\.(town|outsiders|minions|demons) append value "([a-z0-9_]+)"') {
-            $categoryByRole[$Matches[2]] = $Matches[1]
+        if ($line -match 'characters\{id:"([a-z0-9_]+)"\} run data modify storage ct:script in_characters\.(town|outsiders|minions|demons) append value "([a-z0-9_]+)"') {
+            $scriptIdByRole[$Matches[3]] = $Matches[1]
+            $categoryByRole[$Matches[3]] = $Matches[2]
         }
     }
 
@@ -29,6 +33,9 @@ function Get-SybillianRoleCatalog {
         $role = [string] $Matches[1]
         if (-not $categoryByRole.ContainsKey($role)) {
             throw "Sybillian role '$role' has no character category in $CharactersPath"
+        }
+        if (-not $scriptIdByRole.ContainsKey($role)) {
+            throw "Sybillian role '$role' has no script input id in $CharactersPath"
         }
 
         $storageCategory = [string] $categoryByRole[$role]
@@ -50,11 +57,33 @@ function Get-SybillianRoleCatalog {
         [pscustomobject]@{
             Id = [int] $Matches[2]
             Role = $role
+            ScriptId = [string] $scriptIdByRole[$role]
             Name = [string] $Matches[3]
             Category = $category
             StorageCategory = $storageCategory
             Alignment = $alignment
             Color = $color
+        }
+    }
+
+    $roles = @($roles)
+    if (-not [string]::IsNullOrWhiteSpace($ExtensionPath)) {
+        if (-not (Test-Path -LiteralPath $ExtensionPath -PathType Leaf)) {
+            throw "Missing Jay's Patch role extension table: $ExtensionPath"
+        }
+
+        $extensionConfig = Get-Content -LiteralPath $ExtensionPath -Raw | ConvertFrom-Json
+        foreach ($extension in @($extensionConfig.roles)) {
+            $roles += [pscustomobject]@{
+                Id = [int] $extension.id
+                Role = [string] $extension.role
+                ScriptId = [string] $extension.role
+                Name = [string] $extension.name
+                Category = [string] $extension.category
+                StorageCategory = [string] $extension.storageCategory
+                Alignment = [int] $extension.alignment
+                Color = [string] $extension.color
+            }
         }
     }
 
@@ -65,12 +94,12 @@ function Get-SybillianRoleCatalog {
 
     $duplicateIds = @($roles | Group-Object Id | Where-Object Count -gt 1)
     if ($duplicateIds.Count -gt 0) {
-        throw "Duplicate role ids in Sybillian role table: $($duplicateIds.Name -join ', ')"
+        throw "Duplicate role ids in combined role catalog: $($duplicateIds.Name -join ', ')"
     }
 
     $duplicateRoles = @($roles | Group-Object Role | Where-Object Count -gt 1)
     if ($duplicateRoles.Count -gt 0) {
-        throw "Duplicate role names in Sybillian role table: $($duplicateRoles.Name -join ', ')"
+        throw "Duplicate role names in combined role catalog: $($duplicateRoles.Name -join ', ')"
     }
 
     $uncataloguedCategories = @($categoryByRole.Keys | Where-Object { $_ -notin $roles.Role } | Sort-Object)

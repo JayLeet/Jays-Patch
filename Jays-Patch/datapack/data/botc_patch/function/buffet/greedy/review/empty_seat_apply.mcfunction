@@ -1,0 +1,17 @@
+# Invalidate the previous occupant generation before opening the seat.
+$scoreboard players add buffet_seat_$(seat)_generation botc_patch 1
+$tag @a[tag=botc_buffet_roster,scores={id=$(seat)}] add botc_buffet_emptied
+tag @a[tag=botc_buffet_emptied] remove botc_buffet_roster
+team leave @a[tag=botc_buffet_emptied]
+scoreboard players reset @a[tag=botc_buffet_emptied] id
+scoreboard players reset @a[tag=botc_buffet_emptied] botc_buffet_seat
+scoreboard players reset @a[tag=botc_buffet_emptied] botc_buffet_seat_gen
+clear @a[tag=botc_buffet_emptied] minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_choices:1b}]
+tag @a[tag=botc_buffet_emptied] remove botc_buffet_emptied
+$data remove entity @e[type=minecraft:item_display,tag=house_head,scores={house_id=$(seat)},limit=1] item.components.minecraft:profile
+$data modify storage botc_patch:buffet greedy.seats.s$(seat) set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+$data modify storage botc_patch:buffet roster.p$(seat) set value "Open Seat"
+scoreboard players set buffet_start_confirmed botc_patch 0
+tellraw @a [{"text":"A seat has opened up.","color":"yellow"}]
+function botc_patch:buffet/item_checks
+function botc_patch:buffet/greedy/review/open
