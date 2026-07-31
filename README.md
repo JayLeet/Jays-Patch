@@ -19,7 +19,6 @@ No more conga lines. Players are placed in a circle that adjusts to the number
 of people in the game, from 1 to 15 players.
 
 The layout updates while everyone is joining, then locks when the game starts.
-The Storyteller can also send everyone back to their seats when needed.
 
 ### 2. 📖 End-game Grimoire reveal
 
@@ -30,8 +29,6 @@ If something changed during the game, the Storyteller can update a player's
 displayed character or alignment before starting the reveal.
 
 The Storyteller can cancel an accidental reveal before anything is shown.
-Revealed characters stay hidden until the Storyteller reveals them one at a
-time.
 
 ### 3. 🎭 Storyteller controls
 
@@ -41,16 +38,16 @@ available through quicker hotbar items and server-side dialog menus.
 - ⏭️ **Advance the phase**
 - 💀 **Kill or revive players**
 - 🔥 **Manage nominations**
-- ⏱️ **Open the timer**
+- ⏱️ **Set a Timer**
 - 🪑 **Return everyone to their seats**
 - 🚪 **Teleport to players, houses, the evil team or the Storyteller den**
-- 📖 **Open the Grimoire tools**
+- 📖 **A new item called Storyteller Tools**
 
 Storyteller's Passage lets the Storyteller move and teleport as a spectator,
 then safely returns them when they enter or leave a private voice area.
 
 You can use item mode, dialog mode or Sybillian's original setup bag. Pick the
-option that feels best for your server.
+option that feels best for you.
 
 ### 4. 🧰 A different way to set up games
 
@@ -60,36 +57,26 @@ character icons.
 - 📜 Pick **Trouble Brewing**, **Sects and Violets** or **Bad Moon Rising**.
 - ✏️ Import a custom script when you want to play something different.
 - 🖱️ Right-click characters on the wall to add or remove them from the setup.
-- 🔔 Start the game from the room and reveal each player's character only to that player.
-
-Custom imports keep their script name and author, ignore unrelated JSON fields
-and reject scripts that contain too many characters in one category. An invalid
-script does not clear the current setup.
+- 🔔 Start the game or navigate around using the items in your hotbar.
 
 ### 5. 🎲 Beta game modes
 
-Jay's Setup Bag includes two different ways to choose characters before the
-ordinary game begins.
+The Setup Bag includes two different ways to choose characters before the
+game begins.
 
 - **Greedy Whalebuffet** lets everyone submit private character preferences at
-  the same time. Players can also choose Dealer's Choice and leave the final
-  decision to the Storyteller.
-- **Draft Buffet** gives players private turns in a random order. Each player
-  chooses from a changing set of legal characters while the remaining setup
+  the same time. Players can also choose Dealer's Choice and leave the
+  decision up to the Storyteller.
+- **Draft Buffet** gives players turns in a random order. Each player
+  chooses from a changing set of characters while the remaining setup
   adjusts around earlier choices.
-
-Both modes return to Sybillian's normal game flow after the Storyteller reviews
-and starts the final setup. They are still beta features and need more live
-multiplayer testing.
 
 ### 6. 🎙️ Night Chat
 
 This backports Sybillian's Night Chat from the 1.6.0 beta for servers using
 modpack 1.5.4. During the night, seated players inside a house receive a
 microphone in their second hotbar slot. Hold it to speak with anyone else
-holding a Night Chat microphone, even when they are in another house.
-
-Switch items or leave the house to return to the normal private voice area.
+holding a Night Chat microphone.
 
 ### 7. 🎉 Winner reveals
 
@@ -118,9 +105,8 @@ replaces your existing world folder.
   night, including private visits and a chance for good players to spot the
   Wraith.
 - 📕 **Spy and Widow Grimoire views** let the Storyteller show the true characters
-  in their personal Grimoire at the correct time.
+  in their personal Grimoire.
 - 💥 **Boomdandy final three** removes every other chair, eliminates non-finalists one at a time and lets the survivors vote by standing near the player they want to die.
-- 💀 **Nomination deaths** let the Storyteller apply Golem, Witch and similar role-caused deaths without changing the vote or execution.
 - ✊ **Rock Paper Scissors** lets the Storyteller start Sybillian's original
   two-player countdown from Grimoire Tools after both players make their choice.
 - ❗ **Notification badges** show the Storyteller when an in-play character has a relevant action available.
@@ -139,7 +125,7 @@ Do not install only the `jays_patch` datapack folder.
 ### Back up your server
 
 > [!WARNING]
-> Jay's Patch replaces your world folder. Back up your current `world` and
+> My datapack replaces your world folder. Back up your current `world` and
 > `config` folders if they contain anything you want to keep.
 
 ### First-time install
@@ -178,16 +164,7 @@ installation steps in a plain text file.
 
 Run `/botc help` in game to see the full command list.
 
-| Command | What it does |
-| --- | --- |
-| `/st start` | Starts the game after setup. |
-| `/st advance_phase` | Moves the game to the next phase. |
-| `/st timer <minutes> <seconds>` | Starts the conversation timer. |
-| `/setupbag preset trouble_brewing` | Loads a base script preset. |
-| `/setupbag import <script-json>` | Imports a custom script. |
-| `/botc grimoire start` | Starts the end-game Grimoire reveal. |
-| `/botc music toggle` | Turns your personal night music on or off. |
-| `/botc queue` | Joins the Storyteller queue. |
+
 
 ## Found a problem?
 
@@ -197,7 +174,7 @@ caused it if you can.
 
 ## Credits
 
-I built Jay's Patch on top of Sybillian's Blood on the Clocktower modpack. It
+I built my datapack on top of Sybillian's Blood on the Clocktower modpack. It
 includes a modified copy of Sybillian's world, datapack and resource-pack
 assets. Sybillian gave me permission to release this add-on publicly as long as
 I link back to the original project and name the supported version.
@@ -212,5 +189,5 @@ and ownership details are in [`LICENSE`](LICENSE),
 [`BRANDING.md`](Legal/BRANDING.md) and
 [`THIRD-PARTY-LICENSES`](Legal/THIRD-PARTY-LICENSES/).
 
-Jay's Patch is free and unofficial. It is not endorsed by Sybillian, The
+My datapack is free and unofficial. It is not endorsed by Sybillian, The
 Pandemonium Institute, Mojang Studios or Microsoft.
