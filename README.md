@@ -9,7 +9,7 @@ Night Chat from Sybillian's newer beta.
 I made it for **Sybillian's modpack 1.5.4** on
 **Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
 
-**[Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.9.0-beta.1.zip)**
+**[Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.1/Jay.s.Patch.v1.9.0-beta.1.zip)**
 
 ## What does it add?
 
@@ -133,7 +133,7 @@ Do not install only the `jays_patch` datapack folder.
 1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
 2. Start the server once, then stop it completely.
 3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/archive/refs/tags/v1.9.0-beta.1.zip) and extract it.
+4. [Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.1/Jay.s.Patch.v1.9.0-beta.1.zip) and extract it.
 5. Replace your server's `world` folder with the included `world` folder.
 6. Copy the included `config` folder into your server folder. Merge it with the
    existing `config` folder and replace files when asked.
