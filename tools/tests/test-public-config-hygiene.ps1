@@ -109,7 +109,7 @@ $patchVersion = (Get-Content -LiteralPath $VersionFile -Raw).Trim()
 $readmeText = Get-Content -LiteralPath $ReadmeFile -Raw
 foreach ($readmeToken in @(
     "Download Jay's Patch v$patchVersion",
-    "refs/tags/v$patchVersion.zip",
+    "releases/download/v$patchVersion/Jay.s.Patch.v$patchVersion.zip",
     'Legal/CREDITS.md',
     'Legal/ASSET_LICENSE.md',
     'Legal/BRANDING.md',

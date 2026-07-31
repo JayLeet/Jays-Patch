@@ -392,6 +392,17 @@
                                 {
                                     "when":  {
                                                  "strings":  [
+                                                                 "buffet_personal_grimoire"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "minecraft:item/grimoire"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
                                                                  "buffet_review"
                                                              ]
                                              },

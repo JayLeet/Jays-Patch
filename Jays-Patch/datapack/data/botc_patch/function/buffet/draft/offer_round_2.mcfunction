@@ -6,6 +6,7 @@ scoreboard players set draft_hidden_used_round botc_patch 0
 $data modify storage botc_patch:buffet draft.seats.s$(seat).offers set value {}
 data modify storage botc_patch:buffet action.option set value 1
 function botc_patch:buffet/draft/pick/category with storage botc_patch:buffet action
+execute if score draft_offer_failed botc_patch matches 1 run function botc_patch:buffet/attention/block_storytellers
 execute if score draft_offer_failed botc_patch matches 1 run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Draft paused because no legal character could be offered. Review the remaining character counts before continuing.","color":"gray","bold":false}]
 execute if score draft_offer_failed botc_patch matches 1 run return 0
 $data modify storage botc_patch:buffet draft.seats.s$(seat).round set value 2

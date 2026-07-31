@@ -7,6 +7,7 @@ execute unless score buffet_mode botc_patch matches 2 run scoreboard players set
 function botc_patch:buffet/draft/start/validate_marionette
 function botc_patch:buffet/draft/start/validate_jinxes
 execute unless score draft_assigned_total botc_patch = buffet_roster_count botc_patch run scoreboard players set buffet_hard_valid botc_patch 0
+execute unless score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0
 execute unless score draft_need_town botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0
 execute unless score draft_need_outsider botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0
 execute unless score draft_need_minion botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0

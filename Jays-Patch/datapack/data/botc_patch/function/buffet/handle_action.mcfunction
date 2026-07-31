@@ -2,6 +2,25 @@
 execute if score phase game_data matches 0 if entity @s[tag=storyteller] if score buffet_mode botc_patch matches 0 if score @s botc_buffet_action matches 1 run function botc_patch:buffet/select_greedy
 execute if score phase game_data matches 0 if entity @s[tag=storyteller] if score buffet_mode botc_patch matches 0 if score @s botc_buffet_action matches 2 run function botc_patch:buffet/select_draft
 
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8000 run function botc_patch:buffet/personal_grimoire/open
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8001..8015 run function botc_patch:buffet/personal_grimoire/select_seat
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8016 run function botc_patch:buffet/personal_grimoire/town
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8017 run function botc_patch:buffet/personal_grimoire/outsider
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8018 run function botc_patch:buffet/personal_grimoire/minion
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8019 run function botc_patch:buffet/personal_grimoire/demon
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8020 run function botc_patch:buffet/personal_grimoire/clear_character
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8021 run function botc_patch:buffet/personal_grimoire/categories
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8022 run function botc_patch:buffet/personal_grimoire/open_sybillian
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8101..8425 run function botc_patch:buffet/personal_grimoire/select_character
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8500 run function botc_patch:buffet/personal_grimoire/reminders/slots
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8501..8506 run function botc_patch:buffet/personal_grimoire/reminders/select_slot
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8511..8515 run function botc_patch:buffet/personal_grimoire/reminders/select_category
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8520 run function botc_patch:buffet/personal_grimoire/reminders/clear
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8521 run function botc_patch:buffet/personal_grimoire/reminders/previous
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8522 run function botc_patch:buffet/personal_grimoire/reminders/next
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8523 run function botc_patch:buffet/personal_grimoire/reminders/categories
+execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 9000..9999 run function botc_patch:buffet/personal_grimoire/reminders/select
+
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 10 run function botc_patch:buffet/greedy/open
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 11..20 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 11 run function botc_patch:buffet/greedy/dialog/town_prepare with storage botc_patch:buffet action

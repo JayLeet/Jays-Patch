@@ -3,13 +3,16 @@
 # Apply a validated Legion total and reserve duplicate Legion assignments.
 $scoreboard players set draft_legion_count botc_patch $(count)
 execute unless score draft_legion_count botc_patch matches 2..14 run return 0
+execute if score draft_legion_count botc_patch >= buffet_roster_count botc_patch run function botc_patch:buffet/attention/block_self
 execute if score draft_legion_count botc_patch >= buffet_roster_count botc_patch run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"At least one good player must remain outside Legion.","color":"gray","bold":false}]
 scoreboard players operation draft_candidate_town botc_patch = draft_legion_count botc_patch
 scoreboard players operation draft_candidate_town botc_patch += draft_legion_count botc_patch
+execute if score draft_candidate_town botc_patch <= buffet_roster_count botc_patch run function botc_patch:buffet/attention/block_self
 execute if score draft_candidate_town botc_patch <= buffet_roster_count botc_patch run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"More than half of the current players must be Legion.","color":"gray","bold":false}]
 scoreboard players operation draft_candidate_town botc_patch = buffet_roster_count botc_patch
 scoreboard players operation draft_candidate_town botc_patch -= draft_target_outsider botc_patch
 scoreboard players operation draft_candidate_town botc_patch -= draft_legion_count botc_patch
+execute if score draft_candidate_town botc_patch < draft_assigned_town botc_patch run function botc_patch:buffet/attention/block_self
 execute if score draft_candidate_town botc_patch < draft_assigned_town botc_patch run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That Legion count leaves too few Townsfolk slots for completed choices.","color":"gray","bold":false}]
 scoreboard players operation draft_old_town botc_patch = draft_target_town botc_patch
 scoreboard players operation draft_old_minion botc_patch = draft_target_minion botc_patch

@@ -53,6 +53,7 @@ scoreboard players set draft_assigned_total botc_patch 0
 scoreboard players set draft_recycling botc_patch 0
 scoreboard players set draft_modifier_pending botc_patch 0
 scoreboard players set draft_ready botc_patch 0
+scoreboard players set draft_manual_override botc_patch 0
 scoreboard players set draft_wait_notice botc_patch 0
 scoreboard players set draft_current_seat botc_patch 0
 scoreboard players set draft_required_king botc_patch 0

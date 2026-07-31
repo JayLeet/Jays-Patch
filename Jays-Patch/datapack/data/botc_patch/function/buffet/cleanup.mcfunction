@@ -10,11 +10,14 @@ scoreboard players set buffet_hard_valid botc_patch 0
 scoreboard players set buffet_soft_warning botc_patch 0
 scoreboard players set buffet_draft_ready botc_patch 0
 scoreboard players set draft_ready botc_patch 0
+scoreboard players set draft_manual_override botc_patch 0
 scoreboard players set draft_current_seat botc_patch 0
+execute as @a[tag=botc_buffet_roster,tag=!storyteller] run function botc_patch:buffet/personal_grimoire/reset_player
 data remove storage botc_patch:buffet roster
 data remove storage botc_patch:buffet greedy
 data remove storage botc_patch:buffet draft
 data remove storage botc_patch:buffet modifier
+data remove storage botc_patch:buffet personal_grimoire_reminders
 data remove storage botc_patch:buffet ui
 data remove storage botc_patch:buffet action
 team leave @a[tag=botc_buffet_roster]
@@ -39,4 +42,5 @@ scoreboard players reset @a botc_buffet_town
 scoreboard players reset @a botc_buffet_outsider
 scoreboard players reset @a botc_buffet_minion
 scoreboard players reset @a botc_buffet_demon
+clear @a minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_personal_grimoire:1b}]
 clear @a minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_tool:1b}]

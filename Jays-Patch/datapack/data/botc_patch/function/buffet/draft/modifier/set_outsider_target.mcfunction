@@ -6,7 +6,9 @@ scoreboard players operation draft_target_delta botc_patch = draft_requested_out
 scoreboard players operation draft_target_delta botc_patch -= draft_target_outsider botc_patch
 scoreboard players operation draft_candidate_town botc_patch = draft_target_town botc_patch
 scoreboard players operation draft_candidate_town botc_patch -= draft_target_delta botc_patch
+execute if score draft_requested_outsider botc_patch < draft_assigned_outsider botc_patch run function botc_patch:buffet/attention/block_self
 execute if score draft_requested_outsider botc_patch < draft_assigned_outsider botc_patch run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That Outsider count is below the number already assigned.","color":"gray","bold":false}]
+execute if score draft_candidate_town botc_patch < draft_assigned_town botc_patch run function botc_patch:buffet/attention/block_self
 execute if score draft_candidate_town botc_patch < draft_assigned_town botc_patch run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That Outsider count leaves too few Townsfolk slots for completed choices.","color":"gray","bold":false}]
 $execute store result score draft_seat_delta_town botc_patch run data get storage botc_patch:buffet draft.seats.s$(seat).delta_town
 $execute store result score draft_seat_delta_outsider botc_patch run data get storage botc_patch:buffet draft.seats.s$(seat).delta_outsider

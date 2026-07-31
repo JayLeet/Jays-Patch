@@ -13,6 +13,25 @@ scoreboard objectives add botc_buffet_minion dummy
 scoreboard objectives add botc_buffet_demon dummy
 scoreboard objectives add botc_buffet_seat dummy
 scoreboard objectives add botc_buffet_seat_gen dummy
+scoreboard objectives add botc_bg_target dummy
+scoreboard objectives add botc_bg_rslot dummy
+scoreboard objectives add botc_bg_rcat dummy
+scoreboard objectives add botc_bg_rpage dummy
+scoreboard objectives add botc_bg_s1 dummy
+scoreboard objectives add botc_bg_s2 dummy
+scoreboard objectives add botc_bg_s3 dummy
+scoreboard objectives add botc_bg_s4 dummy
+scoreboard objectives add botc_bg_s5 dummy
+scoreboard objectives add botc_bg_s6 dummy
+scoreboard objectives add botc_bg_s7 dummy
+scoreboard objectives add botc_bg_s8 dummy
+scoreboard objectives add botc_bg_s9 dummy
+scoreboard objectives add botc_bg_s10 dummy
+scoreboard objectives add botc_bg_s11 dummy
+scoreboard objectives add botc_bg_s12 dummy
+scoreboard objectives add botc_bg_s13 dummy
+scoreboard objectives add botc_bg_s14 dummy
+scoreboard objectives add botc_bg_s15 dummy
 
 # One-time upgrade path for an already-running Buffet setup.
 execute as @a[tag=botc_buffet_roster] unless score @s botc_buffet_seat matches 1..15 if score @s id matches 1..15 run scoreboard players operation @s botc_buffet_seat = @s id

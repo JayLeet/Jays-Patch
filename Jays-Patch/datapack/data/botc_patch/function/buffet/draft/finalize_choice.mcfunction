@@ -24,7 +24,6 @@ $execute if score @s id matches $(seat) run scoreboard players set @s botc_buffe
 $execute if score @s id matches $(seat) run tag @s remove botc_buffet_draft_current
 $execute if score @s id matches $(seat) run tag @s remove botc_buffet_draft_waiting
 scoreboard players set draft_current_seat botc_patch 0
-$execute if score @s id matches $(seat) run clear @s minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_choices:1b}]
 $execute if score @s id matches $(seat) if score @s botc_buffet_role matches 1.. run function botc_patch:buffet/draft/count_choice
 $execute if score @s id matches $(seat) run function botc_patch:buffet/draft/forced/resolve_choice
 scoreboard players set draft_modifier_pending botc_patch 0
