@@ -3424,13 +3424,18 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/item_checks.mcfunction",
-                      "bytes":  9062,
-                      "sha256":  "2e89f57a2899d30973437f538a98e038272594d62e9f9d5f1e8311ac83a07b36"
+                      "bytes":  10527,
+                      "sha256":  "33150c373cae2e9995f9b052c5e0c2d322c2887782495763afe7da2d5ac542c6"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/items/give_choices.mcfunction",
                       "bytes":  520,
                       "sha256":  "000b968bcaaba3f931f55badaa6ca52ecd7c23772d87a4e38107d19e5ababe6d"
+                  },
+                  {
+                      "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/items/give_reset.mcfunction",
+                      "bytes":  471,
+                      "sha256":  "6572d38a37225abd877dcff477ebdaf5d05f460dbc6170e27ee79924750ccbfe"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/items/give_review.mcfunction",
@@ -3654,8 +3659,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/tick.mcfunction",
-                      "bytes":  3280,
-                      "sha256":  "5f1064c1d0ed57f1c6d6ed9c6867430d12e15aeee06447a220b7ab4281993d17"
+                      "bytes":  4254,
+                      "sha256":  "e7ec38059f2bcb035ed20bbd4546f971a4c63db745498a3017b3a6136638d16f"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/cmd/advance_phase.mcfunction",
@@ -11954,8 +11959,8 @@
                   },
                   {
                       "path":  "Jays-Patch/tool-items.json",
-                      "bytes":  78675,
-                      "sha256":  "57d98877e66fc7661d1caa5525ce5d3ad0d9348c4233ac1f3ab9b41a12c0160d"
+                      "bytes":  78766,
+                      "sha256":  "da467aab572c10a18d6f34613f34abbc4830ac1377f983582c99fbe1b82e6d21"
                   },
                   {
                       "path":  "Jays-Patch/upstream-contract.json",
@@ -12264,8 +12269,8 @@
                   },
                   {
                       "path":  "tools/tests/test-buffet-gamemodes.ps1",
-                      "bytes":  92028,
-                      "sha256":  "c0a556a092e90cdd1a7482df9c7fe072acf4dc910210256b3a8f83e6b0407846"
+                      "bytes":  94039,
+                      "sha256":  "4bea7d2d1723bf1406abb2ab2bab955ce24f2fc1bd63768d94809be6d7bf73f9"
                   },
                   {
                       "path":  "tools/tests/test-command-budget.ps1",

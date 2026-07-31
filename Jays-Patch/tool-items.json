@@ -352,9 +352,9 @@
                       "item":  "minecraft:carrot_on_a_stick",
                       "label":  "Reset Game",
                       "owner":  "storyteller",
-                      "phase":  "setup",
-                      "slot":  "hotbar.0",
-                      "source":  "setup_tools/replace_items.mcfunction",
+                      "phase":  "setup and special setup",
+                      "slot":  "hotbar.0 normally; hotbar.6 during Buffet setup",
+                      "source":  "setup_tools/replace_items.mcfunction and buffet/item_checks.mcfunction",
                       "status":  "active",
                       "setupTool":  {
                                         "order":  1,

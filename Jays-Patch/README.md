@@ -287,7 +287,9 @@ Current owned behavior:
   locks and randomizes the roster, chooses each player's turn privately and at
   random, uses 3/2/1 offers, recalculates category needs after setup modifiers,
   and keeps hidden role and dependency fallbacks private. Both modes hand the
-  validated result back to Sybillian's normal start flow. Their generators
+  validated result back to Sybillian's normal start flow. During either setup,
+  the Storyteller's setup bag is replaced with Reset Game, which keeps the
+  normal confirmation before clearing the Buffet. Their generators
   consume `buffet-rules.json` and the versioned official jinx snapshot instead
   of duplicating role data. Public Djinn-sheet presentation and live
   multiplayer QA are still beta limitations.
