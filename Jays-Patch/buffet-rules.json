@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "greedy": {
+    "minimumTotalChoices": 8,
+    "minimumChoicesPerCategory": 2,
+    "duplicateAssignmentsDefault": false,
+    "playerExcludedRoles": [
+      "drunk",
+      "lunatic",
+      "marionette"
+    ]
+  },
+  "draft": {
+    "allowRecyclingDefault": false,
+    "setupDefiningRoles": [
+      "kazali",
+      "atheist",
+      "legion",
+      "riot",
+      "lord_of_typhon"
+    ],
+    "mutuallyExclusiveBranches": [
+      {
+        "id": "heretic_in_play_exclusions",
+        "officialJinx": true,
+        "left": [
+          "heretic"
+        ],
+        "right": [
+          "baron",
+          "godfather",
+          "lleech",
+          "pit_hag",
+          "spy",
+          "widow"
+        ]
+      },
+      {
+        "id": "summoner_or_lil_monsta",
+        "officialJinx": false,
+        "left": [
+          "summoner"
+        ],
+        "right": [
+          "lil_monsta"
+        ]
+      }
+    ],
+    "offerSizes": [
+      3,
+      2,
+      1
+    ],
+    "neverRepeatAnOfferToTheSamePlayer": true,
+    "villageIdiot": {
+      "role": "village_idiot",
+      "maximumCopies": 3,
+      "fallbackTotalWeights": {
+        "1": 1,
+        "2": 1,
+        "3": 1
+      }
+    },
+    "hiddenRoles": {
+      "drunk": {
+        "actualRole": "drunk",
+        "perceivedCategory": "town"
+      },
+      "lunatic": {
+        "actualRole": "lunatic",
+        "perceivedCategory": "demon"
+      },
+      "marionette": {
+        "actualRole": "marionette",
+        "perceivedCategory": "town",
+        "requiresDemonNeighbour": true
+      },
+      "hermit_drunk": {
+        "actualRole": "hermit",
+        "forcedAbility": "drunk",
+        "perceivedCategory": "town"
+      },
+      "hermit_lunatic": {
+        "actualRole": "hermit",
+        "forcedAbility": "lunatic",
+        "perceivedCategory": "demon"
+      }
+    },
+    "dependencies": [
+      {
+        "source": "choirboy",
+        "required": "king",
+        "fallback": "source_hidden_as_drunk"
+      },
+      {
+        "source": "huntsman",
+        "required": "damsel",
+        "fallback": "source_hidden_as_drunk"
+      }
+    ],
+    "setupModifierRoles": [
+      "atheist",
+      "balloonist",
+      "baron",
+      "bounty_hunter",
+      "fang_gu",
+      "godfather",
+      "hermit",
+      "kazali",
+      "legion",
+      "lil_monsta",
+      "lord_of_typhon",
+      "marionette",
+      "riot",
+      "summoner",
+      "vigormortis",
+      "xaan"
+    ]
+  }
+}
