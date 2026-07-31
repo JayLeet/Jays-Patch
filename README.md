@@ -164,7 +164,17 @@ installation steps in a plain text file.
 
 Run `/botc help` in game to see the full command list.
 
+### Fun commands
 
+| Command | What it does |
+| --- | --- |
+| `/botc fun sillyjuice` | Gives you Silly Juice, which adds Slowness I and two minutes of strange personal sounds and particles. |
+| `/botc fun boomdandy` | Gives you a single-use party popper with a short countdown and fireworks. |
+| `/botc fun hot_potato` | Starts hot potato with the Imp. Right-click another player to pass it before it pops. |
+| `/botc fun dice_roll` | Publicly rolls a 20-sided die. You can use it once per minute. |
+| `/botc slayer [player]` | Gives you a Slayer's Bow. Only the Storyteller can give one to another player. |
+| `/botc king` | Gives you a King entrance item. Use it in the Town Square to make your claim. |
+| `/botc vizier <player>` | Lets the Storyteller reveal the selected player's Vizier entrance. |
 
 ## Found a problem?
 
