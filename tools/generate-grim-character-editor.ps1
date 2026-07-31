@@ -6,6 +6,7 @@ $SybillianRolePath = Join-Path $RepoRoot "data\resources\datapack\required\ct\da
 $SybillianCharactersPath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\characters.mcfunction"
 $RoleIconPath = Join-Path $RepoRoot "Jays-Patch/role-icons.json"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
+$RoleExtensionPath = Join-Path $RepoRoot "Jays-Patch/role-extensions.json"
 $RoleGlyphHelper = Join-Path $RepoRoot "tools/lib/role-icon-glyphs.ps1"
 $OutputRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/grim/editor"
 $PlayerDialogRoot = Join-Path $OutputRoot "player_dialog"
@@ -29,7 +30,7 @@ foreach ($roleIcon in @($roleIconConfig.roles)) {
 
 . $RoleCatalogHelper
 . $RoleGlyphHelper
-$roles = @(Get-SybillianRoleCatalog -SetFromMenuPath $SybillianRolePath -CharactersPath $SybillianCharactersPath)
+$roles = @(Get-SybillianRoleCatalog -SetFromMenuPath $SybillianRolePath -CharactersPath $SybillianCharactersPath -ExtensionPath $RoleExtensionPath)
 $noneGlyph = Get-BotcRoleIconGlyph -RoleScore 0
 
 $missingIcons = @($roles | Where-Object { -not $roleIconSet.Contains($_.Role) } | Select-Object -ExpandProperty Role)
@@ -154,6 +155,9 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $refreshLines.Add("$prefix if score $target role matches 23..97 run scoreboard players set grim_editor_seat_$($seat)_alignment botc_patch 1")
     $refreshLines.Add("$prefix if score $target role matches 18..22 run scoreboard players set grim_editor_seat_$($seat)_alignment botc_patch 2")
     $refreshLines.Add("$prefix if score $target role matches 98..137 run scoreboard players set grim_editor_seat_$($seat)_alignment botc_patch 2")
+    foreach ($extension in @($roles | Where-Object Id -gt 137)) {
+        $refreshLines.Add("$prefix if score $target role matches $($extension.Id) run scoreboard players set grim_editor_seat_$($seat)_alignment botc_patch $($extension.Alignment)")
+    }
 }
 Write-Lines -Path (Join-Path $OutputRoot "refresh_live_roles.mcfunction") -Lines $refreshLines
 
@@ -235,10 +239,10 @@ Write-Lines -Path (Join-Path $OutputRoot "sync_storyteller_display.mcfunction") 
 
 $playerDispatchLines = New-Header "Shows the occupied-seat player picker using Sybillian's game-start name snapshot."
 $playerDispatchLines.Add("dialog clear @s")
-$playerDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only change characters during an active game.","color":"red"}')
+$playerDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only change characters during an active game.","color":"gray","bold":false}]')
 $playerDispatchLines.Add("execute if score grim_editor_reveal_started botc_patch matches 1 run return run function botc_patch:grim/editor/locked")
 $playerDispatchLines.Add("execute unless score grim_editor_game_captured botc_patch matches 1 run function botc_patch:grim/editor/capture_game")
-$playerDispatchLines.Add('execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s {"text":"The player list from the start of the game isn''t available yet.","color":"red"}')
+$playerDispatchLines.Add('execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"The player list from the start of the game is not available yet.","color":"gray","bold":false}]')
 $playerDispatchLines.Add("function botc_patch:grim/editor/refresh_live_roles")
 $playerDispatchLines.Add("function botc_patch:grim/editor/player_labels/prepare")
 for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
@@ -266,7 +270,7 @@ for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
 
 $characterDispatchLines = New-Header "Builds and shows the current-script character picker for the selected player."
 $characterDispatchLines.Add("dialog clear @s")
-$characterDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only change characters during an active game.","color":"red"}')
+$characterDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only change characters during an active game.","color":"gray","bold":false}]')
 $characterDispatchLines.Add("execute if score grim_editor_reveal_started botc_patch matches 1 run return run function botc_patch:grim/editor/locked")
 $characterDispatchLines.Add("function botc_patch:grim/editor/refresh_live_roles")
 $characterDispatchLines.Add("function botc_patch:grim/editor/roles/build")
@@ -295,4 +299,4 @@ for ($roleCount = 0; $roleCount -le 30; $roleCount++) {
     Write-Lines -Path (Join-Path $CharacterDialogRoot "count_$roleCount.mcfunction") -Lines $lines
 }
 
-Write-Host "Generated Reveal Grimoire character editor for $($roles.Count) Sybillian roles."
+Write-Host "Generated Reveal Grimoire character editor for $($roles.Count) trusted roles."

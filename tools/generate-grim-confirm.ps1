@@ -14,9 +14,13 @@ $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
 . $RoleGlyphHelper
 $icons = Get-BotcDialogIconCatalog -DialogIconPath $DialogIconPath -MusicTrackPath $MusicTrackPath
 $revealLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "reveal_grimoire") -Font "botc_patch:ui_icons" -Text "Reveal Grimoire" -Color "gold" -Bold $true
-$changeLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "change_characters") -Font "botc_patch:ui_icons" -Text "Change Characters" -Color "aqua" -Bold $true
+$changeLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "change_characters") -Font "botc_patch:ui_icons" -Text "Change Characters" -Color "aqua"
 $backLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "back") -Font "botc_patch:ui_icons" -Text "Back" -Color "gray"
 $titleLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "reveal_grimoire") -Font "botc_patch:ui_icons" -Text "Reveal Grimoire?" -Color "white"
+$killLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "kill") -Font "botc_patch:ui_icons" -Text "Kill Player" -Color "dark_red" -Bold $true
+$rpsLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcRoleIconGlyph -RoleScore 114) -Font "botc_patch:role_icons" -Text "Start RPS" -Color "yellow"
+$killBit = 16
+$maxMask = 127
 
 function Write-Lines {
     param(
@@ -41,33 +45,95 @@ function New-Header {
 $options = @(
     [pscustomobject]@{
         Bit = 1
-        Condition = 'if entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=108}]'
-        Action = '{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcRoleIconGlyph -RoleScore 108) -Font "botc_patch:role_icons" -Text "Announce Fearmonger" -Color "red" -Bold $true) + ',action:{type:"run_command",command:"/botc grimoire announce_fearmonger"}}'
+        NoticeKey = "fearmonger"
+        RoleScore = 108
+        Condition = 'if score phase game_data matches 4 unless score grim_active botc_patch matches 1 if entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=108}]'
+        Text = "Fearmonger"
+        Color = "red"
+        Command = "/botc grimoire announce_fearmonger"
     }
     [pscustomobject]@{
         Bit = 2
-        Condition = 'if entity @a[tag=!storyteller,tag=!spectator,tag=dead,tag=!active_banshee,scores={id=1..15,role=55}]'
-        Action = '{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcRoleIconGlyph -RoleScore 55) -Font "botc_patch:role_icons" -Text "Awaken Banshee" -Color "aqua" -Bold $true) + ',action:{type:"run_command",command:"/botc grimoire awaken_banshee"}}'
+        NoticeKey = "banshee"
+        RoleScore = 55
+        Condition = 'if score phase game_data matches 4 unless score grim_active botc_patch matches 1 if entity @a[tag=!storyteller,tag=!spectator,tag=!active_banshee,scores={id=1..15,role=55}]'
+        Text = "Awaken Banshee"
+        Color = "aqua"
+        Command = "/botc grimoire awaken_banshee"
     }
     [pscustomobject]@{
         Bit = 4
-        Condition = 'if entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=128}]'
-        Action = '{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcRoleIconGlyph -RoleScore 128) -Font "botc_patch:role_icons" -Text "Announce Al-Hadikhia Target" -Color "dark_red" -Bold $true) + ',action:{type:"run_command",command:"/botc grimoire announce_alhadikhia"}}'
+        NoticeKey = "alhadikhia"
+        RoleScore = 128
+        Condition = 'if score phase game_data matches 4 unless score grim_active botc_patch matches 1 if entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=128}]'
+        Text = "Al-Hadikhia"
+        Color = "dark_red"
+        Command = "/botc grimoire announce_alhadikhia"
+    }
+    [pscustomobject]@{
+        Bit = 8
+        NoticeKey = "madness"
+        RoleScore = 100
+        Condition = 'if score phase game_data matches 3 unless score grim_active botc_patch matches 1 if entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=100}]'
+        Text = "Madness Kill"
+        Color = "dark_red"
+        Command = "/botc grimoire madness_execute"
+    }
+    [pscustomobject]@{
+        Bit = 32
+        NoticeKey = $null
+        RoleScore = 19
+        Condition = 'if score phase game_data matches 4 unless score grim_active botc_patch matches 1 if entity @a[tag=!dead,tag=!storyteller,tag=!spectator,scores={id=1..15,role=19}]'
+        Text = "Spy Grimoire"
+        Color = "dark_red"
+        Command = "/botc grimoire show_spy_grimoire"
+    }
+    [pscustomobject]@{
+        Bit = 64
+        NoticeKey = $null
+        RoleScore = 117
+        Condition = 'if score phase game_data matches 4 if score current_day game_data matches 1 unless score grim_active botc_patch matches 1 if entity @a[tag=!dead,tag=!storyteller,tag=!spectator,scores={id=1..15,role=117}]'
+        Text = "Widow Grimoire"
+        Color = "dark_red"
+        Command = "/botc grimoire show_widow_grimoire"
     }
 )
 
+foreach ($option in $options) {
+    $font = "botc_patch:role_icons"
+    if (-not [string]::IsNullOrWhiteSpace([string] $option.NoticeKey)) {
+        $font = '$(' + [string] $option.NoticeKey + '_font)'
+    }
+    $option | Add-Member -NotePropertyName Action -NotePropertyValue ('{label:' + (New-BotcDialogGlyphLabel -Glyph (Get-BotcRoleIconGlyph -RoleScore ([int] $option.RoleScore)) -Font $font -Text ([string] $option.Text) -Color ([string] $option.Color)) + ',action:{type:"run_command",command:"' + [string] $option.Command + '"}}')
+}
+
 $confirmLines = New-Header "Routes the pre-reveal controls through one contextual option mask."
-$confirmLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s {"text":"You can only start Reveal Grimoire during an active game.","color":"red"}')
+$confirmLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only start ","color":"gray","bold":false},{"text":"Reveal Grimoire","color":"gold","bold":true},{"text":" during an active game.","color":"gray","bold":false}]')
+$confirmLines.Add('execute if score phase game_data matches 3 unless score boomdandy_stage botc_patch matches 2..5 if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/start')
+$confirmLines.Add('function botc_patch:grim/notifications/acknowledge_outer')
+$confirmLines.Add('data modify storage botc_patch:grim notifications set value {fearmonger_font:"botc_patch:role_icons",banshee_font:"botc_patch:role_icons",alhadikhia_font:"botc_patch:role_icons",madness_font:"botc_patch:role_icons"}')
+foreach ($option in @($options | Where-Object { -not [string]::IsNullOrWhiteSpace([string] $_.NoticeKey) })) {
+    $confirmLines.Add(('execute if score grim_notice_{0}_done botc_patch matches 0 run data modify storage botc_patch:grim notifications.{0}_font set value "botc_patch:role_icons_notification"' -f [string] $option.NoticeKey))
+}
+foreach ($option in @($options | Where-Object { -not [string]::IsNullOrWhiteSpace([string] $_.NoticeKey) })) {
+    $confirmLines.Add("execute $($option.Condition) run scoreboard players set grim_notice_$($option.NoticeKey)_menu_seen botc_patch 1")
+}
 $confirmLines.Add('scoreboard players set grim_confirm_options botc_patch 0')
 foreach ($option in $options) {
     $confirmLines.Add("execute $($option.Condition) run scoreboard players add grim_confirm_options botc_patch $($option.Bit)")
 }
-for ($mask = 0; $mask -le 7; $mask++) {
-    $confirmLines.Add("execute if score grim_confirm_options botc_patch matches $mask run function botc_patch:grim/confirm/options_$mask")
+$confirmLines.Add("execute if score phase game_data matches 3 unless score grim_active botc_patch matches 1 run scoreboard players add grim_confirm_options botc_patch $killBit")
+for ($mask = 0; $mask -le $maxMask; $mask++) {
+    if ($mask -eq 0) {
+        $confirmLines.Add("execute if score grim_confirm_options botc_patch matches 0 run function botc_patch:grim/confirm/options_0")
+    }
+    else {
+        $confirmLines.Add("execute if score grim_confirm_options botc_patch matches $mask run function botc_patch:grim/confirm/options_$mask with storage botc_patch:grim notifications")
+    }
 }
 Write-Lines -Path $OutputPath -Lines $confirmLines
 
-for ($mask = 0; $mask -le 7; $mask++) {
+for ($mask = 0; $mask -le $maxMask; $mask++) {
     $actions = [System.Collections.Generic.List[string]]::new()
     $actions.Add('{label:' + $revealLabel + ',action:{type:"run_command",command:"/botc grimoire start"}}')
     $actions.Add('{label:' + $changeLabel + ',action:{type:"run_command",command:"/botc grimoire change_characters"}}')
@@ -76,10 +142,18 @@ for ($mask = 0; $mask -le 7; $mask++) {
             $actions.Add($option.Action)
         }
     }
+    $actions.Add('{label:' + $rpsLabel + ',action:{type:"run_command",command:"/botc rps start"}}')
+    if (($mask -band $killBit) -ne 0) {
+        $actions.Add('{label:' + $killLabel + ',action:{type:"run_command",command:"/botc kill"}}')
+    }
     $actions.Add('{label:' + $backLabel + ',action:{type:"run_command",command:"/botc grimoire cancel"}}')
 
     $lines = New-Header "Pre-reveal confirmation for contextual option mask $mask."
-    $lines.Add('dialog show @s {type:"multi_action",title:' + $titleLabel + ',actions:[' + ($actions -join ',') + ']}')
+    $dialogCommand = 'dialog show @s {type:"multi_action",title:' + $titleLabel + ',actions:[' + ($actions -join ',') + ']}'
+    if ($dialogCommand.Contains('$(')) {
+        $dialogCommand = '$' + $dialogCommand
+    }
+    $lines.Add($dialogCommand)
     Write-Lines -Path (Join-Path $VariantRoot "options_$mask.mcfunction") -Lines $lines
 }
 

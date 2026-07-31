@@ -7,6 +7,9 @@ $EditorRoot = Join-Path $FunctionRoot "grim/editor"
 $WinnerRoot = Join-Path $FunctionRoot "winner"
 $BotcCommandPath = Join-Path $RepoRoot "Jays-Patch/melius-commands/commands/botc.json"
 $RoleTablePath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\set_from_menu.mcfunction"
+$CharactersPath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\characters.mcfunction"
+$RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
+$RoleExtensionPath = Join-Path $RepoRoot "Jays-Patch/role-extensions.json"
 
 function Assert-File {
     param([string] $Path, [string] $Description)
@@ -97,15 +100,15 @@ Assert-Contains $catalogText 'catalog\.imp set value \{[^\r\n]+color:"#ff5555"' 
 Assert-Contains $catalogText 'catalog\.pukka set value \{[^\r\n]+glyph:"[^"\r\n]+"' "Pukka deterministic dialog glyph"
 
 $validatorText = Get-Content -LiteralPath (Join-Path $EditorRoot "roles/validate_requested.mcfunction") -Raw
-$parsedRoles = @(
-    Get-Content -LiteralPath $RoleTablePath |
-        Where-Object { $_ -match '^execute if score ([a-z0-9_]+) role_list matches 1 run data modify storage ct:roles roles insert 0 value \{id:(\d+),name:' }
+. $RoleCatalogHelper
+$trustedRoles = @(
+    Get-SybillianRoleCatalog `
+        -SetFromMenuPath $RoleTablePath `
+        -CharactersPath $CharactersPath `
+        -ExtensionPath $RoleExtensionPath
 )
-if ($parsedRoles.Count -ne 137) {
-    throw "Expected 137 Sybillian roles, found $($parsedRoles.Count)."
-}
-if (@(Select-String -InputObject $validatorText -Pattern 'run function botc_patch:grim/editor/apply_character' -AllMatches).Matches.Count -ne 137) {
-    throw "Editor validator must contain exactly one guarded apply path per Sybillian role."
+if (@(Select-String -InputObject $validatorText -Pattern 'run function botc_patch:grim/editor/apply_character' -AllMatches).Matches.Count -ne $trustedRoles.Count) {
+    throw "Editor validator must contain exactly one guarded apply path per trusted role."
 }
 Assert-NotContains $validatorText 'apply_character \{[^\r\n}]*alignment:' "role selection coupled to a default alignment"
 foreach ($category in @("town", "outsiders", "minions", "demons")) {
@@ -144,10 +147,10 @@ Assert-Contains $confirmDefaultText '/botc grimoire change_characters' "pre-reve
 Assert-Contains $confirmDefaultText 'text:" Back",font:"minecraft:default",color:"gray"' "pre-reveal Back navigation label"
 Assert-NotContains $confirmDefaultText 'text:" Cancel",font:"minecraft:default",color:"gray"' "stale pre-reveal Cancel navigation label"
 Assert-Contains $confirmText 'scores=\{id=1\.\.15,role=108\}.*grim_confirm_options botc_patch 1' "Fearmonger contextual option bit"
-Assert-Contains $confirmFearmongerText 'Announce Fearmonger' "Fearmonger action when its option bit is present"
-Assert-NotContains $confirmDefaultText 'Announce Fearmonger' "Fearmonger action when its option bit is absent"
+Assert-Contains $confirmFearmongerText 'text:" Fearmonger"' "Fearmonger action when its option bit is present"
+Assert-NotContains $confirmDefaultText 'text:" Fearmonger"' "Fearmonger action when its option bit is absent"
 Assert-Contains $fearmongerText 'unless entity @s\[tag=storyteller\] run return 0' "Fearmonger Storyteller guard"
-Assert-Contains $fearmongerText 'unless score phase game_data matches 1\.\. run return 0' "Fearmonger active-game guard"
+Assert-Contains $fearmongerText 'unless score phase game_data matches 4 run return 0' "Fearmonger night-only guard"
 Assert-Contains $fearmongerText 'unless entity @a\[tag=!storyteller,tag=!spectator,scores=\{id=1\.\.15,role=108\}\] run return 0' "Fearmonger in-play guard"
 Assert-Contains $fearmongerText 'function ct:admin/announce/fearmonger' "Sybillian Fearmonger announcement reuse"
 Assert-NotContains $dialogText 'Change Characters|grim/editor|dialog/editable' "character editor in active reveal menu"
