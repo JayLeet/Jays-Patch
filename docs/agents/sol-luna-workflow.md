@@ -3,9 +3,9 @@
 This file is the project's local workflow source. Keep it beside the project
 and update it when the project's delivery rules change.
 
-Use it for new code, meaningful behavior changes, risky fixes and other
-multi-step implementation work. Tiny corrections that do not need planning or
-delegation are exempt.
+For new code, meaningful behavior changes, risky fixes and other multi-step
+implementation work, first decide whether this workflow earns its cost. Do not
+activate it only because a task matches a size label.
 
 ## Local authority
 
@@ -16,8 +16,9 @@ in another repository at runtime.
 ## Roles
 
 - **Sol XHigh is the lead.** Sol owns investigation, ambiguity removal,
-  decisions with the project owner, `/plan`, starting `/goal` after the plan is
-  accepted, dispatch, integration, review and final verification.
+  decisions with the project owner, `/plan`, the separate `/goal` value
+  decision after plan acceptance, delivery tracking, dispatch, integration,
+  review and final verification.
 - **Luna XHigh is the implementer.** Luna receives a bounded implementation
   slice, changes only its allowed area, runs the assigned checks and returns an
   evidence-based handoff.
@@ -60,7 +61,26 @@ stop-and-ask rule.
 Correct an earlier overstatement directly when later evidence disproves it,
 and update the applicable journal.
 
-## 0. Create the master journal
+## 0. Decide whether the workflow earns its cost
+
+Before creating workflow state, inspect enough current instructions, task
+shape, risk and existing tracking to compare the workflow's protection with
+its planning, journal, delegation and token cost.
+
+Use the workflow when investigation, reviewed planning, bounded worker
+ownership, integration review or durable recovery after interruption or
+compaction provides enough value. Skip it when those costs exceed the
+protection they provide, even when the task is more than a tiny correction.
+State the reason briefly in the task's normal communication or record. This is
+a value check, not another project-owner approval ceremony.
+
+When the workflow is skipped, follow the project's normal delivery process.
+Investigation, the mandatory stop rule, acceptance criteria, verification and
+honest completion reporting still apply. If the task grows enough to change
+the value decision, reevaluate it and create the master journal before
+continuing implementation under this workflow.
+
+## 1. Create the master journal
 
 Before substantial investigation or any implementation edit, Sol creates:
 
@@ -79,7 +99,10 @@ The master journal must contain:
 - scope, boundaries, non-goals and safety constraints;
 - evidence, inference, unknowns and recommendations;
 - project-owner decisions and reasons for material choices;
-- `/plan` state and, only after acceptance, the active `/goal`;
+- the workflow-value reason, `/plan` state and, only after acceptance, the
+  `/goal` value decision;
+- the active `/goal` when used, or the accepted plan maintained as the delivery
+  checklist when `/goal` is skipped;
 - current progress and affected files or systems;
 - active Luna assignments and worker-journal paths;
 - checks run with their actual results;
@@ -121,7 +144,7 @@ every unique decision, deviation, result, risk and follow-up into the master
 journal. A worker journal may be removed only after that consolidation is
 checked. Never remove an active or unconsolidated journal.
 
-## 1. Investigate before planning
+## 2. Investigate before planning
 
 1. Inspect the relevant project instructions, code, configuration, logs,
    documentation, Git state and behavior needed to understand the request.
@@ -134,7 +157,7 @@ checked. Never remove an active or unconsolidated journal.
 5. Use a review command here only when an existing diff, branch or commit is
    itself the subject. Review does not replace investigation of unchanged code.
 
-## 2. Remove ambiguity
+## 3. Remove ambiguity
 
 Sol asks focused questions when an answer could materially change behavior,
 scope, architecture, permissions, data safety, acceptance criteria or the
@@ -170,16 +193,16 @@ Return to the project owner with:
 Do not continue based on the answer an agent expects to receive. Read-only
 investigation may continue only when it helps settle the question.
 
-## 3. Finish `/plan`, then start `/goal`
+## 4. Finish `/plan`, then choose `/goal` or the plan checklist
 
 Start `/plan` first. Investigation and ambiguity removal may continue while the
 plan is being built. Do not create or start `/goal` while `/plan` is active,
 unaccepted or blocked by a material question.
 
-Use the host's plan and goal features when available. Otherwise, keep their
-equivalent in the master journal, while preserving the same order: finish and
-accept the plan before starting the goal. Do not claim a tool-backed plan or
-goal exists unless the applicable run proves it.
+Use the host's plan, checklist and goal features when available. Otherwise,
+keep their equivalent in the master journal. Preserve the same order: finish
+and accept the plan before deciding whether to start the goal. Do not claim a
+tool-backed plan, checklist or goal exists unless the applicable run proves it.
 
 The accepted plan defines:
 
@@ -191,11 +214,25 @@ The accepted plan defines:
 - verification, review, delivery, rollback and manual checks where relevant.
 
 Once `/plan` is complete and the project owner accepts it, record the accepted
-plan, decisions, assumptions and remaining risks in the master journal. Only
-then start one short `/goal` describing what must be true for the task to
-finish. Record the active goal before dispatch or implementation begins.
+plan, decisions, assumptions and remaining risks in the master journal. Then
+make a separate goal-value decision:
 
-## 4. Dispatch bounded implementation
+- Start one short `/goal` when durable goal tracking adds enough value for
+  long-running, interruption-prone or easily drifting work.
+- Skip `/goal` when the accepted plan already makes the bounded work visible
+  and restartable, so goal tracking adds less value than overhead.
+
+Record the choice and reason briefly; it does not require another
+project-owner approval. When `/goal` is skipped, reuse the accepted plan as the
+maintained delivery checklist instead of creating duplicate task state. Use
+the host checklist feature when available and the master journal otherwise.
+Through implementation and verification, keep the outcome, remaining steps,
+acceptance criteria and exact next action visible and current.
+
+Record the active goal or checklist mode before dispatch or implementation
+begins.
+
+## 5. Dispatch bounded implementation
 
 Each Luna assignment must state:
 
@@ -212,7 +249,7 @@ Parallelize only genuinely independent work. Do not let multiple workers edit
 the same files or tightly coupled behavior. Use sequential ownership when a
 shared file, state model or integration boundary would create conflicts.
 
-## 5. Luna implementation contract
+## 6. Luna implementation contract
 
 Luna must:
 
@@ -236,7 +273,7 @@ The handoff states:
 - deviations or small adjustments;
 - remaining risks, blockers and manual verification.
 
-## 6. Integrate, review and verify
+## 7. Integrate, review and verify
 
 1. Sol reads every worker journal and handoff.
 2. Sol inspects the changed files and combined diff instead of trusting worker
@@ -248,9 +285,9 @@ The handoff states:
 5. Review the completed diff. Treat findings as claims to verify, fix proven
    problems and rerun affected checks.
 6. Check every acceptance criterion and state any required manual action.
-7. Finish the goal only when the agreed outcome is achieved and no required
-   work remains.
+7. Finish the goal or delivery checklist only when the agreed outcome is
+   achieved and no required work remains.
 
 If implementation evidence invalidates the plan, pause dispatch, return to the
 ambiguity and planning steps, and revise the plan with the project owner. Change
-the goal only when the agreed outcome itself changes.
+the goal or checklist outcome only when the agreed outcome itself changes.

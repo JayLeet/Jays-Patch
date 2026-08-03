@@ -2,7 +2,10 @@
 # Do not hand-edit this file; update the generator and regenerate.
 # Routes the pre-reveal controls through one contextual option mask.
 execute unless score phase game_data matches 1.. run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only start ","color":"gray","bold":false},{"text":"Reveal Grimoire","color":"gold","bold":true},{"text":" during an active game.","color":"gray","bold":false}]
-execute if score phase game_data matches 3 unless score boomdandy_stage botc_patch matches 2..5 if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/start
+execute if score boomdandy_pyre_state botc_patch matches 1..2 run return run tellraw @s [{text:"Boomdandy\u0027s pyre execution is still resolving.",color:"yellow"}]
+execute if score phase game_data matches 3 if entity @s[tag=botc_boomdandy_execution_pending] run return run function botc_patch:storyteller_tools/boomdandy/show_execution_choice
+execute if score phase game_data matches 3 if entity @a[tag=storyteller,tag=botc_boomdandy_execution_pending,limit=1] run return run tellraw @s [{text:"Another Storyteller is choosing the Boomdandy execution path.",color:"yellow"}]
+execute if score phase game_data matches 3 unless score boomdandy_pyre_state botc_patch matches 1..2 unless score boomdandy_stage botc_patch matches 2..5 if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/start
 function botc_patch:grim/notifications/acknowledge_outer
 data modify storage botc_patch:grim notifications set value {fearmonger_font:"botc_patch:role_icons",banshee_font:"botc_patch:role_icons",alhadikhia_font:"botc_patch:role_icons",madness_font:"botc_patch:role_icons"}
 execute if score grim_notice_fearmonger_done botc_patch matches 0 run data modify storage botc_patch:grim notifications.fearmonger_font set value "botc_patch:role_icons_notification"

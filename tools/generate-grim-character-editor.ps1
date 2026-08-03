@@ -1,3 +1,7 @@
+param(
+    [switch] $Check
+)
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
@@ -7,12 +11,19 @@ $SybillianCharactersPath = Join-Path $RepoRoot "data\resources\datapack\required
 $RoleIconPath = Join-Path $RepoRoot "Jays-Patch/role-icons.json"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
 $RoleExtensionPath = Join-Path $RepoRoot "Jays-Patch/role-extensions.json"
+$ContractPath = Join-Path $RepoRoot "Jays-Patch/upstream-contract.json"
+$RulesPath = Join-Path $RepoRoot "Jays-Patch/buffet-rules.json"
 $RoleGlyphHelper = Join-Path $RepoRoot "tools/lib/role-icon-glyphs.ps1"
 $OutputRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/grim/editor"
 $PlayerDialogRoot = Join-Path $OutputRoot "player_dialog"
 $PlayerLabelsRoot = Join-Path $OutputRoot "player_labels"
 $CharacterDialogRoot = Join-Path $OutputRoot "character_dialog"
+$SummonerPlayerDialogRoot = Join-Path $OutputRoot "summoner/player_dialog"
+$SummonerDemonDialogRoot = Join-Path $OutputRoot "summoner/demon_dialog"
+$SummonerMinionDialogRoot = Join-Path $OutputRoot "summoner/minion_dialog"
+$DemonRoot = Join-Path $OutputRoot "demon"
 $RolesRoot = Join-Path $OutputRoot "roles"
+$RevealRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/grim/reveal"
 
 if (-not (Test-Path -LiteralPath $SybillianRolePath -PathType Leaf)) {
     throw "Missing Sybillian role table: $SybillianRolePath"
@@ -31,6 +42,19 @@ foreach ($roleIcon in @($roleIconConfig.roles)) {
 . $RoleCatalogHelper
 . $RoleGlyphHelper
 $roles = @(Get-SybillianRoleCatalog -SetFromMenuPath $SybillianRolePath -CharactersPath $SybillianCharactersPath -ExtensionPath $RoleExtensionPath)
+$disabledRoleReasons = Get-BotcDisabledRoleMap -ContractPath $ContractPath -RoleCatalog $roles
+$selectableRoles = @($roles | Where-Object { -not $disabledRoleReasons.ContainsKey([string] $_.Role) })
+$rules = Get-Content -LiteralPath $RulesPath -Raw | ConvertFrom-Json
+if ([string] $rules.draft.topologyRules.trustedDemonEditor.availability -cne "every-night" -or
+    [bool] $rules.draft.topologyRules.trustedDemonEditor.automaticThirdNightPrompt) {
+    throw "Grimoire editor requires the accepted every-night trusted Demon catalog without an automatic third-night prompt."
+}
+$demons = @($selectableRoles | Where-Object Category -eq "demon")
+$summonerMinions = @($selectableRoles | Where-Object { $_.Category -eq "minion" -and $_.Role -notin @("summoner", "marionette") })
+$lilMonsta = $roles | Where-Object Role -eq "lil_monsta" | Select-Object -First 1
+if ($null -eq $lilMonsta -or $demons.Count -lt 1 -or $summonerMinions.Count -lt 1) {
+    throw "Summoner editor requires Lil' Monsta plus nonempty trusted Demon and direct-Minion catalogs."
+}
 $noneGlyph = Get-BotcRoleIconGlyph -RoleScore 0
 
 $missingIcons = @($roles | Where-Object { -not $roleIconSet.Contains($_.Role) } | Select-Object -ExpandProperty Role)
@@ -46,8 +70,20 @@ function Write-Lines {
         [System.Collections.Generic.List[string]] $Lines
     )
 
+    $expected = ($Lines -join "`n") + "`n"
+    if ($Check) {
+        if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+            throw "Generated output is missing: $Path"
+        }
+        $actual = [System.IO.File]::ReadAllText($Path)
+        if ($actual -cne $expected) {
+            throw "Generated output is stale: $Path"
+        }
+        return
+    }
+
     New-Item -ItemType Directory -Path (Split-Path -Parent $Path) -Force | Out-Null
-    [System.IO.File]::WriteAllText($Path, ($Lines -join "`n") + "`n", $utf8NoBom)
+    [System.IO.File]::WriteAllText($Path, $expected, $utf8NoBom)
 }
 
 function New-Header {
@@ -60,10 +96,17 @@ function New-Header {
     return ,$lines
 }
 
-New-Item -ItemType Directory -Path $PlayerDialogRoot -Force | Out-Null
-New-Item -ItemType Directory -Path $PlayerLabelsRoot -Force | Out-Null
-New-Item -ItemType Directory -Path $CharacterDialogRoot -Force | Out-Null
-New-Item -ItemType Directory -Path $RolesRoot -Force | Out-Null
+if (-not $Check) {
+    New-Item -ItemType Directory -Path $PlayerDialogRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $PlayerLabelsRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $CharacterDialogRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $SummonerPlayerDialogRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $SummonerDemonDialogRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $SummonerMinionDialogRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $DemonRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $RolesRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $RevealRoot -Force | Out-Null
+}
 
 $initLines = New-Header "Builds the trusted role catalog from Sybillian's role-score table."
 $initLines.Add("data remove storage botc_patch:grim editor.catalog")
@@ -78,11 +121,21 @@ foreach ($role in $roles) {
 }
 Write-Lines -Path (Join-Path $RolesRoot "init.mcfunction") -Lines $initLines
 
+$revealSpawnLines = New-Header "Maps every trusted character score to its Grimoire reveal display."
+foreach ($role in $roles) {
+    $revealSpawnLines.Add(('execute if score grim_reveal_role botc_patch matches {0} run function botc_patch:grim/reveal/spawn {{role:"{1}"}}' -f $role.Id, $role.Role))
+}
+Write-Lines -Path (Join-Path $RevealRoot "spawn_from_score.mcfunction") -Lines $revealSpawnLines
+
 $appendLines = New-Header "Appends one trusted current-script role to the editor list."
-$appendLines.Add('$data modify storage botc_patch:grim editor.roles append from storage botc_patch:grim editor.catalog.$(id)')
+$appendLines.Add('scoreboard players set grim_editor_role_selectable botc_patch 1')
+foreach ($roleName in $disabledRoleReasons.Keys | Sort-Object) {
+    $appendLines.Add(('execute if data storage botc_patch:grim editor.append{{id:"{0}"}} run scoreboard players set grim_editor_role_selectable botc_patch 0' -f $roleName))
+}
+$appendLines.Add('$execute if score grim_editor_role_selectable botc_patch matches 1 run data modify storage botc_patch:grim editor.roles append from storage botc_patch:grim editor.catalog.$(id)')
 Write-Lines -Path (Join-Path $RolesRoot "append.mcfunction") -Lines $appendLines
 
-$buildLines = New-Header "Flattens only the current Sybillian script into one ordered editor list."
+$buildLines = New-Header "Builds the normal current-script list or the trusted nightly Demon/direct-Minion catalog."
 $buildLines.Add("data modify storage botc_patch:grim editor.roles set value []")
 $buildLines.Add("data remove storage botc_patch:grim editor.append")
 $scriptSlots = @(
@@ -94,9 +147,16 @@ $scriptSlots = @(
 foreach ($group in $scriptSlots) {
     for ($index = 0; $index -lt $group.Count; $index++) {
         $path = "in_characters.$($group.Name)[$index]"
-        $buildLines.Add("execute if data storage ct:script $path run data modify storage botc_patch:grim editor.append.id set from storage ct:script $path")
-        $buildLines.Add("execute if data storage ct:script $path run function botc_patch:grim/editor/roles/append with storage botc_patch:grim editor.append")
+        $buildLines.Add("execute if score @s botc_grim_edit_mode matches 0 if data storage ct:script $path run data modify storage botc_patch:grim editor.append.id set from storage ct:script $path")
+        $buildLines.Add("execute if score @s botc_grim_edit_mode matches 0 if data storage ct:script $path run function botc_patch:grim/editor/roles/append with storage botc_patch:grim editor.append")
     }
+}
+foreach ($role in $demons) {
+    $buildLines.Add(('execute if score @s botc_grim_edit_mode matches 1 run data modify storage botc_patch:grim editor.roles append from storage botc_patch:grim editor.catalog.{0}' -f $role.Role))
+}
+foreach ($role in $summonerMinions) {
+    $unusedChecks = 1..15 | ForEach-Object { 'unless score grim_editor_seat_{0}_role botc_patch matches {1}' -f $_, $role.Id }
+    $buildLines.Add(('execute if score @s botc_grim_edit_mode matches 2 {0} run data modify storage botc_patch:grim editor.roles append from storage botc_patch:grim editor.catalog.{1}' -f ($unusedChecks -join ' '), $role.Role))
 }
 $buildLines.Add("execute store result score grim_editor_role_count botc_patch run data get storage botc_patch:grim editor.roles")
 Write-Lines -Path (Join-Path $RolesRoot "build.mcfunction") -Lines $buildLines
@@ -117,9 +177,21 @@ $prepareCurrentLines.Add('$data modify storage botc_patch:grim editor.dialog.cur
 $prepareCurrentLines.Add('$data modify storage botc_patch:grim editor.dialog.current_role_glyph set from storage botc_patch:grim editor.score_catalog.s$(score).glyph')
 Write-Lines -Path (Join-Path $RolesRoot "prepare_current.mcfunction") -Lines $prepareCurrentLines
 
-$validateLines = New-Header "Validates a requested character against both the trusted catalog and current script."
-foreach ($role in $roles) {
-    $validateLines.Add(('execute if data storage botc_patch:grim editor.request{{role:"{0}"}} if data storage ct:script in_characters{{{1}:["{0}"]}} run function botc_patch:grim/editor/apply_character {{role:"{0}",score:{2}}}' -f $role.Role, $role.StorageCategory, $role.Id))
+$validateLines = New-Header "Validates a normal current-script edit or a trusted nightly full-catalog selection."
+foreach ($role in $selectableRoles) {
+    $validateLines.Add(('execute if score @s botc_grim_edit_mode matches 0 if data storage botc_patch:grim editor.request{{role:"{0}"}} if data storage ct:script in_characters{{{1}:["{0}"]}} run function botc_patch:grim/editor/apply_character {{role:"{0}",score:{2}}}' -f $role.Role, $role.StorageCategory, $role.Id))
+}
+foreach ($role in $demons) {
+    if ($role.Role -eq "lil_monsta") {
+        $validateLines.Add(('execute if score @s botc_grim_edit_mode matches 1 if data storage botc_patch:grim editor.request{{role:"{0}"}} run function botc_patch:grim/editor/summoner/begin_lil_monsta' -f $role.Role))
+    }
+    else {
+        $validateLines.Add(('execute if score @s botc_grim_edit_mode matches 1 if data storage botc_patch:grim editor.request{{role:"{0}"}} run function botc_patch:grim/editor/summoner/apply_demon {{role:"{0}",score:{1},name:"{2}",color:"{3}",script_id:"{4}"}}' -f $role.Role, $role.Id, $role.Name.Replace('"', '\"'), $role.Color, $role.ScriptId))
+    }
+}
+foreach ($role in $summonerMinions) {
+    $unusedChecks = 1..15 | ForEach-Object { 'unless score grim_editor_seat_{0}_role botc_patch matches {1}' -f $_, $role.Id }
+    $validateLines.Add(('execute if score @s botc_grim_edit_mode matches 2 if data storage botc_patch:grim editor.request{{role:"{0}"}} {1} run function botc_patch:grim/editor/summoner/apply_minion {{role:"{0}",score:{2},name:"{3}",color:"{4}",script_id:"{5}"}}' -f $role.Role, ($unusedChecks -join ' '), $role.Id, $role.Name.Replace('"', '\"'), $role.Color, $role.ScriptId))
 }
 Write-Lines -Path (Join-Path $RolesRoot "validate_requested.mcfunction") -Lines $validateLines
 
@@ -131,6 +203,7 @@ $clearGameLines.Add("scoreboard players reset @a botc_grim_edit_seat")
 $clearGameLines.Add("scoreboard players reset @a botc_grim_edit_role")
 $clearGameLines.Add("scoreboard players reset @a botc_grim_edit_alignment")
 $clearGameLines.Add("scoreboard players reset @a botc_grim_edit_valid")
+$clearGameLines.Add("scoreboard players reset @a botc_grim_edit_mode")
 $clearGameLines.Add("data remove storage botc_patch:grim editor.roles")
 $clearGameLines.Add("data remove storage botc_patch:grim editor.dialog")
 $clearGameLines.Add("data remove storage botc_patch:grim editor.player_labels")
@@ -240,19 +313,24 @@ Write-Lines -Path (Join-Path $OutputRoot "sync_storyteller_display.mcfunction") 
 $playerDispatchLines = New-Header "Shows the occupied-seat player picker using Sybillian's game-start name snapshot."
 $playerDispatchLines.Add("dialog clear @s")
 $playerDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only change characters during an active game.","color":"gray","bold":false}]')
-$playerDispatchLines.Add("execute if score grim_editor_reveal_started botc_patch matches 1 run return run function botc_patch:grim/editor/locked")
+$playerDispatchLines.Add("execute if score grim_editor_reveal_started botc_patch matches 1 unless score @s botc_grim_edit_mode matches 1..2 run return run function botc_patch:grim/editor/locked")
 $playerDispatchLines.Add("execute unless score grim_editor_game_captured botc_patch matches 1 run function botc_patch:grim/editor/capture_game")
 $playerDispatchLines.Add('execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"The player list from the start of the game is not available yet.","color":"gray","bold":false}]')
 $playerDispatchLines.Add("function botc_patch:grim/editor/refresh_live_roles")
 $playerDispatchLines.Add("function botc_patch:grim/editor/player_labels/prepare")
 for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
-    $playerDispatchLines.Add("execute if score grim_editor_dialog_size botc_patch matches $seatCount run function botc_patch:grim/editor/player_dialog/count_$seatCount with storage botc_patch:grim editor.player_labels")
+    $playerDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 0 if score grim_editor_dialog_size botc_patch matches $seatCount run function botc_patch:grim/editor/player_dialog/count_$seatCount with storage botc_patch:grim editor.player_labels")
+    $playerDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 1 if score grim_editor_dialog_size botc_patch matches $seatCount run function botc_patch:grim/editor/summoner/player_dialog/count_$seatCount with storage botc_patch:grim editor.player_labels")
 }
-$playerDispatchLines.Add("execute unless score grim_editor_dialog_size botc_patch matches 0..15 run function botc_patch:grim/editor/player_dialog/count_15 with storage botc_patch:grim editor.player_labels")
+$playerDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 0 unless score grim_editor_dialog_size botc_patch matches 0..15 run function botc_patch:grim/editor/player_dialog/count_15 with storage botc_patch:grim editor.player_labels")
+$playerDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 1 unless score grim_editor_dialog_size botc_patch matches 0..15 run function botc_patch:grim/editor/summoner/player_dialog/count_15 with storage botc_patch:grim editor.player_labels")
 Write-Lines -Path (Join-Path $OutputRoot "player_dialog.mcfunction") -Lines $playerDispatchLines
 
 for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
     $actions = [System.Collections.Generic.List[string]]::new()
+    if ($seatCount -gt 0) {
+        $actions.Add('{label:{text:"Assign Demon Tonight",color:"#ff5555",bold:true},tooltip:{text:"Choose any supported Demon for a player during the night.",color:"gray"},action:{type:"run_command",command:"/botc grimoire choose_demon"}}')
+    }
     for ($seat = 1; $seat -le $seatCount; $seat++) {
         $actions.Add('{label:{text:"$(p' + $seat + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(p' + $seat + '_name)",font:"minecraft:default",color:"white"},{text:" ($(p' + $seat + '_role))",font:"minecraft:default",color:"$(p' + $seat + '_color)"}]},tooltip:{text:"Seat ' + $seat + '",color:"gray"},action:{type:"run_command",command:"/botc grimoire edit_seat ' + $seat + '"}}')
     }
@@ -266,37 +344,176 @@ for ($seatCount = 0; $seatCount -le 15; $seatCount++) {
     $lines = New-Header "Player-name dialog for $seatCount occupied seats."
     $lines.Add($line)
     Write-Lines -Path (Join-Path $PlayerDialogRoot "count_$seatCount.mcfunction") -Lines $lines
+
+    $summonerActions = [System.Collections.Generic.List[string]]::new()
+    for ($seat = 1; $seat -le $seatCount; $seat++) {
+        $summonerActions.Add('{label:{text:"$(p' + $seat + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(p' + $seat + '_name)",font:"minecraft:default",color:"white"},{text:" ($(p' + $seat + '_role))",font:"minecraft:default",color:"$(p' + $seat + '_color)"}]},tooltip:{text:"Seat ' + $seat + '",color:"gray"},action:{type:"run_command",command:"/botc grimoire edit_seat ' + $seat + '"}}')
+    }
+    if ($summonerActions.Count -eq 0) {
+        $summonerActions.Add('{label:{text:"No seated players",color:"gray"},action:{type:"run_command",command:"/botc grimoire change_characters"}}')
+    }
+    $summonerMacroPrefix = if ($seatCount -gt 0) { '$' } else { '' }
+    $summonerLine = $summonerMacroPrefix + 'dialog show @s {type:"multi_action",title:{text:"Assign Demon Tonight - Choose Player",color:"red",bold:true},body:{type:"plain_message",contents:{text:"Choose the player who becomes an evil Demon now.",color:"gray"},width:380},columns:3,after_action:"wait_for_response",actions:[' + ($summonerActions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire change_characters"}}}'
+    $summonerLines = New-Header "Trusted nightly Demon-assignment player dialog for $seatCount occupied seats."
+    $summonerLines.Add($summonerLine)
+    Write-Lines -Path (Join-Path $SummonerPlayerDialogRoot "count_$seatCount.mcfunction") -Lines $summonerLines
 }
 
 $characterDispatchLines = New-Header "Builds and shows the current-script character picker for the selected player."
 $characterDispatchLines.Add("dialog clear @s")
 $characterDispatchLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only change characters during an active game.","color":"gray","bold":false}]')
-$characterDispatchLines.Add("execute if score grim_editor_reveal_started botc_patch matches 1 run return run function botc_patch:grim/editor/locked")
+$characterDispatchLines.Add("execute if score grim_editor_reveal_started botc_patch matches 1 unless score @s botc_grim_edit_mode matches 1..2 run return run function botc_patch:grim/editor/locked")
+$characterDispatchLines.Add('execute if score @s botc_grim_edit_mode matches 1..2 unless score phase game_data matches 4 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only assign a Demon during the night.","color":"gray","bold":false}]')
 $characterDispatchLines.Add("function botc_patch:grim/editor/refresh_live_roles")
 $characterDispatchLines.Add("function botc_patch:grim/editor/roles/build")
 $characterDispatchLines.Add("function botc_patch:grim/editor/roles/prepare_args")
 $characterDispatchLines.Add("function botc_patch:grim/editor/prepare_selected")
 $characterDispatchLines.Add("execute unless score @s botc_grim_edit_valid matches 1 run return run function botc_patch:grim/editor/invalid_seat")
 for ($roleCount = 0; $roleCount -le 30; $roleCount++) {
-    $characterDispatchLines.Add("execute if score grim_editor_role_count botc_patch matches $roleCount run function botc_patch:grim/editor/character_dialog/count_$roleCount with storage botc_patch:grim editor.dialog")
+    $characterDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 0 if score grim_editor_role_count botc_patch matches $roleCount run function botc_patch:grim/editor/character_dialog/count_$roleCount with storage botc_patch:grim editor.dialog")
+    $characterDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 1 if score grim_editor_role_count botc_patch matches $roleCount run function botc_patch:grim/editor/summoner/demon_dialog/count_$roleCount with storage botc_patch:grim editor.dialog")
+    $characterDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 2 if score grim_editor_role_count botc_patch matches $roleCount run function botc_patch:grim/editor/summoner/minion_dialog/count_$roleCount with storage botc_patch:grim editor.dialog")
 }
-$characterDispatchLines.Add("execute unless score grim_editor_role_count botc_patch matches 0..30 run function botc_patch:grim/editor/character_dialog/count_30 with storage botc_patch:grim editor.dialog")
+$characterDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 0 unless score grim_editor_role_count botc_patch matches 0..30 run function botc_patch:grim/editor/character_dialog/count_30 with storage botc_patch:grim editor.dialog")
+$characterDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 1 unless score grim_editor_role_count botc_patch matches 0..30 run function botc_patch:grim/editor/summoner/demon_dialog/count_30 with storage botc_patch:grim editor.dialog")
+$characterDispatchLines.Add("execute if score @s botc_grim_edit_mode matches 2 unless score grim_editor_role_count botc_patch matches 0..30 run function botc_patch:grim/editor/summoner/minion_dialog/count_30 with storage botc_patch:grim editor.dialog")
 Write-Lines -Path (Join-Path $OutputRoot "character_dialog.mcfunction") -Lines $characterDispatchLines
 
 for ($roleCount = 0; $roleCount -le 30; $roleCount++) {
     $actions = [System.Collections.Generic.List[string]]::new()
-    $actions.Add('{label:{text:"Set Good",color:"#0000aa",bold:true},tooltip:{text:"Reveal alignment only",color:"gray"},action:{type:"run_command",command:"/botc grimoire set_good"}}')
-    $actions.Add('{label:{text:"Set Evil",color:"#aa0000",bold:true},tooltip:{text:"Reveal alignment only",color:"gray"},action:{type:"run_command",command:"/botc grimoire set_evil"}}')
+    $actions.Add('{label:{text:"Set Good",color:"#0000aa",bold:true},tooltip:{text:"Show this player as good during the Grimoire reveal.",color:"gray"},action:{type:"run_command",command:"/botc grimoire set_good"}}')
+    $actions.Add('{label:{text:"Set Evil",color:"#aa0000",bold:true},tooltip:{text:"Show this player as evil during the Grimoire reveal.",color:"gray"},action:{type:"run_command",command:"/botc grimoire set_evil"}}')
     for ($roleIndex = 1; $roleIndex -le $roleCount; $roleIndex++) {
         $actions.Add('{label:{text:"$(r' + $roleIndex + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(r' + $roleIndex + '_name)",font:"minecraft:default",color:"$(r' + $roleIndex + '_color)"}]},action:{type:"run_command",command:"/botc grimoire set_character $(r' + $roleIndex + '_id)"}}')
     }
 
-    $body = '[{type:"plain_message",contents:[{text:"CURRENT ROLE\n",font:"minecraft:default",color:"dark_gray",bold:true},{text:"$(current_role_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(current_role_name)",font:"minecraft:default",color:"$(current_alignment_color)",bold:true,underlined:true},{text:"  |  ",color:"dark_gray"},{text:"$(current_alignment_name)",color:"$(current_alignment_color)",bold:true}],width:360},{type:"plain_message",contents:[{text:"Townsfolk",color:"#55aaff"},{text:" | ",color:"dark_gray"},{text:"Outsiders",color:"#55ffff"},{text:" | ",color:"dark_gray"},{text:"Minions",color:"#ffaa00"},{text:" | ",color:"dark_gray"},{text:"Demons",color:"#ff5555"}],width:360},{type:"plain_message",contents:{text:"Pick a character from the current script, or change only the alignment shown during the reveal.",color:"gray"},width:360}]'
+    $body = '[{type:"plain_message",contents:[{text:"CURRENT CHARACTER\n",font:"minecraft:default",color:"dark_gray",bold:true},{text:"$(current_role_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(current_role_name)",font:"minecraft:default",color:"$(current_alignment_color)",bold:true,underlined:true},{text:"  |  ",color:"dark_gray"},{text:"$(current_alignment_name)",color:"$(current_alignment_color)",bold:true}],width:360},{type:"plain_message",contents:[{text:"Townsfolk",color:"#55aaff"},{text:" | ",color:"dark_gray"},{text:"Outsiders",color:"#55ffff"},{text:" | ",color:"dark_gray"},{text:"Minions",color:"#ffaa00"},{text:" | ",color:"dark_gray"},{text:"Demons",color:"#ff5555"}],width:360},{type:"plain_message",contents:{text:"Pick a character from the current script, or change only the alignment shown during the reveal.",color:"gray"},width:360}]'
     $title = '[{text:"Edit ",color:"gray"},{text:"$(player_name)",color:"white"},{text:" - ",color:"dark_gray"},{text:"$(current_role_name)",color:"$(current_alignment_color)",bold:true}]'
     $line = '$dialog show @s {type:"multi_action",title:' + $title + ',body:' + $body + ',columns:2,after_action:"wait_for_response",actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire change_characters"}}}'
     $lines = New-Header "Character dialog for $roleCount current-script roles."
     $lines.Add($line)
     Write-Lines -Path (Join-Path $CharacterDialogRoot "count_$roleCount.mcfunction") -Lines $lines
+
+    $summonerActions = [System.Collections.Generic.List[string]]::new()
+    $summonerActions.Add('{label:{text:"Set Good",color:"#0000aa",bold:true},tooltip:{text:"Show this player as good during the Grimoire reveal.",color:"gray"},action:{type:"run_command",command:"/botc grimoire set_good"}}')
+    $summonerActions.Add('{label:{text:"Set Evil",color:"#aa0000",bold:true},tooltip:{text:"Show this player as evil during the Grimoire reveal.",color:"gray"},action:{type:"run_command",command:"/botc grimoire set_evil"}}')
+    for ($roleIndex = 1; $roleIndex -le $roleCount; $roleIndex++) {
+        $summonerActions.Add('{label:{text:"$(r' + $roleIndex + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(r' + $roleIndex + '_name)",font:"minecraft:default",color:"$(r' + $roleIndex + '_color)"}]},action:{type:"run_command",command:"/botc grimoire set_character $(r' + $roleIndex + '_id)"}}')
+    }
+    $summonerTitle = '[{text:"Assign Demon - ",color:"red",bold:true},{text:"$(player_name)",color:"white",bold:true}]'
+    $summonerCurrent = '{type:"plain_message",contents:[{text:"CURRENT CHARACTER\n",color:"dark_gray",bold:true},{text:"$(current_role_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(current_role_name)",color:"$(current_alignment_color)",bold:true},{text:"  |  ",color:"dark_gray"},{text:"$(current_alignment_name)",color:"$(current_alignment_color)",bold:true}],width:400}'
+    $summonerMacro = '$'
+    $demonBody = '[' + $summonerCurrent + ',{type:"plain_message",contents:{text:"Choose the Demon this player becomes. They become evil immediately. Choosing Lil'' Monsta lets you choose their Minion character next.",color:"gray"},width:400}]'
+    $demonLine = $summonerMacro + 'dialog show @s {type:"multi_action",title:' + $summonerTitle + ',body:' + $demonBody + ',columns:3,after_action:"wait_for_response",actions:[' + ($summonerActions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire change_characters"}}}'
+    $demonLines = New-Header "Trusted nightly full Demon dialog for $roleCount roles."
+    $demonLines.Add($demonLine)
+    Write-Lines -Path (Join-Path $SummonerDemonDialogRoot "count_$roleCount.mcfunction") -Lines $demonLines
+
+    $minionBody = '[' + $summonerCurrent + ',{type:"plain_message",contents:{text:"Choose this player''s evil Minion character. Summoner, Marionette, and Minions already in play are unavailable.",color:"gray"},width:400}]'
+    $minionLine = $summonerMacro + 'dialog show @s {type:"multi_action",title:' + $summonerTitle + ',body:' + $minionBody + ',columns:3,after_action:"wait_for_response",actions:[' + ($summonerActions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc grimoire choose_demon"}}}'
+    $minionLines = New-Header "Trusted Lil' Monsta direct-Minion dialog for $roleCount legal roles."
+    $minionLines.Add($minionLine)
+    Write-Lines -Path (Join-Path $SummonerMinionDialogRoot "count_$roleCount.mcfunction") -Lines $minionLines
 }
 
-Write-Host "Generated Reveal Grimoire character editor for $($roles.Count) trusted roles."
+$summonerCheckLines = New-Header "Retains a safe compatibility target after retiring the automatic third-night Summoner prompt."
+$summonerCheckLines.Add('return 0')
+Write-Lines -Path (Join-Path $OutputRoot "summoner/check.mcfunction") -Lines $summonerCheckLines
+
+$demonBeginLines = New-Header "Lets one Storyteller explicitly open the trusted full Demon catalog during any night."
+$demonBeginLines.Add('dialog clear @s')
+$demonBeginLines.Add('execute unless entity @s[tag=storyteller] run return 0')
+$demonBeginLines.Add('execute unless score phase game_data matches 4 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only assign a Demon during the night.","color":"gray","bold":false}]')
+$demonBeginLines.Add('scoreboard players set @s botc_grim_edit_mode 1')
+$demonBeginLines.Add('scoreboard players reset @s botc_grim_edit_seat')
+$demonBeginLines.Add('scoreboard players reset @s botc_grim_edit_role')
+$demonBeginLines.Add('scoreboard players reset @s botc_grim_edit_alignment')
+$demonBeginLines.Add('function botc_patch:grim/editor/player_dialog')
+Write-Lines -Path (Join-Path $DemonRoot "begin.mcfunction") -Lines $demonBeginLines
+
+$summonerBeginLilLines = New-Header "Branches a trusted Lil' Monsta choice into the legal direct-Minion catalog without assigning role 132."
+$summonerBeginLilLines.Add('execute unless score phase game_data matches 4 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only assign a Demon during the night.","color":"gray","bold":false}]')
+$summonerBeginLilLines.Add('scoreboard players set @s botc_grim_edit_mode 2')
+$summonerBeginLilLines.Add('scoreboard players set @s botc_grim_edit_valid 1')
+$summonerBeginLilLines.Add('function botc_patch:grim/editor/character_dialog')
+Write-Lines -Path (Join-Path $OutputRoot "summoner/begin_lil_monsta.mcfunction") -Lines $summonerBeginLilLines
+
+$summonerValidateTargetLines = New-Header "Validates that the selected trusted Demon target is still online before any state changes."
+$summonerValidateTargetLines.Add('scoreboard players set grim_editor_summoner_target_online botc_patch 0')
+for ($seat = 1; $seat -le 15; $seat++) {
+    $target = "@a[tag=!storyteller,tag=!spectator,scores={id=$seat},limit=1]"
+    $summonerValidateTargetLines.Add("execute if score @s botc_grim_edit_seat matches $seat if entity $target run scoreboard players set grim_editor_summoner_target_online botc_patch 1")
+}
+Write-Lines -Path (Join-Path $OutputRoot "summoner/validate_target.mcfunction") -Lines $summonerValidateTargetLines
+
+$summonerMetadataLines = New-Header "Adds one trusted full-catalog role to private script metadata and rebuilds Storyteller reminders/night order."
+$summonerMetadataLines.Add('$execute unless data storage ct:script formatted_characters[{id:"$(script_id)"}] run data modify storage ct:script formatted_characters append value {id:"$(script_id)"}')
+$summonerMetadataLines.Add('$execute unless data storage ct:script current_script[{id:"$(script_id)"}] run data modify storage ct:script current_script append value {id:"$(script_id)"}')
+$summonerMetadataLines.Add('$execute unless data storage ct:script in_characters{$(storage_category):["$(role)"]} run data modify storage ct:script in_characters.$(storage_category) append value "$(role)"')
+$summonerMetadataLines.Add('data remove storage ct:script order_stored')
+$summonerMetadataLines.Add('data modify storage ct:script order_stored set from storage ct:script current_script')
+$summonerMetadataLines.Add('data remove storage ct:script night_order')
+$summonerMetadataLines.Add('function ct:admin/setup/night_order')
+$summonerMetadataLines.Add('data remove storage ct:script reminders_stored')
+$summonerMetadataLines.Add('data modify storage ct:script reminders_stored set from storage ct:script current_script')
+$summonerMetadataLines.Add('data remove storage ct:script in_reminders')
+$summonerMetadataLines.Add('data remove storage ct:script reminder_img')
+$summonerMetadataLines.Add('function ct:admin/setup/reminder_tokens')
+$summonerMetadataLines.Add('execute as @a[tag=storyteller] run function ct:admin/give_script')
+Write-Lines -Path (Join-Path $OutputRoot "summoner/add_metadata.mcfunction") -Lines $summonerMetadataLines
+
+$summonerApplyDemonLines = New-Header "Applies one validated full-catalog Demon during the night and resolves any pending no-Demon workflow."
+$summonerApplyDemonLines.Add('execute unless score phase game_data matches 4 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only assign a Demon during the night.","color":"gray","bold":false}]')
+$summonerApplyDemonLines.Add('function botc_patch:grim/editor/summoner/validate_target')
+$summonerApplyDemonLines.Add('execute unless score grim_editor_summoner_target_online botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That player must be online before you can change their character.","color":"gray","bold":false}]')
+$summonerApplyDemonLines.Add('$function botc_patch:grim/editor/summoner/add_metadata {role:"$(role)",script_id:"$(script_id)",storage_category:"demons"}')
+$summonerApplyDemonLines.Add('$function botc_patch:grim/editor/summoner/apply_live {role:"$(role)",score:$(score),name:"$(name)",color:"$(color)",category:"demon"}')
+Write-Lines -Path (Join-Path $OutputRoot "summoner/apply_demon.mcfunction") -Lines $summonerApplyDemonLines
+
+$summonerApplyMinionLines = New-Header "Applies the validated direct Minion selected for a trusted Lil' Monsta assignment."
+$summonerApplyMinionLines.Add('execute unless score phase game_data matches 4 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only assign a Demon during the night.","color":"gray","bold":false}]')
+$summonerApplyMinionLines.Add('function botc_patch:grim/editor/summoner/validate_target')
+$summonerApplyMinionLines.Add('execute unless score grim_editor_summoner_target_online botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That player must be online before you can change their character.","color":"gray","bold":false}]')
+$summonerApplyMinionLines.Add('$function botc_patch:grim/editor/summoner/add_metadata {role:"$(role)",script_id:"$(script_id)",storage_category:"minions"}')
+$summonerApplyMinionLines.Add(('function botc_patch:grim/editor/summoner/add_metadata {{role:"lil_monsta",script_id:"{0}",storage_category:"demons"}}' -f $lilMonsta.ScriptId))
+$summonerApplyMinionLines.Add('scoreboard players set draft_lil_monsta_active botc_patch 1')
+$summonerApplyMinionLines.Add('$function botc_patch:grim/editor/summoner/apply_live {role:"$(role)",score:$(score),name:"$(name)",color:"$(color)",category:"minion"}')
+Write-Lines -Path (Join-Path $OutputRoot "summoner/apply_minion.mcfunction") -Lines $summonerApplyMinionLines
+
+$summonerApplyLiveLines = New-Header "Commits one trusted nightly evil role to live, Grimoire, and private player state."
+$summonerApplyLiveLines.Add('execute unless score phase game_data matches 4 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only assign a Demon during the night.","color":"gray","bold":false}]')
+$summonerApplyLiveLines.Add('scoreboard players set grim_editor_summoner_target_online botc_patch 0')
+for ($seat = 1; $seat -le 15; $seat++) {
+    $target = "@a[tag=!storyteller,tag=!spectator,scores={id=$seat},limit=1]"
+    $summonerApplyLiveLines.Add("execute if score @s botc_grim_edit_seat matches $seat if entity $target run scoreboard players set grim_editor_summoner_target_online botc_patch 1")
+}
+$summonerApplyLiveLines.Add('execute unless score grim_editor_summoner_target_online botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That player must be online before you can change their character.","color":"gray","bold":false}]')
+$summonerApplyLiveLines.Add('$scoreboard players set @s botc_grim_edit_role $(score)')
+$summonerApplyLiveLines.Add('scoreboard players set @s botc_grim_edit_alignment 2')
+$summonerApplyLiveLines.Add('function botc_patch:grim/editor/apply_selected')
+for ($seat = 1; $seat -le 15; $seat++) {
+    $target = "@a[tag=!storyteller,tag=!spectator,scores={id=$seat},limit=1]"
+    $summonerApplyLiveLines.Add(('$execute if score @s botc_grim_edit_seat matches {0} run scoreboard players set {1} role $(score)' -f $seat, $target))
+    foreach ($category in @('town', 'outsider', 'minion', 'demon')) {
+        $summonerApplyLiveLines.Add(('execute if score @s botc_grim_edit_seat matches {0} run tag {1} remove {2}' -f $seat, $target, $category))
+    }
+    $summonerApplyLiveLines.Add(('$execute if score @s botc_grim_edit_seat matches {0} run tag {1} add $(category)' -f $seat, $target))
+    $summonerApplyLiveLines.Add(('$execute if score @s botc_grim_edit_seat matches {0} run fmvariable set p{0}_role false $(role)' -f $seat))
+    $summonerApplyLiveLines.Add(('execute if score @s botc_grim_edit_seat matches {0} run scoreboard players set grim_editor_seat_{0}_alignment botc_patch 2' -f $seat))
+    $summonerApplyLiveLines.Add(('$execute if score @s botc_grim_edit_seat matches {0} run scoreboard players set grim_seat_{0}_role botc_patch $(score)' -f $seat))
+    $summonerApplyLiveLines.Add(('execute if score @s botc_grim_edit_seat matches {0} run scoreboard players set grim_seat_{0}_alignment botc_patch 2' -f $seat))
+    $summonerApplyLiveLines.Add(('$execute if score @s botc_grim_edit_seat matches {0} run tellraw {1} [{{"text":"You are now the ","color":"gray"}},{{"text":"$(name)","color":"$(color)","bold":true}},{{"text":". You are evil.","color":"red","bold":false}}]' -f $seat, $target))
+}
+$summonerApplyLiveLines.Add('function botc_patch:wraith/sync_roles')
+$summonerApplyLiveLines.Add('scoreboard players set draft_summoner_resolution_pending botc_patch 0')
+$summonerApplyLiveLines.Add('scoreboard players set @s botc_grim_edit_mode 0')
+$summonerApplyLiveLines.Add('scoreboard players set @s botc_grim_edit_valid 1')
+$summonerApplyLiveLines.Add('dialog clear @s')
+$summonerApplyLiveLines.Add('$tellraw @s [{"text":"Demon assigned: ","color":"green","bold":true},{"text":"$(name)","color":"$(color)","bold":true},{"text":" is now in play and the selected player is evil.","color":"gray","bold":false}]')
+Write-Lines -Path (Join-Path $OutputRoot "summoner/apply_live.mcfunction") -Lines $summonerApplyLiveLines
+
+if ($Check) {
+    Write-Host "Reveal Grimoire character editor outputs are current for $($roles.Count) trusted roles."
+} else {
+    Write-Host "Generated Reveal Grimoire character editor for $($roles.Count) trusted roles."
+}

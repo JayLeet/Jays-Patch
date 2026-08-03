@@ -12,188 +12,78 @@ execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2,cate
 execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s1.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s1.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s1.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s1.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s1.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s1.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s2.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s2.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s2.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s2.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s2.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s2.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s3.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s3.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s3.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s3.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s3.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s3.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s4.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s4.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s4.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s4.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s4.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s4.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s5.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s5.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s5.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s5.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s5.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s5.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s6.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s6.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s6.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s6.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s6.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s6.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s7.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s7.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s7.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s7.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s7.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s7.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s8.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s8.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s8.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s8.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s8.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s8.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s9.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s9.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s9.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s9.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s9.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s9.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s10.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s10.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s10.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s10.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s10.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s10.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s11.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s11.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s11.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s11.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s11.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s11.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s12.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s12.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s12.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s12.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s12.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s12.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s13.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s13.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s13.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s13.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s13.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s13.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s14.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s14.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s14.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s14.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s14.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s14.modifier_owner set value 0b
 execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2} run scoreboard players add draft_assigned_total botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2,category:1} run scoreboard players add draft_assigned_town botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2,category:2} run scoreboard players add draft_assigned_outsider botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2,category:3} run scoreboard players add draft_assigned_minion botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2,category:4} run scoreboard players add draft_assigned_demon botc_patch 1
-data modify storage botc_patch:buffet draft.seats.s15.delta_town set value 0
-data modify storage botc_patch:buffet draft.seats.s15.delta_outsider set value 0
-data modify storage botc_patch:buffet draft.seats.s15.delta_minion set value 0
-data modify storage botc_patch:buffet draft.seats.s15.delta_demon set value 0
-data modify storage botc_patch:buffet draft.seats.s15.forced_category set value 0
-data modify storage botc_patch:buffet draft.seats.s15.modifier_owner set value 0b
-scoreboard players operation draft_target_town botc_patch = draft_assigned_town botc_patch
-scoreboard players operation draft_target_outsider botc_patch = draft_assigned_outsider botc_patch
-scoreboard players operation draft_target_minion botc_patch = draft_assigned_minion botc_patch
-scoreboard players operation draft_target_demon botc_patch = draft_assigned_demon botc_patch
 scoreboard players set draft_modifier_pending botc_patch 0
-scoreboard players set draft_atheist_active botc_patch 0
-scoreboard players set draft_legion_active botc_patch 0
-scoreboard players set draft_riot_active botc_patch 0
-scoreboard players set draft_vi_initialized botc_patch 0
-scoreboard players set draft_outsider_absolute_active botc_patch 0
-scoreboard players set draft_outsider_absolute_seat botc_patch 0
-scoreboard players set draft_outsider_absolute_target botc_patch 0
-scoreboard players set draft_outsider_absolute_role botc_patch 0
-scoreboard players set draft_required_legion botc_patch 0
-scoreboard players set draft_required_riot botc_patch 0
-scoreboard players set draft_required_vi botc_patch 0
-scoreboard players set draft_bounty_pending botc_patch 0
-scoreboard players set draft_bounty_resolved botc_patch 0
-scoreboard players set draft_bounty_target_seat botc_patch 0
 scoreboard players set draft_current_seat botc_patch 0
-scoreboard players set draft_topology_offered botc_patch 1
-scoreboard players set draft_opening_offer_active botc_patch 0
 scoreboard players set draft_manual_override botc_patch 1
 scoreboard players set draft_ready botc_patch 0
 execute if score draft_assigned_total botc_patch = buffet_roster_count botc_patch run scoreboard players set draft_ready botc_patch 1

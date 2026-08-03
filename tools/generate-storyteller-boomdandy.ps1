@@ -3,10 +3,23 @@ $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $OutputRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/storyteller_tools/boomdandy"
+$PyreOutputRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/storyteller_tools/boomdandy_pyre"
 $SeatLayoutRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/seat_layout/apply"
+$UpstreamExecutePath = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function/kill/execute/execute.mcfunction"
 $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+$invariantCulture = [System.Globalization.CultureInfo]::InvariantCulture
 New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $OutputRoot "dialog") -Force | Out-Null
+
+$pyreOutputFull = [System.IO.Path]::GetFullPath($PyreOutputRoot)
+$storytellerToolsFull = [System.IO.Path]::GetFullPath((Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/storyteller_tools"))
+if (-not $pyreOutputFull.StartsWith($storytellerToolsFull, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Refusing to clean generated Boomdandy pyre files outside the Storyteller tools root."
+}
+if (Test-Path -LiteralPath $pyreOutputFull) {
+    Remove-Item -LiteralPath $pyreOutputFull -Recurse -Force
+}
+New-Item -ItemType Directory -Path $PyreOutputRoot -Force | Out-Null
 
 foreach ($generatedFolder in @("announce", "seats")) {
     $path = Join-Path $OutputRoot $generatedFolder
@@ -92,6 +105,8 @@ function Get-TypewriterPrefixes {
 $aliveSelector = '@a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=1..15}]'
 $seatedSelector = '@a[tag=!storyteller,tag=!spectator,scores={id=1..15}]'
 $executedBoomdandySelector = '@a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1]'
+$pendingExecutionTargetSelector = '@a[tag=botc_st_last_executed,tag=marked_for_execution,tag=!dead,scores={id=1..15,role=107},limit=1]'
+$pendingExecutionOwnerSelector = '@a[tag=storyteller,tag=botc_boomdandy_execution_pending,limit=1]'
 
 $placeSelected = New-GeneratedHeader "Rebuilds one selected finalist's chair at its locked-layout position."
 for ($count = 5; $count -le 15; $count++) {
@@ -148,6 +163,7 @@ $cleanup.Add("tag @a remove botc_boomdandy_finalist")
 $cleanup.Add("tag @a remove botc_boomdandy_eliminate")
 $cleanup.Add("tag @a remove botc_boomdandy_current_voter")
 $cleanup.Add("tag @a remove botc_boomdandy_majority_target")
+$cleanup.Add("tag @a remove botc_boomdandy_execution_pending")
 $cleanup.Add("tag @e[type=minecraft:item_display,tag=vote_marker] remove botc_boomdandy_finalist_seat")
 $cleanup.Add("data remove storage botc_patch:dialogs boomdandy")
 $cleanup.Add("data remove storage botc_patch:dialogs boomdandy_selection")
@@ -170,9 +186,9 @@ $validatePopulation.Add("execute as $seatedSelector run scoreboard players add b
 $validatePopulation.Add("execute as $aliveSelector run scoreboard players add boomdandy_alive botc_patch 1")
 $validatePopulation.Add("scoreboard players operation boomdandy_expected botc_patch = seat_layout_locked_count botc_patch")
 $validatePopulation.Add("execute if score boomdandy_expected botc_patch matches 0 run scoreboard players operation boomdandy_expected botc_patch = player_count game_data")
-$validatePopulation.Add('execute unless score boomdandy_online botc_patch = boomdandy_expected botc_patch run tellraw @s [{text:"Every seated player must be online before resolving Boomdandy.",color:"red"}]')
+$validatePopulation.Add('execute unless score boomdandy_online botc_patch = boomdandy_expected botc_patch run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Every seated player must be online before resolving Boomdandy.",color:"gray",bold:false}]')
 $validatePopulation.Add("execute unless score boomdandy_online botc_patch = boomdandy_expected botc_patch run scoreboard players set boomdandy_population_ok botc_patch 0")
-$validatePopulation.Add('execute unless score boomdandy_alive botc_patch matches 3.. run tellraw @s [{text:"Boomdandy needs at least three living players.",color:"red"}]')
+$validatePopulation.Add('execute unless score boomdandy_alive botc_patch matches 3.. run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy needs at least three living players.",color:"gray",bold:false}]')
 $validatePopulation.Add("execute unless score boomdandy_alive botc_patch matches 3.. run scoreboard players set boomdandy_population_ok botc_patch 0")
 Write-Lines -Path (Join-Path $OutputRoot "validate_population.mcfunction") -Lines $validatePopulation
 
@@ -186,7 +202,7 @@ $validateSelection.Add('execute if score boomdandy_selection_stale botc_patch ma
 Write-Lines -Path (Join-Path $OutputRoot "validate_selection.mcfunction") -Lines $validateSelection
 
 $abort = New-GeneratedHeader "Stops an active resolution when the confirmed final three are no longer valid."
-$abort.Add('tellraw @a[tag=storyteller] [{text:"Boomdandy paused: all three finalists must remain online and living.",color:"red"}]')
+$abort.Add('tellraw @a[tag=storyteller] [{text:"! ",color:"red",bold:true},{text:"Boomdandy paused because all three finalists must remain online and living.",color:"gray",bold:false}]')
 $abort.Add("function botc_patch:storyteller_tools/boomdandy/cleanup")
 Write-Lines -Path (Join-Path $OutputRoot "abort.mcfunction") -Lines $abort
 
@@ -229,7 +245,7 @@ Write-Lines -Path (Join-Path $OutputRoot "eliminate_next.mcfunction") -Lines $el
 
 $announcementPartOne = "Get ready..."
 $announcementPartTwo = "Something's about to explode!"
-$announcementSubtitle = "Stand near the player you want to die."
+$announcementSubtitle = "Stand near a player's seat to vote for their death."
 
 $announceStart = New-GeneratedHeader "Begins the first readable typewriter warning before the countdown."
 $announceStart.Add("scoreboard players set boomdandy_stage botc_patch 3")
@@ -384,8 +400,8 @@ Write-Lines -Path (Join-Path $OutputRoot "dialog/append.mcfunction") -Lines $app
 $dialog = New-GeneratedHeader "Shows only living players not already chosen for the final three."
 $dialog.Add("dialog clear @s")
 $dialog.Add("execute unless entity @s[tag=storyteller] run return 0")
-$dialog.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Boomdandy can only be resolved during nominations.",color:"red"}]')
-$dialog.Add('execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"No Boomdandy final-three selection is active.",color:"red"}]')
+$dialog.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be resolved during nominations.",color:"gray",bold:false}]')
+$dialog.Add('execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Boomdandy Final Three selection is active.",color:"gray",bold:false}]')
 $dialog.Add("function botc_patch:storyteller_tools/boomdandy/validate_population")
 $dialog.Add("execute unless score boomdandy_population_ok botc_patch matches 1 run return 0")
 $dialog.Add("function botc_patch:storyteller_tools/boomdandy/validate_selection")
@@ -415,15 +431,76 @@ for ($count = 1; $count -le 15; $count++) {
     }
 
     $variant = New-GeneratedHeader "Final-three picker with $count eligible survivor(s)."
-    $variant.Add('$dialog show @s {type:"multi_action",title:{text:"Boomdandy: Final 3",color:"dark_red",bold:true},body:{type:"plain_message",contents:{text:"Choose exactly three living players. Selected: $(selected) / 3",color:"gray"},width:380},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc dialog_cancel"}}}')
+    $variant.Add('$dialog show @s {type:"multi_action",title:{text:"Boomdandy: Final Three",color:"dark_red",bold:true},body:{type:"plain_message",contents:{text:"Choose exactly three living players. Selected: $(selected) / 3",color:"gray"},width:380},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/botc dialog_cancel"}}}')
     Write-Lines -Path (Join-Path $OutputRoot "dialog/count_$count.mcfunction") -Lines $variant
 }
+
+$prepareExecutionChoice = New-GeneratedHeader "Pauses before an executed Boomdandy commits to either supported execution path."
+$prepareExecutionChoice.Add("execute unless entity @s[tag=storyteller] run return 0")
+$prepareExecutionChoice.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be executed during nominations.",color:"gray",bold:false}]')
+$prepareExecutionChoice.Add(('execute if entity @s[tag=botc_boomdandy_execution_pending] run return run function botc_patch:storyteller_tools/boomdandy/show_execution_choice' -f $pendingExecutionOwnerSelector))
+$prepareExecutionChoice.Add(('execute if entity {0} run return run tellraw @s [{{text:"Another Storyteller is already choosing how to execute this Boomdandy.",color:"yellow"}}]' -f $pendingExecutionOwnerSelector))
+$prepareExecutionChoice.Add(('execute unless entity {0} run tag @a remove botc_st_last_executed' -f $pendingExecutionTargetSelector))
+$prepareExecutionChoice.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"The marked execution target is no longer a living Boomdandy.",color:"gray",bold:false}}]' -f $pendingExecutionTargetSelector))
+$prepareExecutionChoice.Add("tag @s remove botc_st_nom_execute_done")
+$prepareExecutionChoice.Add("tag @s add botc_boomdandy_execution_pending")
+$prepareExecutionChoice.Add("scoreboard players set grim_notice_boomdandy_done botc_patch 1")
+$prepareExecutionChoice.Add("function botc_patch:storyteller_tools/boomdandy/show_execution_choice")
+Write-Lines -Path (Join-Path $OutputRoot "prepare_execution_choice.mcfunction") -Lines $prepareExecutionChoice
+
+$showExecutionChoice = New-GeneratedHeader "Shows the initiating Storyteller both Boomdandy execution paths before either path commits."
+$showExecutionChoice.Add("dialog clear @s")
+$showExecutionChoice.Add("execute unless entity @s[tag=storyteller,tag=botc_boomdandy_execution_pending] run return 0")
+$showExecutionChoice.Add('execute unless score phase game_data matches 3 run tag @s remove botc_boomdandy_execution_pending')
+$showExecutionChoice.Add('execute unless score phase game_data matches 3 run tag @a remove botc_st_last_executed')
+$showExecutionChoice.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"The Boomdandy execution choice expired because nominations ended.",color:"gray",bold:false}]')
+$showExecutionChoice.Add(('execute unless entity {0} run tag @s remove botc_boomdandy_execution_pending' -f $pendingExecutionTargetSelector))
+$showExecutionChoice.Add(('execute unless entity {0} run tag @a remove botc_st_last_executed' -f $pendingExecutionTargetSelector))
+$showExecutionChoice.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"The Boomdandy execution choice expired because the marked target changed.",color:"gray",bold:false}}]' -f $pendingExecutionTargetSelector))
+$showExecutionChoice.Add('dialog show @s {type:"multi_action",title:{text:"Execute Boomdandy",color:"dark_red",bold:true},body:{type:"plain_message",contents:{text:"Choose how this Boomdandy is executed.\n\nUnique Execution: The TNT pyre plays, the Boomdandy dies, then Final Three begins.\nNormal Execution: Sybillian executes and kills the Boomdandy, then the game continues.",color:"gray"},width:430},columns:1,actions:[{label:{text:"Unique Execution",color:"dark_red",bold:true},action:{type:"run_command",command:"/botc boomdandy execute_unique"}},{label:{text:"Normal Execution",color:"yellow",bold:true},action:{type:"run_command",command:"/botc boomdandy execute_normal"}}],exit_action:{label:"Decide Later"}}')
+Write-Lines -Path (Join-Path $OutputRoot "show_execution_choice.mcfunction") -Lines $showExecutionChoice
+
+$executeUnique = New-GeneratedHeader "Commits the trusted unique Boomdandy pyre and Final Three path."
+$executeUnique.Add("dialog clear @s")
+$executeUnique.Add("execute unless entity @s[tag=storyteller,tag=botc_boomdandy_execution_pending] run return 0")
+$executeUnique.Add('execute unless score phase game_data matches 3 run tag @s remove botc_boomdandy_execution_pending')
+$executeUnique.Add('execute unless score phase game_data matches 3 run tag @a remove botc_st_last_executed')
+$executeUnique.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be executed during nominations.",color:"gray",bold:false}]')
+$executeUnique.Add(('execute unless entity {0} run tag @s remove botc_boomdandy_execution_pending' -f $pendingExecutionTargetSelector))
+$executeUnique.Add(('execute unless entity {0} run tag @a remove botc_st_last_executed' -f $pendingExecutionTargetSelector))
+$executeUnique.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"The marked execution target is no longer a living Boomdandy.",color:"gray",bold:false}}]' -f $pendingExecutionTargetSelector))
+$executeUnique.Add("tag @s remove botc_boomdandy_execution_pending")
+$executeUnique.Add("tag @s add botc_boomdandy_pyre_owner")
+$executeUnique.Add(('execute as {0} run function botc_patch:storyteller_tools/boomdandy_pyre/execute' -f $pendingExecutionTargetSelector))
+$executeUnique.Add("function botc_patch:storyteller_tools/post_execution/replace_items")
+Write-Lines -Path (Join-Path $OutputRoot "execute_unique.mcfunction") -Lines $executeUnique
+
+$executeNormal = New-GeneratedHeader "Commits Sybillian's normal execution and death flow without starting Final Three."
+$executeNormal.Add("dialog clear @s")
+$executeNormal.Add("execute unless entity @s[tag=storyteller,tag=botc_boomdandy_execution_pending] run return 0")
+$executeNormal.Add('execute unless score phase game_data matches 3 run tag @s remove botc_boomdandy_execution_pending')
+$executeNormal.Add('execute unless score phase game_data matches 3 run tag @a remove botc_st_last_executed')
+$executeNormal.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be executed during nominations.",color:"gray",bold:false}]')
+$executeNormal.Add(('execute unless entity {0} run tag @s remove botc_boomdandy_execution_pending' -f $pendingExecutionTargetSelector))
+$executeNormal.Add(('execute unless entity {0} run tag @a remove botc_st_last_executed' -f $pendingExecutionTargetSelector))
+$executeNormal.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"The marked execution target is no longer a living Boomdandy.",color:"gray",bold:false}}]' -f $pendingExecutionTargetSelector))
+$executeNormal.Add("tag @s remove botc_boomdandy_execution_pending")
+$executeNormal.Add(('execute as {0} run function ct:kill/execute/execute' -f $pendingExecutionTargetSelector))
+$executeNormal.Add('execute as @a[tag=botc_st_last_executed,tag=!dead,scores={id=1..15,role=107},limit=1] run function ct:kill/die')
+$executeNormal.Add("tag @s add botc_st_post_kill_resolved")
+$executeNormal.Add("scoreboard players set grim_notice_boomdandy_done botc_patch 1")
+$executeNormal.Add("tag @a remove botc_st_last_executed")
+$executeNormal.Add("function botc_patch:storyteller_tools/post_execution/replace_items")
+Write-Lines -Path (Join-Path $OutputRoot "execute_normal.mcfunction") -Lines $executeNormal
 
 $start = New-GeneratedHeader "Starts or reopens the Boomdandy final-three selection before Sybillian's countdown."
 $start.Add("tag @s add botc_st_tool_used")
 $start.Add("execute unless entity @s[tag=storyteller] run return 0")
-$start.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Boomdandy can only be resolved during nominations.",color:"red"}]')
-$start.Add(('execute unless entity {0} run return run tellraw @s [{{text:"The last executed player is not the Boomdandy.",color:"red"}}]' -f $executedBoomdandySelector))
+$start.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be resolved during nominations.",color:"gray",bold:false}]')
+$start.Add('execute if entity @s[tag=botc_boomdandy_execution_pending] run return run function botc_patch:storyteller_tools/boomdandy/show_execution_choice')
+$start.Add(('execute if entity {0} run return run tellraw @s [{{text:"Another Storyteller is choosing the Boomdandy execution path.",color:"yellow"}}]' -f $pendingExecutionOwnerSelector))
+$start.Add('execute if score boomdandy_pyre_state botc_patch matches 1..2 run return run tellraw @s [{text:"Boomdandy\u0027s pyre execution is still resolving.",color:"yellow"}]')
+$start.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"The last executed player is not the Boomdandy.",color:"gray",bold:false}}]' -f $executedBoomdandySelector))
 $start.Add("execute if score boomdandy_stage botc_patch matches 1 run return run function botc_patch:storyteller_tools/boomdandy/dialog")
 $start.Add('execute if score boomdandy_stage botc_patch matches 2..4 run return run tellraw @s [{text:"Boomdandy is already resolving.",color:"yellow"}]')
 $start.Add('execute if score boomdandy_stage botc_patch matches 5 run return run tellraw @s [{text:"Boomdandy has already been resolved this game.",color:"yellow"}]')
@@ -439,10 +516,10 @@ Write-Lines -Path (Join-Path $OutputRoot "start.mcfunction") -Lines $start
 $select = New-GeneratedHeader "Adds one still-living seat to the final three."
 $select.Add("dialog clear @s")
 $select.Add("execute unless entity @s[tag=storyteller] run return 0")
-$select.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Boomdandy can only be resolved during nominations.",color:"red"}]')
-$select.Add('execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"No Boomdandy final-three selection is active.",color:"red"}]')
+$select.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be resolved during nominations.",color:"gray",bold:false}]')
+$select.Add('execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Boomdandy Final Three selection is active.",color:"gray",bold:false}]')
 $select.Add("execute if score boomdandy_selected botc_patch matches 3.. run return run function botc_patch:storyteller_tools/boomdandy/show_confirm with storage botc_patch:dialogs boomdandy_selection")
-$select.Add('$execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,tag=!botc_boomdandy_finalist,scores={id=$(seat)},limit=1] run return run tellraw @s [{text:"That player is no longer available.",color:"red"}]')
+$select.Add('$execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,tag=!botc_boomdandy_finalist,scores={id=$(seat)},limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That player is no longer available.",color:"gray",bold:false}]')
 $select.Add("function botc_patch:grim/editor/refresh_live_roles")
 $select.Add("function botc_patch:grim/editor/player_labels/prepare")
 $select.Add("scoreboard players add boomdandy_selected botc_patch 1")
@@ -455,13 +532,13 @@ $select.Add("function botc_patch:storyteller_tools/boomdandy/dialog")
 Write-Lines -Path (Join-Path $OutputRoot "select_player.mcfunction") -Lines $select
 
 $showConfirm = New-GeneratedHeader "Shows the three chosen survivors before any player is killed."
-$showConfirm.Add('$dialog show @s {type:"multi_action",title:{text:"Confirm Final 3",color:"dark_red",bold:true},body:{type:"plain_message",contents:{text:"$(s1_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(s1_name)",font:"minecraft:default",color:"white"},{text:" ($(s1_role))\n",font:"minecraft:default",color:"$(s1_color)"},{text:"$(s2_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(s2_name)",font:"minecraft:default",color:"white"},{text:" ($(s2_role))\n",font:"minecraft:default",color:"$(s2_color)"},{text:"$(s3_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(s3_name)",font:"minecraft:default",color:"white"},{text:" ($(s3_role))",font:"minecraft:default",color:"$(s3_color)"},{text:"\n\nEvery other living player will die.",font:"minecraft:default",color:"gray"}]},width:380},columns:1,actions:[{label:{text:"Confirm Final 3",color:"dark_red",bold:true},action:{type:"run_command",command:"/botc boomdandy confirm"}},{label:{text:"Start Over",color:"yellow"},action:{type:"run_command",command:"/botc boomdandy restart"}}],exit_action:{label:"Back",action:{type:"run_command",command:"/botc dialog_cancel"}}}')
+$showConfirm.Add('$dialog show @s {type:"multi_action",title:{text:"Confirm Final Three",color:"dark_red",bold:true},body:{type:"plain_message",contents:{text:"$(s1_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(s1_name)",font:"minecraft:default",color:"white"},{text:" ($(s1_role))\n",font:"minecraft:default",color:"$(s1_color)"},{text:"$(s2_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(s2_name)",font:"minecraft:default",color:"white"},{text:" ($(s2_role))\n",font:"minecraft:default",color:"$(s2_color)"},{text:"$(s3_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" $(s3_name)",font:"minecraft:default",color:"white"},{text:" ($(s3_role))",font:"minecraft:default",color:"$(s3_color)"},{text:"\n\nEvery other living player will die.",font:"minecraft:default",color:"gray"}]},width:380},columns:1,actions:[{label:{text:"Confirm Final Three",color:"dark_red",bold:true},action:{type:"run_command",command:"/botc boomdandy confirm"}},{label:{text:"Start Over",color:"yellow"},action:{type:"run_command",command:"/botc boomdandy restart"}}],exit_action:{label:"Back",action:{type:"run_command",command:"/botc dialog_cancel"}}}')
 Write-Lines -Path (Join-Path $OutputRoot "show_confirm.mcfunction") -Lines $showConfirm
 
 $restart = New-GeneratedHeader "Lets the Storyteller correct the final three before confirmation."
 $restart.Add("dialog clear @s")
 $restart.Add("execute unless entity @s[tag=storyteller] run return 0")
-$restart.Add('execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"No Boomdandy final-three selection is active.",color:"red"}]')
+$restart.Add('execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Boomdandy Final Three selection is active.",color:"gray",bold:false}]')
 $restart.Add("function botc_patch:storyteller_tools/boomdandy/reset_selection")
 $restart.Add("function botc_patch:storyteller_tools/boomdandy/dialog")
 Write-Lines -Path (Join-Path $OutputRoot "restart.mcfunction") -Lines $restart
@@ -469,13 +546,13 @@ Write-Lines -Path (Join-Path $OutputRoot "restart.mcfunction") -Lines $restart
 $confirm = New-GeneratedHeader "Locks the final three, trims the seats, and starts delayed one-by-one eliminations."
 $confirm.Add("dialog clear @s")
 $confirm.Add("execute unless entity @s[tag=storyteller] run return 0")
-$confirm.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Boomdandy can only be resolved during nominations.",color:"red"}]')
-$confirm.Add('execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"No Boomdandy final-three selection is active.",color:"red"}]')
-$confirm.Add(('execute unless entity {0} run return run tellraw @s [{{text:"The last executed player is not the Boomdandy.",color:"red"}}]' -f $executedBoomdandySelector))
+$confirm.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be resolved during nominations.",color:"gray",bold:false}]')
+$confirm.Add('execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Boomdandy Final Three selection is active.",color:"gray",bold:false}]')
+$confirm.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"The last executed player is not the Boomdandy.",color:"gray",bold:false}}]' -f $executedBoomdandySelector))
 $confirm.Add("function botc_patch:storyteller_tools/boomdandy/validate_population")
 $confirm.Add("execute unless score boomdandy_population_ok botc_patch matches 1 run return 0")
 $confirm.Add("function botc_patch:storyteller_tools/boomdandy/validate_selection")
-$confirm.Add('execute unless score boomdandy_selected botc_patch matches 3 run return run tellraw @s [{text:"Choose exactly three living players before confirming.",color:"red"}]')
+$confirm.Add('execute unless score boomdandy_selected botc_patch matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Choose exactly three living players before confirming.",color:"gray",bold:false}]')
 $confirm.Add("scoreboard players set boomdandy_stage botc_patch 2")
 $confirm.Add("scoreboard players set grim_notice_boomdandy_done botc_patch 1")
 $confirm.Add("scoreboard players set boomdandy_elimination_remaining botc_patch 0")
@@ -487,7 +564,7 @@ $confirm.Add("execute as @a[tag=botc_boomdandy_eliminate] run scoreboard players
 $confirm.Add("function botc_patch:storyteller_tools/boomdandy/prepare_final_seats")
 $confirm.Add("data remove storage botc_patch:dialogs boomdandy")
 $confirm.Add("data remove storage botc_patch:dialogs boomdandy_selection")
-$confirm.Add('tellraw @s [{text:"Final three locked. Everyone else will die one by one.",color:"gold"}]')
+$confirm.Add('tellraw @s [{text:"Final Three locked. Everyone else will die one by one.",color:"gold"}]')
 $confirm.Add("execute if score boomdandy_elimination_remaining botc_patch matches 0 run function botc_patch:storyteller_tools/boomdandy/announce/start")
 Write-Lines -Path (Join-Path $OutputRoot "confirm.mcfunction") -Lines $confirm
 
@@ -501,4 +578,181 @@ $tick.Add("execute if score boomdandy_stage botc_patch matches 4 if score bd_cd 
 $tick.Add("execute if score boomdandy_stage botc_patch matches 0 run tag @a remove botc_boomdandy_finalist")
 Write-Lines -Path (Join-Path $OutputRoot "tick.mcfunction") -Lines $tick
 
-Write-Host "Generated guarded Boomdandy final-three flow." -ForegroundColor Green
+$upstreamExecuteLines = @(Get-Content -LiteralPath $UpstreamExecutePath)
+$lightningCommand = "execute at @s run summon minecraft:lightning_bolt"
+$pyreCloseCommands = @(
+    "fill 125 72 65 128 72 62 minecraft:campfire[facing=north,lit=false] replace minecraft:campfire",
+    "fill 129 73 61 124 73 66 minecraft:light[level=0] replace minecraft:barrier"
+)
+$lightningCount = @($upstreamExecuteLines | Where-Object { $_ -eq $lightningCommand }).Count
+if ($lightningCount -ne 4) {
+    throw "Expected exactly four upstream pyre lightning commands, found $lightningCount. Review the Boomdandy non-lightning adapter."
+}
+foreach ($pyreCloseCommand in $pyreCloseCommands) {
+    $pyreCloseCount = @($upstreamExecuteLines | Where-Object { $_ -eq $pyreCloseCommand }).Count
+    if ($pyreCloseCount -ne 1) {
+        throw "Expected exactly one upstream pyre-close command '$pyreCloseCommand', found $pyreCloseCount. Review the Boomdandy delayed pyre close."
+    }
+}
+
+$pyreExecute = New-GeneratedHeader "Executes the Boomdandy through Sybillian's non-lightning announcement/tag contract while leaving the pyre lit for the TNT rain."
+foreach ($line in $upstreamExecuteLines) {
+    if ($line -ne $lightningCommand -and $line -notin $pyreCloseCommands) {
+        $pyreExecute.Add($line)
+    }
+}
+$pyreExecute.Add("function botc_patch:storyteller_tools/boomdandy_pyre/start")
+Write-Lines -Path (Join-Path $PyreOutputRoot "execute.mcfunction") -Lines $pyreExecute
+
+$pyreCleanup = New-GeneratedHeader "Removes only the transient Boomdandy pyre spectacle without applying death."
+$pyreCleanup.Add("kill @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_tnt]")
+foreach ($pyreCloseCommand in $pyreCloseCommands) {
+    $pyreCleanup.Add($pyreCloseCommand)
+}
+$pyreCleanup.Add("scoreboard players set boomdandy_pyre_state botc_patch 0")
+$pyreCleanup.Add("scoreboard players set boomdandy_pyre_timer botc_patch 0")
+$pyreCleanup.Add("scoreboard players set boomdandy_pyre_spawned botc_patch 0")
+$pyreCleanup.Add("scoreboard players set boomdandy_pyre_impacted botc_patch 0")
+$pyreCleanup.Add("scoreboard players set boomdandy_pyre_waiting botc_patch 0")
+$pyreCleanup.Add("tag @a remove botc_boomdandy_pyre_owner")
+Write-Lines -Path (Join-Path $PyreOutputRoot "cleanup.mcfunction") -Lines $pyreCleanup
+
+$pyreStart = New-GeneratedHeader "Starts a bounded five-second cosmetic TNT rain while the executed Boomdandy remains alive."
+$pyreStart.Add("execute unless entity @s[tag=botc_st_last_executed,scores={id=1..15,role=107}] run return 0")
+$pyreStart.Add("kill @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_tnt]")
+$pyreStart.Add("scoreboard players set boomdandy_pyre_state botc_patch 1")
+$pyreStart.Add("scoreboard players set boomdandy_pyre_timer botc_patch 0")
+$pyreStart.Add("scoreboard players set boomdandy_pyre_spawned botc_patch 0")
+$pyreStart.Add("scoreboard players set boomdandy_pyre_impacted botc_patch 0")
+$pyreStart.Add("scoreboard players set boomdandy_pyre_waiting botc_patch 0")
+$pyreStart.Add("playsound minecraft:entity.tnt.primed master @a 127 88 64 0.70 0.85")
+Write-Lines -Path (Join-Path $PyreOutputRoot "start.mcfunction") -Lines $pyreStart
+
+$pyreSpawn = New-GeneratedHeader "Spawns one cosmetic TNT display at a bounded random position, except for the centered twelfth impact."
+$pyreSpawn.Add("tag @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_tnt] remove botc_boomdandy_pyre_new")
+$pyreSpawn.Add("execute unless score boomdandy_pyre_spawned botc_patch matches 11 store result score boomdandy_pyre_pick botc_patch run random value 1..49")
+$positionIndex = 0
+foreach ($x in @(121, 123, 125, 127, 129, 131, 133)) {
+    foreach ($z in @(58, 60, 62, 64, 66, 68, 70)) {
+        $positionIndex++
+        $pyreSpawn.Add(('execute unless score boomdandy_pyre_spawned botc_patch matches 11 if score boomdandy_pyre_pick botc_patch matches {0} positioned {1}.5 88 {2}.5 run summon minecraft:block_display ~ ~ ~ {{Tags:["botc_boomdandy_pyre_tnt","botc_boomdandy_pyre_new"],block_state:{{Name:"minecraft:tnt"}},teleport_duration:1,view_range:80f,shadow_radius:0.5f,transformation:{{translation:[-0.5f,-0.5f,-0.5f],left_rotation:[0f,0f,0f,1f],scale:[1f,1f,1f],right_rotation:[0f,0f,0f,1f]}}}}' -f $positionIndex, $x, $z))
+    }
+}
+$pyreSpawn.Add('execute if score boomdandy_pyre_spawned botc_patch matches 11 positioned 127.0 88 64.0 run summon minecraft:block_display ~ ~ ~ {Tags:["botc_boomdandy_pyre_tnt","botc_boomdandy_pyre_new"],block_state:{Name:"minecraft:tnt"},teleport_duration:1,view_range:80f,shadow_radius:0.5f,transformation:{translation:[-0.5f,-0.5f,-0.5f],left_rotation:[0f,0f,0f,1f],scale:[1f,1f,1f],right_rotation:[0f,0f,0f,1f]}}')
+$pyreSpawn.Add("scoreboard players set @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_new] botc_patch 30")
+$pyreSpawn.Add("tag @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_new] remove botc_boomdandy_pyre_new")
+$pyreSpawn.Add("scoreboard players add boomdandy_pyre_spawned botc_patch 1")
+Write-Lines -Path (Join-Path $PyreOutputRoot "spawn.mcfunction") -Lines $pyreSpawn
+
+$pyreFallStages = @(
+    @{ ScoreRange = "28..30"; Distance = "0.05" },
+    @{ ScoreRange = "25..27"; Distance = "0.15" },
+    @{ ScoreRange = "22..24"; Distance = "0.25" },
+    @{ ScoreRange = "19..21"; Distance = "0.35" },
+    @{ ScoreRange = "16..18"; Distance = "0.45" },
+    @{ ScoreRange = "13..15"; Distance = "0.55" },
+    @{ ScoreRange = "10..12"; Distance = "0.65" },
+    @{ ScoreRange = "7..9"; Distance = "0.75" },
+    @{ ScoreRange = "4..6"; Distance = "0.85" },
+    @{ ScoreRange = "1..3"; Distance = "0.95" }
+)
+
+$pyreImpact = New-GeneratedHeader "Dispatches the next progressively larger cosmetic impact and lets the twelfth advance to death."
+$pyreImpact.Add("scoreboard players add boomdandy_pyre_impacted botc_patch 1")
+for ($impactNumber = 1; $impactNumber -le 12; $impactNumber++) {
+    $pyreImpact.Add("execute if score boomdandy_pyre_impacted botc_patch matches $impactNumber run function botc_patch:storyteller_tools/boomdandy_pyre/impact/effect_$impactNumber")
+}
+$pyreImpact.Add("playsound minecraft:entity.generic.explode master @a ~ ~ ~ 1.00 0.82")
+$pyreImpact.Add("execute if score boomdandy_pyre_impacted botc_patch matches 12 run function botc_patch:storyteller_tools/boomdandy_pyre/final_impact")
+$pyreImpact.Add("kill @s")
+Write-Lines -Path (Join-Path $PyreOutputRoot "impact.mcfunction") -Lines $pyreImpact
+
+for ($impactNumber = 1; $impactNumber -le 12; $impactNumber++) {
+    $spreadHorizontal = (0.14 + (0.055 * $impactNumber)).ToString("0.000", $invariantCulture)
+    $spreadVertical = (0.10 + (0.040 * $impactNumber)).ToString("0.000", $invariantCulture)
+    $smokeCount = 4 + (3 * $impactNumber)
+    $flameCount = 2 + (2 * $impactNumber)
+    $poofCount = 2 + (2 * $impactNumber)
+    $sparkCount = 2 * $impactNumber
+    $fireworkCount = $impactNumber
+    $endRodCount = $impactNumber
+
+    $impactEffect = New-GeneratedHeader "Renders cosmetic Boomdandy TNT impact $impactNumber of 12 with strictly increasing particle density and layers."
+    $impactEffect.Add("particle minecraft:explosion ~ ~ ~ 0 0 0 0 1 force @a")
+    $impactEffect.Add("particle minecraft:poof ~ ~0.10 ~ $spreadHorizontal $spreadVertical $spreadHorizontal 0.08 $poofCount force @a")
+    $impactEffect.Add("particle minecraft:smoke ~ ~0.18 ~ $spreadHorizontal $spreadVertical $spreadHorizontal 0.03 $smokeCount force @a")
+    $impactEffect.Add("particle minecraft:flame ~ ~0.12 ~ $spreadHorizontal $spreadVertical $spreadHorizontal 0.06 $flameCount force @a")
+    if ($impactNumber -ge 3) {
+        $impactEffect.Add("particle minecraft:electric_spark ~ ~0.20 ~ $spreadHorizontal $spreadVertical $spreadHorizontal 0.12 $sparkCount force @a")
+    }
+    if ($impactNumber -ge 5) {
+        $impactEffect.Add("particle minecraft:firework ~ ~0.25 ~ $spreadHorizontal $spreadVertical $spreadHorizontal 0.15 $fireworkCount force @a")
+    }
+    if ($impactNumber -ge 7) {
+        $impactEffect.Add("particle minecraft:end_rod ~ ~0.30 ~ $spreadHorizontal $spreadVertical $spreadHorizontal 0.09 $endRodCount force @a")
+    }
+    if ($impactNumber -ge 8) {
+        $impactEffect.Add("particle minecraft:explosion ~ ~0.35 ~ 0 0 0 0 1 force @a")
+    }
+    if ($impactNumber -ge 9) {
+        $impactEffect.Add("particle minecraft:totem_of_undying ~ ~0.45 ~ 0 0 0 0 5 force @a")
+    }
+    if ($impactNumber -ge 10) {
+        $impactEffect.Add("particle minecraft:explosion_emitter ~ ~0.10 ~ 0 0 0 0 1 force @a")
+    }
+    if ($impactNumber -ge 11) {
+        $impactEffect.Add("particle minecraft:explosion_emitter ~0.35 ~0.20 ~-0.35 0 0 0 0 1 force @a")
+    }
+    if ($impactNumber -eq 12) {
+        $impactEffect.Add("particle minecraft:explosion_emitter ~-0.45 ~0.25 ~0.45 0 0 0 0 1 force @a")
+        $impactEffect.Add("particle minecraft:explosion_emitter ~0.50 ~0.35 ~0.50 0 0 0 0 1 force @a")
+        $impactEffect.Add("particle minecraft:totem_of_undying ~ ~0.90 ~ 0.25 0.25 0.25 0.08 24 force @a")
+        $impactEffect.Add("particle minecraft:sonic_boom ~ ~0.55 ~ 0 0 0 0 1 force @a")
+    }
+    Write-Lines -Path (Join-Path $PyreOutputRoot "impact/effect_$impactNumber.mcfunction") -Lines $impactEffect
+}
+
+$pyreFinalImpact = New-GeneratedHeader "Extinguishes the still-lit pyre after the last visible TNT impact, then moves to the exact-once Boomdandy death boundary."
+foreach ($pyreCloseCommand in $pyreCloseCommands) {
+    $pyreFinalImpact.Add($pyreCloseCommand)
+}
+$pyreFinalImpact.Add("scoreboard players set boomdandy_pyre_state botc_patch 2")
+$pyreFinalImpact.Add("function botc_patch:storyteller_tools/boomdandy_pyre/try_finish")
+Write-Lines -Path (Join-Path $PyreOutputRoot "final_impact.mcfunction") -Lines $pyreFinalImpact
+
+$pyreTryFinish = New-GeneratedHeader "Kills the returned last-executed Boomdandy after the final impact, or waits safely while they are offline."
+$pyreTryFinish.Add("execute unless score phase game_data matches 3 run return run function botc_patch:storyteller_tools/boomdandy_pyre/cleanup")
+$pyreTryFinish.Add(('execute unless entity {0} if score boomdandy_pyre_waiting botc_patch matches 0 run tellraw @a[tag=storyteller] [{{text:"Boomdandy death is waiting for the executed player to return.",color:"yellow"}}]' -f $executedBoomdandySelector))
+$pyreTryFinish.Add(('execute unless entity {0} run scoreboard players set boomdandy_pyre_waiting botc_patch 1' -f $executedBoomdandySelector))
+$pyreTryFinish.Add(('execute unless entity {0} run return 0' -f $executedBoomdandySelector))
+$pyreTryFinish.Add('execute as @a[tag=botc_st_last_executed,tag=!dead,scores={id=1..15,role=107},limit=1] run function ct:kill/die')
+$pyreTryFinish.Add('execute if entity @a[tag=botc_st_last_executed,tag=dead,scores={id=1..15,role=107},limit=1] run function botc_patch:storyteller_tools/boomdandy_pyre/complete')
+Write-Lines -Path (Join-Path $PyreOutputRoot "try_finish.mcfunction") -Lines $pyreTryFinish
+
+$pyreComplete = New-GeneratedHeader "Unlocks post-execution tools and opens the unchanged Final Three flow only after death succeeds."
+$pyreComplete.Add("scoreboard players set boomdandy_pyre_state botc_patch 0")
+$pyreComplete.Add("scoreboard players set boomdandy_pyre_waiting botc_patch 0")
+$pyreComplete.Add("tag @a[tag=storyteller,tag=botc_st_post_execution] add botc_st_post_kill_resolved")
+$pyreComplete.Add("scoreboard players set botc_item_maintenance_pending botc_patch 1")
+$pyreComplete.Add("execute as @a[tag=storyteller,tag=botc_st_post_execution] run function botc_patch:storyteller_tools/post_execution/replace_items")
+$pyreComplete.Add("execute as @a[tag=storyteller,tag=botc_boomdandy_pyre_owner,limit=1] run function botc_patch:storyteller_tools/boomdandy/start")
+$pyreComplete.Add("tag @a remove botc_boomdandy_pyre_owner")
+Write-Lines -Path (Join-Path $PyreOutputRoot "complete.mcfunction") -Lines $pyreComplete
+
+$pyreTick = New-GeneratedHeader "Ticks the independent TNT rain and preserves the final-impact death boundary across disconnects and reloads."
+$pyreTick.Add("execute unless score phase game_data matches 3 if score boomdandy_pyre_state botc_patch matches 1..2 run function botc_patch:storyteller_tools/boomdandy_pyre/cleanup")
+$pyreTick.Add("execute if score boomdandy_pyre_state botc_patch matches 1 run scoreboard players add boomdandy_pyre_timer botc_patch 1")
+for ($spawnTick = 1; $spawnTick -le 67; $spawnTick += 6) {
+    $pyreTick.Add("execute if score boomdandy_pyre_state botc_patch matches 1 if score boomdandy_pyre_timer botc_patch matches $spawnTick run function botc_patch:storyteller_tools/boomdandy_pyre/spawn")
+}
+foreach ($fallStage in $pyreFallStages) {
+    $pyreTick.Add(('execute if score boomdandy_pyre_state botc_patch matches 1 as @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_tnt,scores={{botc_patch={0}}}] at @s run tp @s ~ ~-{1} ~' -f $fallStage.ScoreRange, $fallStage.Distance))
+}
+$pyreTick.Add("execute if score boomdandy_pyre_state botc_patch matches 1 run scoreboard players remove @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_tnt,scores={botc_patch=1..}] botc_patch 1")
+$pyreTick.Add("execute if score boomdandy_pyre_state botc_patch matches 1 as @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_tnt,scores={botc_patch=0}] at @s run function botc_patch:storyteller_tools/boomdandy_pyre/impact")
+$pyreTick.Add("execute if score boomdandy_pyre_state botc_patch matches 2 run function botc_patch:storyteller_tools/boomdandy_pyre/try_finish")
+$pyreTick.Add("execute if score boomdandy_pyre_state botc_patch matches 0 if entity @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_tnt] run kill @e[type=minecraft:block_display,tag=botc_boomdandy_pyre_tnt]")
+$pyreTick.Add("execute if score boomdandy_pyre_state botc_patch matches 0 run tag @a remove botc_boomdandy_pyre_owner")
+Write-Lines -Path (Join-Path $PyreOutputRoot "tick.mcfunction") -Lines $pyreTick
+
+Write-Host "Generated guarded Boomdandy final-three flow and separate pyre TNT rain." -ForegroundColor Green

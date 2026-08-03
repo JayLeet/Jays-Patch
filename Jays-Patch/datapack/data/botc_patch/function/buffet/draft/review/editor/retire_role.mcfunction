@@ -2,4 +2,4 @@
 # Do not hand-edit this file; update the generator or Jays-Patch/buffet-rules.json.
 # Retire one server-owned role after rebuilding edited Draft assignments.
 $scoreboard players set draft_chosen_$(actual) botc_patch 1
-$execute if score draft_recycling botc_patch matches 0 run scoreboard players set draft_available_$(actual) botc_patch 0
+$scoreboard players set draft_available_$(actual) botc_patch 0

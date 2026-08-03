@@ -109,7 +109,6 @@ execute if score @s botc_buffet_action matches 4108 run function botc_patch:buff
 execute if score @s botc_buffet_action matches 4109 run function botc_patch:buffet/greedy/review/assign {role:109,alignment:2}
 execute if score @s botc_buffet_action matches 4110 run function botc_patch:buffet/greedy/review/assign {role:110,alignment:2}
 execute if score @s botc_buffet_action matches 4112 run function botc_patch:buffet/greedy/review/assign {role:112,alignment:2}
-execute if score @s botc_buffet_action matches 4113 run function botc_patch:buffet/greedy/review/assign {role:113,alignment:2}
 execute if score @s botc_buffet_action matches 4114 run function botc_patch:buffet/greedy/review/assign {role:114,alignment:2}
 execute if score @s botc_buffet_action matches 4115 run function botc_patch:buffet/greedy/review/assign {role:115,alignment:2}
 execute if score @s botc_buffet_action matches 4116 run function botc_patch:buffet/greedy/review/assign {role:116,alignment:2}

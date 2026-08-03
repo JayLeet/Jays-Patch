@@ -5,6 +5,12 @@
   "minecraftVersion": "1.21.10",
   "roleCount": 137,
   "roleCatalogSha256": "d4dea54772309a580a6c34fc8374b0ce854c7e4383a8bef54b6dcdd497383f05",
+  "disabledRoles": [
+    {
+      "role": "organ_grinder",
+      "reason": "Unsupported by Sybillian 1.5.4."
+    }
+  ],
   "requiredObjectives": [
     "vote",
     "game_id",

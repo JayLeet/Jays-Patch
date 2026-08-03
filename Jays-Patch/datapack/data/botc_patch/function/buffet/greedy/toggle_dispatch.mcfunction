@@ -437,10 +437,6 @@ execute if score @s botc_buffet_action matches 1112 store result storage botc_pa
 execute if score @s botc_buffet_action matches 1112 run data modify storage botc_patch:buffet action.role set value 112
 execute if score @s botc_buffet_action matches 1112 run data modify storage botc_patch:buffet action.page set value 3
 execute if score @s botc_buffet_action matches 1112 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
-execute if score @s botc_buffet_action matches 1113 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1113 run data modify storage botc_patch:buffet action.role set value 113
-execute if score @s botc_buffet_action matches 1113 run data modify storage botc_patch:buffet action.page set value 3
-execute if score @s botc_buffet_action matches 1113 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1114 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
 execute if score @s botc_buffet_action matches 1114 run data modify storage botc_patch:buffet action.role set value 114
 execute if score @s botc_buffet_action matches 1114 run data modify storage botc_patch:buffet action.page set value 3

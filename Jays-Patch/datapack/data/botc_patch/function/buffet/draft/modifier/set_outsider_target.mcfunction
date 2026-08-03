@@ -18,6 +18,9 @@ scoreboard players operation draft_seat_delta_town botc_patch -= draft_target_de
 scoreboard players operation draft_seat_delta_outsider botc_patch += draft_target_delta botc_patch
 $execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_town int 1 run scoreboard players get draft_seat_delta_town botc_patch
 $execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_outsider int 1 run scoreboard players get draft_seat_delta_outsider botc_patch
+scoreboard players set draft_protected_outsider_delta botc_patch 0
+execute if score draft_target_delta botc_patch matches 1.. run scoreboard players operation draft_protected_outsider_delta botc_patch = draft_target_delta botc_patch
+$execute store result storage botc_patch:buffet draft.seats.s$(seat).protected_outsider int 1 run scoreboard players get draft_protected_outsider_delta botc_patch
 $data modify storage botc_patch:buffet draft.seats.s$(seat).modifier_owner set value 1b
 scoreboard players set draft_outsider_absolute_active botc_patch 1
 execute store result score draft_outsider_absolute_seat botc_patch run data get storage botc_patch:buffet modifier.seat

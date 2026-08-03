@@ -837,12 +837,17 @@
                                            "mode":  "item"
                                        }
                                    ],
-                      "postExecutionTool":  {
-                                                 "order":  2,
-                                                 "slot":  "hotbar.1",
-                                                 "customNameComponent":  "[{text:\"Advance Phase\",color:\"aqua\",bold:false,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
-                                                 "mode":  "item"
-                                            },
+        "postExecutionTool":  {
+                                  "order":  2,
+                                  "slot":  "hotbar.1",
+                                  "customNameComponent":  "[{text:\"Advance Phase\",color:\"aqua\",bold:false,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                  "mode":  "item",
+                                  "unlessScore":  {
+                                                      "holder":  "boomdandy_pyre_state",
+                                                      "objective":  "botc_patch",
+                                                      "range":  "1..2"
+                                                  }
+                              },
                       "itemModel":  "minecraft:clock"
                   },
                   {
@@ -939,13 +944,18 @@
                                            "mode":  "item"
                                        }
                                    ],
-                       "postExecutionTool":  {
-                                                  "order":  1,
-                                                  "slot":  "hotbar.0",
-                                                  "customNameComponent":  "[{text:\"Kill\",color:\"dark_red\",bold:false,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
-                                                  "mode":  "item",
-                                                  "excludeOwnerTag":  "botc_st_post_kill_resolved"
-                                             },
+        "postExecutionTool":  {
+                                  "order":  1,
+                                  "slot":  "hotbar.0",
+                                  "customNameComponent":  "[{text:\"Kill\",color:\"dark_red\",bold:false,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
+                                  "mode":  "item",
+                                  "excludeOwnerTag":  "botc_st_post_kill_resolved",
+                                  "unlessScore":  {
+                                                      "holder":  "boomdandy_pyre_state",
+                                                      "objective":  "botc_patch",
+                                                      "range":  "1..2"
+                                                  }
+                              },
                       "itemModel":  "botc_patch:storyteller_post_kill"
                   },
                   {
@@ -967,10 +977,15 @@
                               "inPlaySelector":  "@a[tag=botc_st_last_executed,scores={id=1..15,role=107}]",
                                                  "customNameComponent":  "[{text:\"Boomdandy\",color:\"red\",bold:false,italic:false},{text:\" [Right-Click]\",color:\"gray\",bold:false,italic:false}]",
                                                  "notificationScoreHolder":  "grim_notice_boomdandy_done",
-                                                 "notificationScoreObjective":  "botc_patch",
-                                                 "notificationModelString":  "botc_role_boomdandy_notification",
-                                                 "mode":  "item"
-                                            },
+                                  "notificationScoreObjective":  "botc_patch",
+                                  "notificationModelString":  "botc_role_boomdandy_notification",
+                                  "mode":  "item",
+                                  "unlessScore":  {
+                                                      "holder":  "boomdandy_pyre_state",
+                                                      "objective":  "botc_patch",
+                                                      "range":  "1..2"
+                                                  }
+                              },
                       "itemModel":  "botc_patch:item/role/boomdandy"
                   },
                   {

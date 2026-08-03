@@ -1,6 +1,6 @@
 # Buffet Gamemodes Design Journal
 
-Last updated: 2026-07-30
+Last updated: 2026-08-02
 
 ## Purpose
 
@@ -357,6 +357,13 @@ invalid.
 
 # Draft Buffet
 
+> **Current authority (2026-08-03):**
+> [`draft-randomization-review.md`](../tasks/draft-randomization-review.md) and
+> [`draft-randomization-archetype-catalog.md`](../tasks/draft-randomization-archetype-catalog.md)
+> own the accepted Draft randomization rules. This journal preserves earlier
+> design history. Any older statement here about weighted character types,
+> opt-in general recycling, or the former per-offer opening path is superseded.
+
 ## Setup Flow
 
 1. The Storyteller selects `Draft Buffet`.
@@ -429,17 +436,18 @@ Rules:
 
 ## Recycling
 
-- `Allow Recycling` is off by default.
+- There is no general recycling toggle.
 - Selected characters never recycle.
-- With recycling off, discarded actual and shown characters remain unavailable.
-- If recycling is enabled, discarded characters may return only when the engine
-  cannot otherwise complete a legal draft.
-- Players are told before drafting that discarded characters are usually, but
-  not guaranteed to be, gone.
-- The game never confirms whether recycling happened.
-- Players may share, hide, or lie about what they discarded. The system never
-  confirms those claims publicly.
-- Enabling recycling or pausing for a repair stays private to the Storyteller.
+- Discarded direct characters retire unless a still-required character type
+  cannot fill the next complete `3`, `2`, or `1` hand from unused legal direct
+  characters.
+- Only that exact shortfall may be filled from eligible direct characters
+  discarded by earlier players. This completion rule applies equally to every
+  still-required type.
+- Discarded hidden actual characters remain globally available but are excluded
+  for the player who discarded them. Selecting one retires it globally.
+- The game never confirms a hidden identity or exact-shortfall recovery to
+  players.
 
 ## Duplicate Rules
 
@@ -450,9 +458,11 @@ Rules:
 - If the fallback creates more than one Village Idiot, ordinary Village Idiot
   rules still decide which extra copy is drunk.
 
-## Hybrid Draft Generator
+## Historical Hybrid Draft Generator (Superseded)
 
-This is the approved direction for future Draft generation.
+This section records the earlier composition-weighted proposal. It is not the
+current implementation contract. The accepted review and archetype catalog
+linked above replace its opening, probability, recycling, and route rules.
 
 The generator uses two layers instead of pre-rolling a complete script.
 
@@ -487,7 +497,7 @@ Kazali rules:
 
 ### Layer Two: Dynamic Ordinary Draft
 
-After the opening topology is settled:
+Under the retired proposal, after the opening topology was settled:
 
 - calculate which character types the setup still needs;
 - weight those needed types;
@@ -515,8 +525,9 @@ Probability is calculated inside the character's type:
   shown role generation. They do not appear under their real names when that
   would reveal hidden information.
 
-Category selection remains weighted by what the unfinished setup still needs.
-Equal character odds apply after that category is selected.
+This weighted category rule is superseded. Current Draft cards choose uniformly
+among the character types that are still legal and nonempty, then use the
+accepted equal-base and `4/2/1` archetype tickets inside that type.
 
 ### Mutually Exclusive Characters
 
@@ -555,11 +566,9 @@ proven from supported rules before encoding the incompatibility table.
 - Never generate an illegal menu and hope the Storyteller repairs it later.
 - If no legal offer exists, pause privately for the Storyteller.
 
-The Storyteller may then:
-
-- enable recycling;
-- undo or empty the relevant seat;
-- apply a guarded manual assignment.
+The current engine uses its exact-shortfall completion rule before declaring a
+hand impossible. The Storyteller may still correct final characters through the
+private editor and explicitly accept an unsafe final setup.
 
 Other players must not receive a message or timing clue about this pause.
 
@@ -688,7 +697,7 @@ It shows:
 - hard-invalid states, unusual warnings, and unsupported interactions kept in
   separate sections;
 - whether a safe public Djinn announcement can be produced;
-- whether recycling is enabled;
+- whether exact-shortfall completion recovery was required;
 - whether the setup is ready to start.
 
 The Storyteller can return to this screen at any time.
@@ -708,11 +717,13 @@ also becomes a final-character editor:
 - The private 3/2/1 Draft history remains unchanged. The edit changes only the
   final actual character, shown character, alignment, and associated hidden
   state.
-- The edited player's offhand book immediately shows their new perceived
-  character and never exposes the actual hidden character.
-- Final actual, perceived, and locked Hermit-ability characters remain unique
-  unless Draft recycling is explicitly enabled. Village Idiot, Legion, and
-  Riot retain their official duplicate exceptions.
+- The edited player's pre-start offhand book and Draft history remain unchanged.
+  Do not notify them that an override occurred. Ordinary game start shows only
+  the final shown character and never exposes an actual hidden character.
+- Final actual, shown, and locked Hermit-ability characters remain unique by
+  default. If a manual edit would duplicate one, the Storyteller receives a
+  private `Use Anyway` confirmation; confirming it makes that trusted edit
+  authoritative without enabling general recycling.
 
 The first final edit makes the resulting seats Storyteller-authoritative, as
 in Greedy Whalebuffet's manual override. Recount the final type distribution,
@@ -813,11 +824,13 @@ Implemented source already covers much of:
 - randomized seating in both modes, separate from randomized Draft turn order;
 - the shared three-ability Hermit flow in both modes;
 - Draft 3, 2, 1 offer rounds;
-- the one-time hybrid Draft opening for setup-defining characters;
+- the private Normal/Atheist Draft choice and Normal Draft's one 90/10
+  ordinary-versus-guaranteed-special roll;
 - private pre-offer conflict resolution for mutually exclusive role branches;
-- equal random role selection inside the currently required category;
-- opt-in Draft recycling that cannot resurrect chosen, conflict-blocked, or
-  opening-only characters;
+- equal type odds among legal nonempty types, plus accepted `4/2/1` archetype
+  tickets inside the selected type;
+- exact-shortfall completion recovery for every still-required type, with no
+  general recycling mode;
 - actual and shown role state;
 - hidden role paths;
 - Storyteller modifier prompts;
@@ -827,8 +840,7 @@ Implemented source already covers much of:
 - Draft eligibility and final validation for official in-play exclusions;
 - Greedy eligibility and final validation for official in-play exclusions;
 - integrated private Start Game warnings for active Greedy and Draft jinxes;
-- regenerated code-library indexes and a passing non-live source gate, apart
-  from the intentionally pending source-baseline and public-package refresh.
+- generated-code consistency, focused model coverage, and complete source gates.
 
 Live QA completed for Greedy Whalebuffet on 2026-07-30:
 
@@ -844,16 +856,13 @@ controlled ID/team rotation and a second real start passed after Buffet-owned
 seat identity became the assignment key. The redundant Buffet bell replay was
 then removed after client QA heard both it and Sybillian's upstream bell.
 
-Still required before both beta modes can be called fully live-tested:
-
-1. Perform Draft Buffet live QA for every discard round, hidden-role
-   presentation, modifier pauses, Storyteller review, and the final Sybillian
-   handoff.
-2. Treat any unsupported or newly changed upstream jinx as a fail-closed
-   compatibility issue rather than guessing its setup behavior.
-
-Greedy Whalebuffet may now be marked live-tested. Both modes remain beta until
-Draft's live QA and the public jinx-presentation decision are complete.
+Draft Buffet's expanded live statistical QA is complete and reviewed: thirty
+ordinary Normal games, at least ten games for each guaranteed-real special,
+two Atheist games for every Outsider target `0..14`, and 2,000 natural Normal
+route rolls passed their live auditor and separate offline replay. Unsupported
+or newly changed upstream jinxes still fail closed rather than guessing their
+setup behavior. Both modes remain beta while packaging and public presentation
+work continue.
 
 # Change Log
 

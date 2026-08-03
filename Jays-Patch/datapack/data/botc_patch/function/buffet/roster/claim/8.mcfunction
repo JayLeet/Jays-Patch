@@ -8,7 +8,7 @@ team join 08_blue @s
 scoreboard players set @s id 8
 scoreboard players set @s botc_buffet_seat 8
 scoreboard players operation @s botc_buffet_seat_gen = buffet_seat_8_generation botc_patch
-data modify storage botc_patch:buffet greedy.seats.s8 set value {active:1b,name:"Seat 8",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s8 set value {active:1b,name:"Seat 8",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches ..7 run scoreboard players set buffet_roster_count botc_patch 8
 scoreboard players operation player_count game_data = buffet_roster_count botc_patch
 scoreboard players operation seat_layout_target_count botc_patch = buffet_roster_count botc_patch

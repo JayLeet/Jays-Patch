@@ -36,8 +36,8 @@ function Write-Lines {
 $open = New-GeneratedHeader "Opens the first RPS participant picker from players who already made a choice."
 $open.Add("dialog clear @s")
 $open.Add("execute unless entity @s[tag=storyteller] run return 0")
-$open.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"RPS can only start during an active game.",color:"red"}]')
-$open.Add('execute if score cd rps matches 1.. run return run tellraw @s [{text:"An RPS countdown is already running.",color:"red"}]')
+$open.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"RPS can only start during an active game.",color:"gray",bold:false}]')
+$open.Add('execute if score cd rps matches 1.. run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"An RPS countdown is already running.",color:"gray",bold:false}]')
 $open.Add("tag @a remove botc_rps_first")
 $open.Add("function botc_patch:storyteller_tools/rps/first/dialog")
 Write-Lines -Path (Join-Path $OutputRoot "open.mcfunction") -Lines $open
@@ -64,8 +64,8 @@ Write-BotcFilteredPlayerDialog `
 $firstSelect = New-GeneratedHeader "Validates the first selected RPS participant."
 $firstSelect.Add("dialog clear @s")
 $firstSelect.Add("execute unless entity @s[tag=storyteller] run return 0")
-$firstSelect.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"RPS can only start during an active game.",color:"red"}]')
-$firstSelect.Add('execute if score cd rps matches 1.. run return run tellraw @s [{text:"An RPS countdown is already running.",color:"red"}]')
+$firstSelect.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"RPS can only start during an active game.",color:"gray",bold:false}]')
+$firstSelect.Add('execute if score cd rps matches 1.. run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"An RPS countdown is already running.",color:"gray",bold:false}]')
 $firstSelect.Add('$function botc_patch:storyteller_tools/rps/first/to_seat_$(seat)')
 Write-Lines -Path (Join-Path $firstRoot "select_player.mcfunction") -Lines $firstSelect
 
@@ -73,7 +73,7 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $targetSelector = "@a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=$seat,rps=1..3},limit=1]"
     $lines = New-GeneratedHeader "Stores the ready RPS participant in seat $seat and opens the opponent picker."
     $lines.Add("dialog clear @s")
-    $lines.Add(('execute unless entity {0} run return run tellraw @s [{{text:"That player is no longer available for RPS.",color:"red"}}]' -f $targetSelector))
+    $lines.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"That player is no longer available for RPS.",color:"gray",bold:false}}]' -f $targetSelector))
     $lines.Add("tag @a remove botc_rps_first")
     $lines.Add("tag $targetSelector add botc_rps_first")
     $lines.Add("function botc_patch:storyteller_tools/rps/second/dialog")
@@ -99,8 +99,8 @@ Write-BotcFilteredPlayerDialog `
 $secondSelect = New-GeneratedHeader "Validates the second selected RPS participant."
 $secondSelect.Add("dialog clear @s")
 $secondSelect.Add("execute unless entity @s[tag=storyteller] run return 0")
-$secondSelect.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"RPS can only start during an active game.",color:"red"}]')
-$secondSelect.Add('execute if score cd rps matches 1.. run return run tellraw @s [{text:"An RPS countdown is already running.",color:"red"}]')
+$secondSelect.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"RPS can only start during an active game.",color:"gray",bold:false}]')
+$secondSelect.Add('execute if score cd rps matches 1.. run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"An RPS countdown is already running.",color:"gray",bold:false}]')
 $secondSelect.Add('$function botc_patch:storyteller_tools/rps/second/to_seat_$(seat)')
 Write-Lines -Path (Join-Path $secondRoot "select_player.mcfunction") -Lines $secondSelect
 
@@ -109,8 +109,8 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $targetSelector = "@a[tag=!botc_rps_first,tag=!storyteller,tag=!spectator,tag=!dead,scores={id=$seat,rps=1..3},limit=1]"
     $lines = New-GeneratedHeader "Starts Sybillian RPS between the stored first player and ready player in seat $seat."
     $lines.Add("dialog clear @s")
-    $lines.Add(('execute unless entity {0} run return run tellraw @s [{{text:"The first RPS player is no longer available. Start again.",color:"red"}}]' -f $firstSelector))
-    $lines.Add(('execute unless entity {0} run return run tellraw @s [{{text:"That opponent is no longer available for RPS.",color:"red"}}]' -f $targetSelector))
+    $lines.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"The first RPS player is no longer available. Start again.",color:"gray",bold:false}}]' -f $firstSelector))
+    $lines.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"That opponent is no longer available for RPS.",color:"gray",bold:false}}]' -f $targetSelector))
     $lines.Add("tag @a remove playing_rps")
     $lines.Add("tag $firstSelector add playing_rps")
     $lines.Add("tag $targetSelector add playing_rps")

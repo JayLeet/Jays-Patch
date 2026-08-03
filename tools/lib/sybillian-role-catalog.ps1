@@ -109,3 +109,41 @@ function Get-SybillianRoleCatalog {
 
     return $roles
 }
+
+function Get-BotcDisabledRoleMap {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string] $ContractPath,
+
+        [Parameter(Mandatory = $true)]
+        [object[]] $RoleCatalog
+    )
+
+    if (-not (Test-Path -LiteralPath $ContractPath -PathType Leaf)) {
+        throw "Missing Sybillian compatibility contract: $ContractPath"
+    }
+
+    $contract = Get-Content -LiteralPath $ContractPath -Raw | ConvertFrom-Json
+    $knownRoles = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+    foreach ($role in $RoleCatalog) {
+        [void] $knownRoles.Add([string] $role.Role)
+    }
+
+    $disabled = @{}
+    foreach ($entry in @($contract.disabledRoles)) {
+        $roleName = [string] $entry.role
+        $reason = [string] $entry.reason
+        if ([string]::IsNullOrWhiteSpace($roleName) -or -not $knownRoles.Contains($roleName)) {
+            throw "The compatibility contract disables unknown role '$roleName'."
+        }
+        if ([string]::IsNullOrWhiteSpace($reason)) {
+            throw "The compatibility contract must explain why '$roleName' is disabled."
+        }
+        if ($disabled.ContainsKey($roleName)) {
+            throw "The compatibility contract disables '$roleName' more than once."
+        }
+        $disabled[$roleName] = $reason
+    }
+
+    return $disabled
+}

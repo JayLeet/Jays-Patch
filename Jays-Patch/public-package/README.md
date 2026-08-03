@@ -9,7 +9,7 @@ Night Chat from Sybillian's newer beta.
 I made it for **Sybillian's modpack 1.5.4** on
 **Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
 
-**[Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.1/Jay.s.Patch.v1.9.0-beta.1.zip)**
+**[Download Jay's Patch v1.9.0-beta.2](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.2/Jay.s.Patch.v1.9.0-beta.2.zip)**
 
 ## What does it add?
 
@@ -67,9 +67,10 @@ game begins.
 - **Greedy Whalebuffet** lets everyone submit private character preferences at
   the same time. Players can also choose Dealer's Choice and leave the
   decision up to the Storyteller.
-- **Draft Buffet** gives players turns in a random order. Each player
-  chooses from a changing set of characters while the remaining setup
-  adjusts around earlier choices.
+- **Draft Buffet** gives players turns in a random order with 3, then 2, then 1
+  card. Every card rolls equally among the character types the unfinished game
+  can still accept, so any legal mix of Townsfolk, Outsiders, Minions and Demons
+  can appear.
 
 ### 6. 🎙️ Night Chat
 
@@ -106,7 +107,7 @@ replaces your existing world folder.
   Wraith.
 - 📕 **Spy and Widow Grimoire views** let the Storyteller show the true characters
   in their personal Grimoire.
-- 💥 **Boomdandy final three** removes every other chair, eliminates non-finalists one at a time and lets the survivors vote by standing near the player they want to die.
+- 💥 **Boomdandy executions** let the Storyteller choose between a unique TNT-pyre sequence leading into Final Three or Sybillian's normal execution so the game continues.
 - ✊ **Rock Paper Scissors** lets the Storyteller start Sybillian's original
   two-player countdown from Grimoire Tools after both players make their choice.
 - ❗ **Notification badges** show the Storyteller when an in-play character has a relevant action available.
@@ -122,6 +123,8 @@ Do not install only the `jays_patch` datapack folder.
 - [Sybillian's Blood on the Clocktower 1.5.4](https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4)
 - Minecraft Java Edition 1.21.10
 
+Organ Grinder is disabled because Sybillian 1.5.4 does not support it.
+
 ### Back up your server
 
 > [!WARNING]
@@ -133,7 +136,7 @@ Do not install only the `jays_patch` datapack folder.
 1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
 2. Start the server once, then stop it completely.
 3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.1/Jay.s.Patch.v1.9.0-beta.1.zip) and extract it.
+4. [Download Jay's Patch v1.9.0-beta.2](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.2/Jay.s.Patch.v1.9.0-beta.2.zip) and extract it.
 5. Replace your server's `world` folder with the included `world` folder.
 6. Copy the included `config` folder into your server folder. Merge it with the
    existing `config` folder and replace files when asked.

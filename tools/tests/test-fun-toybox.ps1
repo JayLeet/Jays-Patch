@@ -105,8 +105,11 @@ $funLoadText = Read-RequiredText (Join-Path $FunctionRoot "fun/load.mcfunction")
 $funResetText = Read-RequiredText (Join-Path $FunctionRoot "fun/reset.mcfunction")
 $loadText = Read-RequiredText (Join-Path $FunctionRoot "load.mcfunction")
 Assert-Contains $hotStartText 'scoreboard players set fun_hot_timer botc_patch 600' "30-second Hot Potato timer"
-Assert-Contains $hotRaycastText 'if entity @a\[tag=storyteller' "Hot Potato Storyteller collision"
+Assert-Contains $hotShootText 'scoreboard players set @s botc_fun_hot_range 20' "five-block Hot Potato range"
+Assert-DoesNotContain $hotShootText 'scoreboard players set @s botc_fun_hot_range 80' "old twenty-block Hot Potato range"
+Assert-Contains $hotRaycastText 'if entity @a\[tag=storyteller,tag=!botc_fun_hot_holder,gamemode=!spectator,dx=0\.2,dy=0\.2,dz=0\.2,limit=1,sort=nearest\]' "Hot Potato Storyteller collision excluding only the holder"
 Assert-Contains $hotRaycastText 'scoreboard players set @s botc_fun_hot_range 0' "Hot Potato Storyteller trace stop"
+Assert-Contains $hotRaycastText 'tag=!botc_fun_hot_holder,tag=!storyteller' "Hot Potato recipient guard still excludes every Storyteller"
 Assert-Contains $hotTickText 'unless items entity @s inventory\.\*' "Hot Potato main-inventory ownership check"
 Assert-Contains $hotTickText 'unless items entity @s hotbar\.\*' "Hot Potato hotbar ownership check"
 Assert-Contains $hotTickText 'unless items entity @s weapon\.offhand' "Hot Potato offhand ownership check"
@@ -166,6 +169,28 @@ foreach ($pair in @(
 Assert-Contains $hotStartText 'scoreboard players add fun_hot_generation botc_patch 1' "Hot Potato round generation"
 Assert-Contains $hotReceiveText 'scoreboard players operation @s botc_fun_hot_generation = fun_hot_generation botc_patch' "holder generation ownership"
 Assert-Contains $hotTickText 'unless score @s botc_fun_hot_generation = fun_hot_generation botc_patch' "stale offline-holder reconciliation"
+foreach ($band in @(
+    @{ Timer = "151..200"; Interval = 16; Pitch = "1.00" },
+    @{ Timer = "101..150"; Interval = 12; Pitch = "1.20" },
+    @{ Timer = "51..100"; Interval = 8; Pitch = "1.45" },
+    @{ Timer = "1..50"; Interval = 4; Pitch = "1.75" }
+)) {
+    $prefix = "execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches $($band.Timer)"
+    $add = "$prefix run scoreboard players add fun_hot_pulse botc_patch 1"
+    $sound = "$prefix if score fun_hot_pulse botc_patch matches $($band.Interval).. at @a[tag=botc_fun_hot_holder,limit=1] run playsound minecraft:entity.warden.heartbeat master @a[distance=..32] ~ ~ ~ 1.0 $($band.Pitch)"
+    $reset = "$prefix if score fun_hot_pulse botc_patch matches $($band.Interval).. run scoreboard players set fun_hot_pulse botc_patch 0"
+    Assert-Contains $hotTickText ([regex]::Escape($add)) "Hot Potato heartbeat counter for $($band.Timer)"
+    Assert-Contains $hotTickText ([regex]::Escape($sound)) "Hot Potato heartbeat sound for $($band.Timer)"
+    Assert-Contains $hotTickText ([regex]::Escape($reset)) "Hot Potato heartbeat reset for $($band.Timer)"
+    if ($hotTickText.IndexOf($add, [System.StringComparison]::Ordinal) -ge $hotTickText.IndexOf($sound, [System.StringComparison]::Ordinal) -or
+        $hotTickText.IndexOf($sound, [System.StringComparison]::Ordinal) -ge $hotTickText.IndexOf($reset, [System.StringComparison]::Ordinal)) {
+        throw "Hot Potato heartbeat band $($band.Timer) must count, sound, then reset its pulse."
+    }
+}
+Assert-DoesNotContain $hotTickText 'fun_hot_timer botc_patch matches \.\.200' "old fixed-rate Hot Potato heartbeat"
+foreach ($invalidRange in @("200..151", "150..101", "100..51", "50..1")) {
+    Assert-DoesNotContain $hotTickText ([regex]::Escape("fun_hot_timer botc_patch matches $invalidRange")) "invalid descending Hot Potato heartbeat range $invalidRange"
+}
 Assert-Contains $loadText 'scoreboard objectives add botc_fun_hot_pass_cd dummy' "Hot Potato cooldown objective"
 Assert-Contains $loadText 'scoreboard objectives add botc_fun_hot_immunity dummy' "Hot Potato return-immunity objective"
 Assert-Contains $loadText 'scoreboard objectives add botc_fun_hot_generation dummy' "Hot Potato generation objective"

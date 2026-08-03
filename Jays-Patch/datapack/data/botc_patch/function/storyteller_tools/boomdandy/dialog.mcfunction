@@ -3,8 +3,8 @@
 # Shows only living players not already chosen for the final three.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Boomdandy can only be resolved during nominations.",color:"red"}]
-execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"No Boomdandy final-three selection is active.",color:"red"}]
+execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be resolved during nominations.",color:"gray",bold:false}]
+execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Boomdandy Final Three selection is active.",color:"gray",bold:false}]
 function botc_patch:storyteller_tools/boomdandy/validate_population
 execute unless score boomdandy_population_ok botc_patch matches 1 run return 0
 function botc_patch:storyteller_tools/boomdandy/validate_selection

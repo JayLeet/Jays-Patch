@@ -5,3 +5,5 @@ execute as @a[tag=botc_buffet_roster,scores={botc_buffet_seat=1..15}] run scoreb
 execute as @a[tag=botc_buffet_roster,scores={botc_buffet_seat=1..15}] run function botc_patch:buffet/roster/restore_team
 function botc_patch:seat_layout/lock_after_start
 function botc_patch:buffet/roster/sync_ct_players
+function botc_patch:buffet/roster/refresh_started_house_profiles
+function ct:start_game/apply_labels

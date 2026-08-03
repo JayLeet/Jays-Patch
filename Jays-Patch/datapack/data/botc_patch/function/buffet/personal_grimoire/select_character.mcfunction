@@ -113,7 +113,6 @@ execute if score @s botc_buffet_action matches 8209 run function botc_patch:buff
 execute if score @s botc_buffet_action matches 8210 run function botc_patch:buffet/personal_grimoire/store_character {role:110,id:"harpy"}
 execute if score @s botc_buffet_action matches 8211 run function botc_patch:buffet/personal_grimoire/store_character {role:111,id:"marionette"}
 execute if score @s botc_buffet_action matches 8212 run function botc_patch:buffet/personal_grimoire/store_character {role:112,id:"mezepheles"}
-execute if score @s botc_buffet_action matches 8213 run function botc_patch:buffet/personal_grimoire/store_character {role:113,id:"organ_grinder"}
 execute if score @s botc_buffet_action matches 8214 run function botc_patch:buffet/personal_grimoire/store_character {role:114,id:"psychopath"}
 execute if score @s botc_buffet_action matches 8215 run function botc_patch:buffet/personal_grimoire/store_character {role:115,id:"summoner"}
 execute if score @s botc_buffet_action matches 8216 run function botc_patch:buffet/personal_grimoire/store_character {role:116,id:"vizier"}

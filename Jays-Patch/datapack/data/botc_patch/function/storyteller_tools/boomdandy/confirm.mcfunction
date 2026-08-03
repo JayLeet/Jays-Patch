@@ -3,13 +3,13 @@
 # Locks the final three, trims the seats, and starts delayed one-by-one eliminations.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Boomdandy can only be resolved during nominations.",color:"red"}]
-execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"No Boomdandy final-three selection is active.",color:"red"}]
-execute unless entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run tellraw @s [{text:"The last executed player is not the Boomdandy.",color:"red"}]
+execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be resolved during nominations.",color:"gray",bold:false}]
+execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Boomdandy Final Three selection is active.",color:"gray",bold:false}]
+execute unless entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"The last executed player is not the Boomdandy.",color:"gray",bold:false}]
 function botc_patch:storyteller_tools/boomdandy/validate_population
 execute unless score boomdandy_population_ok botc_patch matches 1 run return 0
 function botc_patch:storyteller_tools/boomdandy/validate_selection
-execute unless score boomdandy_selected botc_patch matches 3 run return run tellraw @s [{text:"Choose exactly three living players before confirming.",color:"red"}]
+execute unless score boomdandy_selected botc_patch matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Choose exactly three living players before confirming.",color:"gray",bold:false}]
 scoreboard players set boomdandy_stage botc_patch 2
 scoreboard players set grim_notice_boomdandy_done botc_patch 1
 scoreboard players set boomdandy_elimination_remaining botc_patch 0
@@ -21,5 +21,5 @@ execute as @a[tag=botc_boomdandy_eliminate] run scoreboard players add boomdandy
 function botc_patch:storyteller_tools/boomdandy/prepare_final_seats
 data remove storage botc_patch:dialogs boomdandy
 data remove storage botc_patch:dialogs boomdandy_selection
-tellraw @s [{text:"Final three locked. Everyone else will die one by one.",color:"gold"}]
+tellraw @s [{text:"Final Three locked. Everyone else will die one by one.",color:"gold"}]
 execute if score boomdandy_elimination_remaining botc_patch matches 0 run function botc_patch:storyteller_tools/boomdandy/announce/start

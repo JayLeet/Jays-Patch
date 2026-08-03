@@ -11,6 +11,7 @@ $OutputRoot = Join-Path $PatchRoot "datapack/data/botc_patch/function/buffet/dra
 $RolePath = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function/admin/setup/set_from_menu.mcfunction"
 $CharactersPath = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function/admin/setup/characters.mcfunction"
 $ExtensionPath = Join-Path $PatchRoot "role-extensions.json"
+$ContractPath = Join-Path $PatchRoot "upstream-contract.json"
 $RulesPath = Join-Path $PatchRoot "buffet-rules.json"
 $JinxPath = Join-Path $PatchRoot "buffet-jinxes.json"
 $DialogIconPath = Join-Path $PatchRoot "dialog-icons.json"
@@ -52,6 +53,8 @@ $roles = @(Get-SybillianRoleCatalog `
     -SetFromMenuPath $RolePath `
     -CharactersPath $CharactersPath `
     -ExtensionPath $ExtensionPath)
+$disabledRoleReasons = Get-BotcDisabledRoleMap -ContractPath $ContractPath -RoleCatalog $roles
+$selectableRoles = @($roles | Where-Object { -not $disabledRoleReasons.ContainsKey([string] $_.Role) })
 $rules = Get-Content -LiteralPath $RulesPath -Raw | ConvertFrom-Json
 $jinxCatalog = [System.IO.File]::ReadAllText($JinxPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
 $roleByName = @{}
@@ -84,13 +87,75 @@ $categoryCode = @{
     minion = 3
     demon = 4
 }
+if ([int] $rules.schemaVersion -ne 2) {
+    throw "Draft Buffet requires buffet-rules.json schemaVersion 2."
+}
+if ([bool] $rules.draft.generalRecycling -or
+    [string] $rules.draft.requiredTypeCompletionRecycling -cne "exact-shortfall-only") {
+    throw "Draft Buffet requires exact-shortfall recycling for every still-required type, without general recycling."
+}
+if ([int] $rules.draft.randomization.ordinaryRouteWeight -ne 90 -or
+    [int] $rules.draft.randomization.demonSpecialRouteWeight -ne 10 -or
+    [int] $rules.draft.randomization.fakeAtheistPercent -ne 10) {
+    throw "Draft Buffet route weights must remain at the accepted 90/10 Normal split and single 10% fake-Atheist chance."
+}
+$archetypeTickets = @([int[]] $rules.draft.randomization.archetypeTickets)
+if ($archetypeTickets.Count -ne 3 -or $archetypeTickets[0] -ne 4 -or $archetypeTickets[1] -ne 2 -or $archetypeTickets[2] -ne 1) {
+    throw "Draft Buffet archetype tickets must be the accepted 4/2/1 sequence."
+}
+if ([string] $rules.draft.randomization.hiddenSpecialOpportunity -cne "first-internal-card-of-first-player-hand") {
+    throw "Draft Buffet requires hidden-special diversion only before a player's first ordinary hand is shown."
+}
+if ([string] $rules.draft.topologyRules.legion.baseOutsiderTarget -cne "topology-wins" -or
+    [string] $rules.draft.topologyRules.legion.protectedOutsiderSource -cne "positive-storyteller-modifier-only") {
+    throw "Draft Buffet Legion topology must override the base Outsider target while preserving deliberate positive Storyteller additions."
+}
+if ([string] $rules.draft.topologyRules.trustedDemonEditor.availability -cne "every-night" -or
+    [bool] $rules.draft.topologyRules.trustedDemonEditor.automaticThirdNightPrompt) {
+    throw "Draft Buffet requires the trusted every-night Demon editor without an automatic third-night prompt."
+}
+
+$archetypeIds = @($rules.draft.archetypes.PSObject.Properties.Name)
+$archetypeByRole = @{}
+$archetypeIndexById = @{}
+for ($index = 0; $index -lt $archetypeIds.Count; $index++) {
+    $archetypeId = [string] $archetypeIds[$index]
+    $definition = $rules.draft.archetypes.$archetypeId
+    $type = [string] $definition.type
+    if ($archetypeId -notmatch '^[a-z0-9_]+$' -or -not $categoryCode.ContainsKey($type)) {
+        throw "Draft Buffet archetype '$archetypeId' has an invalid id or character type."
+    }
+    $archetypeIndexById[$archetypeId] = $index + 1
+    foreach ($roleNameValue in @($definition.characters)) {
+        $roleName = [string] $roleNameValue
+        if (-not $roleByName.ContainsKey($roleName)) {
+            throw "Draft Buffet archetype '$archetypeId' references unsupported role '$roleName'."
+        }
+        if ([string] $roleByName[$roleName].Category -ne $type) {
+            throw "Draft Buffet archetype '$archetypeId' assigns '$roleName' to '$type', but the trusted catalog assigns '$([string] $roleByName[$roleName].Category)'."
+        }
+        if ($archetypeByRole.ContainsKey($roleName)) {
+            throw "Draft Buffet role '$roleName' has more than one primary archetype."
+        }
+        $archetypeByRole[$roleName] = $archetypeId
+    }
+}
+foreach ($role in $roles) {
+    if (-not $archetypeByRole.ContainsKey([string] $role.Role)) {
+        throw "Draft Buffet role '$([string] $role.Role)' has no primary archetype."
+    }
+}
+if ($archetypeByRole.Count -ne $roles.Count) {
+    throw "Draft Buffet archetype coverage must match the trusted role catalog exactly."
+}
+
 $teams = @(
     "01_red", "02_orange", "03_yellow", "04_lime", "05_green",
     "06_mint", "07_cyan", "08_blue", "09_navy", "10_purple",
     "11_magenta", "12_lavender", "13_white", "14_gray", "15_black"
 )
 $directlyHidden = @("drunk", "lunatic", "marionette")
-$directRoles = @($roles | Where-Object { [string] $_.Role -notin $directlyHidden })
+$directRoles = @($selectableRoles | Where-Object { [string] $_.Role -notin $directlyHidden })
 
 function Get-RoleId {
     param([string] $Role)
@@ -102,6 +167,7 @@ function Get-RoleId {
 }
 
 $roleIds = @{
+    alchemist = Get-RoleId "alchemist"
     atheist = Get-RoleId "atheist"
     balloonist = Get-RoleId "balloonist"
     baron = Get-RoleId "baron"
@@ -269,10 +335,13 @@ function New-RoleObject {
     param([object] $Role)
 
     $glyph = Get-BotcRoleIconGlyph -RoleScore ([int] $Role.Id)
-    return '{{actual:{0},perceived:{0},alignment:{1},perceived_alignment:{1},category:{2},hermit_forced_ability:0,name:"{3}",color:"{4}",glyph:"{5}"}}' -f `
+    $archetype = [string] $archetypeByRole[[string] $Role.Role]
+    return '{{actual:{0},perceived:{0},alignment:{1},perceived_alignment:{1},category:{2},archetype:"{3}",archetype_id:{4},hidden:0b,hidden_mode:0,hermit_forced_ability:0,name:"{5}",color:"{6}",glyph:"{7}"}}' -f `
         [int] $Role.Id,
         [int] $Role.Alignment,
         [int] $categoryCode[[string] $Role.Category],
+        $archetype,
+        [int] $archetypeIndexById[$archetype],
         [string] $Role.Name,
         [string] $Role.Color,
         $glyph
@@ -295,9 +364,9 @@ foreach ($line in New-Header "Initialize Draft Buffet seat state from the locked
     $initSeatLines.Add($line)
 }
 $initSeatLines.Add('data remove storage botc_patch:buffet draft')
-$initSeatLines.Add('data modify storage botc_patch:buffet draft set value {seats:{}}')
+$initSeatLines.Add('data modify storage botc_patch:buffet draft set value {schema_version:2,route:{kind:0,real_special:0b,fake_atheist_rolled:0b,fake_atheist_used:0b},target:{town:0,outsider:0,minion:0,demon:0},topology:{kind:"none",status:0,owner_seat:0,outsider_floor:0,snapshot:{}},retirement:{},reservations:{},seats:{}}')
 for ($seat = 1; $seat -le 15; $seat++) {
-    $initSeatLines.Add(('data modify storage botc_patch:buffet draft.seats.s{0} set value {{active:0b,name:"Open Seat",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{{}},seen:{{}},history:{{}}}}' -f $seat))
+    $initSeatLines.Add(('data modify storage botc_patch:buffet draft.seats.s{0} set value {{active:0b,name:"Open Seat",status:0,route:0,round:0,hand_id:0,internal_draw:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,archetype:"",hidden_mode:0,forced_category:0,modifier_owner:0b,topology_modifier:"none",protected_outsider:0,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{{}},internal_offers:{{}},seen:{{}},exclusions:{{}},history:{{}},special:{{active:0b,real:0b,progress:0,discards:0,actual:0,hidden_mode:0,seen:{{}}}}}}' -f $seat))
     $initSeatLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. run data modify storage botc_patch:buffet draft.seats.s{0}.active set value 1b' -f $seat))
     $initSeatLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. run data modify storage botc_patch:buffet draft.seats.s{0}.name set from storage botc_patch:buffet roster.p{0}' -f $seat))
 }
@@ -313,11 +382,48 @@ foreach ($line in New-Header "Initialize the non-Traveler Draft role pool.") {
     $poolLines.Add($line)
 }
 foreach ($role in $roles) {
-    $poolLines.Add(('scoreboard players set draft_available_{0} botc_patch 1' -f [int] $role.Id))
+    $initialAvailability = if ($disabledRoleReasons.ContainsKey([string] $role.Role)) { 0 } else { 1 }
+    $poolLines.Add(('scoreboard players set draft_available_{0} botc_patch {1}' -f [int] $role.Id, $initialAvailability))
     $poolLines.Add(('scoreboard players set draft_chosen_{0} botc_patch 0' -f [int] $role.Id))
     $poolLines.Add(('scoreboard players set draft_blocked_{0} botc_patch 0' -f [int] $role.Id))
+    $poolLines.Add(('scoreboard players set draft_reserved_{0} botc_patch 0' -f [int] $role.Id))
+    $poolLines.Add(('scoreboard players set draft_discarded_{0} botc_patch 0' -f [int] $role.Id))
+    $poolLines.Add(('scoreboard players set draft_completion_recycled_{0} botc_patch 0' -f [int] $role.Id))
 }
 Write-GeneratedFile "init_pool.mcfunction" $poolLines
+
+$clearStateLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Remove persistent Draft randomization, route, topology, retirement, and temporary selection state.") {
+    $clearStateLines.Add($line)
+}
+foreach ($score in @(
+    'draft_route_pending', 'draft_route_kind', 'draft_route_real_special', 'draft_route_player', 'draft_route_roll',
+    'draft_special_outsider_target', 'draft_fake_atheist_rolled', 'draft_fake_atheist_used', 'draft_fake_atheist_roll',
+    'draft_hand_id', 'draft_internal_position', 'draft_diversion', 'draft_faceup_outsider', 'draft_hand_size',
+    'draft_special_active', 'draft_special_discards', 'draft_special_real', 'draft_special_pick', 'draft_special_pool',
+    'draft_topology_status', 'draft_topology_owner', 'draft_lil_monsta_active', 'draft_lil_monsta_redraft',
+    'draft_lord_of_typhon_active', 'draft_lord_of_typhon_required', 'draft_lord_of_typhon_valid',
+    'draft_summoner_active', 'draft_alchemist_summoner_active', 'draft_summoner_owner', 'draft_summoner_resolution_pending',
+    'draft_summoner_target_seat', 'draft_legion_outsider_floor', 'draft_legion_protected_delta',
+    'draft_legion_unfilled_floor', 'draft_legion_waiting_available', 'draft_legion_floor_possible', 'draft_legion_choose_found',
+    'draft_protected_outsider_delta',
+    'draft_completion_shortfall', 'draft_completion_pool', 'draft_completion_pick', 'draft_completion_cursor',
+    'draft_completion_done', 'draft_completion_unused', 'draft_open_type_count', 'draft_category_roll',
+    'draft_type_pool_town', 'draft_type_pool_outsider', 'draft_type_pool_minion', 'draft_type_pool_demon',
+    'draft_role_picked', 'draft_mask_picked', 'draft_hidden_picked', 'draft_offer_failed'
+)) {
+    $clearStateLines.Add(('scoreboard players reset {0} botc_patch' -f $score))
+}
+$clearStateLines.Add('scoreboard players reset @a botc_grim_edit_mode')
+foreach ($archetypeId in $archetypeIds) {
+    $clearStateLines.Add(('scoreboard players reset draft_arch_{0} botc_patch' -f [int] $archetypeIndexById[$archetypeId]))
+}
+foreach ($role in $roles) {
+    foreach ($prefix in @('available', 'chosen', 'blocked', 'reserved', 'discarded', 'completion_recycled')) {
+        $clearStateLines.Add(('scoreboard players reset draft_{0}_{1} botc_patch' -f $prefix, [int] $role.Id))
+    }
+}
+Write-GeneratedFile "clear_state.mcfunction" $clearStateLines
 
 $conflictLines = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Privately resolve mutually exclusive Draft branches before generating any player offer.") {
@@ -368,7 +474,6 @@ $targetLines.Add('scoreboard players set draft_assigned_outsider botc_patch 0')
 $targetLines.Add('scoreboard players set draft_assigned_minion botc_patch 0')
 $targetLines.Add('scoreboard players set draft_assigned_demon botc_patch 0')
 $targetLines.Add('scoreboard players set draft_assigned_total botc_patch 0')
-$targetLines.Add('scoreboard players set draft_recycling botc_patch 0')
 $targetLines.Add('scoreboard players set draft_modifier_pending botc_patch 0')
 $targetLines.Add('scoreboard players set draft_ready botc_patch 0')
 $targetLines.Add('scoreboard players set draft_manual_override botc_patch 0')
@@ -379,7 +484,6 @@ $targetLines.Add('scoreboard players set draft_required_damsel botc_patch 0')
 $targetLines.Add('scoreboard players set draft_king_offer_consumed botc_patch 0')
 $targetLines.Add('scoreboard players set draft_damsel_offer_consumed botc_patch 0')
 $targetLines.Add('scoreboard players set draft_required_legion botc_patch 0')
-$targetLines.Add('scoreboard players set draft_required_riot botc_patch 0')
 $targetLines.Add('scoreboard players set draft_required_vi botc_patch 0')
 $targetLines.Add('scoreboard players set draft_forced_role botc_patch 0')
 $targetLines.Add('scoreboard players set draft_bounty_pending botc_patch 0')
@@ -387,14 +491,40 @@ $targetLines.Add('scoreboard players set draft_bounty_resolved botc_patch 0')
 $targetLines.Add('scoreboard players set draft_bounty_target_seat botc_patch 0')
 $targetLines.Add('scoreboard players set draft_atheist_active botc_patch 0')
 $targetLines.Add('scoreboard players set draft_legion_active botc_patch 0')
-$targetLines.Add('scoreboard players set draft_riot_active botc_patch 0')
 $targetLines.Add('scoreboard players set draft_vi_initialized botc_patch 0')
 $targetLines.Add('scoreboard players set draft_outsider_absolute_active botc_patch 0')
 $targetLines.Add('scoreboard players set draft_outsider_absolute_seat botc_patch 0')
 $targetLines.Add('scoreboard players set draft_outsider_absolute_target botc_patch 0')
 $targetLines.Add('scoreboard players set draft_outsider_absolute_role botc_patch 0')
-$targetLines.Add('scoreboard players set draft_opening_offer_active botc_patch 1')
-$targetLines.Add('scoreboard players set draft_topology_offered botc_patch 0')
+$targetLines.Add('scoreboard players set draft_route_kind botc_patch 0')
+$targetLines.Add('scoreboard players set draft_route_real_special botc_patch 0')
+$targetLines.Add('scoreboard players set draft_route_player botc_patch 0')
+$targetLines.Add('scoreboard players set draft_route_roll botc_patch 0')
+$targetLines.Add('scoreboard players set draft_special_outsider_target botc_patch 0')
+$targetLines.Add('scoreboard players set draft_fake_atheist_rolled botc_patch 0')
+$targetLines.Add('scoreboard players set draft_fake_atheist_used botc_patch 0')
+$targetLines.Add('scoreboard players set draft_hand_id botc_patch 0')
+$targetLines.Add('scoreboard players set draft_internal_position botc_patch 0')
+$targetLines.Add('scoreboard players set draft_diversion botc_patch 0')
+$targetLines.Add('scoreboard players set draft_faceup_outsider botc_patch 0')
+$targetLines.Add('scoreboard players set draft_hand_size botc_patch 0')
+$targetLines.Add('scoreboard players set draft_special_active botc_patch 0')
+$targetLines.Add('scoreboard players set draft_special_discards botc_patch 0')
+$targetLines.Add('scoreboard players set draft_special_real botc_patch 0')
+$targetLines.Add('scoreboard players set draft_topology_status botc_patch 0')
+$targetLines.Add('scoreboard players set draft_topology_owner botc_patch 0')
+$targetLines.Add('scoreboard players set draft_lil_monsta_active botc_patch 0')
+$targetLines.Add('scoreboard players set draft_lil_monsta_redraft botc_patch 0')
+$targetLines.Add('scoreboard players set draft_lord_of_typhon_active botc_patch 0')
+$targetLines.Add('scoreboard players set draft_lord_of_typhon_required botc_patch 0')
+$targetLines.Add('scoreboard players set draft_lord_of_typhon_valid botc_patch 0')
+$targetLines.Add('scoreboard players set draft_summoner_active botc_patch 0')
+$targetLines.Add('scoreboard players set draft_alchemist_summoner_active botc_patch 0')
+$targetLines.Add('scoreboard players set draft_summoner_owner botc_patch 0')
+$targetLines.Add('scoreboard players set draft_summoner_resolution_pending botc_patch 0')
+foreach ($archetypeId in $archetypeIds) {
+    $targetLines.Add(('scoreboard players set draft_arch_{0} botc_patch 0' -f [int] $archetypeIndexById[$archetypeId]))
+}
 Write-GeneratedFile "init_targets.mcfunction" $targetLines
 
 # Recalculate category needs after every completed choice or setup modifier.
@@ -410,10 +540,282 @@ Write-GeneratedFile "recount_needs.mcfunction" (
         'scoreboard players operation draft_need_demon botc_patch = draft_target_demon botc_patch',
         'scoreboard players operation draft_need_demon botc_patch -= draft_assigned_demon botc_patch',
         'scoreboard players operation draft_need_total botc_patch = buffet_roster_count botc_patch',
-        'scoreboard players operation draft_need_total botc_patch -= draft_assigned_total botc_patch'
+        'scoreboard players operation draft_need_total botc_patch -= draft_assigned_total botc_patch',
+        'execute store result storage botc_patch:buffet draft.target.town int 1 run scoreboard players get draft_target_town botc_patch',
+        'execute store result storage botc_patch:buffet draft.target.outsider int 1 run scoreboard players get draft_target_outsider botc_patch',
+        'execute store result storage botc_patch:buffet draft.target.minion int 1 run scoreboard players get draft_target_minion botc_patch',
+        'execute store result storage botc_patch:buffet draft.target.demon int 1 run scoreboard players get draft_target_demon botc_patch'
     )
 )
 
+Write-GeneratedFile "route/show_choices.mcfunction" (
+    (New-Header "Show the private Storyteller choice between Normal and Atheist Draft.") +
+    @(
+        'dialog show @s {type:"multi_action",title:{text:"Choose Draft Type",color:"aqua",bold:true},body:[{type:"plain_message",contents:{text:"This choice is private. Choose which kind of Draft Buffet to start.",color:"gray"},width:400}],columns:2,actions:[{label:{text:"Normal Draft",color:"gold",bold:true},action:{type:"run_command",command:"/trigger botc_buffet_action set 7110"}},{label:{text:"Atheist Draft",color:"green",bold:true},action:{type:"run_command",command:"/trigger botc_buffet_action set 7111"}}],exit_action:{label:"Back",action:{type:"run_command",command:"/trigger botc_buffet_action set 7112"}}}'
+    )
+)
+
+Write-GeneratedFile "route/initialize.mcfunction" (
+    (New-Header "Lock the roster and initialize all trusted Draft state after the private route choice.") +
+    @(
+        'scoreboard players set buffet_roster_locked botc_patch 1',
+        'function botc_patch:buffet/roster/assign',
+        'function botc_patch:buffet/draft/init_seats',
+        'function botc_patch:buffet/draft/init_pool',
+        'function botc_patch:buffet/draft/init_targets',
+        'function botc_patch:buffet/draft/init_conflicts',
+        'scoreboard players set buffet_draft_ready botc_patch 1',
+        'tag @a[tag=storyteller] remove botc_setup_room_active',
+        'execute as @a run function botc_patch:setup_tools/clear_items',
+        'execute as @a[tag=storyteller] run function botc_patch:setup_room/clear_hotbar_state',
+        'execute as @a[tag=botc_buffet_roster] run item replace entity @s hotbar.0 with minecraft:air',
+        'function botc_patch:setup_wall/clear_highlights',
+        'execute as @a[tag=storyteller] run function botc_patch:storyteller_tools/teleport_den',
+        'time set midnight'
+    )
+)
+
+Write-GeneratedFile "route/select_normal.mcfunction" (
+    (New-Header "Resolve Normal Draft's one 90/10 ordinary-versus-guaranteed-real-special roll.") +
+    @(
+        'execute unless score draft_route_pending botc_patch matches 1 run return 0',
+        'function botc_patch:buffet/draft/route/initialize',
+        'scoreboard players set draft_route_pending botc_patch 0',
+        'scoreboard players set draft_route_kind botc_patch 1',
+        'scoreboard players set draft_route_real_special botc_patch 0',
+        'data modify storage botc_patch:buffet draft.route.kind set value 1',
+        'data modify storage botc_patch:buffet draft.route.real_special set value 0b',
+        'execute store result score draft_route_roll botc_patch run random value 1..10',
+        'execute if score draft_route_roll botc_patch matches 1 run scoreboard players set draft_route_kind botc_patch 2',
+        'execute if score draft_route_roll botc_patch matches 1 run scoreboard players set draft_route_real_special botc_patch 1',
+        'execute if score draft_route_roll botc_patch matches 1 run data modify storage botc_patch:buffet draft.route.kind set value 2',
+        'execute if score draft_route_roll botc_patch matches 1 run data modify storage botc_patch:buffet draft.route.real_special set value 1b',
+        'execute if score draft_route_roll botc_patch matches 1 run scoreboard players set draft_route_pending botc_patch 2',
+        'execute if score draft_route_roll botc_patch matches 1 run return run function botc_patch:buffet/draft/route/show_special_target',
+        'function botc_patch:buffet/draft/route/start_ready'
+    )
+)
+
+Write-GeneratedFile "route/select_atheist.mcfunction" (
+    (New-Header "Initialize the Storyteller-selected guaranteed-real Atheist route.") +
+    @(
+        'execute unless score draft_route_pending botc_patch matches 1 run return 0',
+        'function botc_patch:buffet/draft/route/initialize',
+        'scoreboard players set draft_route_pending botc_patch 2',
+        'scoreboard players set draft_route_kind botc_patch 3',
+        'scoreboard players set draft_route_real_special botc_patch 0',
+        'data modify storage botc_patch:buffet draft.route.kind set value 3',
+        'data modify storage botc_patch:buffet draft.route.real_special set value 0b',
+        'function botc_patch:buffet/draft/route/show_atheist_target'
+    )
+)
+
+foreach ($routePrompt in @(
+    @{ Name = "special"; Title = "Special Draft: Outsider Count"; Body = "Choose the Outsider count for this Draft. If Legion is selected, Legion may change it. This choice is private."; ActionBase = 7700; Maximum = { param($count) [Math]::Min(($count - $standardCounts[$count][2] - 2), ($count - [Math]::Floor($count / 2) - 1)) } },
+    @{ Name = "atheist"; Title = "Atheist Draft: Outsider Count"; Body = "Choose how many Outsiders will be in this game. This choice is private."; ActionBase = 7730; Maximum = { param($count) $count - 1 } }
+)) {
+    $showLines = [System.Collections.Generic.List[string]]::new()
+    foreach ($line in New-Header "Show every legal final Outsider target for the $($routePrompt.Name) route.") {
+        $showLines.Add($line)
+    }
+    foreach ($count in 5..15) {
+        $maximum = & $routePrompt.Maximum $count
+        $actions = @()
+        foreach ($target in 0..$maximum) {
+            $actions += '{label:{text:"' + $target + ' Outsider' + $(if ($target -eq 1) { '' } else { 's' }) + '",color:"aqua"},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + ($routePrompt.ActionBase + $target) + '"}}'
+        }
+        $dialog = 'execute if score buffet_roster_count botc_patch matches ' + $count + ' run dialog show @s {type:"multi_action",title:{text:"' + $routePrompt.Title + '",color:"gold",bold:true},body:[{type:"plain_message",contents:{text:"' + $routePrompt.Body + '",color:"gray"},width:400}],columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Back",action:{type:"run_command",command:"/trigger botc_buffet_action set 7112"}}}'
+        $showLines.Add($dialog)
+    }
+    Write-GeneratedFile "route/show_$($routePrompt.Name)_target.mcfunction" $showLines
+}
+
+Write-GeneratedFile "route/reopen.mcfunction" (
+    (New-Header "Reopen whichever private route decision is currently pending.") +
+    @(
+        'execute if score draft_route_pending botc_patch matches 1 run return run function botc_patch:buffet/draft/route/show_choices',
+        'execute if score draft_route_pending botc_patch matches 2 if score draft_route_kind botc_patch matches 2 run return run function botc_patch:buffet/draft/route/show_special_target',
+        'execute if score draft_route_pending botc_patch matches 2 if score draft_route_kind botc_patch matches 3 run function botc_patch:buffet/draft/route/show_atheist_target'
+    )
+)
+
+Write-GeneratedFile "route/apply_target.mcfunction" (
+    (New-Header "Apply a validated pre-draft route target before reserving its player.") +
+    @(
+        '$scoreboard players set draft_special_outsider_target botc_patch $(target)',
+        '$scoreboard players set draft_target_outsider botc_patch $(target)',
+        'execute if score draft_route_kind botc_patch matches 3 run scoreboard players set draft_target_minion botc_patch 0',
+        'execute if score draft_route_kind botc_patch matches 3 run scoreboard players set draft_target_demon botc_patch 0',
+        'execute if score draft_route_kind botc_patch matches 3 run scoreboard players set draft_atheist_active botc_patch 1',
+        'execute if score draft_route_kind botc_patch matches 3 run scoreboard players set draft_topology_status botc_patch 1',
+        'execute if score draft_route_kind botc_patch matches 3 run data modify storage botc_patch:buffet draft.topology.kind set value "atheist"',
+        'execute if score draft_route_kind botc_patch matches 3 run data modify storage botc_patch:buffet draft.topology.status set value 1',
+        'scoreboard players operation draft_target_town botc_patch = buffet_roster_count botc_patch',
+        'scoreboard players operation draft_target_town botc_patch -= draft_target_outsider botc_patch',
+        'scoreboard players operation draft_target_town botc_patch -= draft_target_minion botc_patch',
+        'scoreboard players operation draft_target_town botc_patch -= draft_target_demon botc_patch',
+        'scoreboard players set draft_route_pending botc_patch 0',
+        'function botc_patch:buffet/draft/recount_needs',
+        'execute if score draft_route_kind botc_patch matches 2 run tag @r[tag=botc_buffet_draft_waiting] add botc_buffet_draft_route_special',
+        'execute if score draft_route_kind botc_patch matches 3 run tag @r[tag=botc_buffet_draft_waiting] add botc_buffet_draft_route_atheist',
+        'execute if score draft_route_kind botc_patch matches 2 as @a[tag=botc_buffet_draft_route_special,limit=1] run scoreboard players operation draft_route_player botc_patch = @s id',
+        'execute if score draft_route_kind botc_patch matches 3 as @a[tag=botc_buffet_draft_route_atheist,limit=1] run scoreboard players operation draft_route_player botc_patch = @s id',
+        'execute store result storage botc_patch:buffet draft.route.player int 1 run scoreboard players get draft_route_player botc_patch',
+        'function botc_patch:buffet/draft/route/start_ready'
+    )
+)
+
+Write-GeneratedFile "route/start_ready.mcfunction" (
+    (New-Header "Start player-facing Draft presentation only after the trusted route is fully initialized.") +
+    @(
+        'execute as @a at @s run playsound ct:clocktower.bell voice @s ~ ~ ~ 1 0.7',
+        'title @a[tag=botc_buffet_roster] times 10 60 20',
+        'title @a[tag=botc_buffet_roster] subtitle {"text":"Discard up to 2 times to receive different options.","color":"gray"}',
+        'title @a[tag=botc_buffet_roster] title {"text":"Choose your character!","color":"gold","bold":true}',
+        'tellraw @a [{"text":"Draft Buffet","color":"aqua","bold":true},{"text":" is about to begin...","color":"gray","bold":false}]',
+        'tellraw @a[tag=storyteller] [{"text":"Use ","color":"gray"},{"text":"Buffet Review","color":"gold","bold":true},{"text":" to check everyone\u0027s choices, finish any special character setup, and start the game.","color":"gray","bold":false}]',
+        'function botc_patch:buffet/item_checks',
+        'function botc_patch:buffet/draft/next_turn',
+        'scoreboard players set botc_item_maintenance_pending botc_patch 1'
+    )
+)
+
+for ($target = 0; $target -le 15; $target++) {
+    $targetLines = [System.Collections.Generic.List[string]]::new()
+    foreach ($line in New-Header "Apply the trusted pre-draft Outsider target $target when it is legal for the pending route.") {
+        $targetLines.Add($line)
+    }
+    $targetLines.Add('execute unless score draft_route_pending botc_patch matches 2 run return 0')
+    $targetLines.Add('scoreboard players set draft_target_legal botc_patch 0')
+    foreach ($count in 5..15) {
+        $specialMaximum = [Math]::Min(($count - $standardCounts[$count][2] - 2), ($count - [Math]::Floor($count / 2) - 1))
+        if ($target -le $specialMaximum) {
+            $targetLines.Add(('execute if score draft_route_kind botc_patch matches 2 if score buffet_roster_count botc_patch matches {0} run scoreboard players set draft_target_legal botc_patch 1' -f $count))
+        }
+        if ($target -le ($count - 1)) {
+            $targetLines.Add(('execute if score draft_route_kind botc_patch matches 3 if score buffet_roster_count botc_patch matches {0} run scoreboard players set draft_target_legal botc_patch 1' -f $count))
+        }
+    }
+    $targetLines.Add('execute unless score draft_target_legal botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That Outsider count does not work for this Draft and player count. Choose a different count.","color":"gray","bold":false}]')
+    $targetLines.Add(('data modify storage botc_patch:buffet action.target set value {0}' -f $target))
+    $targetLines.Add('function botc_patch:buffet/draft/route/apply_target with storage botc_patch:buffet action')
+    Write-GeneratedFile "route/target_$target.mcfunction" (
+        $targetLines
+    )
+}
+
+Write-GeneratedFile "atheist/dialog.mcfunction" (
+    (New-Header "Present the identical forced Atheist card for real and hidden Atheist routes.") +
+    @(
+        '$dialog show @s {type:"multi_action",title:{text:"Draft Buffet",color:"aqua",bold:true},body:[{type:"plain_message",contents:{text:"You are the Atheist, but you may actually be the Drunk.",color:"gray"},width:400}],columns:1,actions:[{label:{text:"$(glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(name)",font:"minecraft:default",color:"$(color)"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set 7001"}}],exit_action:{label:"Close",action:{type:"run_command",command:"/trigger botc_buffet_action set 7011"}}}'
+    )
+)
+
+Write-GeneratedFile "atheist/store.mcfunction" (
+    (New-Header "Store one forced perceived-Athiest card without exposing its trusted route.") +
+    @(
+        'scoreboard players add draft_hand_id botc_patch 1',
+        'execute store result storage botc_patch:buffet action.picked.hand_id int 1 run scoreboard players get draft_hand_id botc_patch',
+        'data modify storage botc_patch:buffet action.picked.internal_draw set value 1',
+        'execute store result storage botc_patch:buffet action.picked.route int 1 run scoreboard players get draft_route_kind botc_patch',
+        '$data modify storage botc_patch:buffet action.picked.seat set value $(seat)',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).round set value 2',
+        '$execute store result storage botc_patch:buffet draft.seats.s$(seat).hand_id int 1 run scoreboard players get draft_hand_id botc_patch',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).offers set value {}',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).offers.o1 set from storage botc_patch:buffet action.picked',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r$(actual) set value 1b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r$(perceived) set value 1b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).exclusions.r$(actual) set value 1b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).exclusions.r$(perceived) set value 1b',
+        'function botc_patch:buffet/draft/atheist/dialog with storage botc_patch:buffet action.picked'
+    )
+)
+
+Write-GeneratedFile "atheist/reopen.mcfunction" (
+    (New-Header "Reopen the acting player's forced Atheist card without exposing trusted state.") +
+    @(
+        '$function botc_patch:buffet/draft/atheist/dialog with storage botc_patch:buffet draft.seats.s$(seat).offers.o1'
+    )
+)
+
+Write-GeneratedFile "atheist/offer_real.mcfunction" (
+    (New-Header "Offer the guaranteed real Atheist through the shared forced presentation.") +
+    @(
+        ('data modify storage botc_patch:buffet action.picked set value {0}' -f (New-RoleObject $roleByName["atheist"])),
+        'data modify storage botc_patch:buffet action.picked.seat set from storage botc_patch:buffet action.seat',
+        'function botc_patch:buffet/draft/atheist/store with storage botc_patch:buffet action.picked'
+    )
+)
+
+$hiddenArchetype = [string] $archetypeByRole["drunk"]
+$hiddenArchetypeIndex = [int] $archetypeIndexById[$hiddenArchetype]
+Write-GeneratedFile "atheist/offer_fake.mcfunction" (
+    (New-Header "Choose Drunk or Hermit-Drunk equally when both hidden Atheist actuals remain legal.") +
+    @(
+        'scoreboard players set draft_fake_atheist_pool botc_patch 0',
+        ('execute if score draft_available_{0} botc_patch matches 1 run scoreboard players add draft_fake_atheist_pool botc_patch 1' -f $roleIds.drunk),
+        ('execute if score draft_available_{0} botc_patch matches 1 if score draft_available_{1} botc_patch matches 1 run scoreboard players add draft_fake_atheist_pool botc_patch 1' -f $roleIds.drunk, $roleIds.hermit),
+        'execute unless score draft_fake_atheist_pool botc_patch matches 1.. run return run function botc_patch:buffet/draft/next_turn',
+        'execute store result score draft_fake_atheist_pick botc_patch run random value 0..2147483646',
+        'scoreboard players operation draft_fake_atheist_pick botc_patch %= draft_fake_atheist_pool botc_patch',
+        'scoreboard players add draft_fake_atheist_pick botc_patch 1',
+        ('data modify storage botc_patch:buffet action.picked set value {0}' -f (New-RoleObject $roleByName["atheist"])),
+        ('execute if score draft_fake_atheist_pick botc_patch matches 1 run data modify storage botc_patch:buffet action.picked.actual set value {0}' -f $roleIds.drunk),
+        'execute if score draft_fake_atheist_pick botc_patch matches 1 run data modify storage botc_patch:buffet action.picked.hidden_mode set value 6',
+        ('execute if score draft_fake_atheist_pick botc_patch matches 2 run data modify storage botc_patch:buffet action.picked.actual set value {0}' -f $roleIds.hermit),
+        'execute if score draft_fake_atheist_pick botc_patch matches 2 run data modify storage botc_patch:buffet action.picked.hidden_mode set value 7',
+        ('execute if score draft_fake_atheist_pick botc_patch matches 2 run data modify storage botc_patch:buffet action.picked.hermit_forced_ability set value {0}' -f $roleIds.drunk),
+        'data modify storage botc_patch:buffet action.picked.alignment set value 1',
+        'data modify storage botc_patch:buffet action.picked.category set value 2',
+        ('data modify storage botc_patch:buffet action.picked.archetype set value "{0}"' -f $hiddenArchetype),
+        ('data modify storage botc_patch:buffet action.picked.archetype_id set value {0}' -f $hiddenArchetypeIndex),
+        'data modify storage botc_patch:buffet action.picked.hidden set value 1b',
+        'data modify storage botc_patch:buffet action.picked.seat set from storage botc_patch:buffet action.seat',
+        'function botc_patch:buffet/draft/atheist/store with storage botc_patch:buffet action.picked'
+    )
+)
+
+Write-GeneratedFile "atheist/maybe_fake.mcfunction" (
+    (New-Header "Roll the single 10% fake-Atheist opportunity at the first legal non-Atheist moment.") +
+    @(
+        'execute if score draft_route_kind botc_patch matches 3 run return 0',
+        'execute if score draft_fake_atheist_rolled botc_patch matches 1 run return 0',
+        'execute unless score draft_need_outsider botc_patch matches 1.. run return 0',
+        'execute if score draft_need_outsider botc_patch = draft_need_total botc_patch run return 0',
+        ('execute unless score draft_available_{0} botc_patch matches 1 run return 0' -f $roleIds.drunk),
+        'scoreboard players set draft_fake_atheist_rolled botc_patch 1',
+        'data modify storage botc_patch:buffet draft.route.fake_atheist_rolled set value 1b',
+        'execute store result score draft_fake_atheist_roll botc_patch run random value 1..10',
+        'execute unless score draft_fake_atheist_roll botc_patch matches 1 run return 0',
+        'scoreboard players set draft_fake_atheist_used botc_patch 1',
+        'data modify storage botc_patch:buffet draft.route.fake_atheist_used set value 1b',
+        'tag @r[tag=botc_buffet_draft_waiting,tag=!botc_buffet_draft_route_special] add botc_buffet_draft_fake_atheist'
+    )
+)
+
+foreach ($kind in @(
+    @{ Name = "special"; Tag = "botc_buffet_draft_route_special"; Offer = "special/start_real" },
+    @{ Name = "atheist"; Tag = "botc_buffet_draft_route_atheist"; Offer = "atheist/offer_real" },
+    @{ Name = "fake_atheist"; Tag = "botc_buffet_draft_fake_atheist"; Offer = "atheist/offer_fake" }
+)) {
+    Write-GeneratedFile "begin_$($kind.Name).mcfunction" (
+        (New-Header "Begin the reserved $($kind.Name) player flow without exposing trusted route state.") +
+        @(
+            'tag @s add botc_buffet_draft_current',
+            'scoreboard players operation draft_current_seat botc_patch = @s id',
+            'scoreboard players set draft_wait_notice botc_patch 0',
+            'scoreboard players set @s botc_buffet_status 1',
+            'execute store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id',
+            'function botc_patch:buffet/draft/mark_turn_active with storage botc_patch:buffet action',
+            'function botc_patch:buffet/draft/turn_cue',
+            ('function botc_patch:buffet/draft/{0} with storage botc_patch:buffet action' -f $kind.Offer)
+        )
+    )
+}
+
+if ($false) {
+# Legacy schema-1 picker retained temporarily for readable diff history. The
+# schema-2 generator below is authoritative and is the only branch executed.
 # Rebuild role eligibility before each private offer. Availability controls
 # retirement; these guards additionally prevent a setup-changing choice from
 # making already-assigned category counts impossible.
@@ -465,10 +867,9 @@ foreach ($category in @("town", "outsider", "minion", "demon")) {
     foreach ($role in $categoryRoles) {
         $pickLines.Add(('$execute if score draft_eligible_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_pool_size botc_patch 1' -f [int] $role.Id))
     }
-    $pickLines.Add(('execute if score draft_pool_size botc_patch matches 0 if score draft_recycling botc_patch matches 1 run function botc_patch:buffet/draft/pick/recycle_{0} with storage botc_patch:buffet action' -f $category))
     $pickLines.Add('execute if score draft_pool_size botc_patch matches 0 run scoreboard players set draft_offer_failed botc_patch 1')
     $pickLines.Add('execute if score draft_pool_size botc_patch matches 0 run return 0')
-    $pickLines.Add('execute store result score draft_pick botc_patch run random value 0..2147483647')
+    $pickLines.Add('execute store result score draft_pick botc_patch run random value 0..2147483646')
     $pickLines.Add('scoreboard players operation draft_pick botc_patch %= draft_pool_size botc_patch')
     $pickLines.Add('scoreboard players add draft_pick botc_patch 1')
     $pickLines.Add('scoreboard players set draft_cursor botc_patch 0')
@@ -484,20 +885,6 @@ foreach ($category in @("town", "outsider", "minion", "demon")) {
     $pickLines.Add('execute if score draft_role_picked botc_patch matches 1 run scoreboard players set draft_category_picked botc_patch 1')
     Write-GeneratedFile "pick/$category.mcfunction" $pickLines
 
-    $recycleLines = [System.Collections.Generic.List[string]]::new()
-    foreach ($line in New-Header "Recycle retired $category roles only when the legal pool is exhausted.") {
-        $recycleLines.Add($line)
-    }
-    $recycleLines.Add('tellraw @a[tag=storyteller] [{"text":"Draft notice: ","color":"yellow","bold":true},{"text":"No unused legal characters remained, so previously discarded characters became available again.","color":"gray","bold":false}]')
-    foreach ($role in $categoryRoles) {
-        $recycleLines.Add(('execute if score draft_chosen_{0} botc_patch matches 0 if score draft_blocked_{0} botc_patch matches 0 run scoreboard players set draft_available_{0} botc_patch 1' -f [int] $role.Id))
-    }
-    $recycleLines.Add('function botc_patch:buffet/draft/pick/prepare_eligibility')
-    $recycleLines.Add('scoreboard players set draft_pool_size botc_patch 0')
-    foreach ($role in $categoryRoles) {
-        $recycleLines.Add(('$execute if score draft_eligible_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_pool_size botc_patch 1' -f [int] $role.Id))
-    }
-    Write-GeneratedFile "pick/recycle_$category.mcfunction" $recycleLines
 }
 
 foreach ($role in $directRoles) {
@@ -519,16 +906,16 @@ foreach ($role in $directRoles) {
 }
 
 $storeOfferLines = [System.Collections.Generic.List[string]]::new()
-foreach ($line in New-Header "Store one generated offer and retire it under the current recycling policy.") {
+foreach ($line in New-Header "Store one generated offer and reserve every identity shown or used by it.") {
     $storeOfferLines.Add($line)
 }
 $storeOfferLines.Add('$data modify storage botc_patch:buffet draft.seats.s$(seat).offers.o$(option) set from storage botc_patch:buffet action.picked')
 $storeOfferLines.Add('$data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r$(actual) set value 1b')
 $storeOfferLines.Add('$data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r$(perceived) set value 1b')
 $storeOfferLines.Add('$execute unless data storage botc_patch:buffet action.picked{hermit_forced_ability:0} run data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r$(hermit_forced_ability) set value 1b')
-$storeOfferLines.Add('$execute if score draft_recycling botc_patch matches 0 run scoreboard players set draft_available_$(actual) botc_patch 0')
-$storeOfferLines.Add('$execute if score draft_recycling botc_patch matches 0 run scoreboard players set draft_available_$(perceived) botc_patch 0')
-$storeOfferLines.Add('$execute unless data storage botc_patch:buffet action.picked{hermit_forced_ability:0} if score draft_recycling botc_patch matches 0 run scoreboard players set draft_available_$(hermit_forced_ability) botc_patch 0')
+$storeOfferLines.Add('$scoreboard players set draft_available_$(actual) botc_patch 0')
+$storeOfferLines.Add('$scoreboard players set draft_available_$(perceived) botc_patch 0')
+$storeOfferLines.Add('$execute unless data storage botc_patch:buffet action.picked{hermit_forced_ability:0} run scoreboard players set draft_available_$(hermit_forced_ability) botc_patch 0')
 foreach ($role in $setupDefiningRoles) {
     $storeOfferLines.Add(('execute if score draft_opening_offer_active botc_patch matches 1 if data storage botc_patch:buffet action.picked{{actual:{0}}} run scoreboard players set draft_topology_offered botc_patch 1' -f [int] $role.Id))
 }
@@ -549,7 +936,7 @@ foreach ($category in @("town", "demon")) {
         $maskLines.Add(('$execute if score draft_available_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_mask_pool botc_patch 1' -f $roleId))
     }
     $maskLines.Add('execute unless score draft_mask_pool botc_patch matches 1.. run return 0')
-    $maskLines.Add('execute store result score draft_mask_pick botc_patch run random value 0..2147483647')
+    $maskLines.Add('execute store result score draft_mask_pick botc_patch run random value 0..2147483646')
     $maskLines.Add('scoreboard players operation draft_mask_pick botc_patch %= draft_mask_pool botc_patch')
     $maskLines.Add('scoreboard players add draft_mask_pick botc_patch 1')
     $maskLines.Add('scoreboard players set draft_mask_cursor botc_patch 0')
@@ -651,7 +1038,7 @@ Write-GeneratedFile "pick/hidden_outsider.mcfunction" (
         ('$execute if score draft_available_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_hidden_path_pool botc_patch 1' -f $roleIds.lunatic),
         ('$execute if score draft_available_{0} botc_patch matches 1 if score draft_available_{1} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{1}:1b}} run scoreboard players add draft_hidden_path_pool botc_patch 1' -f $roleIds.hermit, $roleIds.drunk),
         ('$execute if score draft_available_{0} botc_patch matches 1 if score draft_available_{1} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{1}:1b}} run scoreboard players add draft_hidden_path_pool botc_patch 1' -f $roleIds.hermit, $roleIds.lunatic),
-        'execute store result score draft_hidden_path_pick botc_patch run random value 0..2147483647',
+        'execute store result score draft_hidden_path_pick botc_patch run random value 0..2147483646',
         'scoreboard players operation draft_hidden_path_pick botc_patch %= draft_hidden_path_pool botc_patch',
         'scoreboard players add draft_hidden_path_pick botc_patch 1',
         'scoreboard players set draft_hidden_path_cursor botc_patch 1',
@@ -672,7 +1059,7 @@ Write-GeneratedFile "pick/hidden_minion.mcfunction" (
         'function botc_patch:buffet/draft/pick/prepare_marionette',
         'scoreboard players set draft_hidden_path_pool botc_patch 1',
         ('$execute if score draft_marionette_ok botc_patch matches 1 if score draft_available_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_hidden_path_pool botc_patch 1' -f $roleIds.marionette),
-        'execute store result score draft_hidden_path_pick botc_patch run random value 0..2147483647',
+        'execute store result score draft_hidden_path_pick botc_patch run random value 0..2147483646',
         'scoreboard players operation draft_hidden_path_pick botc_patch %= draft_hidden_path_pool botc_patch',
         'scoreboard players add draft_hidden_path_pick botc_patch 1',
         ('$execute if score draft_hidden_path_pick botc_patch matches 2 if score draft_marionette_ok botc_patch matches 1 if score draft_available_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run function botc_patch:buffet/draft/pick/hidden/marionette with storage botc_patch:buffet action' -f $roleIds.marionette)
@@ -709,7 +1096,7 @@ Write-GeneratedFile "pick/category.mcfunction" (
         'execute unless score draft_need_total botc_patch matches 1.. run scoreboard players set draft_offer_failed botc_patch 1',
         'execute unless score draft_need_total botc_patch matches 1.. run return 0',
         'scoreboard players set draft_category_picked botc_patch 0',
-        'execute store result score draft_category_roll botc_patch run random value 0..2147483647',
+        'execute store result score draft_category_roll botc_patch run random value 0..2147483646',
         'scoreboard players operation draft_category_roll botc_patch %= draft_need_total botc_patch',
         'scoreboard players add draft_category_roll botc_patch 1',
         'execute if score draft_category_picked botc_patch matches 0 if score draft_category_roll botc_patch <= draft_need_town botc_patch run function botc_patch:buffet/draft/pick/town with storage botc_patch:buffet action',
@@ -732,6 +1119,616 @@ foreach ($role in $setupDefiningRoles) {
     $closeOpeningLines.Add(('scoreboard players set draft_blocked_{0} botc_patch 1' -f [int] $role.Id))
 }
 Write-GeneratedFile "pick/close_opening.mcfunction" $closeOpeningLines
+}
+
+# Schema-2 picker: actual type first, then 4/2/1 actual-character tickets,
+# then an independent hidden-presentation layer.
+
+$ordinaryGuardedRoles = @(
+    @($rules.draft.routes.storytellerSelected) +
+    @($rules.draft.routes.demonSpecial)
+) | ForEach-Object { [string] $_ } | Select-Object -Unique
+
+$townMaskRoles = @($directRoles | Where-Object {
+    [string] $_.Category -eq "town" -and
+    [string] $_.Role -notin $ordinaryGuardedRoles
+})
+
+$eligibilityLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Recalculate legal actual Draft characters from trusted state.") {
+    $eligibilityLines.Add($line)
+}
+$eligibilityLines.Add('function botc_patch:buffet/draft/recount_needs')
+foreach ($role in $roles) {
+    $roleId = [int] $role.Id
+    $eligibilityLines.Add(('scoreboard players operation draft_eligible_{0} botc_patch = draft_available_{0} botc_patch' -f $roleId))
+    $eligibilityLines.Add(('execute if score draft_reserved_{0} botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleId))
+}
+$eligibilityLines.Add('scoreboard players set draft_mask_pool_town botc_patch 0')
+foreach ($role in $townMaskRoles) {
+    $roleId = [int] $role.Id
+    $eligibilityLines.Add(('$execute if score draft_available_{0} botc_patch matches 1 unless score draft_reserved_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_mask_pool_town botc_patch 1' -f $roleId))
+}
+foreach ($roleName in $ordinaryGuardedRoles) {
+    $eligibilityLines.Add(('scoreboard players set draft_eligible_{0} botc_patch 0' -f (Get-RoleId $roleName)))
+}
+foreach ($role in @($roles | Where-Object { [string] $_.Category -in @("minion", "demon") })) {
+    $eligibilityLines.Add(('execute if score draft_route_kind botc_patch matches 2 if score draft_route_real_special botc_patch matches 1 if score draft_topology_status botc_patch matches 0 run scoreboard players set draft_eligible_{0} botc_patch 0' -f [int] $role.Id))
+}
+foreach ($role in @($roles | Where-Object { [string] $_.Category -eq "minion" })) {
+    $eligibilityLines.Add(('execute if score draft_lord_of_typhon_active botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f [int] $role.Id))
+}
+$eligibilityLines.Add(('execute if score draft_lil_monsta_redraft botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.marionette))
+$eligibilityLines.Add(('execute if score draft_lil_monsta_redraft botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.summoner))
+$eligibilityLines.Add(('execute if score draft_internal_position botc_patch matches 2.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.lunatic))
+$eligibilityLines.Add(('$execute unless data storage botc_patch:buffet draft.seats.s$(seat){{round:0}} run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.lunatic))
+$eligibilityLines.Add(('$execute if data storage botc_patch:buffet draft.seats.s$(seat).history.r0 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.lunatic))
+$eligibilityLines.Add(('execute if score draft_faceup_outsider botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.drunk))
+$eligibilityLines.Add(('execute if score draft_faceup_outsider botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.lunatic))
+$eligibilityLines.Add(('execute unless score draft_mask_pool_town botc_patch matches 1.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.drunk))
+$eligibilityLines.Add(('execute unless score draft_mask_pool_town botc_patch matches 1.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.marionette))
+$eligibilityLines.Add(('execute unless score draft_marionette_ok botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.marionette))
+$eligibilityLines.Add(('execute unless score draft_need_town botc_patch matches 2.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.baron))
+foreach ($roleName in @("fang_gu", "lil_monsta")) {
+    $eligibilityLines.Add(('execute unless score draft_need_town botc_patch matches 1.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds[$roleName]))
+}
+$eligibilityLines.Add(('execute unless score draft_need_outsider botc_patch matches 1.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.vigormortis))
+$eligibilityLines.Add(('execute unless score draft_need_demon botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.summoner))
+$eligibilityLines.Add(('execute unless score draft_need_minion botc_patch matches 1.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.summoner))
+$eligibilityLines.Add(('execute if score draft_assigned_demon botc_patch matches 1.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.summoner))
+$eligibilityLines.Add(('execute if score draft_topology_status botc_patch matches 1.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.summoner))
+$eligibilityLines.Add(('execute unless score draft_need_demon botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.lil_monsta))
+$eligibilityLines.Add(('execute if score draft_assigned_demon botc_patch matches 1.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.lil_monsta))
+$eligibilityLines.Add(('execute if score draft_topology_status botc_patch matches 1.. run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.lil_monsta))
+$eligibilityLines.Add(('execute if score draft_atheist_active botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.bounty_hunter))
+$eligibilityLines.Add(('execute if score draft_chosen_{0} botc_patch matches 0 unless score draft_need_total botc_patch matches 2.. run scoreboard players set draft_eligible_{1} botc_patch 0' -f $roleIds.king, $roleIds.choirboy))
+$eligibilityLines.Add(('execute if score draft_chosen_{0} botc_patch matches 0 unless score draft_need_town botc_patch matches 2.. run scoreboard players set draft_eligible_{1} botc_patch 0' -f $roleIds.king, $roleIds.choirboy))
+$eligibilityLines.Add(('execute if score draft_chosen_{0} botc_patch matches 0 unless score draft_need_total botc_patch matches 2.. run scoreboard players set draft_eligible_{1} botc_patch 0' -f $roleIds.damsel, $roleIds.huntsman))
+$eligibilityLines.Add(('execute if score draft_chosen_{0} botc_patch matches 0 unless score draft_need_outsider botc_patch matches 1.. run scoreboard players set draft_eligible_{1} botc_patch 0' -f $roleIds.damsel, $roleIds.huntsman))
+$eligibilityLines.Add(('execute unless score draft_target_outsider botc_patch > draft_assigned_outsider botc_patch unless score draft_target_town botc_patch > draft_assigned_town botc_patch run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds.godfather))
+foreach ($roleName in @("baron", "fang_gu", "vigormortis", "balloonist", "godfather", "xaan")) {
+    $eligibilityLines.Add(('execute if score draft_faceup_outsider botc_patch matches 1 run scoreboard players set draft_eligible_{0} botc_patch 0' -f $roleIds[$roleName]))
+}
+foreach ($jinx in @($jinxPairs | Where-Object { $_.IsExclusion })) {
+    $eligibilityLines.Add(('execute if score draft_chosen_{0} botc_patch matches 1 run scoreboard players set draft_eligible_{1} botc_patch 0' -f $jinx.LeftId, $jinx.RightId))
+    $eligibilityLines.Add(('execute if score draft_chosen_{0} botc_patch matches 1 run scoreboard players set draft_eligible_{1} botc_patch 0' -f $jinx.RightId, $jinx.LeftId))
+}
+Write-GeneratedFile "pick/prepare_eligibility.mcfunction" $eligibilityLines
+
+$marionetteEligibility = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Allow a hidden Marionette only beside a trusted Demon or Demon-registering Recluse.") {
+    $marionetteEligibility.Add($line)
+}
+$marionetteEligibility.Add('scoreboard players set draft_marionette_ok botc_patch 0')
+foreach ($count in 5..15) {
+    foreach ($seat in 1..$count) {
+        $left = (($seat - 2 + $count) % $count) + 1
+        $right = ($seat % $count) + 1
+        foreach ($neighbor in @($left, $right)) {
+            $marionetteEligibility.Add(('execute if score buffet_roster_count botc_patch matches {0} if score @s id matches {1} if data storage botc_patch:buffet draft.seats.s{2}{{status:2,category:4}} run scoreboard players set draft_marionette_ok botc_patch 1' -f $count, $seat, $neighbor))
+            $marionetteEligibility.Add(('execute if score buffet_roster_count botc_patch matches {0} if score @s id matches {1} if data storage botc_patch:buffet draft.seats.s{2}{{status:2,actual:{3}}} run scoreboard players set draft_marionette_ok botc_patch 1' -f $count, $seat, $neighbor, $roleIds.recluse))
+        }
+    }
+}
+Write-GeneratedFile "pick/prepare_marionette.mcfunction" $marionetteEligibility
+
+foreach ($role in $roles) {
+    $roleId = [int] $role.Id
+    Write-GeneratedFile "pick/role/$roleId.mcfunction" (
+        (New-Header "Select $([string] $role.Name) as the trusted actual Draft character.") +
+        @(
+            ('data modify storage botc_patch:buffet action.picked set value {0}' -f (New-RoleObject $role)),
+            'scoreboard players set draft_role_picked botc_patch 1'
+        )
+    )
+    Write-GeneratedFile "pick/mask/$roleId.mcfunction" (
+        (New-Header "Select $([string] $role.Name) as a trusted perceived mask.") +
+        @(
+            ('data modify storage botc_patch:buffet action.mask set value {0}' -f (New-RoleObject $role)),
+            'scoreboard players set draft_mask_picked botc_patch 1'
+        )
+    )
+}
+
+foreach ($category in @("town", "demon")) {
+    $maskRoles = if ($category -eq "town") {
+        $townMaskRoles
+    } else {
+        @($directRoles | Where-Object {
+            [string] $_.Category -eq $category -and
+            [string] $_.Role -notin $ordinaryGuardedRoles -and
+            [string] $_.Role -ne "lil_monsta"
+        })
+    }
+    $maskLines = [System.Collections.Generic.List[string]]::new()
+    foreach ($line in New-Header "Choose one available, unseen $category perceived mask.") {
+        $maskLines.Add($line)
+    }
+    $maskLines.Add('scoreboard players set draft_mask_pool botc_patch 0')
+    foreach ($role in $maskRoles) {
+        $roleId = [int] $role.Id
+        $maskLines.Add(('$execute if score draft_available_{0} botc_patch matches 1 unless score draft_reserved_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_mask_pool botc_patch 1' -f $roleId))
+    }
+    $maskLines.Add('execute unless score draft_mask_pool botc_patch matches 1.. run return 0')
+    $maskLines.Add('execute store result score draft_mask_pick botc_patch run random value 0..2147483646')
+    $maskLines.Add('scoreboard players operation draft_mask_pick botc_patch %= draft_mask_pool botc_patch')
+    $maskLines.Add('scoreboard players add draft_mask_pick botc_patch 1')
+    $maskLines.Add('scoreboard players set draft_mask_cursor botc_patch 0')
+    $maskLines.Add('scoreboard players set draft_mask_picked botc_patch 0')
+    foreach ($role in $maskRoles) {
+        $roleId = [int] $role.Id
+        $predicate = ('$execute if score draft_mask_picked botc_patch matches 0 if score draft_available_{0} botc_patch matches 1 unless score draft_reserved_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}}' -f $roleId)
+        $maskLines.Add("$predicate run scoreboard players add draft_mask_cursor botc_patch 1")
+        $maskLines.Add(("{0} if score draft_mask_cursor botc_patch = draft_mask_pick botc_patch run function botc_patch:buffet/draft/pick/mask/{1}" -f $predicate, $roleId))
+    }
+    Write-GeneratedFile "pick/perceived_$category.mcfunction" $maskLines
+}
+
+$hiddenDefinitions = @(
+    @{ Name = "drunk"; Actual = $roleIds.drunk; Mode = 1; PerceivedCategory = "town" },
+    @{ Name = "marionette"; Actual = $roleIds.marionette; Mode = 3; PerceivedCategory = "town" },
+    @{ Name = "hermit_drunk"; Actual = $roleIds.hermit; Mode = 4; PerceivedCategory = "town"; ForcedAbility = $roleIds.drunk }
+)
+foreach ($hidden in $hiddenDefinitions) {
+    $actualRole = $roles | Where-Object { [int] $_.Id -eq [int] $hidden.Actual } | Select-Object -First 1
+    $hiddenLines = [System.Collections.Generic.List[string]]::new()
+    foreach ($line in New-Header "Apply the $($hidden.Name) hidden presentation after trusted actual selection.") {
+        $hiddenLines.Add($line)
+    }
+    $hiddenLines.Add(('function botc_patch:buffet/draft/pick/perceived_{0} with storage botc_patch:buffet action' -f $hidden.PerceivedCategory))
+    $hiddenLines.Add('execute unless score draft_mask_picked botc_patch matches 1 run scoreboard players set draft_offer_failed botc_patch 1')
+    $hiddenLines.Add('execute unless score draft_mask_picked botc_patch matches 1 run return 0')
+    $hiddenLines.Add('data modify storage botc_patch:buffet action.picked set from storage botc_patch:buffet action.mask')
+    $hiddenLines.Add(('data modify storage botc_patch:buffet action.picked.actual set value {0}' -f [int] $hidden.Actual))
+    $hiddenLines.Add(('data modify storage botc_patch:buffet action.picked.alignment set value {0}' -f [int] $actualRole.Alignment))
+    $hiddenLines.Add(('data modify storage botc_patch:buffet action.picked.category set value {0}' -f [int] $categoryCode[[string] $actualRole.Category]))
+    $actualArchetype = [string] $archetypeByRole[[string] $actualRole.Role]
+    $hiddenLines.Add(('data modify storage botc_patch:buffet action.picked.archetype set value "{0}"' -f $actualArchetype))
+    $hiddenLines.Add(('data modify storage botc_patch:buffet action.picked.archetype_id set value {0}' -f [int] $archetypeIndexById[$actualArchetype]))
+    $hiddenLines.Add('data modify storage botc_patch:buffet action.picked.hidden set value 1b')
+    $hiddenLines.Add(('data modify storage botc_patch:buffet action.picked.hidden_mode set value {0}' -f [int] $hidden.Mode))
+    if ($hidden.ContainsKey("ForcedAbility")) {
+        $hiddenLines.Add(('data modify storage botc_patch:buffet action.picked.hermit_forced_ability set value {0}' -f [int] $hidden.ForcedAbility))
+    }
+    $hiddenLines.Add('$data modify storage botc_patch:buffet action.picked.seat set value $(seat)')
+    $hiddenLines.Add('$data modify storage botc_patch:buffet action.picked.option set value $(option)')
+    $hiddenLines.Add('function botc_patch:buffet/draft/pick/store_offer with storage botc_patch:buffet action.picked')
+    Write-GeneratedFile "pick/hidden/$($hidden.Name).mcfunction" $hiddenLines
+}
+
+foreach ($mode in @(
+    @{ Name = "lunatic"; Actual = $roleIds.lunatic; HiddenMode = 2; Forced = 0 },
+    @{ Name = "hermit_lunatic"; Actual = $roleIds.hermit; HiddenMode = 5; Forced = $roleIds.lunatic }
+)) {
+    $actualRole = $roles | Where-Object { [int] $_.Id -eq [int] $mode.Actual } | Select-Object -First 1
+    $actualArchetype = [string] $archetypeByRole[[string] $actualRole.Role]
+    Write-GeneratedFile "pick/divert/$($mode.Name).mcfunction" (
+        (New-Header "Divert a first-internal-card $($mode.Name) actual into the special-looking sequential flow.") +
+        @(
+            'scoreboard players set draft_diversion botc_patch 1',
+            'scoreboard players set draft_special_active botc_patch 1',
+            'scoreboard players set draft_special_real botc_patch 0',
+            'scoreboard players set draft_special_discards botc_patch 0',
+            ('$data modify storage botc_patch:buffet draft.seats.s$(seat).special set value {{active:1b,real:0b,progress:0,discards:0,actual:{0},hidden_mode:{1},forced_ability:{2},archetype:"{3}",archetype_id:{4},seen:{{}}}}' -f [int] $mode.Actual, [int] $mode.HiddenMode, [int] $mode.Forced, $actualArchetype, [int] $archetypeIndexById[$actualArchetype]),
+            ('$data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r{0} set value 1b' -f [int] $mode.Actual),
+            ('$data modify storage botc_patch:buffet draft.seats.s$(seat).exclusions.r{0} set value 1b' -f [int] $mode.Actual)
+        )
+    )
+}
+
+Write-GeneratedFile "pick/hermit_mode.mcfunction" (
+    (New-Header "Split Hermit's one actual-character ticket equally across its legal direct, Drunk and Lunatic modes.") +
+    @(
+        'scoreboard players set draft_hermit_mode_pool botc_patch 1',
+        ('$execute if score draft_faceup_outsider botc_patch matches 0 if score draft_mask_pool_town botc_patch matches 1.. if score draft_available_{0} botc_patch matches 1 unless score draft_reserved_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_hermit_mode_pool botc_patch 1' -f $roleIds.drunk),
+        ('$execute if data storage botc_patch:buffet draft.seats.s$(seat){{round:0}} unless data storage botc_patch:buffet draft.seats.s$(seat).history.r0 if score draft_internal_position botc_patch matches 1 if score draft_faceup_outsider botc_patch matches 0 if score draft_available_{0} botc_patch matches 1 unless score draft_reserved_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_hermit_mode_pool botc_patch 1' -f $roleIds.lunatic),
+        'execute store result score draft_hermit_mode_pick botc_patch run random value 0..2147483646',
+        'scoreboard players operation draft_hermit_mode_pick botc_patch %= draft_hermit_mode_pool botc_patch',
+        'scoreboard players add draft_hermit_mode_pick botc_patch 1',
+        '$execute if score draft_hermit_mode_pick botc_patch matches 1 run data modify storage botc_patch:buffet action.picked.seat set value $(seat)',
+        '$execute if score draft_hermit_mode_pick botc_patch matches 1 run data modify storage botc_patch:buffet action.picked.option set value $(option)',
+        'execute if score draft_hermit_mode_pick botc_patch matches 1 run return run function botc_patch:buffet/draft/pick/store_offer with storage botc_patch:buffet action.picked',
+        'scoreboard players set draft_hermit_mode_cursor botc_patch 1',
+        ('$execute if score draft_faceup_outsider botc_patch matches 0 if score draft_mask_pool_town botc_patch matches 1.. if score draft_available_{0} botc_patch matches 1 unless score draft_reserved_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_hermit_mode_cursor botc_patch 1' -f $roleIds.drunk),
+        'execute if score draft_hermit_mode_pick botc_patch = draft_hermit_mode_cursor botc_patch run return run function botc_patch:buffet/draft/pick/hidden/hermit_drunk with storage botc_patch:buffet action',
+        'function botc_patch:buffet/draft/pick/divert/hermit_lunatic with storage botc_patch:buffet action'
+    )
+)
+
+Write-GeneratedFile "pick/resolve_presentation.mcfunction" (
+    (New-Header "Resolve perceived identity only after the trusted actual character has been selected.") +
+    @(
+        ('execute if data storage botc_patch:buffet action.picked{{actual:{0}}} run return run function botc_patch:buffet/draft/pick/hidden/drunk with storage botc_patch:buffet action' -f $roleIds.drunk),
+        ('execute if data storage botc_patch:buffet action.picked{{actual:{0}}} run return run function botc_patch:buffet/draft/pick/divert/lunatic with storage botc_patch:buffet action' -f $roleIds.lunatic),
+        ('execute if data storage botc_patch:buffet action.picked{{actual:{0}}} run return run function botc_patch:buffet/draft/pick/hidden/marionette with storage botc_patch:buffet action' -f $roleIds.marionette),
+        ('execute if data storage botc_patch:buffet action.picked{{actual:{0}}} run return run function botc_patch:buffet/draft/pick/hermit_mode with storage botc_patch:buffet action' -f $roleIds.hermit),
+        '$data modify storage botc_patch:buffet action.picked.seat set value $(seat)',
+        '$data modify storage botc_patch:buffet action.picked.option set value $(option)',
+        'function botc_patch:buffet/draft/pick/store_offer with storage botc_patch:buffet action.picked'
+    )
+)
+
+$storeOfferLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Reserve one generated card inside the fresh hand without prematurely retiring it globally.") {
+    $storeOfferLines.Add($line)
+}
+$storeOfferLines.Add('execute store result storage botc_patch:buffet action.picked.hand_id int 1 run scoreboard players get draft_hand_id botc_patch')
+$storeOfferLines.Add('execute store result storage botc_patch:buffet action.picked.internal_draw int 1 run scoreboard players get draft_internal_position botc_patch')
+$storeOfferLines.Add('execute store result storage botc_patch:buffet action.picked.route int 1 run scoreboard players get draft_route_kind botc_patch')
+$storeOfferLines.Add('$data modify storage botc_patch:buffet draft.seats.s$(seat).internal_offers.i$(option) set from storage botc_patch:buffet action.picked')
+$storeOfferLines.Add('$data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r$(actual) set value 1b')
+$storeOfferLines.Add('$data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r$(perceived) set value 1b')
+$storeOfferLines.Add('$data modify storage botc_patch:buffet draft.seats.s$(seat).exclusions.r$(actual) set value 1b')
+$storeOfferLines.Add('$data modify storage botc_patch:buffet draft.seats.s$(seat).exclusions.r$(perceived) set value 1b')
+$storeOfferLines.Add('$scoreboard players set draft_reserved_$(actual) botc_patch 1')
+$storeOfferLines.Add('$scoreboard players set draft_reserved_$(perceived) botc_patch 1')
+$storeOfferLines.Add('$data modify storage botc_patch:buffet draft.reservations.r$(actual) set value 1b')
+$storeOfferLines.Add('$data modify storage botc_patch:buffet draft.reservations.r$(perceived) set value 1b')
+$storeOfferLines.Add('$execute unless data storage botc_patch:buffet action.picked{hermit_forced_ability:0} run data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r$(hermit_forced_ability) set value 1b')
+$storeOfferLines.Add('$execute unless data storage botc_patch:buffet action.picked{hermit_forced_ability:0} run data modify storage botc_patch:buffet draft.seats.s$(seat).exclusions.r$(hermit_forced_ability) set value 1b')
+$storeOfferLines.Add('$execute unless data storage botc_patch:buffet action.picked{hermit_forced_ability:0} run scoreboard players set draft_reserved_$(hermit_forced_ability) botc_patch 1')
+foreach ($archetypeId in $archetypeIds) {
+    $storeOfferLines.Add(('execute if data storage botc_patch:buffet action.picked{{archetype_id:{0}}} run scoreboard players add draft_arch_{0} botc_patch 1' -f [int] $archetypeIndexById[$archetypeId]))
+}
+$storeOfferLines.Add('scoreboard players set draft_category_picked botc_patch 1')
+Write-GeneratedFile "pick/store_offer.mcfunction" $storeOfferLines
+
+$completionPrepareLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Recycle only exact legal direct-card shortfalls for still-required types before one fresh hand.") {
+    $completionPrepareLines.Add($line)
+}
+$completionPrepareLines.Add('scoreboard players set draft_internal_position botc_patch 1')
+foreach ($role in $directRoles) {
+    $roleId = [int] $role.Id
+    $completionPrepareLines.Add(('execute if score draft_completion_recycled_{0} botc_patch matches 1 if score draft_chosen_{0} botc_patch matches 0 run scoreboard players set draft_available_{0} botc_patch 0' -f $roleId))
+    $completionPrepareLines.Add(('scoreboard players set draft_completion_recycled_{0} botc_patch 0' -f $roleId))
+}
+foreach ($category in @("town", "outsider", "minion", "demon")) {
+    $completionPrepareLines.Add(("function botc_patch:buffet/draft/completion/prepare_$category with storage botc_patch:buffet action"))
+}
+Write-GeneratedFile "completion/prepare.mcfunction" $completionPrepareLines
+
+foreach ($category in @("town", "outsider", "minion", "demon")) {
+    $categoryRoles = @($directRoles | Where-Object { [string] $_.Category -eq $category })
+    $categoryCodeValue = [int] $categoryCode[$category]
+
+    $prepareCompletionLines = [System.Collections.Generic.List[string]]::new()
+    foreach ($line in New-Header "Recover the exact legal direct-$category shortfall required to keep every card in this hand viable.") {
+        $prepareCompletionLines.Add($line)
+    }
+    $prepareCompletionLines.Add(("execute unless score draft_need_$category botc_patch matches 1.. run return 0"))
+    $prepareCompletionLines.Add('function botc_patch:buffet/draft/pick/prepare_marionette')
+    $prepareCompletionLines.Add('function botc_patch:buffet/draft/pick/prepare_eligibility with storage botc_patch:buffet action')
+    $prepareCompletionLines.Add('scoreboard players set draft_completion_unused botc_patch 0')
+    foreach ($role in $categoryRoles) {
+        $roleId = [int] $role.Id
+        $prepareCompletionLines.Add(('$execute if score draft_eligible_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_completion_unused botc_patch 1' -f $roleId))
+    }
+    $prepareCompletionLines.Add('execute if score draft_completion_unused botc_patch >= draft_hand_size botc_patch run return 0')
+    $prepareCompletionLines.Add('scoreboard players operation draft_completion_shortfall botc_patch = draft_hand_size botc_patch')
+    $prepareCompletionLines.Add('scoreboard players operation draft_completion_shortfall botc_patch -= draft_completion_unused botc_patch')
+    foreach ($role in $categoryRoles) {
+        $roleId = [int] $role.Id
+        $prepareCompletionLines.Add(('$execute if data storage botc_patch:buffet draft.retirement{{r{0}:"direct_discard"}} if score draft_discarded_{0} botc_patch matches 1 if score draft_available_{0} botc_patch matches 0 if score draft_chosen_{0} botc_patch matches 0 if score draft_blocked_{0} botc_patch matches 0 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players set draft_available_{0} botc_patch 1' -f $roleId))
+    }
+    $prepareCompletionLines.Add('function botc_patch:buffet/draft/pick/prepare_marionette')
+    $prepareCompletionLines.Add('function botc_patch:buffet/draft/pick/prepare_eligibility with storage botc_patch:buffet action')
+    foreach ($role in $categoryRoles) {
+        $roleId = [int] $role.Id
+        $prepareCompletionLines.Add(('execute if data storage botc_patch:buffet draft.retirement{{r{0}:"direct_discard"}} if score draft_chosen_{0} botc_patch matches 0 run scoreboard players set draft_available_{0} botc_patch 0' -f $roleId))
+    }
+    $prepareCompletionLines.Add(("data modify storage botc_patch:buffet action.completion_category set value $categoryCodeValue"))
+    $prepareCompletionLines.Add('function botc_patch:buffet/draft/completion/recycle_next with storage botc_patch:buffet action')
+    Write-GeneratedFile "completion/prepare_$category.mcfunction" $prepareCompletionLines
+
+    $recycleCategoryLines = [System.Collections.Generic.List[string]]::new()
+    foreach ($line in New-Header "Choose legal earlier-player direct-$category discards until this hand's exact shortfall is filled.") {
+        $recycleCategoryLines.Add($line)
+    }
+    $recycleCategoryLines.Add('execute unless score draft_completion_shortfall botc_patch matches 1.. run return 0')
+    $recycleCategoryLines.Add('scoreboard players set draft_completion_pool botc_patch 0')
+    foreach ($role in $categoryRoles) {
+        $roleId = [int] $role.Id
+        $recycleCategoryLines.Add(('$execute if data storage botc_patch:buffet draft.retirement{{r{0}:"direct_discard"}} if score draft_eligible_{0} botc_patch matches 1 if score draft_discarded_{0} botc_patch matches 1 if score draft_available_{0} botc_patch matches 0 if score draft_chosen_{0} botc_patch matches 0 if score draft_blocked_{0} botc_patch matches 0 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_completion_pool botc_patch 1' -f $roleId))
+    }
+    $recycleCategoryLines.Add('execute unless score draft_completion_pool botc_patch matches 1.. run return 0')
+    $recycleCategoryLines.Add('execute store result score draft_completion_pick botc_patch run random value 0..2147483646')
+    $recycleCategoryLines.Add('scoreboard players operation draft_completion_pick botc_patch %= draft_completion_pool botc_patch')
+    $recycleCategoryLines.Add('scoreboard players add draft_completion_pick botc_patch 1')
+    $recycleCategoryLines.Add('scoreboard players set draft_completion_cursor botc_patch 0')
+    $recycleCategoryLines.Add('scoreboard players set draft_completion_done botc_patch 0')
+    foreach ($role in $categoryRoles) {
+        $roleId = [int] $role.Id
+        $predicate = ('$execute if score draft_completion_done botc_patch matches 0 if data storage botc_patch:buffet draft.retirement{{r{0}:"direct_discard"}} if score draft_eligible_{0} botc_patch matches 1 if score draft_discarded_{0} botc_patch matches 1 if score draft_available_{0} botc_patch matches 0 if score draft_chosen_{0} botc_patch matches 0 if score draft_blocked_{0} botc_patch matches 0 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}}' -f $roleId)
+        $recycleCategoryLines.Add("$predicate run scoreboard players add draft_completion_cursor botc_patch 1")
+        $recycleCategoryLines.Add(("{0} if score draft_completion_cursor botc_patch = draft_completion_pick botc_patch run function botc_patch:buffet/draft/completion/recycle_{1} with storage botc_patch:buffet action" -f $predicate, $roleId))
+        Write-GeneratedFile "completion/recycle_$roleId.mcfunction" (
+            (New-Header "Recycle direct $category $([string] $role.Name) for this exact required-type hand shortfall.") +
+            @(
+                ('scoreboard players set draft_available_{0} botc_patch 1' -f $roleId),
+                ('scoreboard players set draft_completion_recycled_{0} botc_patch 1' -f $roleId),
+                'scoreboard players remove draft_completion_shortfall botc_patch 1',
+                'scoreboard players set draft_completion_done botc_patch 1',
+                'function botc_patch:buffet/draft/completion/recycle_next with storage botc_patch:buffet action'
+            )
+        )
+    }
+    Write-GeneratedFile "completion/recycle_next_$category.mcfunction" $recycleCategoryLines
+}
+
+Write-GeneratedFile "completion/recycle_next.mcfunction" (
+    (New-Header "Continue exact-shortfall recycling inside the active required character type.") +
+    @(
+        'execute unless score draft_completion_shortfall botc_patch matches 1.. run return 0',
+        'execute if data storage botc_patch:buffet action{completion_category:1} run return run function botc_patch:buffet/draft/completion/recycle_next_town with storage botc_patch:buffet action',
+        'execute if data storage botc_patch:buffet action{completion_category:2} run return run function botc_patch:buffet/draft/completion/recycle_next_outsider with storage botc_patch:buffet action',
+        'execute if data storage botc_patch:buffet action{completion_category:3} run return run function botc_patch:buffet/draft/completion/recycle_next_minion with storage botc_patch:buffet action',
+        'execute if data storage botc_patch:buffet action{completion_category:4} run return run function botc_patch:buffet/draft/completion/recycle_next_demon with storage botc_patch:buffet action'
+    )
+)
+
+Write-GeneratedFile "pick/reset_hand.mcfunction" (
+    (New-Header "Start a fresh 3, 2 or 1 card hand with new reservations and archetype history.") +
+    @(
+        'scoreboard players add draft_hand_id botc_patch 1',
+        'scoreboard players set draft_diversion botc_patch 0',
+        'data remove storage botc_patch:buffet draft.reservations',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).offers set value {}',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).internal_offers set value {}',
+        '$execute store result storage botc_patch:buffet draft.seats.s$(seat).hand_id int 1 run scoreboard players get draft_hand_id botc_patch'
+    ) +
+    @($roles | ForEach-Object { 'scoreboard players set draft_reserved_{0} botc_patch 0' -f [int] $_.Id }) +
+    @($archetypeIds | ForEach-Object { 'scoreboard players set draft_arch_{0} botc_patch 0' -f [int] $archetypeIndexById[[string] $_] }) +
+    @('function botc_patch:buffet/draft/completion/prepare with storage botc_patch:buffet action')
+)
+
+foreach ($category in @("town", "outsider", "minion", "demon")) {
+    $categoryRoles = @($selectableRoles | Where-Object { [string] $_.Category -eq $category })
+    $pickLines = [System.Collections.Generic.List[string]]::new()
+    foreach ($line in New-Header "Choose one $category actual character using equal-base 4/2/1 archetype tickets.") {
+        $pickLines.Add($line)
+    }
+    $pickLines.Add('function botc_patch:buffet/draft/pick/prepare_marionette')
+    $pickLines.Add('function botc_patch:buffet/draft/pick/prepare_eligibility with storage botc_patch:buffet action')
+    $pickLines.Add('scoreboard players set draft_pool_size botc_patch 0')
+    foreach ($role in $categoryRoles) {
+        $roleId = [int] $role.Id
+        $archIndex = [int] $archetypeIndexById[[string] $archetypeByRole[[string] $role.Role]]
+        $predicate = ('$execute if score draft_eligible_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}}' -f $roleId)
+        $pickLines.Add("$predicate if score draft_arch_$archIndex botc_patch matches 0 run scoreboard players add draft_pool_size botc_patch 4")
+        $pickLines.Add("$predicate if score draft_arch_$archIndex botc_patch matches 1 run scoreboard players add draft_pool_size botc_patch 2")
+        $pickLines.Add("$predicate if score draft_arch_$archIndex botc_patch matches 2.. run scoreboard players add draft_pool_size botc_patch 1")
+    }
+    $pickLines.Add('execute if score draft_pool_size botc_patch matches 0 run scoreboard players set draft_offer_failed botc_patch 1')
+    $pickLines.Add('execute if score draft_pool_size botc_patch matches 0 run return 0')
+    $pickLines.Add('execute store result score draft_pick botc_patch run random value 0..2147483646')
+    $pickLines.Add('scoreboard players operation draft_pick botc_patch %= draft_pool_size botc_patch')
+    $pickLines.Add('scoreboard players add draft_pick botc_patch 1')
+    $pickLines.Add('scoreboard players set draft_cursor botc_patch 0')
+    $pickLines.Add('scoreboard players set draft_role_picked botc_patch 0')
+    foreach ($role in $categoryRoles) {
+        $roleId = [int] $role.Id
+        $archIndex = [int] $archetypeIndexById[[string] $archetypeByRole[[string] $role.Role]]
+        $predicate = ('$execute if score draft_role_picked botc_patch matches 0 if score draft_eligible_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}}' -f $roleId)
+        $pickLines.Add("$predicate if score draft_arch_$archIndex botc_patch matches 0 run scoreboard players add draft_cursor botc_patch 4")
+        $pickLines.Add("$predicate if score draft_arch_$archIndex botc_patch matches 1 run scoreboard players add draft_cursor botc_patch 2")
+        $pickLines.Add("$predicate if score draft_arch_$archIndex botc_patch matches 2.. run scoreboard players add draft_cursor botc_patch 1")
+        $pickLines.Add(("{0} if score draft_cursor botc_patch >= draft_pick botc_patch run function botc_patch:buffet/draft/pick/role/{1}" -f $predicate, $roleId))
+    }
+    $pickLines.Add('function botc_patch:buffet/draft/pick/resolve_presentation with storage botc_patch:buffet action')
+    Write-GeneratedFile "pick/$category.mcfunction" $pickLines
+}
+
+$prepareTypeLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Count currently open, nonempty actual character types without weighting by remaining slots.") {
+    $prepareTypeLines.Add($line)
+}
+$prepareTypeLines.Add('function botc_patch:buffet/draft/recount_needs')
+$prepareTypeLines.Add('function botc_patch:buffet/draft/pick/prepare_marionette')
+$prepareTypeLines.Add('function botc_patch:buffet/draft/pick/prepare_eligibility with storage botc_patch:buffet action')
+$prepareTypeLines.Add('scoreboard players set draft_open_type_count botc_patch 0')
+foreach ($category in @("town", "outsider", "minion", "demon")) {
+    $code = [int] $categoryCode[$category]
+    $prepareTypeLines.Add(('scoreboard players set draft_type_pool_{0} botc_patch 0' -f $category))
+    foreach ($role in @($selectableRoles | Where-Object { [string] $_.Category -eq $category })) {
+        $roleId = [int] $role.Id
+        $prepareTypeLines.Add(('$execute if score draft_eligible_{0} botc_patch matches 1 unless data storage botc_patch:buffet draft.seats.s$(seat).seen{{r{0}:1b}} run scoreboard players add draft_type_pool_{1} botc_patch 1' -f $roleId, $category))
+    }
+    $prepareTypeLines.Add(('execute if score draft_need_{0} botc_patch matches 1.. if score draft_type_pool_{0} botc_patch matches 1.. run scoreboard players add draft_open_type_count botc_patch 1' -f $category))
+}
+Write-GeneratedFile "pick/prepare_types.mcfunction" $prepareTypeLines
+
+Write-GeneratedFile "pick/category.mcfunction" (
+    (New-Header "Choose uniformly among currently legal, nonempty actual character types.") +
+    @(
+        '$execute if data storage botc_patch:buffet draft.seats.s$(seat){forced_category:1} run return run function botc_patch:buffet/draft/pick/town with storage botc_patch:buffet action',
+        '$execute if data storage botc_patch:buffet draft.seats.s$(seat){forced_category:2} run return run function botc_patch:buffet/draft/pick/outsider with storage botc_patch:buffet action',
+        '$execute if data storage botc_patch:buffet draft.seats.s$(seat){forced_category:3} run return run function botc_patch:buffet/draft/pick/minion with storage botc_patch:buffet action',
+        '$execute if data storage botc_patch:buffet draft.seats.s$(seat){forced_category:4} run return run function botc_patch:buffet/draft/pick/demon with storage botc_patch:buffet action',
+        'function botc_patch:buffet/draft/pick/prepare_types with storage botc_patch:buffet action',
+        'execute unless score draft_open_type_count botc_patch matches 1.. run scoreboard players set draft_offer_failed botc_patch 1',
+        'execute unless score draft_open_type_count botc_patch matches 1.. run return 0',
+        'execute store result score draft_category_roll botc_patch run random value 0..2147483646',
+        'scoreboard players operation draft_category_roll botc_patch %= draft_open_type_count botc_patch',
+        'scoreboard players add draft_category_roll botc_patch 1',
+        'scoreboard players set draft_type_cursor botc_patch 0',
+        'scoreboard players set draft_category_picked botc_patch 0',
+        'execute if score draft_need_town botc_patch matches 1.. if score draft_type_pool_town botc_patch matches 1.. run scoreboard players add draft_type_cursor botc_patch 1',
+        'execute if score draft_category_picked botc_patch matches 0 if score draft_type_cursor botc_patch = draft_category_roll botc_patch if score draft_need_town botc_patch matches 1.. if score draft_type_pool_town botc_patch matches 1.. run function botc_patch:buffet/draft/pick/town with storage botc_patch:buffet action',
+        'execute if score draft_need_outsider botc_patch matches 1.. if score draft_type_pool_outsider botc_patch matches 1.. run scoreboard players add draft_type_cursor botc_patch 1',
+        'execute if score draft_category_picked botc_patch matches 0 if score draft_type_cursor botc_patch = draft_category_roll botc_patch if score draft_need_outsider botc_patch matches 1.. if score draft_type_pool_outsider botc_patch matches 1.. run function botc_patch:buffet/draft/pick/outsider with storage botc_patch:buffet action',
+        'execute if score draft_need_minion botc_patch matches 1.. if score draft_type_pool_minion botc_patch matches 1.. run scoreboard players add draft_type_cursor botc_patch 1',
+        'execute if score draft_category_picked botc_patch matches 0 if score draft_type_cursor botc_patch = draft_category_roll botc_patch if score draft_need_minion botc_patch matches 1.. if score draft_type_pool_minion botc_patch matches 1.. run function botc_patch:buffet/draft/pick/minion with storage botc_patch:buffet action',
+        'execute if score draft_need_demon botc_patch matches 1.. if score draft_type_pool_demon botc_patch matches 1.. run scoreboard players add draft_type_cursor botc_patch 1',
+        'execute if score draft_category_picked botc_patch matches 0 if score draft_type_cursor botc_patch = draft_category_roll botc_patch if score draft_need_demon botc_patch matches 1.. if score draft_type_pool_demon botc_patch matches 1.. run function botc_patch:buffet/draft/pick/demon with storage botc_patch:buffet action'
+    )
+)
+
+$permutations = @{
+    1 = @(@(1))
+    2 = @(@(1, 2), @(2, 1))
+    3 = @(@(1, 2, 3), @(1, 3, 2), @(2, 1, 3), @(2, 3, 1), @(3, 1, 2), @(3, 2, 1))
+}
+foreach ($count in 1..3) {
+    $shuffleLines = [System.Collections.Generic.List[string]]::new()
+    foreach ($line in New-Header "Shuffle $count internally generated card(s) before visible positions are stored.") {
+        $shuffleLines.Add($line)
+    }
+    if ($count -eq 1) {
+        $shuffleLines.Add('scoreboard players set draft_shuffle_pick botc_patch 1')
+    } else {
+        $shuffleLines.Add(('execute store result score draft_shuffle_pick botc_patch run random value 1..{0}' -f $permutations[$count].Count))
+    }
+    for ($index = 0; $index -lt $permutations[$count].Count; $index++) {
+        $perm = $permutations[$count][$index]
+        $lines = [System.Collections.Generic.List[string]]::new()
+        foreach ($line in New-Header "Apply trusted visible-card permutation $($index + 1) for a $count-card hand.") {
+            $lines.Add($line)
+        }
+        for ($visible = 1; $visible -le $count; $visible++) {
+            $internal = [int] $perm[$visible - 1]
+            $lines.Add(('$data modify storage botc_patch:buffet draft.seats.s$(seat).offers.o{0} set from storage botc_patch:buffet draft.seats.s$(seat).internal_offers.i{1}' -f $visible, $internal))
+        }
+        Write-GeneratedFile "shuffle/${count}_$($index + 1).mcfunction" $lines
+        $shuffleLines.Add(('execute if score draft_shuffle_pick botc_patch matches {0} run function botc_patch:buffet/draft/shuffle/{1}_{0} with storage botc_patch:buffet action' -f ($index + 1), $count))
+    }
+    Write-GeneratedFile "shuffle/$count.mcfunction" $shuffleLines
+}
+
+$specialRoles = @(
+    $roleByName["kazali"],
+    $roleByName["legion"],
+    $roleByName["lord_of_typhon"]
+)
+
+Write-GeneratedFile "special/start_hidden.mcfunction" (
+    (New-Header "Begin a complete two-discard special-looking flow after a first-card hidden diversion.") +
+    @(
+        'scoreboard players set draft_special_active botc_patch 1',
+        'scoreboard players set draft_special_real botc_patch 0',
+        'scoreboard players set draft_special_discards botc_patch 0',
+        'function botc_patch:buffet/draft/pick/reset_hand with storage botc_patch:buffet action',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).special.active set value 1b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).special.real set value 0b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).special.discards set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).special.progress set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).special.seen set value {}',
+        'function botc_patch:buffet/draft/special/offer_next with storage botc_patch:buffet action'
+    )
+)
+
+Write-GeneratedFile "special/start_real.mcfunction" (
+    (New-Header "Begin the guaranteed-real sequential Demon-special flow for its reserved player.") +
+    @(
+        'scoreboard players set draft_special_active botc_patch 1',
+        'scoreboard players set draft_special_real botc_patch 1',
+        'scoreboard players set draft_special_discards botc_patch 0',
+        'function botc_patch:buffet/draft/pick/reset_hand with storage botc_patch:buffet action',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).special set value {active:1b,real:1b,progress:0,discards:0,actual:0,hidden_mode:0,forced_ability:0,archetype:"",seen:{}}',
+        'function botc_patch:buffet/draft/special/offer_next with storage botc_patch:buffet action'
+    )
+)
+
+$specialPickLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Choose the next unique Kazali, Legion or Lord of Typhon presentation.") {
+    $specialPickLines.Add($line)
+}
+$specialPickLines.Add('scoreboard players set draft_special_pool botc_patch 0')
+foreach ($role in $specialRoles) {
+    $specialPickLines.Add(('$execute unless data storage botc_patch:buffet draft.seats.s$(seat).special.seen{{r{0}:1b}} run scoreboard players add draft_special_pool botc_patch 1' -f [int] $role.Id))
+}
+$specialPickLines.Add('execute unless score draft_special_pool botc_patch matches 1.. run scoreboard players set draft_offer_failed botc_patch 1')
+$specialPickLines.Add('execute unless score draft_special_pool botc_patch matches 1.. run return 0')
+$specialPickLines.Add('execute store result score draft_special_pick botc_patch run random value 0..2147483646')
+$specialPickLines.Add('scoreboard players operation draft_special_pick botc_patch %= draft_special_pool botc_patch')
+$specialPickLines.Add('scoreboard players add draft_special_pick botc_patch 1')
+$specialPickLines.Add('scoreboard players set draft_special_cursor botc_patch 0')
+$specialPickLines.Add('scoreboard players set draft_role_picked botc_patch 0')
+foreach ($role in $specialRoles) {
+    $roleId = [int] $role.Id
+    $specialPickLines.Add(('$execute if score draft_role_picked botc_patch matches 0 unless data storage botc_patch:buffet draft.seats.s$(seat).special.seen{{r{0}:1b}} run scoreboard players add draft_special_cursor botc_patch 1' -f $roleId))
+    $specialPickLines.Add(('$execute if score draft_role_picked botc_patch matches 0 if score draft_special_cursor botc_patch = draft_special_pick botc_patch unless data storage botc_patch:buffet draft.seats.s$(seat).special.seen{{r{0}:1b}} run function botc_patch:buffet/draft/pick/role/{0}' -f $roleId))
+}
+$specialPickLines.Add('$data modify storage botc_patch:buffet action.picked.seat set value $(seat)')
+$specialPickLines.Add('data modify storage botc_patch:buffet action.picked.option set value 1')
+$specialPickLines.Add('execute if score draft_special_real botc_patch matches 0 run function botc_patch:buffet/draft/special/apply_hidden_actual with storage botc_patch:buffet action')
+$specialPickLines.Add('function botc_patch:buffet/draft/special/store_offer with storage botc_patch:buffet action.picked')
+Write-GeneratedFile "special/pick.mcfunction" $specialPickLines
+
+Write-GeneratedFile "special/apply_hidden_actual.mcfunction" (
+    (New-Header "Keep the special-looking card while restoring the fixed hidden actual identity.") +
+    @(
+        '$data modify storage botc_patch:buffet action.picked.actual set from storage botc_patch:buffet draft.seats.s$(seat).special.actual',
+        '$data modify storage botc_patch:buffet action.picked.hidden_mode set from storage botc_patch:buffet draft.seats.s$(seat).special.hidden_mode',
+        '$data modify storage botc_patch:buffet action.picked.hermit_forced_ability set from storage botc_patch:buffet draft.seats.s$(seat).special.forced_ability',
+        '$data modify storage botc_patch:buffet action.picked.archetype set from storage botc_patch:buffet draft.seats.s$(seat).special.archetype',
+        '$execute store result storage botc_patch:buffet action.picked.archetype_id int 1 run data get storage botc_patch:buffet draft.seats.s$(seat).special.archetype_id',
+        'data modify storage botc_patch:buffet action.picked.alignment set value 1',
+        'data modify storage botc_patch:buffet action.picked.category set value 2',
+        'data modify storage botc_patch:buffet action.picked.hidden set value 1b'
+    )
+)
+
+Write-GeneratedFile "special/store_offer.mcfunction" (
+    (New-Header "Store one sequential special card without leaking whether it is real or hidden.") +
+    @(
+        'scoreboard players operation draft_internal_position botc_patch = draft_special_discards botc_patch',
+        'scoreboard players add draft_internal_position botc_patch 1',
+        'execute store result storage botc_patch:buffet action.picked.hand_id int 1 run scoreboard players get draft_hand_id botc_patch',
+        'execute store result storage botc_patch:buffet action.picked.internal_draw int 1 run scoreboard players get draft_internal_position botc_patch',
+        'execute store result storage botc_patch:buffet action.picked.route int 1 run scoreboard players get draft_route_kind botc_patch',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).offers set value {}',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).offers.o1 set from storage botc_patch:buffet action.picked',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).special.seen.r$(perceived) set value 1b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).seen.r$(perceived) set value 1b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).exclusions.r$(perceived) set value 1b',
+        '$execute store result storage botc_patch:buffet draft.seats.s$(seat).special.progress int 1 run scoreboard players get draft_internal_position botc_patch',
+        'function botc_patch:buffet/draft/special/dialog with storage botc_patch:buffet action.picked'
+    )
+)
+
+Write-GeneratedFile "special/offer_next.mcfunction" (
+    (New-Header "Generate exactly one new special card and preserve the full two-discard flow.") +
+    @(
+        'function botc_patch:buffet/draft/special/pick with storage botc_patch:buffet action'
+    )
+)
+
+Write-GeneratedFile "special/reopen.mcfunction" (
+    (New-Header "Reopen the current one-card special flow without changing its progress.") +
+    @(
+        '$function botc_patch:buffet/draft/special/dialog with storage botc_patch:buffet draft.seats.s$(seat).offers.o1'
+    )
+)
+
+$specialDialogLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Present the same sequential special UI for real and hidden routes.") {
+    $specialDialogLines.Add($line)
+}
+$specialDialogLines.Add('$execute if score draft_special_discards botc_patch matches 0..1 run return run dialog show @s {type:"multi_action",title:{text:"Draft Buffet",color:"aqua",bold:true},body:[{type:"plain_message",contents:{text:"Choose this character or discard it for one new unique card.",color:"gray"},width:400}],columns:2,actions:[{label:{text:"$(glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(name)",font:"minecraft:default",color:"$(color)"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set 7001"}},{label:{text:"' + $ResetGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Discard",font:"minecraft:default",color:"red",bold:true}]},action:{type:"run_command",command:"/trigger botc_buffet_action set 7010"}}],exit_action:{label:"Close",action:{type:"run_command",command:"/trigger botc_buffet_action set 7011"}}}')
+$specialDialogLines.Add('$dialog show @s {type:"multi_action",title:{text:"Draft Buffet",color:"aqua",bold:true},body:[{type:"plain_message",contents:{text:"This is your final card.",color:"gray"},width:400}],columns:1,actions:[{label:{text:"$(glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(name)",font:"minecraft:default",color:"$(color)"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set 7001"}}],exit_action:{label:"Close",action:{type:"run_command",command:"/trigger botc_buffet_action set 7011"}}}')
+Write-GeneratedFile "special/dialog.mcfunction" $specialDialogLines
+
+Write-GeneratedFile "special/discard.mcfunction" (
+    (New-Header "Discard one special card, keep a hidden actual globally available, and advance to the next unique card.") +
+    @(
+        'execute if score draft_special_discards botc_patch matches 2.. run return 0',
+        'scoreboard players add draft_special_discards botc_patch 1',
+        '$execute store result storage botc_patch:buffet draft.seats.s$(seat).special.discards int 1 run scoreboard players get draft_special_discards botc_patch',
+        'function botc_patch:buffet/draft/special/offer_next with storage botc_patch:buffet action'
+    )
+)
+
+Write-GeneratedFile "special/select.mcfunction" (
+    (New-Header "Accept the current real or hidden special card and leave the trusted identity to normal finalization.") +
+    @(
+        '$data modify storage botc_patch:buffet action.choice set from storage botc_patch:buffet draft.seats.s$(seat).offers.o1',
+        '$data modify storage botc_patch:buffet action.choice.seat set value $(seat)',
+        'scoreboard players set draft_special_active botc_patch 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).special.active set value 0b',
+        'function botc_patch:buffet/draft/finalize_choice with storage botc_patch:buffet action.choice'
+    )
+)
 
 # Offer rounds: 3 choices, then 2 new choices, then one final forced choice.
 foreach ($round in 0..2) {
@@ -741,23 +1738,23 @@ foreach ($round in 0..2) {
         $roundLines.Add($line)
     }
     $roundLines.Add('scoreboard players set draft_offer_failed botc_patch 0')
-    $roundLines.Add('scoreboard players set draft_hidden_used_round botc_patch 0')
-    $roundLines.Add('$data modify storage botc_patch:buffet draft.seats.s$(seat).offers set value {}')
+    $roundLines.Add(('scoreboard players set draft_hand_size botc_patch {0}' -f $offerCount))
+    $roundLines.Add('function botc_patch:buffet/draft/pick/reset_hand with storage botc_patch:buffet action')
     for ($option = 1; $option -le $offerCount; $option++) {
+        $roundLines.Add(('scoreboard players set draft_internal_position botc_patch {0}' -f $option))
         $roundLines.Add(('data modify storage botc_patch:buffet action.option set value {0}' -f $option))
         if ($round -eq 0 -and $option -eq 1) {
             $roundLines.Add('execute if entity @s[tag=botc_buffet_draft_forced] run function botc_patch:buffet/draft/pick/forced with storage botc_patch:buffet action')
             $roundLines.Add('execute unless entity @s[tag=botc_buffet_draft_forced] run function botc_patch:buffet/draft/pick/category with storage botc_patch:buffet action')
         } else {
-            $roundLines.Add('function botc_patch:buffet/draft/pick/category with storage botc_patch:buffet action')
+            $roundLines.Add('execute if score draft_diversion botc_patch matches 0 run function botc_patch:buffet/draft/pick/category with storage botc_patch:buffet action')
         }
-    }
-    if ($round -eq 0) {
-        $roundLines.Add('execute if score draft_offer_failed botc_patch matches 0 if score draft_opening_offer_active botc_patch matches 1 run function botc_patch:buffet/draft/pick/close_opening')
     }
     $roundLines.Add('execute if score draft_offer_failed botc_patch matches 1 run function botc_patch:buffet/attention/block_storytellers')
     $roundLines.Add('execute if score draft_offer_failed botc_patch matches 1 run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Draft paused because no legal character could be offered. Review the remaining character counts before continuing.","color":"gray","bold":false}]')
     $roundLines.Add('execute if score draft_offer_failed botc_patch matches 1 run return 0')
+    $roundLines.Add('execute if score draft_diversion botc_patch matches 1 run return run function botc_patch:buffet/draft/special/start_hidden with storage botc_patch:buffet action')
+    $roundLines.Add(('function botc_patch:buffet/draft/shuffle/{0} with storage botc_patch:buffet action' -f $offerCount))
     $roundLines.Add(('$data modify storage botc_patch:buffet draft.seats.s$(seat).round set value {0}' -f $round))
     $roundLines.Add(('data modify storage botc_patch:buffet action.round set value {0}' -f $round))
     $roundLines.Add('function botc_patch:buffet/draft/store_round_history with storage botc_patch:buffet action')
@@ -777,8 +1774,7 @@ $prepareDialogLines = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Prepare the acting player's private Draft dialog.") {
     $prepareDialogLines.Add($line)
 }
-$prepareDialogLines.Add('execute if score draft_recycling botc_patch matches 0 run data modify storage botc_patch:buffet ui.recycling_note set value "Choose one character. Discarded choices leave the pool for everyone else."')
-$prepareDialogLines.Add('execute if score draft_recycling botc_patch matches 1 run data modify storage botc_patch:buffet ui.recycling_note set value "Choose one character. Discarded choices may return to the pool."')
+$prepareDialogLines.Add('data modify storage botc_patch:buffet ui.recycling_note set value "Choose one character. Direct discards retire; hidden actual characters stay available to other players."')
 for ($option = 1; $option -le 3; $option++) {
     foreach ($field in @("name", "color", "glyph")) {
         $prepareDialogLines.Add(('$execute if data storage botc_patch:buffet draft.seats.s$(seat).offers.o{0} run data modify storage botc_patch:buffet ui.o{0}_{1} set from storage botc_patch:buffet draft.seats.s$(seat).offers.o{0}.{1}' -f $option, $field))
@@ -811,6 +1807,7 @@ foreach ($option in 1..3) {
     Write-GeneratedFile "select_option_$option.mcfunction" (
         (New-Header "Choose trusted Draft option $option for the acting player.") +
         @(
+            $(if ($option -eq 1) { 'execute if score draft_special_active botc_patch matches 1 run return run function botc_patch:buffet/draft/special/select with storage botc_patch:buffet action' } else { 'execute if score draft_special_active botc_patch matches 1 run return 0' }),
             ('$execute unless data storage botc_patch:buffet draft.seats.s$(seat).offers.o{0} run return 0' -f $option),
             ('$data modify storage botc_patch:buffet action.choice set from storage botc_patch:buffet draft.seats.s$(seat).offers.o{0}' -f $option),
             '$data modify storage botc_patch:buffet action.choice.seat set value $(seat)',
@@ -819,21 +1816,59 @@ foreach ($option in 1..3) {
     )
 }
 
+Write-GeneratedFile "retire/discard_offer.mcfunction" (
+    (New-Header "Apply direct-versus-hidden discard retirement to one trusted offer object.") +
+    @(
+        '$execute if data storage botc_patch:buffet action.retire{hidden:0b} run scoreboard players set draft_available_$(actual) botc_patch 0',
+        '$execute if data storage botc_patch:buffet action.retire{hidden:0b} run scoreboard players set draft_discarded_$(actual) botc_patch 1',
+        '$execute if data storage botc_patch:buffet action.retire{hidden:0b} run data modify storage botc_patch:buffet draft.retirement.r$(actual) set value "direct_discard"',
+        '$execute if data storage botc_patch:buffet action.retire{hidden:1b} run scoreboard players set draft_available_$(perceived) botc_patch 0',
+        '$execute if data storage botc_patch:buffet action.retire{hidden:1b} run scoreboard players set draft_discarded_$(perceived) botc_patch 1',
+        '$execute if data storage botc_patch:buffet action.retire{hidden:1b} run data modify storage botc_patch:buffet draft.retirement.r$(perceived) set value "hidden_mask_discard"'
+    )
+)
+
+$retireHandLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Retire every visible card in the current hand while preserving discarded hidden actuals globally.") {
+    $retireHandLines.Add($line)
+}
+foreach ($option in 1..3) {
+    $retireHandLines.Add('data remove storage botc_patch:buffet action.retire')
+    $retireHandLines.Add(('$execute if data storage botc_patch:buffet draft.seats.s$(seat).offers.o{0} run data modify storage botc_patch:buffet action.retire set from storage botc_patch:buffet draft.seats.s$(seat).offers.o{0}' -f $option))
+    $retireHandLines.Add(('execute if data storage botc_patch:buffet action.retire run function botc_patch:buffet/draft/retire/discard_offer with storage botc_patch:buffet action.retire' -f $option))
+}
+Write-GeneratedFile "retire/hand.mcfunction" $retireHandLines
+
+Write-GeneratedFile "pick/clear_reservations.mcfunction" (
+    (New-Header "Release all temporary reservations after a hand is selected or discarded.") +
+    @('data remove storage botc_patch:buffet draft.reservations') +
+    @($roles | ForEach-Object { 'scoreboard players set draft_reserved_{0} botc_patch 0' -f [int] $_.Id })
+)
+
 Write-GeneratedFile "finalize_choice.mcfunction" (
     (New-Header "Finalize one trusted Draft choice and advance the private turn order.") +
     @(
+        'function botc_patch:buffet/draft/retire/hand with storage botc_patch:buffet action.choice',
+        'function botc_patch:buffet/draft/pick/clear_reservations',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).actual set value $(actual)',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).perceived set value $(perceived)',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).alignment set value $(alignment)',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).perceived_alignment set value $(perceived_alignment)',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).category set value $(category)',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).archetype set value "$(archetype)"',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).hidden_mode set value $(hidden_mode)',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).hand_id set value $(hand_id)',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).internal_draw set value $(internal_draw)',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).route set value $(route)',
         '$execute unless data storage botc_patch:buffet action.choice{hermit_forced_ability:0} run data modify storage botc_patch:buffet draft.seats.s$(seat).hermit_forced_ability set value $(hermit_forced_ability)',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).status set value 2',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).history append from storage botc_patch:buffet action.choice',
         '$scoreboard players set draft_chosen_$(actual) botc_patch 1',
         '$scoreboard players set draft_available_$(actual) botc_patch 0',
+        '$data modify storage botc_patch:buffet draft.retirement.r$(actual) set value "selected_actual"',
         '$scoreboard players set draft_chosen_$(perceived) botc_patch 1',
         '$scoreboard players set draft_available_$(perceived) botc_patch 0',
+        '$data modify storage botc_patch:buffet draft.retirement.r$(perceived) set value "selected_perceived"',
         '$execute unless data storage botc_patch:buffet action.choice{hermit_forced_ability:0} run scoreboard players set draft_chosen_$(hermit_forced_ability) botc_patch 1',
         '$execute unless data storage botc_patch:buffet action.choice{hermit_forced_ability:0} run scoreboard players set draft_available_$(hermit_forced_ability) botc_patch 0',
         'scoreboard players add draft_assigned_total botc_patch 1',
@@ -844,9 +1879,14 @@ Write-GeneratedFile "finalize_choice.mcfunction" (
         '$execute if score @s id matches $(seat) run scoreboard players set @s botc_buffet_status 2',
         '$execute if score @s id matches $(seat) run tag @s remove botc_buffet_draft_current',
         '$execute if score @s id matches $(seat) run tag @s remove botc_buffet_draft_waiting',
+        '$execute if score @s id matches $(seat) run tag @s remove botc_buffet_draft_route_special',
+        '$execute if score @s id matches $(seat) run tag @s remove botc_buffet_draft_route_atheist',
+        '$execute if score @s id matches $(seat) run tag @s remove botc_buffet_draft_fake_atheist',
+        '$execute if score @s id matches $(seat) run tag @s remove botc_buffet_draft_forced_legion',
         'scoreboard players set draft_current_seat botc_patch 0',
         '$execute if score @s id matches $(seat) if score @s botc_buffet_role matches 1.. run function botc_patch:buffet/draft/count_choice',
         '$execute if score @s id matches $(seat) run function botc_patch:buffet/draft/forced/resolve_choice',
+        'execute if score draft_lil_monsta_redraft botc_patch matches 1 run function botc_patch:buffet/draft/topology/lil_monsta/finish with storage botc_patch:buffet action.choice',
         'scoreboard players set draft_modifier_pending botc_patch 0',
         '$execute if score @s id matches $(seat) run function botc_patch:buffet/draft/modifier/dispatch',
         'execute if score draft_modifier_pending botc_patch matches 0 run function botc_patch:buffet/draft/next_turn'
@@ -956,6 +1996,9 @@ Write-GeneratedFile "modifier/set_outsider_target.mcfunction" (
         'scoreboard players operation draft_seat_delta_outsider botc_patch += draft_target_delta botc_patch',
         '$execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_town int 1 run scoreboard players get draft_seat_delta_town botc_patch',
         '$execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_outsider int 1 run scoreboard players get draft_seat_delta_outsider botc_patch',
+        'scoreboard players set draft_protected_outsider_delta botc_patch 0',
+        'execute if score draft_target_delta botc_patch matches 1.. run scoreboard players operation draft_protected_outsider_delta botc_patch = draft_target_delta botc_patch',
+        '$execute store result storage botc_patch:buffet draft.seats.s$(seat).protected_outsider int 1 run scoreboard players get draft_protected_outsider_delta botc_patch',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).modifier_owner set value 1b',
         'scoreboard players set draft_outsider_absolute_active botc_patch 1',
         'execute store result score draft_outsider_absolute_seat botc_patch run data get storage botc_patch:buffet modifier.seat',
@@ -1002,6 +2045,9 @@ Write-GeneratedFile "modifier/set_delta.mcfunction" (
         'scoreboard players operation draft_seat_delta_outsider botc_patch += draft_target_delta botc_patch',
         '$execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_town int 1 run scoreboard players get draft_seat_delta_town botc_patch',
         '$execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_outsider int 1 run scoreboard players get draft_seat_delta_outsider botc_patch',
+        'scoreboard players set draft_protected_outsider_delta botc_patch 0',
+        'execute if score draft_target_delta botc_patch matches 1.. run scoreboard players operation draft_protected_outsider_delta botc_patch = draft_target_delta botc_patch',
+        '$execute store result storage botc_patch:buffet draft.seats.s$(seat).protected_outsider int 1 run scoreboard players get draft_protected_outsider_delta botc_patch',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).modifier_owner set value 1b',
         'function botc_patch:buffet/draft/modifier/finish'
     )
@@ -1014,17 +2060,18 @@ foreach ($line in New-Header "Dispatch setup modifiers from the trusted finalize
 $modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/baron' -f $roleIds.baron))
 $modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/fang_gu' -f $roleIds.fang_gu))
 $modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/vigormortis' -f $roleIds.vigormortis))
-$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/lil_monsta' -f $roleIds.lil_monsta))
-$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/summoner' -f $roleIds.summoner))
+$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/topology/lil_monsta with storage botc_patch:buffet action.choice' -f $roleIds.lil_monsta))
+$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/topology/summoner with storage botc_patch:buffet action.choice' -f $roleIds.summoner))
+$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/topology/alchemist_summoner/check with storage botc_patch:buffet action.choice' -f $roleIds.alchemist))
 $modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/atheist' -f $roleIds.atheist))
 $modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/choirboy' -f $roleIds.choirboy))
 $modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/huntsman' -f $roleIds.huntsman))
 $modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run scoreboard players set draft_bounty_pending botc_patch 1' -f $roleIds.bounty_hunter))
 $modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/village_idiot' -f $roleIds.village_idiot))
-$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} if score draft_legion_active botc_patch matches 0 run function botc_patch:buffet/draft/modifier/legion' -f $roleIds.legion))
-$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} if score draft_riot_active botc_patch matches 0 run function botc_patch:buffet/draft/modifier/riot with storage botc_patch:buffet action.choice' -f $roleIds.riot))
-$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/lord_of_typhon' -f $roleIds.lord_of_typhon))
-foreach ($roleName in @("balloonist", "godfather", "hermit", "xaan", "kazali")) {
+$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} if score draft_legion_active botc_patch matches 0 run function botc_patch:buffet/draft/topology/legion with storage botc_patch:buffet action.choice' -f $roleIds.legion))
+$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/topology/lord_of_typhon with storage botc_patch:buffet action.choice' -f $roleIds.lord_of_typhon))
+$modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/topology/kazali with storage botc_patch:buffet action.choice' -f $roleIds.kazali))
+foreach ($roleName in @("balloonist", "godfather", "hermit", "xaan")) {
     $modifierDispatch.Add(('execute if score @s botc_buffet_role matches {0} run function botc_patch:buffet/draft/modifier/{1}' -f $roleIds[$roleName], $roleName))
 }
 Write-GeneratedFile "modifier/dispatch.mcfunction" $modifierDispatch
@@ -1033,8 +2080,6 @@ $fixedModifiers = @{
     baron = @(-2, 2, 0, 0)
     fang_gu = @(-1, 1, 0, 0)
     vigormortis = @(1, -1, 0, 0)
-    lil_monsta = @(-1, 0, 1, 0)
-    summoner = @(1, 0, 0, -1)
 }
 foreach ($entry in $fixedModifiers.GetEnumerator()) {
     $delta = $entry.Value
@@ -1051,29 +2096,549 @@ foreach ($entry in $fixedModifiers.GetEnumerator()) {
     )
 }
 
-Write-GeneratedFile "modifier/atheist.mcfunction" (
-    (New-Header "Convert the untouched setup into an all-good Atheist setup.") +
+$topologySnapshotScores = @(
+    "draft_topology_status", "draft_topology_owner", "draft_atheist_active",
+    "draft_legion_active", "draft_legion_count", "draft_required_legion", "draft_legion_outsider_floor",
+    "draft_lord_of_typhon_active", "draft_lord_of_typhon_required",
+    "draft_lil_monsta_active", "draft_lil_monsta_redraft",
+    "draft_summoner_active", "draft_alchemist_summoner_active", "draft_summoner_owner"
+)
+$topologyBeginLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Snapshot every mutable composition and pool field before one validated topology transaction.") {
+    $topologyBeginLines.Add($line)
+}
+foreach ($line in @(
+        'execute store result storage botc_patch:buffet draft.topology.snapshot.target_town int 1 run scoreboard players get draft_target_town botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.snapshot.target_outsider int 1 run scoreboard players get draft_target_outsider botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.snapshot.target_minion int 1 run scoreboard players get draft_target_minion botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.snapshot.target_demon int 1 run scoreboard players get draft_target_demon botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.snapshot.assigned_town int 1 run scoreboard players get draft_assigned_town botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.snapshot.assigned_outsider int 1 run scoreboard players get draft_assigned_outsider botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.snapshot.assigned_minion int 1 run scoreboard players get draft_assigned_minion botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.snapshot.assigned_demon int 1 run scoreboard players get draft_assigned_demon botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.snapshot.assigned_total int 1 run scoreboard players get draft_assigned_total botc_patch',
+        'data modify storage botc_patch:buffet draft.topology.snapshot.seats set from storage botc_patch:buffet draft.seats'
+)) {
+    $topologyBeginLines.Add($line)
+}
+foreach ($score in $topologySnapshotScores) {
+    $topologyBeginLines.Add(('execute store result storage botc_patch:buffet draft.topology.snapshot.scores.{0} int 1 run scoreboard players get {0} botc_patch' -f $score))
+}
+foreach ($role in $roles) {
+    $roleId = [int] $role.Id
+    foreach ($field in @("available", "chosen", "blocked", "discarded", "completion_recycled")) {
+        $topologyBeginLines.Add(('execute store result storage botc_patch:buffet draft.topology.snapshot.pool.r{0}.{1} int 1 run scoreboard players get draft_{1}_{0} botc_patch' -f $roleId, $field))
+    }
+}
+foreach ($line in @(
+        '$data modify storage botc_patch:buffet draft.topology.kind set value "$(kind)"',
+        '$data modify storage botc_patch:buffet draft.topology.owner_seat set value $(seat)',
+        '$scoreboard players set draft_topology_owner botc_patch $(seat)',
+        'data modify storage botc_patch:buffet draft.topology.status set value 0',
+        'scoreboard players set draft_topology_status botc_patch 0'
+)) {
+    $topologyBeginLines.Add($line)
+}
+Write-GeneratedFile "topology/begin.mcfunction" $topologyBeginLines
+
+Write-GeneratedFile "topology/commit.mcfunction" (
+    (New-Header "Commit a validated topology transaction and synchronize its exact target.") +
     @(
-        'scoreboard players set draft_atheist_active botc_patch 1',
-        'scoreboard players operation draft_atheist_removed botc_patch = draft_target_minion botc_patch',
-        'scoreboard players operation draft_atheist_removed botc_patch += draft_target_demon botc_patch',
-        'scoreboard players operation draft_atheist_old_minion botc_patch = draft_target_minion botc_patch',
-        'scoreboard players operation draft_atheist_old_demon botc_patch = draft_target_demon botc_patch',
-        'scoreboard players operation draft_target_town botc_patch += draft_atheist_removed botc_patch',
-        'scoreboard players set draft_target_minion botc_patch 0',
-        'scoreboard players set draft_target_demon botc_patch 0',
-        'execute store result storage botc_patch:buffet modifier.seat int 1 run scoreboard players get @s id',
-        'execute store result storage botc_patch:buffet modifier.removed int 1 run scoreboard players get draft_atheist_removed botc_patch',
-        'function botc_patch:buffet/draft/modifier/store_atheist with storage botc_patch:buffet modifier'
+        'scoreboard players set draft_topology_status botc_patch 1',
+        'data modify storage botc_patch:buffet draft.topology.status set value 1',
+        'function botc_patch:buffet/draft/recount_needs'
     )
 )
-Write-GeneratedFile "modifier/store_atheist.mcfunction" (
-    (New-Header "Store the reversible Atheist setup delta.") +
+
+$topologyRollbackLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Restore the complete pre-transaction composition and pool snapshot after a blocked topology change.") {
+    $topologyRollbackLines.Add($line)
+}
+foreach ($line in @(
+        'execute store result score draft_target_town botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.target_town',
+        'execute store result score draft_target_outsider botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.target_outsider',
+        'execute store result score draft_target_minion botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.target_minion',
+        'execute store result score draft_target_demon botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.target_demon',
+        'execute store result score draft_assigned_town botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.assigned_town',
+        'execute store result score draft_assigned_outsider botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.assigned_outsider',
+        'execute store result score draft_assigned_minion botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.assigned_minion',
+        'execute store result score draft_assigned_demon botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.assigned_demon',
+        'execute store result score draft_assigned_total botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.assigned_total',
+        'data modify storage botc_patch:buffet draft.seats set from storage botc_patch:buffet draft.topology.snapshot.seats'
+)) {
+    $topologyRollbackLines.Add($line)
+}
+foreach ($score in $topologySnapshotScores) {
+    $topologyRollbackLines.Add(('execute store result score {0} botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.scores.{0}' -f $score))
+}
+foreach ($role in $roles) {
+    $roleId = [int] $role.Id
+    foreach ($field in @("available", "chosen", "blocked", "discarded", "completion_recycled")) {
+        $topologyRollbackLines.Add(('execute store result score draft_{1}_{0} botc_patch run data get storage botc_patch:buffet draft.topology.snapshot.pool.r{0}.{1}' -f $roleId, $field))
+    }
+}
+foreach ($line in @(
+        'data modify storage botc_patch:buffet draft.topology set value {kind:"none",status:0,owner_seat:0,snapshot:{}}',
+        'function botc_patch:buffet/draft/rebuild_requirements',
+        'function botc_patch:buffet/draft/recount_needs'
+)) {
+    $topologyRollbackLines.Add($line)
+}
+Write-GeneratedFile "topology/rollback.mcfunction" $topologyRollbackLines
+
+Write-GeneratedFile "topology/block.mcfunction" (
+    (New-Header "Keep an impossible guaranteed topology blocked after complete rollback; never substitute a fallback.") +
     @(
-        '$data modify storage botc_patch:buffet draft.seats.s$(seat).delta_town set value $(removed)',
-        '$execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_minion int -1 run scoreboard players get draft_atheist_old_minion botc_patch',
-        '$execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_demon int -1 run scoreboard players get draft_atheist_old_demon botc_patch',
+        'scoreboard players set draft_topology_status botc_patch 3',
+        'data modify storage botc_patch:buffet draft.topology.status set value 3',
+        'function botc_patch:buffet/attention/block_storytellers'
+    )
+)
+
+Write-GeneratedFile "topology/kazali.mcfunction" (
+    (New-Header "Commit real Kazali with the pre-draft Outsider target and standard Minion count unchanged.") +
+    @(
+        '$data modify storage botc_patch:buffet action.topology set value {seat:$(seat),kind:"kazali"}',
+        'function botc_patch:buffet/draft/topology/begin with storage botc_patch:buffet action.topology',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).topology_modifier set value "kazali"',
+        'function botc_patch:buffet/draft/topology/commit',
+        'function botc_patch:buffet/draft/next_turn'
+    )
+)
+
+Write-GeneratedFile "topology/summoner.mcfunction" (
+    (New-Header "Commit Summoner's no-Demon topology while keeping the standard Minion count.") +
+    @(
+        '$data modify storage botc_patch:buffet action.topology set value {seat:$(seat),kind:"summoner"}',
+        'function botc_patch:buffet/draft/topology/begin with storage botc_patch:buffet action.topology',
+        'execute unless score draft_assigned_demon botc_patch matches 0 run function botc_patch:buffet/draft/topology/rollback',
+        'execute unless score draft_assigned_demon botc_patch matches 0 run function botc_patch:buffet/draft/topology/block',
+        'execute unless score draft_assigned_demon botc_patch matches 0 run return run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Summoner cannot remove the starting Demon because a Demon has already been chosen.","color":"gray","bold":false}]',
+        'scoreboard players add draft_target_town botc_patch 1',
+        'scoreboard players remove draft_target_demon botc_patch 1',
+        'scoreboard players set draft_summoner_active botc_patch 1',
+        '$scoreboard players set draft_summoner_owner botc_patch $(seat)',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).delta_town set value 1',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).delta_demon set value -1',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).modifier_owner set value 1b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).topology_modifier set value "summoner"',
+        'function botc_patch:buffet/draft/topology/commit',
+        'function botc_patch:buffet/draft/next_turn'
+    )
+)
+
+Write-GeneratedFile "topology/alchemist_summoner/check.mcfunction" (
+    (New-Header "Prompt for Alchemist-Summoner only when the exact no-Demon topology remains achievable.") +
+    @(
+        'function botc_patch:buffet/draft/recount_needs',
+        'scoreboard players set draft_alchemist_summoner_legal botc_patch 1',
+        ('execute if score draft_chosen_{0} botc_patch matches 1 run scoreboard players set draft_alchemist_summoner_legal botc_patch 0' -f $roleIds.summoner),
+        'execute if score draft_route_kind botc_patch matches 2 if score draft_route_real_special botc_patch matches 1 run scoreboard players set draft_alchemist_summoner_legal botc_patch 0',
+        'execute if score draft_topology_status botc_patch matches 1.. run scoreboard players set draft_alchemist_summoner_legal botc_patch 0',
+        'execute if score draft_assigned_demon botc_patch matches 1.. run scoreboard players set draft_alchemist_summoner_legal botc_patch 0',
+        'execute unless score draft_need_demon botc_patch matches 1 run scoreboard players set draft_alchemist_summoner_legal botc_patch 0',
+        'execute unless score draft_need_total botc_patch matches 1.. run scoreboard players set draft_alchemist_summoner_legal botc_patch 0',
+        'execute unless score draft_alchemist_summoner_legal botc_patch matches 1 run return 0',
+        'scoreboard players set draft_modifier_pending botc_patch 1',
+        ('$data modify storage botc_patch:buffet modifier set value {{seat:$(seat),role:{0},kind:"alchemist_summoner"}}' -f $roleIds.alchemist),
+        'function botc_patch:buffet/draft/topology/alchemist_summoner/show'
+    )
+)
+
+Write-GeneratedFile "topology/alchemist_summoner/show.mcfunction" (
+    (New-Header "Show or reopen the private Alchemist-Summoner decision for every Storyteller.") +
+    @(
+        'execute unless score draft_modifier_pending botc_patch matches 1 run return 0',
+        'execute unless data storage botc_patch:buffet modifier{kind:"alchemist_summoner"} run return 0',
+        'dialog show @a[tag=storyteller] {type:"multi_action",title:{text:"Alchemist: Summoner Ability",color:"gold",bold:true},body:[{type:"plain_message",contents:{text:"Give this Alchemist the Summoner\u0027s ability? The game starts with one extra Townsfolk and no Demon. The Minion count stays the same.",color:"gray"},width:430}],columns:2,actions:[{label:{text:"Give Summoner Ability",color:"green",bold:true},action:{type:"run_command",command:"/trigger botc_buffet_action set 7450"}},{label:{text:"Keep Normal Ability",color:"red",bold:true},action:{type:"run_command",command:"/trigger botc_buffet_action set 7451"}}],exit_action:{label:"Decide Later"}}'
+    )
+)
+
+Write-GeneratedFile "topology/alchemist_summoner/yes.mcfunction" (
+    (New-Header "Commit the optional Alchemist-Summoner modifier without consuming a Minion slot.") +
+    @(
+        'execute unless score draft_modifier_pending botc_patch matches 1 run return 0',
+        'execute unless data storage botc_patch:buffet modifier{kind:"alchemist_summoner"} run return 0',
+        'dialog clear @a[tag=storyteller]',
+        'data modify storage botc_patch:buffet action.topology.seat set from storage botc_patch:buffet modifier.seat',
+        'data modify storage botc_patch:buffet action.topology.kind set value "alchemist_summoner"',
+        'function botc_patch:buffet/draft/topology/begin with storage botc_patch:buffet action.topology',
+        'scoreboard players add draft_target_town botc_patch 1',
+        'scoreboard players remove draft_target_demon botc_patch 1',
+        'scoreboard players set draft_alchemist_summoner_active botc_patch 1',
+        'execute store result score draft_summoner_owner botc_patch run data get storage botc_patch:buffet modifier.seat',
+        ('scoreboard players set draft_available_{0} botc_patch 0' -f $roleIds.summoner),
+        ('scoreboard players set draft_blocked_{0} botc_patch 1' -f $roleIds.summoner),
+        'function botc_patch:buffet/draft/topology/alchemist_summoner/store_owner',
+        'scoreboard players set draft_modifier_pending botc_patch 0',
+        'data remove storage botc_patch:buffet modifier',
+        'function botc_patch:buffet/draft/topology/commit',
+        'function botc_patch:buffet/draft/next_turn'
+    )
+)
+
+$alchemistStoreLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Store Alchemist-Summoner's exact owner and reversible T +1, D -1 delta.") {
+    $alchemistStoreLines.Add($line)
+}
+for ($seat = 1; $seat -le 15; $seat++) {
+    $alchemistStoreLines.Add(('execute if score draft_summoner_owner botc_patch matches {0} run data modify storage botc_patch:buffet draft.seats.s{0}.delta_town set value 1' -f $seat))
+    $alchemistStoreLines.Add(('execute if score draft_summoner_owner botc_patch matches {0} run data modify storage botc_patch:buffet draft.seats.s{0}.delta_demon set value -1' -f $seat))
+    $alchemistStoreLines.Add(('execute if score draft_summoner_owner botc_patch matches {0} run data modify storage botc_patch:buffet draft.seats.s{0}.modifier_owner set value 1b' -f $seat))
+    $alchemistStoreLines.Add(('execute if score draft_summoner_owner botc_patch matches {0} run data modify storage botc_patch:buffet draft.seats.s{0}.topology_modifier set value "alchemist_summoner"' -f $seat))
+}
+Write-GeneratedFile "topology/alchemist_summoner/store_owner.mcfunction" $alchemistStoreLines
+
+Write-GeneratedFile "topology/alchemist_summoner/no.mcfunction" (
+    (New-Header "Decline Alchemist-Summoner without changing composition.") +
+    @(
+        'execute unless score draft_modifier_pending botc_patch matches 1 run return 0',
+        'execute unless data storage botc_patch:buffet modifier{kind:"alchemist_summoner"} run return 0',
+        'dialog clear @a[tag=storyteller]',
+        'scoreboard players set draft_modifier_pending botc_patch 0',
+        'data remove storage botc_patch:buffet modifier',
+        'function botc_patch:buffet/draft/next_turn'
+    )
+)
+
+Write-GeneratedFile "topology/lil_monsta.mcfunction" (
+    (New-Header "Replace a real Lil' Monsta player identity with a fresh direct-Minion 3/2/1 draft.") +
+    @(
+        '$data modify storage botc_patch:buffet action.topology set value {seat:$(seat),kind:"lil_monsta"}',
+        'function botc_patch:buffet/draft/topology/begin with storage botc_patch:buffet action.topology',
+        'execute unless score draft_assigned_demon botc_patch matches 1 run function botc_patch:buffet/draft/topology/rollback',
+        'execute unless score draft_assigned_demon botc_patch matches 1 run function botc_patch:buffet/draft/topology/block',
+        'execute unless score draft_assigned_demon botc_patch matches 1 run return run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Lil\u0027 Monsta could not replace exactly one chosen Demon.","color":"gray","bold":false}]',
+        'scoreboard players remove draft_assigned_demon botc_patch 1',
+        'scoreboard players remove draft_assigned_total botc_patch 1',
+        'scoreboard players add draft_target_minion botc_patch 1',
+        'scoreboard players remove draft_target_demon botc_patch 1',
+        'scoreboard players set draft_lil_monsta_active botc_patch 1',
+        'scoreboard players set draft_lil_monsta_redraft botc_patch 1',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).actual set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).perceived set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).alignment set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).perceived_alignment set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).category set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).forced_category set value 3',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).topology_modifier set value "lil_monsta"',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).status set value 1',
+        'scoreboard players set @s botc_buffet_role 0',
+        'scoreboard players set @s botc_buffet_perceived 0',
+        'scoreboard players set @s botc_buffet_status 1',
+        'tag @s add botc_buffet_draft_current',
+        '$scoreboard players set draft_current_seat botc_patch $(seat)',
+        'function botc_patch:buffet/draft/topology/commit',
+        'function botc_patch:buffet/draft/offer_round_0 with storage botc_patch:buffet action'
+    )
+)
+
+Write-GeneratedFile "topology/lil_monsta/finish.mcfunction" (
+    (New-Header "Finish Lil' Monsta's direct-Minion redraft while retaining the game-level marker.") +
+    @(
+        'scoreboard players set draft_lil_monsta_redraft botc_patch 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).forced_category set value 0'
+    )
+)
+
+Write-GeneratedFile "topology/lord_of_typhon.mcfunction" (
+    (New-Header "Draft ordinary provisional roles first, then require private neighboring Lord of Typhon Minion overrides.") +
+    @(
+        '$data modify storage botc_patch:buffet action.topology set value {seat:$(seat),kind:"lord_of_typhon"}',
+        'function botc_patch:buffet/draft/topology/begin with storage botc_patch:buffet action.topology',
+        'scoreboard players operation draft_lord_of_typhon_required botc_patch = draft_target_minion botc_patch',
+        'scoreboard players add draft_lord_of_typhon_required botc_patch 1',
+        'scoreboard players operation draft_lot_final_town botc_patch = draft_target_town botc_patch',
+        'scoreboard players remove draft_lot_final_town botc_patch 1',
+        'scoreboard players operation draft_lot_final_minion botc_patch = draft_lord_of_typhon_required botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.final_target_town int 1 run scoreboard players get draft_lot_final_town botc_patch',
+        'execute store result storage botc_patch:buffet draft.topology.final_target_minion int 1 run scoreboard players get draft_lot_final_minion botc_patch',
+        'scoreboard players operation draft_target_town botc_patch += draft_target_minion botc_patch',
+        'scoreboard players set draft_target_minion botc_patch 0',
+        'scoreboard players set draft_lord_of_typhon_active botc_patch 1',
+        'scoreboard players set draft_topology_status botc_patch 2',
+        'data modify storage botc_patch:buffet draft.topology.status set value 2',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).delta_town set value -1',
+        '$execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_minion int 1 run scoreboard players get draft_lord_of_typhon_required botc_patch',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).modifier_owner set value 1b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).topology_modifier set value "lord_of_typhon"',
+        'function botc_patch:buffet/draft/recount_needs',
+        'function botc_patch:buffet/draft/next_turn'
+    )
+)
+
+Write-GeneratedFile "topology/lord_of_typhon/prepare_assignments.mcfunction" (
+    (New-Header "Switch a completed provisional Lord of Typhon draft to its exact final target for private overrides.") +
+    @(
+        'execute unless score draft_lord_of_typhon_active botc_patch matches 1 run return 0',
+        'execute store result score draft_target_town botc_patch run data get storage botc_patch:buffet draft.topology.final_target_town',
+        'execute store result score draft_target_minion botc_patch run data get storage botc_patch:buffet draft.topology.final_target_minion',
+        'function botc_patch:buffet/draft/recount_needs',
+        'tellraw @a[tag=storyteller] [{"text":"Lord of Typhon still needs its final Minions. Assign them in one neighboring line, with at least one on each side. Players will not see these changes before the game starts.","color":"yellow"}]'
+    )
+)
+
+$lotValidate = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Validate Lord of Typhon's exact contiguous neighboring Minion line without changing assignments.") {
+    $lotValidate.Add($line)
+}
+$lotValidate.Add('execute unless score draft_lord_of_typhon_active botc_patch matches 1 run return 0')
+$lotValidate.Add('scoreboard players set draft_lord_of_typhon_valid botc_patch 0')
+foreach ($count in 5..15) {
+    $required = $standardCounts[$count][2] + 1
+    foreach ($seat in 1..$count) {
+        for ($leftCount = 1; $leftCount -lt $required; $leftCount++) {
+            $rightCount = $required - $leftCount
+            $minionSeats = [System.Collections.Generic.HashSet[int]]::new()
+            for ($offset = 1; $offset -le $leftCount; $offset++) {
+                [void] $minionSeats.Add((($seat - 1 - $offset + $count) % $count) + 1)
+            }
+            for ($offset = 1; $offset -le $rightCount; $offset++) {
+                [void] $minionSeats.Add((($seat - 1 + $offset) % $count) + 1)
+            }
+            $parts = [System.Collections.Generic.List[string]]::new()
+            $parts.Add(('execute if score buffet_roster_count botc_patch matches {0} if score draft_lord_of_typhon_required botc_patch matches {1} if data storage botc_patch:buffet draft.seats.s{2}{{actual:{3}}}' -f $count, $required, $seat, $roleIds.lord_of_typhon))
+            foreach ($candidate in 1..$count) {
+                if ($candidate -eq $seat) {
+                    continue
+                }
+                if ($minionSeats.Contains($candidate)) {
+                    $parts.Add(('if data storage botc_patch:buffet draft.seats.s{0}{{category:3}}' -f $candidate))
+                } else {
+                    $parts.Add(('unless data storage botc_patch:buffet draft.seats.s{0}{{category:3}}' -f $candidate))
+                }
+            }
+            $parts.Add('run scoreboard players set draft_lord_of_typhon_valid botc_patch 1')
+            $lotValidate.Add(($parts -join ' '))
+        }
+    }
+}
+$lotValidate.Add('execute if score draft_lord_of_typhon_valid botc_patch matches 1 run scoreboard players set draft_topology_status botc_patch 1')
+$lotValidate.Add('execute if score draft_lord_of_typhon_valid botc_patch matches 1 run data modify storage botc_patch:buffet draft.topology.status set value 1')
+$lotValidate.Add('execute unless score draft_lord_of_typhon_valid botc_patch matches 1 run scoreboard players set draft_topology_status botc_patch 2')
+$lotValidate.Add('execute unless score draft_lord_of_typhon_valid botc_patch matches 1 run data modify storage botc_patch:buffet draft.topology.status set value 2')
+Write-GeneratedFile "topology/lord_of_typhon/validate.mcfunction" $lotValidate
+
+$legionChooseDispatch = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Choose a random legal Legion majority while preserving deliberate positive Storyteller Outsider additions.") {
+    $legionChooseDispatch.Add($line)
+}
+$legionChooseDispatch.Add('scoreboard players set draft_legion_choose_found botc_patch 0')
+foreach ($count in 5..15) {
+    $minimum = [Math]::Floor($count / 2) + 1
+    $maxProtectedOutsiders = $count - $minimum
+    foreach ($outsiderFloor in 0..$maxProtectedOutsiders) {
+        $maximum = $count - $outsiderFloor
+        $legionChooseDispatch.Add(('execute if score buffet_roster_count botc_patch matches {0} if score draft_legion_outsider_floor botc_patch matches {1} run scoreboard players set draft_legion_choose_found botc_patch 1' -f $count, $outsiderFloor))
+        $legionChooseDispatch.Add(('execute if score buffet_roster_count botc_patch matches {0} if score draft_legion_outsider_floor botc_patch matches {1} run function botc_patch:buffet/draft/topology/legion/choose_{0}_{1}' -f $count, $outsiderFloor))
+        Write-GeneratedFile "topology/legion/choose_${count}_$outsiderFloor.mcfunction" (
+            (New-Header "Choose Legion total $minimum through $maximum for $count players and a protected Outsider floor of $outsiderFloor.") +
+            @(
+                ('execute store result score draft_legion_count botc_patch run random value {0}..{1}' -f $minimum, $maximum),
+                'function botc_patch:buffet/draft/topology/legion/apply'
+            )
+        )
+    }
+}
+$legionChooseDispatch.Add('execute unless score draft_legion_choose_found botc_patch matches 1 run function botc_patch:buffet/draft/topology/rollback')
+$legionChooseDispatch.Add('execute unless score draft_legion_choose_found botc_patch matches 1 run function botc_patch:buffet/draft/topology/block')
+$legionChooseDispatch.Add('execute unless score draft_legion_choose_found botc_patch matches 1 run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Legion cannot form a majority while keeping the Storyteller\u0027s added Outsiders. Previous changes were restored. Correct the final characters before starting.","color":"gray","bold":false}]')
+Write-GeneratedFile "topology/legion/choose.mcfunction" $legionChooseDispatch
+
+$legionBeginLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Begin real Legion and require its randomly chosen legal majority with no fallback.") {
+    $legionBeginLines.Add($line)
+}
+$legionBeginLines.Add('$data modify storage botc_patch:buffet action.topology set value {seat:$(seat),kind:"legion"}')
+$legionBeginLines.Add('function botc_patch:buffet/draft/topology/begin with storage botc_patch:buffet action.topology')
+$legionBeginLines.Add('scoreboard players set draft_legion_outsider_floor botc_patch 0')
+$legionBeginLines.Add('scoreboard players set draft_legion_protected_delta botc_patch 0')
+for ($protectedSeat = 1; $protectedSeat -le 15; $protectedSeat++) {
+    $legionBeginLines.Add(('execute store result score draft_legion_protected_delta botc_patch run data get storage botc_patch:buffet draft.seats.s{0}.protected_outsider' -f $protectedSeat))
+    $legionBeginLines.Add('scoreboard players operation draft_legion_outsider_floor botc_patch += draft_legion_protected_delta botc_patch')
+}
+$legionBeginLines.Add('execute store result storage botc_patch:buffet draft.topology.outsider_floor int 1 run scoreboard players get draft_legion_outsider_floor botc_patch')
+$legionBeginLines.Add('function botc_patch:buffet/draft/topology/legion/choose')
+Write-GeneratedFile "topology/legion.mcfunction" $legionBeginLines
+
+Write-GeneratedFile "topology/legion/apply.mcfunction" (
+    (New-Header "Reserve any unfilled protected Outsiders, then calculate unfinished Legion assignments and conversions.") +
+    @(
+        'scoreboard players set draft_legion_active botc_patch 1',
+        'scoreboard players operation draft_required_legion botc_patch = draft_legion_count botc_patch',
+        'scoreboard players remove draft_required_legion botc_patch 1',
+        'scoreboard players operation draft_legion_waiting botc_patch = buffet_roster_count botc_patch',
+        'scoreboard players operation draft_legion_waiting botc_patch -= draft_assigned_total botc_patch',
+        'scoreboard players operation draft_legion_unfilled_floor botc_patch = draft_legion_outsider_floor botc_patch',
+        'scoreboard players operation draft_legion_unfilled_floor botc_patch -= draft_assigned_outsider botc_patch',
+        'execute if score draft_legion_unfilled_floor botc_patch matches ..0 run scoreboard players set draft_legion_unfilled_floor botc_patch 0',
+        'scoreboard players set draft_legion_floor_possible botc_patch 1',
+        'execute if score draft_legion_unfilled_floor botc_patch > draft_legion_waiting botc_patch run scoreboard players set draft_legion_floor_possible botc_patch 0',
+        'execute unless score draft_legion_floor_possible botc_patch matches 1 run function botc_patch:buffet/draft/topology/rollback',
+        'execute unless score draft_legion_floor_possible botc_patch matches 1 run function botc_patch:buffet/draft/topology/block',
+        'execute unless score draft_legion_floor_possible botc_patch matches 1 run return run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Legion cannot keep every Outsider the Storyteller added because too few unfinished seats remain. Previous changes were restored. Correct the final characters before starting.","color":"gray","bold":false}]',
+        'scoreboard players operation draft_legion_waiting_available botc_patch = draft_legion_waiting botc_patch',
+        'scoreboard players operation draft_legion_waiting_available botc_patch -= draft_legion_unfilled_floor botc_patch',
+        'scoreboard players operation draft_legion_conversion_need botc_patch = draft_required_legion botc_patch',
+        'scoreboard players operation draft_legion_conversion_need botc_patch -= draft_legion_waiting_available botc_patch',
+        'execute if score draft_legion_conversion_need botc_patch matches ..0 run scoreboard players set draft_legion_conversion_need botc_patch 0',
+        'execute if score draft_legion_conversion_need botc_patch matches 1.. run return run function botc_patch:buffet/draft/topology/legion/convert_next',
+        'function botc_patch:buffet/draft/topology/legion/finish'
+    )
+)
+
+Write-GeneratedFile "topology/legion/finish.mcfunction" (
+    (New-Header "Commit Legion's exact majority after every required private conversion succeeds.") +
+    @(
+        'scoreboard players operation draft_target_demon botc_patch = draft_legion_count botc_patch',
+        'scoreboard players set draft_target_minion botc_patch 0',
+        'scoreboard players operation draft_target_outsider botc_patch = draft_assigned_outsider botc_patch',
+        'execute if score draft_target_outsider botc_patch < draft_legion_outsider_floor botc_patch run scoreboard players operation draft_target_outsider botc_patch = draft_legion_outsider_floor botc_patch',
+        'scoreboard players operation draft_target_town botc_patch = buffet_roster_count botc_patch',
+        'scoreboard players operation draft_target_town botc_patch -= draft_target_outsider botc_patch',
+        'scoreboard players operation draft_target_town botc_patch -= draft_target_demon botc_patch',
+        'scoreboard players operation draft_required_legion botc_patch = draft_legion_count botc_patch',
+        'scoreboard players operation draft_required_legion botc_patch -= draft_assigned_demon botc_patch',
+        'function botc_patch:buffet/draft/topology/commit',
+        'function botc_patch:buffet/draft/rebuild_requirements',
+        'function botc_patch:buffet/draft/next_turn'
+    )
+)
+
+$legionConvertNext = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Convert completed Outsiders first, then Townsfolk, until Legion's rolled majority is achievable.") {
+    $legionConvertNext.Add($line)
+}
+$legionConvertNext.Add('execute unless score draft_legion_conversion_need botc_patch matches 1.. run return run function botc_patch:buffet/draft/topology/legion/finish')
+$legionConvertNext.Add('scoreboard players set draft_legion_convert_pool botc_patch 0')
+for ($seat = 1; $seat -le 15; $seat++) {
+    $legionConvertNext.Add(('execute if score draft_assigned_outsider botc_patch > draft_legion_outsider_floor botc_patch unless score draft_topology_owner botc_patch matches {0} if data storage botc_patch:buffet draft.seats.s{0}{{status:2,category:2}} run scoreboard players add draft_legion_convert_pool botc_patch 1' -f $seat))
+}
+$legionConvertNext.Add('scoreboard players set draft_legion_convert_category botc_patch 2')
+$legionConvertNext.Add('execute if score draft_assigned_outsider botc_patch <= draft_legion_outsider_floor botc_patch run scoreboard players set draft_legion_convert_category botc_patch 1')
+for ($seat = 1; $seat -le 15; $seat++) {
+    $legionConvertNext.Add(('execute if score draft_legion_convert_category botc_patch matches 1 unless score draft_topology_owner botc_patch matches {0} if data storage botc_patch:buffet draft.seats.s{0}{{status:2,category:1}} run scoreboard players add draft_legion_convert_pool botc_patch 1' -f $seat))
+}
+$legionConvertNext.Add('execute if score draft_legion_convert_pool botc_patch matches 0 run function botc_patch:buffet/draft/topology/rollback')
+$legionConvertNext.Add('execute if score draft_legion_convert_pool botc_patch matches 0 run function botc_patch:buffet/draft/topology/block')
+$legionConvertNext.Add('execute if score draft_legion_convert_pool botc_patch matches 0 run return run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Legion''s chosen majority could not be completed. Previous changes were restored. Correct the final characters before starting.","color":"gray","bold":false}]')
+$legionConvertNext.Add('execute store result score draft_legion_convert_pick botc_patch run random value 0..2147483646')
+$legionConvertNext.Add('scoreboard players operation draft_legion_convert_pick botc_patch %= draft_legion_convert_pool botc_patch')
+$legionConvertNext.Add('scoreboard players add draft_legion_convert_pick botc_patch 1')
+$legionConvertNext.Add('scoreboard players set draft_legion_convert_cursor botc_patch 0')
+$legionConvertNext.Add('scoreboard players set draft_legion_convert_done botc_patch 0')
+for ($seat = 1; $seat -le 15; $seat++) {
+    foreach ($category in @(2, 1)) {
+        $legionConvertNext.Add(('execute if score draft_legion_convert_done botc_patch matches 0 if score draft_legion_convert_category botc_patch matches {1} unless score draft_topology_owner botc_patch matches {0} if data storage botc_patch:buffet draft.seats.s{0}{{status:2,category:{1}}} run scoreboard players add draft_legion_convert_cursor botc_patch 1' -f $seat, $category))
+        $legionConvertNext.Add(('execute if score draft_legion_convert_done botc_patch matches 0 if score draft_legion_convert_category botc_patch matches {1} if score draft_legion_convert_cursor botc_patch = draft_legion_convert_pick botc_patch unless score draft_topology_owner botc_patch matches {0} if data storage botc_patch:buffet draft.seats.s{0}{{status:2,category:{1}}} run function botc_patch:buffet/draft/topology/legion/convert_seat_{0}' -f $seat, $category))
+    }
+}
+Write-GeneratedFile "topology/legion/convert_next.mcfunction" $legionConvertNext
+
+for ($seat = 1; $seat -le 15; $seat++) {
+    Write-GeneratedFile "topology/legion/convert_seat_$seat.mcfunction" (
+        (New-Header "Privately convert completed seat $seat into Legion with full trusted-state rollback.") +
+        @(
+            ('data modify storage botc_patch:buffet action.convert set from storage botc_patch:buffet draft.seats.s{0}' -f $seat),
+            ('data modify storage botc_patch:buffet action.convert.seat set value {0}' -f $seat),
+            'function botc_patch:buffet/draft/topology/legion/convert with storage botc_patch:buffet action.convert'
+        )
+    )
+}
+
+$legionArchetype = [string] $archetypeByRole["legion"]
+Write-GeneratedFile "topology/legion/convert.mcfunction" (
+    (New-Header "Replace one completed trusted assignment with Legion while leaving all player-facing pre-start state untouched.") +
+    @(
+        'execute if data storage botc_patch:buffet action.convert{category:2} run scoreboard players remove draft_assigned_outsider botc_patch 1',
+        'execute if data storage botc_patch:buffet action.convert{category:1} run scoreboard players remove draft_assigned_town botc_patch 1',
+        ('$data modify storage botc_patch:buffet draft.seats.s$(seat).actual set value {0}' -f $roleIds.legion),
+        ('$data modify storage botc_patch:buffet draft.seats.s$(seat).perceived set value {0}' -f $roleIds.legion),
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).alignment set value 2',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).perceived_alignment set value 2',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).category set value 4',
+        ('$data modify storage botc_patch:buffet draft.seats.s$(seat).archetype set value "{0}"' -f $legionArchetype),
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).hidden_mode set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).topology_modifier set value "legion_conversion"',
+        'execute store result score draft_legion_convert_dt botc_patch run data get storage botc_patch:buffet action.convert.delta_town',
+        'execute store result score draft_legion_convert_do botc_patch run data get storage botc_patch:buffet action.convert.delta_outsider',
+        'execute store result score draft_legion_convert_dm botc_patch run data get storage botc_patch:buffet action.convert.delta_minion',
+        'execute store result score draft_legion_convert_dd botc_patch run data get storage botc_patch:buffet action.convert.delta_demon',
+        'scoreboard players operation draft_target_town botc_patch -= draft_legion_convert_dt botc_patch',
+        'scoreboard players operation draft_target_outsider botc_patch -= draft_legion_convert_do botc_patch',
+        'scoreboard players operation draft_target_minion botc_patch -= draft_legion_convert_dm botc_patch',
+        'scoreboard players operation draft_target_demon botc_patch -= draft_legion_convert_dd botc_patch',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).modifier_owner set value 0b',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).delta_town set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).delta_outsider set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).delta_minion set value 0',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).delta_demon set value 0',
+        '$data remove storage botc_patch:buffet draft.seats.s$(seat).hermit_forced_ability',
+        '$data remove storage botc_patch:buffet draft.seats.s$(seat).hermit_abilities',
+        'scoreboard players add draft_assigned_demon botc_patch 1',
+        ('scoreboard players set draft_chosen_{0} botc_patch 1' -f $roleIds.legion),
+        ('scoreboard players set draft_available_{0} botc_patch 0' -f $roleIds.legion),
+        '$scoreboard players set draft_chosen_$(actual) botc_patch 0',
+        '$scoreboard players set draft_available_$(actual) botc_patch 1',
+        '$data modify storage botc_patch:buffet action.restore.actual set value $(actual)',
+        'function botc_patch:buffet/draft/review/recheck_unassigned_role with storage botc_patch:buffet action.restore',
+        '$scoreboard players set draft_chosen_$(perceived) botc_patch 0',
+        '$scoreboard players set draft_available_$(perceived) botc_patch 1',
+        '$data modify storage botc_patch:buffet action.restore.actual set value $(perceived)',
+        'function botc_patch:buffet/draft/review/recheck_unassigned_role with storage botc_patch:buffet action.restore',
+        'execute if data storage botc_patch:buffet action.convert.hermit_forced_ability run data modify storage botc_patch:buffet action.restore.actual set from storage botc_patch:buffet action.convert.hermit_forced_ability',
+        'execute if data storage botc_patch:buffet action.convert.hermit_forced_ability run function botc_patch:buffet/draft/topology/legion/restore_role with storage botc_patch:buffet action.restore',
+        'scoreboard players remove draft_legion_conversion_need botc_patch 1',
+        'scoreboard players set draft_legion_convert_done botc_patch 1',
+        'function botc_patch:buffet/draft/topology/legion/convert_next'
+    )
+)
+
+Write-GeneratedFile "topology/legion/restore_role.mcfunction" (
+    (New-Header "Restore one rolled-back hidden ability unless another trusted seat still owns it.") +
+    @(
+        '$scoreboard players set draft_chosen_$(actual) botc_patch 0',
+        '$scoreboard players set draft_available_$(actual) botc_patch 1',
+        'function botc_patch:buffet/draft/review/recheck_unassigned_role with storage botc_patch:buffet action.restore'
+    )
+)
+
+Write-GeneratedFile "topology/legion/offer_forced.mcfunction" (
+    (New-Header "Show one forced Legion card to an unfinished player reserved by the real topology.") +
+    @(
+        'scoreboard players add draft_hand_id botc_patch 1',
+        ('data modify storage botc_patch:buffet action.picked set value {0}' -f (New-RoleObject $roleByName["legion"])),
+        'execute store result storage botc_patch:buffet action.picked.hand_id int 1 run scoreboard players get draft_hand_id botc_patch',
+        'data modify storage botc_patch:buffet action.picked.internal_draw set value 1',
+        'execute store result storage botc_patch:buffet action.picked.route int 1 run scoreboard players get draft_route_kind botc_patch',
+        '$data modify storage botc_patch:buffet action.picked.seat set value $(seat)',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).round set value 2',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).offers set value {}',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat).offers.o1 set from storage botc_patch:buffet action.picked',
+        'function botc_patch:buffet/draft/dialog/prepare with storage botc_patch:buffet action'
+    )
+)
+
+Write-GeneratedFile "begin_forced_legion.mcfunction" (
+    (New-Header "Begin one reserved player's forced Legion assignment privately.") +
+    @(
+        'tag @s add botc_buffet_draft_current',
+        'scoreboard players operation draft_current_seat botc_patch = @s id',
+        'scoreboard players set draft_wait_notice botc_patch 0',
+        'scoreboard players set @s botc_buffet_status 1',
+        'execute store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id',
+        'function botc_patch:buffet/draft/mark_turn_active with storage botc_patch:buffet action',
+        'function botc_patch:buffet/draft/turn_cue',
+        'function botc_patch:buffet/draft/topology/legion/offer_forced with storage botc_patch:buffet action'
+    )
+)
+
+Write-GeneratedFile "modifier/atheist.mcfunction" (
+    (New-Header "Confirm the Atheist already reserved by the private all-good route.") +
+    @(
+        'execute unless score draft_route_kind botc_patch matches 3 run scoreboard players set draft_topology_status botc_patch 3',
+        'execute unless score draft_route_kind botc_patch matches 3 run function botc_patch:buffet/attention/block_storytellers',
+        'execute unless score draft_route_kind botc_patch matches 3 run return run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"A real Atheist is only legal in the Storyteller-selected Atheist route.","color":"gray","bold":false}]',
         'function botc_patch:buffet/draft/recount_needs',
         'function botc_patch:buffet/draft/next_turn'
     )
@@ -1146,7 +2711,7 @@ Write-GeneratedFile "modifier/godfather/show.mcfunction" (
     )
 )
 
-foreach ($roleName in @("xaan", "kazali")) {
+foreach ($roleName in @("xaan")) {
     Write-GeneratedFile "modifier/$roleName.mcfunction" (
         (New-Header "Pause privately for the $roleName Outsider target.") +
         @(
@@ -1288,7 +2853,7 @@ Write-GeneratedFile "modifier/hermit/apply_delta.mcfunction" (
 )
 
 $hermitAbilities = @(
-    $roles | Where-Object {
+    $selectableRoles | Where-Object {
         [string] $_.Category -eq "outsider" -and
         [string] $_.Role -notin @("drunk", "lunatic", "hermit")
     }
@@ -1394,7 +2959,7 @@ Write-GeneratedFile "modifier/hermit/confirm_store.mcfunction" (
 Write-GeneratedFile "modifier/choose_outsider_target.mcfunction" (
     (New-Header "Translate the trusted target button into a private setup decision.") +
     @(
-        ('execute unless data storage botc_patch:buffet modifier{{role:{0}}} unless data storage botc_patch:buffet modifier{{role:{1}}} unless data storage botc_patch:buffet modifier{{role:{2}}} run return 0' -f $roleIds.xaan, $roleIds.kazali, $roleIds.lord_of_typhon),
+        ('execute unless data storage botc_patch:buffet modifier{{role:{0}}} run return 0' -f $roleIds.xaan),
         'scoreboard players operation draft_requested_outsider botc_patch = @s botc_buffet_action',
         'scoreboard players remove draft_requested_outsider botc_patch 7500',
         'execute store result storage botc_patch:buffet modifier.target int 1 run scoreboard players get draft_requested_outsider botc_patch',
@@ -1402,6 +2967,9 @@ Write-GeneratedFile "modifier/choose_outsider_target.mcfunction" (
     )
 )
 
+# Legacy schema-1 topology controls are intentionally non-generating. Schema 2
+# owns Kazali, Legion and Lord of Typhon through validated topology transactions.
+if ($false) {
 Write-GeneratedFile "modifier/choose_legion_count.mcfunction" (
     (New-Header "Translate the trusted Legion button into a private setup decision.") +
     @(
@@ -1565,6 +3133,7 @@ Write-GeneratedFile "modifier/riot.mcfunction" (
         'function botc_patch:buffet/draft/next_turn'
     )
 )
+}
 
 # Dependency roles are privately offered once to one future online seat.
 # Duplicate-exception roles continue to use their remaining-count score.
@@ -1572,13 +3141,14 @@ Write-GeneratedFile "forced/prepare.mcfunction" (
     (New-Header "Assign one pending required role to one future online Draft player.") +
     @(
         'tag @a remove botc_buffet_draft_forced',
+        'tag @a remove botc_buffet_draft_forced_legion',
         'scoreboard players set draft_forced_role botc_patch 0',
-        ('execute if score draft_required_king botc_patch matches 1 run scoreboard players set draft_forced_role botc_patch {0}' -f $roleIds.king),
+        ('execute if score draft_required_legion botc_patch matches 1.. run scoreboard players set draft_forced_role botc_patch {0}' -f $roleIds.legion),
+        ('execute if score draft_forced_role botc_patch matches 0 if score draft_required_king botc_patch matches 1 run scoreboard players set draft_forced_role botc_patch {0}' -f $roleIds.king),
         ('execute if score draft_forced_role botc_patch matches 0 if score draft_required_damsel botc_patch matches 1 run scoreboard players set draft_forced_role botc_patch {0}' -f $roleIds.damsel),
-        ('execute if score draft_forced_role botc_patch matches 0 if score draft_required_legion botc_patch matches 1.. run scoreboard players set draft_forced_role botc_patch {0}' -f $roleIds.legion),
-        ('execute if score draft_forced_role botc_patch matches 0 if score draft_required_riot botc_patch matches 1.. run scoreboard players set draft_forced_role botc_patch {0}' -f $roleIds.riot),
         ('execute if score draft_forced_role botc_patch matches 0 if score draft_required_vi botc_patch matches 1.. run scoreboard players set draft_forced_role botc_patch {0}' -f $roleIds.village_idiot),
-        'execute if score draft_forced_role botc_patch matches 1.. as @r[tag=botc_buffet_draft_waiting] run tag @s add botc_buffet_draft_forced'
+        'execute if score draft_forced_role botc_patch matches 1.. as @r[tag=botc_buffet_draft_waiting] run tag @s add botc_buffet_draft_forced',
+        ('execute if score draft_forced_role botc_patch matches {0} as @a[tag=botc_buffet_draft_forced] run tag @s add botc_buffet_draft_forced_legion' -f $roleIds.legion)
     )
 )
 
@@ -1586,7 +3156,7 @@ $forcedPick = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Store the server-owned role reserved for this private player.") {
     $forcedPick.Add($line)
 }
-foreach ($roleName in @("king", "damsel", "legion", "riot", "village_idiot")) {
+foreach ($roleName in @("king", "damsel", "legion", "village_idiot")) {
     $roleId = $roleIds[$roleName]
     $forcedPick.Add(('execute if score draft_forced_role botc_patch matches {0} run function botc_patch:buffet/draft/pick/role/{0}' -f $roleId))
 }
@@ -1605,18 +3175,33 @@ Write-GeneratedFile "forced/resolve_choice.mcfunction" (
         ('execute if score @s botc_buffet_role matches {0} if score draft_required_king botc_patch matches 1.. run scoreboard players set draft_required_king botc_patch 0' -f $roleIds.king),
         ('execute if score @s botc_buffet_role matches {0} if score draft_required_damsel botc_patch matches 1.. run scoreboard players set draft_required_damsel botc_patch 0' -f $roleIds.damsel),
         ('execute if score @s botc_buffet_role matches {0} if score draft_required_legion botc_patch matches 1.. run scoreboard players remove draft_required_legion botc_patch 1' -f $roleIds.legion),
-        ('execute if score @s botc_buffet_role matches {0} if score draft_required_riot botc_patch matches 1.. run scoreboard players remove draft_required_riot botc_patch 1' -f $roleIds.riot),
         ('execute if score @s botc_buffet_role matches {0} if score draft_required_vi botc_patch matches 1.. run scoreboard players remove draft_required_vi botc_patch 1' -f $roleIds.village_idiot),
-        'tag @s remove botc_buffet_draft_forced'
+        'tag @s remove botc_buffet_draft_forced',
+        'tag @s remove botc_buffet_draft_forced_legion'
     )
 )
 
 Write-GeneratedFile "discard.mcfunction" (
     (New-Header "Discard the current offer set and generate the next smaller private round.") +
     @(
+        'execute if score draft_special_active botc_patch matches 1 run return run function botc_patch:buffet/draft/special/discard with storage botc_patch:buffet action',
+        'execute if entity @s[tag=botc_buffet_draft_route_atheist] run return 0',
+        'execute if entity @s[tag=botc_buffet_draft_fake_atheist] run return 0',
+        'execute if entity @s[tag=botc_buffet_draft_forced_legion] run return 0',
+        'function botc_patch:buffet/draft/retire/hand with storage botc_patch:buffet action',
+        'function botc_patch:buffet/draft/pick/clear_reservations',
         'tag @s remove botc_buffet_draft_forced',
         '$execute if data storage botc_patch:buffet draft.seats.s$(seat){round:1} run return run function botc_patch:buffet/draft/offer_round_2 with storage botc_patch:buffet action',
         '$execute if data storage botc_patch:buffet draft.seats.s$(seat){round:0} run function botc_patch:buffet/draft/offer_round_1 with storage botc_patch:buffet action'
+    )
+)
+
+Write-GeneratedFile "prepare_faceup_outsider.mcfunction" (
+    (New-Header "Freeze the entire incoming turn to direct Outsiders only when every unresolved seat must be an Outsider.") +
+    @(
+        'function botc_patch:buffet/draft/recount_needs',
+        'scoreboard players set draft_faceup_outsider botc_patch 0',
+        'execute if score draft_need_outsider botc_patch matches 1.. if score draft_need_outsider botc_patch = draft_need_total botc_patch run scoreboard players set draft_faceup_outsider botc_patch 1'
     )
 )
 
@@ -1629,8 +3214,18 @@ Write-GeneratedFile "next_turn.mcfunction" (
         'function botc_patch:buffet/draft/recount_needs',
         'scoreboard players set draft_ready botc_patch 0',
         'execute if score draft_current_seat botc_patch matches 1.. run return 0',
+        'function botc_patch:buffet/draft/atheist/maybe_fake',
+        'execute as @a[tag=botc_buffet_draft_waiting,tag=botc_buffet_draft_fake_atheist,limit=1] run function botc_patch:buffet/draft/begin_fake_atheist',
+        'execute if score draft_current_seat botc_patch matches 1.. run return 0',
+        'execute as @a[tag=botc_buffet_draft_waiting,tag=botc_buffet_draft_route_atheist,limit=1] run function botc_patch:buffet/draft/begin_atheist',
+        'execute if score draft_current_seat botc_patch matches 1.. run return 0',
+        'execute if score draft_route_kind botc_patch matches 2 if score draft_topology_status botc_patch matches 0 unless score draft_need_town botc_patch matches 1.. unless score draft_need_outsider botc_patch matches 1.. as @a[tag=botc_buffet_draft_waiting,tag=botc_buffet_draft_route_special,limit=1] run function botc_patch:buffet/draft/begin_special',
+        'execute if score draft_current_seat botc_patch matches 1.. run return 0',
         'function botc_patch:buffet/draft/forced/prepare',
+        'execute as @a[tag=botc_buffet_draft_waiting,tag=botc_buffet_draft_forced,limit=1] run function botc_patch:buffet/draft/begin_turn',
+        'execute if score draft_current_seat botc_patch matches 1.. run return 0',
         'execute as @r[tag=botc_buffet_draft_waiting] run function botc_patch:buffet/draft/begin_turn',
+        'execute if score draft_assigned_total botc_patch = buffet_roster_count botc_patch if score draft_lord_of_typhon_active botc_patch matches 1 if score draft_topology_status botc_patch matches 2 run function botc_patch:buffet/draft/topology/lord_of_typhon/prepare_assignments',
         'execute if score draft_assigned_total botc_patch = buffet_roster_count botc_patch run scoreboard players set draft_ready botc_patch 1',
         'execute if score draft_assigned_total botc_patch = buffet_roster_count botc_patch run tellraw @a[tag=storyteller] [{"text":"Draft complete. ","color":"green","bold":true},{"text":"Review the assignments, then use Start Game when ready.","color":"gray","bold":false}]',
         'execute unless score draft_assigned_total botc_patch = buffet_roster_count botc_patch unless entity @a[tag=botc_buffet_draft_waiting] if score draft_wait_notice botc_patch matches 0 run function botc_patch:buffet/attention/block_storytellers',
@@ -1642,11 +3237,14 @@ Write-GeneratedFile "next_turn.mcfunction" (
 Write-GeneratedFile "begin_turn.mcfunction" (
     (New-Header "Begin one player's private Draft turn.") +
     @(
+        'execute if entity @s[tag=botc_buffet_draft_route_special] run return run function botc_patch:buffet/draft/begin_special',
+        'execute if entity @s[tag=botc_buffet_draft_forced_legion] run return run function botc_patch:buffet/draft/begin_forced_legion',
         'tag @s add botc_buffet_draft_current',
         'scoreboard players operation draft_current_seat botc_patch = @s id',
         'scoreboard players set draft_wait_notice botc_patch 0',
         'scoreboard players set @s botc_buffet_status 1',
         'execute store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id',
+        'function botc_patch:buffet/draft/prepare_faceup_outsider',
         'function botc_patch:buffet/draft/mark_turn_active with storage botc_patch:buffet action',
         'function botc_patch:buffet/draft/turn_cue',
         'function botc_patch:buffet/draft/offer_round_0 with storage botc_patch:buffet action'
@@ -1682,6 +3280,9 @@ Write-GeneratedFile "open_current.mcfunction" (
     @(
         'execute unless entity @s[tag=botc_buffet_draft_current] run return 0',
         'execute store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id',
+        'execute if entity @s[tag=botc_buffet_draft_route_atheist] run return run function botc_patch:buffet/draft/atheist/reopen with storage botc_patch:buffet action',
+        'execute if entity @s[tag=botc_buffet_draft_fake_atheist] run return run function botc_patch:buffet/draft/atheist/reopen with storage botc_patch:buffet action',
+        'execute if score draft_special_active botc_patch matches 1 run return run function botc_patch:buffet/draft/special/reopen with storage botc_patch:buffet action',
         'function botc_patch:buffet/draft/dialog/prepare with storage botc_patch:buffet action'
     )
 )
@@ -1719,7 +3320,7 @@ Write-GeneratedFile "dialog/prepare_completed_role.mcfunction" (
 Write-GeneratedFile "dialog/show_completed.mcfunction" (
     (New-Header "Show a completed player only the character they were shown.") +
     @(
-        '$dialog show @s {type:"multi_action",title:{text:"Your Draft Choice",color:"aqua",bold:true},body:[{type:"plain_message",contents:{text:"$(completed_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(completed_name)",font:"minecraft:default",color:"$(completed_color)",bold:true}]},width:360},{type:"plain_message",contents:{text:"This is the character you were shown. Only you can see this.",color:"gray"},width:360}],columns:1,actions:[{label:{text:"Close",color:"gray"},action:{type:"run_command",command:"/trigger botc_buffet_action set 7012"}}],exit_action:{label:"Close"}}'
+        '$dialog show @s {type:"notice",title:{text:"Your Draft Choice",color:"aqua",bold:true},body:[{type:"plain_message",contents:{text:"$(completed_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(completed_name)",font:"minecraft:default",color:"$(completed_color)",bold:true}]},width:360},{type:"plain_message",contents:{text:"This is the character you were shown. Only you can see this.",color:"gray"},width:360}],action:{label:{text:"Close",color:"gray"}}}'
     )
 )
 
@@ -1741,13 +3342,10 @@ foreach ($line in New-Header "Prepare the count-specific Storyteller Draft dashb
 }
 $reviewOpen.Add(('execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{{role:{0},stage:0}} run return run function botc_patch:buffet/draft/modifier/hermit/show_delta' -f $roleIds.hermit))
 $reviewOpen.Add(('execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{{role:{0},stage:1}} run return run function botc_patch:buffet/draft/modifier/hermit/open_abilities' -f $roleIds.hermit))
-foreach ($roleName in @("balloonist", "godfather", "xaan", "kazali", "lord_of_typhon", "legion")) {
+$reviewOpen.Add('execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{kind:"alchemist_summoner"} run return run function botc_patch:buffet/draft/topology/alchemist_summoner/show')
+foreach ($roleName in @("balloonist", "godfather", "xaan")) {
     $reviewOpen.Add(('execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{{role:{0}}} run return run function botc_patch:buffet/draft/modifier/{1}/show' -f $roleIds[$roleName], $roleName))
 }
-$reviewOpen.Add('execute if score draft_recycling botc_patch matches 0 run data modify storage botc_patch:buffet ui.recycle_label set value "Recycling: Off"')
-$reviewOpen.Add('execute if score draft_recycling botc_patch matches 0 run data modify storage botc_patch:buffet ui.recycle_color set value "gray"')
-$reviewOpen.Add('execute if score draft_recycling botc_patch matches 1 run data modify storage botc_patch:buffet ui.recycle_label set value "Recycling: On"')
-$reviewOpen.Add('execute if score draft_recycling botc_patch matches 1 run data modify storage botc_patch:buffet ui.recycle_color set value "green"')
 $reviewOpen.Add('scoreboard players set buffet_start_confirmed botc_patch 0')
 for ($seat = 1; $seat -le 15; $seat++) {
     $reviewOpen.Add(('data modify storage botc_patch:buffet ui.p{0}_name set from storage botc_patch:buffet draft.seats.s{0}.name' -f $seat))
@@ -1769,31 +3367,24 @@ foreach ($count in 5..15) {
 }
 Write-GeneratedFile "review/open.mcfunction" $reviewOpen
 
+$draftStatusZeroWidth = [string][char] 0x200C
+$draftStatusWaitingTail = (" " * 5) + $draftStatusZeroWidth
+$draftStatusChoosingTail = (" " * 2) + $draftStatusZeroWidth
+$draftStatusCompleteTail = (" " * 2) + $draftStatusZeroWidth
+
 for ($count = 5; $count -le 15; $count++) {
     $actions = @()
     for ($seat = 1; $seat -le $count; $seat++) {
         $actions += '{label:{text:"$(p' + $seat + '_status)",color:"$(p' + $seat + '_color)",bold:true,extra:[{text:" ' + $SeatSuperscripts[$seat] + ' ",font:"minecraft:default",color:"gray",bold:false},{text:"$(p' + $seat + '_name)",font:"minecraft:default",color:"$(p' + $seat + '_name_color)"},{text:"$(p' + $seat + '_role_open)",font:"minecraft:default",color:"gray",bold:false},{text:"$(p' + $seat + '_glyph)",font:"botc_patch:role_icons",color:"white"},{text:"$(p' + $seat + '_role_close)",font:"minecraft:default",color:"gray",bold:false}]},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + (7200 + $seat) + '"}}'
     }
-    $actions += '{label:{text:"$(recycle_label)",color:"$(recycle_color)"},action:{type:"run_command",command:"/trigger botc_buffet_action set 7101"}}'
-    $actions += '{label:{text:"' + $NextGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Start Game",font:"minecraft:default",color:"green",bold:true}]},action:{type:"run_command",command:"/trigger botc_buffet_action set 7102"}}'
-    $dialog = '$dialog show @s {type:"multi_action",title:{text:"Draft Buffet Review",color:"aqua",bold:true},body:[{type:"plain_message",contents:{text:"Seat ' + $SeatSuperscripts[1] + ' is the north chair; numbering continues clockwise. Red: waiting. Yellow: choosing. Green: complete. Gray: open seat. Assigned names use character type colors.",color:"gray"},width:440}],columns:3,actions:[' + ($actions -join ",") + '],exit_action:{label:"Close"}}'
+    $startLine = '{text:"' + $NextGlyph + '",font:"botc_patch:ui_icons",color:"white",click_event:{action:"run_command",command:"/trigger botc_buffet_action set 7102"},extra:[{text:" Start Game",font:"minecraft:default",color:"green",bold:true}]}'
+    $reviewLegend = '{text:"Seat order",color:"aqua",bold:true,extra:[{text:"\nSeat ' + $SeatSuperscripts[1] + ' is the red chair. The remaining seats follow the chair colors in order.\n\n",color:"gray",bold:false},{text:"Player status",color:"aqua",bold:true},{text:"\n' + $StatusDot + '",color:"red",bold:true},{text:" Waiting",color:"white",bold:true},{text:"' + $draftStatusWaitingTail + '",color:"white",bold:false},{text:"\n' + $StatusDot + '",color:"yellow",bold:true},{text:" Choosing",color:"white",bold:true},{text:"' + $draftStatusChoosingTail + '",color:"white",bold:false},{text:"\n' + $StatusDot + '",color:"green",bold:true},{text:" Complete",color:"white",bold:true},{text:"' + $draftStatusCompleteTail + '",color:"white",bold:false},{text:"\n' + $StatusDot + '",color:"gray",bold:true},{text:" Open seat",color:"white",bold:true}]}'
+    $dialog = '$dialog show @s {type:"multi_action",title:{text:"Draft Buffet Review",color:"aqua",bold:true},body:[{type:"plain_message",contents:' + $reviewLegend + ',width:440},{type:"plain_message",contents:' + $startLine + ',width:440}],columns:3,actions:[' + ($actions -join ",") + '],exit_action:{label:"Close"}}'
     Write-GeneratedFile "review/dashboard_$count.mcfunction" (
         (New-Header "Show the $count-seat Draft review dashboard.") +
         @($dialog)
     )
 }
-
-Write-GeneratedFile "review/toggle_recycling.mcfunction" (
-    (New-Header "Toggle future Draft role recycling; default remains off.") +
-    @(
-        'execute if score draft_recycling botc_patch matches 0 run scoreboard players set draft_recycling botc_patch 2',
-        'execute if score draft_recycling botc_patch matches 1 run scoreboard players set draft_recycling botc_patch 0',
-        'execute if score draft_recycling botc_patch matches 2 run scoreboard players set draft_recycling botc_patch 1',
-        'execute if score draft_recycling botc_patch matches 0 run tellraw @a [{"text":"Recycling is now off.","color":"gray"}]',
-        'execute if score draft_recycling botc_patch matches 1 run tellraw @a [{"text":"Recycling is now on.","color":"gold"}]',
-        'function botc_patch:buffet/draft/review/open'
-    )
-)
 
 Write-GeneratedFile "review/select_seat.mcfunction" (
     (New-Header "Open the trusted Draft history for one selected seat.") +
@@ -1910,7 +3501,7 @@ $editorCategoryInfo = @{
 foreach ($category in @("town", "outsider", "minion", "demon")) {
     $info = $editorCategoryInfo[$category]
     $actions = @()
-    foreach ($role in $roles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name) {
+    foreach ($role in $selectableRoles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name) {
         if ([string] $role.Role -in $directlyHidden) {
             continue
         }
@@ -1934,20 +3525,20 @@ Write-GeneratedFile "review/editor/hidden_menu.mcfunction" (
     (New-Header "Choose a final hidden character before choosing what the player sees.") +
     @(
         'execute unless score draft_ready botc_patch matches 1 run return run function botc_patch:buffet/draft/review/open_selected',
-        ('dialog show @s {{type:"multi_action",title:{{text:"Secret Character",color:"dark_purple",bold:true}},body:[{{type:"plain_message",contents:{{text:"Choose the player''s actual hidden character. You will choose what they believe afterward.",color:"gray"}},width:390}}],columns:3,actions:[{0}],exit_action:{{label:"Back",action:{{type:"run_command",command:"/trigger botc_buffet_action set 3104"}}}}}}' -f ($editorHiddenActions -join ","))
+        ('dialog show @s {{type:"multi_action",title:{{text:"Secret Character",color:"dark_purple",bold:true}},body:[{{type:"plain_message",contents:{{text:"Choose the character they really are. Next, choose the character they will see.",color:"gray"}},width:390}}],columns:3,actions:[{0}],exit_action:{{label:"Back",action:{{type:"run_command",command:"/trigger botc_buffet_action set 3104"}}}}}}' -f ($editorHiddenActions -join ","))
     )
 )
 
 foreach ($category in @("town", "demon")) {
     $info = $editorCategoryInfo[$category]
     $actions = @()
-    foreach ($role in $roles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name) {
+    foreach ($role in $selectableRoles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name) {
         if ([string] $role.Role -in $directlyHidden) {
             continue
         }
         $actions += New-RoleButton -Role $role -Action (6000 + [int] $role.Id)
     }
-    $dialog = 'dialog show @s {type:"multi_action",title:{text:"Perceived ' + $info.Label + '",color:"' + $info.Color + '",bold:true},body:[{type:"plain_message",contents:{text:"Choose the character this player will be told they are.",color:"gray"},width:390}],columns:4,actions:[' + ($actions -join ",") + '],exit_action:{label:"Back",action:{type:"run_command",command:"/trigger botc_buffet_action set 3105"}}}'
+    $dialog = 'dialog show @s {type:"multi_action",title:{text:"Shown ' + $info.Label + '",color:"' + $info.Color + '",bold:true},body:[{type:"plain_message",contents:{text:"Choose the character this player will see.",color:"gray"},width:390}],columns:4,actions:[' + ($actions -join ",") + '],exit_action:{label:"Back",action:{type:"run_command",command:"/trigger botc_buffet_action set 3105"}}}'
     Write-GeneratedFile "review/editor/perceived_$category.mcfunction" (
         (New-Header "Choose the final perceived $($info.Label) role for a hidden assignment.") +
         @($dialog)
@@ -1958,7 +3549,7 @@ $editorAssignDispatch = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Dispatch only trusted catalog choices for the final Draft editor.") {
     $editorAssignDispatch.Add($line)
 }
-foreach ($role in $roles | Where-Object { [string] $_.Role -notin @("drunk", "lunatic", "marionette", "hermit") }) {
+foreach ($role in $selectableRoles | Where-Object { [string] $_.Role -notin @("drunk", "lunatic", "marionette", "hermit") }) {
     $editorAssignDispatch.Add(('execute if score @s botc_buffet_action matches {0} run function botc_patch:buffet/draft/review/editor/assign {{role:{1},alignment:{2},category:{3}}}' -f (4000 + [int] $role.Id), [int] $role.Id, [int] $role.Alignment, [int] $categoryCode[[string] $role.Category]))
 }
 $editorAssignDispatch.Add(('execute if score @s botc_buffet_action matches {0} run function botc_patch:buffet/draft/review/editor/hermit/begin_direct' -f (4000 + $roleIds.hermit)))
@@ -1966,7 +3557,7 @@ foreach ($hiddenRole in @("drunk", "lunatic", "marionette")) {
     $role = $roleByName[$hiddenRole]
     $editorAssignDispatch.Add(('execute if score @s botc_buffet_action matches {0} run function botc_patch:buffet/draft/review/editor/select_hidden {{role:{1},alignment:{2},category:{3}}}' -f (5000 + [int] $role.Id), [int] $role.Id, [int] $role.Alignment, [int] $categoryCode[[string] $role.Category]))
 }
-foreach ($role in $roles | Where-Object { [string] $_.Category -in @("town", "demon") -and [string] $_.Role -notin $directlyHidden }) {
+foreach ($role in $selectableRoles | Where-Object { [string] $_.Category -in @("town", "demon") -and [string] $_.Role -notin $directlyHidden }) {
     $editorAssignDispatch.Add(('execute if score @s botc_buffet_action matches {0} run function botc_patch:buffet/draft/review/editor/assign_perceived {{perceived:{1},perceived_alignment:{2}}}' -f (6000 + [int] $role.Id), [int] $role.Id, [int] $role.Alignment))
 }
 Write-GeneratedFile "review/editor/assign_dispatch.mcfunction" $editorAssignDispatch
@@ -2012,7 +3603,7 @@ Write-GeneratedFile "review/editor/assign_perceived.mcfunction" (
 )
 
 $editorDuplicateCheck = [System.Collections.Generic.List[string]]::new()
-foreach ($line in New-Header "Reject accidental final-role duplication outside Draft recycling and official duplicate roles.") {
+foreach ($line in New-Header "Find an accidental final-character duplicate before an authoritative Storyteller override.") {
     $editorDuplicateCheck.Add($line)
 }
 $editorDuplicateCheck.Add('scoreboard players set buffet_duplicate_found botc_patch 0')
@@ -2020,9 +3611,6 @@ $editorDuplicateCheck.Add('data remove storage botc_patch:buffet draft.editor.co
 $editorDuplicateCheck.Add('scoreboard players set draft_editor_check_actual botc_patch 1')
 $editorDuplicateCheck.Add('scoreboard players set draft_editor_check_perceived botc_patch 1')
 $editorDuplicateCheck.Add('scoreboard players set draft_editor_check_forced botc_patch 1')
-$editorDuplicateCheck.Add('execute if score draft_recycling botc_patch matches 1 run scoreboard players set draft_editor_check_actual botc_patch 0')
-$editorDuplicateCheck.Add('execute if score draft_recycling botc_patch matches 1 run scoreboard players set draft_editor_check_perceived botc_patch 0')
-$editorDuplicateCheck.Add('execute if score draft_recycling botc_patch matches 1 run scoreboard players set draft_editor_check_forced botc_patch 0')
 foreach ($roleId in @($roleIds.village_idiot, $roleIds.legion, $roleIds.riot)) {
     $editorDuplicateCheck.Add(('execute if score draft_editor_candidate_actual botc_patch matches {0} run scoreboard players set draft_editor_check_actual botc_patch 0' -f $roleId))
     $editorDuplicateCheck.Add(('execute if score draft_editor_candidate_perceived botc_patch matches {0} run scoreboard players set draft_editor_check_perceived botc_patch 0' -f $roleId))
@@ -2058,12 +3646,36 @@ Write-GeneratedFile "review/editor/resolve_conflict.mcfunction" (
 )
 
 Write-GeneratedFile "review/editor/report_conflict.mcfunction" (
-    (New-Header "Report the exact character, player, and source of a blocked final-editor duplicate.") +
+    (New-Header "Ask the acting Storyteller whether to apply an exact duplicate final character anyway.") +
     @(
         'function botc_patch:buffet/draft/review/editor/resolve_conflict with storage botc_patch:buffet draft.editor.conflict',
-        'execute if data storage botc_patch:buffet draft.editor.conflict{kind:1} run tellraw @s [{"text":"! ","color":"red","bold":true},{"nbt":"draft.editor.conflict.role_name","storage":"botc_patch:buffet","color":"red","bold":false},{"text":" is already assigned to ","color":"gray","bold":false},{"nbt":"draft.editor.conflict.player","storage":"botc_patch:buffet","color":"yellow","bold":false},{"text":". Turn Recycling on if the duplicate is intentional, then reopen this player and try again.","color":"gray","bold":false}]',
-        'execute if data storage botc_patch:buffet draft.editor.conflict{kind:2} run tellraw @s [{"text":"! ","color":"red","bold":true},{"nbt":"draft.editor.conflict.role_name","storage":"botc_patch:buffet","color":"red","bold":false},{"text":" is already shown to ","color":"gray","bold":false},{"nbt":"draft.editor.conflict.player","storage":"botc_patch:buffet","color":"yellow","bold":false},{"text":". Turn Recycling on if the duplicate is intentional, then reopen this player and try again.","color":"gray","bold":false}]',
-        'execute if data storage botc_patch:buffet draft.editor.conflict{kind:3} run tellraw @s [{"text":"! ","color":"red","bold":true},{"nbt":"draft.editor.conflict.role_name","storage":"botc_patch:buffet","color":"red","bold":false},{"text":" is already one of ","color":"gray","bold":false},{"nbt":"draft.editor.conflict.player","storage":"botc_patch:buffet","color":"yellow","bold":false},{"text":"''s Hermit abilities. Turn Recycling on if the duplicate is intentional, then reopen this player and try again.","color":"gray","bold":false}]'
+        'execute if data storage botc_patch:buffet draft.editor.conflict{kind:1} run dialog show @s {type:"multi_action",title:{text:"Character Already Used",color:"yellow",bold:true},body:{type:"plain_message",contents:[{nbt:"draft.editor.conflict.role_name",storage:"botc_patch:buffet",color:"red"},{text:" is already assigned to ",color:"gray"},{nbt:"draft.editor.conflict.player",storage:"botc_patch:buffet",color:"yellow"},{text:". Assign it here too?",color:"gray"}],width:410},columns:2,actions:[{label:{text:"Use Anyway",color:"red",bold:true},action:{type:"run_command",command:"/trigger botc_buffet_action set 3120"}},{label:{text:"Go Back",color:"gray"},action:{type:"run_command",command:"/trigger botc_buffet_action set 3104"}}],exit_action:{label:"Go Back",action:{type:"run_command",command:"/trigger botc_buffet_action set 3104"}}}',
+        'execute if data storage botc_patch:buffet draft.editor.conflict{kind:2} run dialog show @s {type:"multi_action",title:{text:"Character Already Used",color:"yellow",bold:true},body:{type:"plain_message",contents:[{nbt:"draft.editor.conflict.role_name",storage:"botc_patch:buffet",color:"red"},{text:" is already shown to ",color:"gray"},{nbt:"draft.editor.conflict.player",storage:"botc_patch:buffet",color:"yellow"},{text:". Show it here too?",color:"gray"}],width:410},columns:2,actions:[{label:{text:"Use Anyway",color:"red",bold:true},action:{type:"run_command",command:"/trigger botc_buffet_action set 3120"}},{label:{text:"Go Back",color:"gray"},action:{type:"run_command",command:"/trigger botc_buffet_action set 3104"}}],exit_action:{label:"Go Back",action:{type:"run_command",command:"/trigger botc_buffet_action set 3104"}}}',
+        'execute if data storage botc_patch:buffet draft.editor.conflict{kind:3} run dialog show @s {type:"multi_action",title:{text:"Character Already Used",color:"yellow",bold:true},body:{type:"plain_message",contents:[{nbt:"draft.editor.conflict.role_name",storage:"botc_patch:buffet",color:"red"},{text:" is already one of ",color:"gray"},{nbt:"draft.editor.conflict.player",storage:"botc_patch:buffet",color:"yellow"},{text:"''s Hermit abilities. Use it here too?",color:"gray"}],width:410},columns:2,actions:[{label:{text:"Use Anyway",color:"red",bold:true},action:{type:"run_command",command:"/trigger botc_buffet_action set 3120"}},{label:{text:"Go Back",color:"gray"},action:{type:"run_command",command:"/trigger botc_buffet_action set 3104"}}],exit_action:{label:"Go Back",action:{type:"run_command",command:"/trigger botc_buffet_action set 3104"}}}'
+    )
+)
+
+Write-GeneratedFile "review/editor/confirm_duplicate.mcfunction" (
+    (New-Header "Apply a duplicate final-character override after explicit Storyteller confirmation.") +
+    @(
+        'execute unless score draft_ready botc_patch matches 1 run return 0',
+        'execute unless data storage botc_patch:buffet draft.editor{active:1b,pending:{}} run return 0',
+        'data modify storage botc_patch:buffet draft.editor.duplicate_confirmed set value 1b',
+        'function botc_patch:buffet/draft/review/editor/apply with storage botc_patch:buffet draft.editor.pending'
+    )
+)
+
+Write-GeneratedFile "review/editor/remove_old_delta.mcfunction" (
+    (New-Header "Remove the selected seat's old reversible setup delta before a trusted override.") +
+    @(
+        '$execute store result score draft_editor_old_dt botc_patch run data get storage botc_patch:buffet draft.seats.s$(seat).delta_town',
+        '$execute store result score draft_editor_old_do botc_patch run data get storage botc_patch:buffet draft.seats.s$(seat).delta_outsider',
+        '$execute store result score draft_editor_old_dm botc_patch run data get storage botc_patch:buffet draft.seats.s$(seat).delta_minion',
+        '$execute store result score draft_editor_old_dd botc_patch run data get storage botc_patch:buffet draft.seats.s$(seat).delta_demon',
+        'scoreboard players operation draft_target_town botc_patch -= draft_editor_old_dt botc_patch',
+        'scoreboard players operation draft_target_outsider botc_patch -= draft_editor_old_do botc_patch',
+        'scoreboard players operation draft_target_minion botc_patch -= draft_editor_old_dm botc_patch',
+        'scoreboard players operation draft_target_demon botc_patch -= draft_editor_old_dd botc_patch'
     )
 )
 
@@ -2077,10 +3689,9 @@ Write-GeneratedFile "review/editor/apply.mcfunction" (
         '$scoreboard players set draft_editor_candidate_actual botc_patch $(actual)',
         '$scoreboard players set draft_editor_candidate_perceived botc_patch $(perceived)',
         '$scoreboard players set draft_editor_candidate_forced botc_patch $(hermit_forced_ability)',
-        'function botc_patch:buffet/draft/review/editor/check_duplicate with storage botc_patch:buffet draft.editor.pending',
-        'execute if score buffet_duplicate_found botc_patch matches 1 run function botc_patch:buffet/attention/block_self',
-        'execute if score buffet_duplicate_found botc_patch matches 1 run function botc_patch:buffet/draft/review/editor/report_conflict',
-        'execute if score buffet_duplicate_found botc_patch matches 1 run return 0',
+        'execute unless data storage botc_patch:buffet draft.editor{duplicate_confirmed:1b} run function botc_patch:buffet/draft/review/editor/check_duplicate with storage botc_patch:buffet draft.editor.pending',
+        'execute if score buffet_duplicate_found botc_patch matches 1 unless data storage botc_patch:buffet draft.editor{duplicate_confirmed:1b} run return run function botc_patch:buffet/draft/review/editor/report_conflict',
+        'function botc_patch:buffet/draft/review/editor/remove_old_delta with storage botc_patch:buffet draft.editor.pending',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).actual set value $(actual)',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).perceived set value $(perceived)',
         '$data modify storage botc_patch:buffet draft.seats.s$(seat).alignment set value $(alignment)',
@@ -2095,17 +3706,14 @@ Write-GeneratedFile "review/editor/apply.mcfunction" (
         '$data remove storage botc_patch:buffet draft.seats.s$(seat).hermit_forced_ability',
         '$execute if data storage botc_patch:buffet draft.editor.pending.hermit_abilities run data modify storage botc_patch:buffet draft.seats.s$(seat).hermit_abilities set from storage botc_patch:buffet draft.editor.pending.hermit_abilities',
         '$execute unless data storage botc_patch:buffet draft.editor.pending{hermit_forced_ability:0} run data modify storage botc_patch:buffet draft.seats.s$(seat).hermit_forced_ability set value $(hermit_forced_ability)',
-        '$scoreboard players set @a[tag=botc_buffet_roster,scores={id=$(seat)}] botc_buffet_role $(actual)',
-        '$scoreboard players set @a[tag=botc_buffet_roster,scores={id=$(seat)}] botc_buffet_perceived $(perceived)',
-        '$scoreboard players set @a[tag=botc_buffet_roster,scores={id=$(seat)}] botc_buffet_alignment $(alignment)',
-        '$scoreboard players set @a[tag=botc_buffet_roster,scores={id=$(seat)}] botc_buffet_perceived_alignment $(perceived_alignment)',
         'function botc_patch:buffet/draft/review/editor/normalize',
         'function botc_patch:buffet/draft/review/editor/rebuild_pool',
         'function botc_patch:buffet/draft/rebuild_requirements',
+        'execute if score draft_lord_of_typhon_active botc_patch matches 1 run function botc_patch:buffet/draft/topology/lord_of_typhon/validate',
         'scoreboard players set buffet_assignment_applied botc_patch 1',
         'data remove storage botc_patch:buffet draft.editor',
         'data remove storage botc_patch:buffet modifier',
-        ('tellraw @s [{"text":"' + $SuccessCheckmark + ' ","color":"green","bold":true},{"text":"Final assignment updated. The player''s book now shows the new perceived character.","color":"gray","bold":false}]'),
+        ('tellraw @s [{"text":"' + $SuccessCheckmark + ' ","color":"green","bold":true},{"text":"Character changed privately. The player will see only their final shown character when the game starts.","color":"gray","bold":false}]'),
         'function botc_patch:buffet/draft/review/open_selected'
     )
 )
@@ -2124,25 +3732,12 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $editorNormalize.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2,category:2}} run scoreboard players add draft_assigned_outsider botc_patch 1' -f $seat))
     $editorNormalize.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2,category:3}} run scoreboard players add draft_assigned_minion botc_patch 1' -f $seat))
     $editorNormalize.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2,category:4}} run scoreboard players add draft_assigned_demon botc_patch 1' -f $seat))
-    foreach ($field in @("delta_town", "delta_outsider", "delta_minion", "delta_demon", "forced_category")) {
-        $editorNormalize.Add(('data modify storage botc_patch:buffet draft.seats.s{0}.{1} set value 0' -f $seat, $field))
-    }
-    $editorNormalize.Add(('data modify storage botc_patch:buffet draft.seats.s{0}.modifier_owner set value 0b' -f $seat))
-}
-foreach ($category in @("town", "outsider", "minion", "demon")) {
-    $editorNormalize.Add("scoreboard players operation draft_target_$category botc_patch = draft_assigned_$category botc_patch")
 }
 foreach ($score in @(
-    "draft_modifier_pending", "draft_atheist_active", "draft_legion_active", "draft_riot_active",
-    "draft_vi_initialized", "draft_outsider_absolute_active", "draft_outsider_absolute_seat",
-    "draft_outsider_absolute_target", "draft_outsider_absolute_role", "draft_required_legion",
-    "draft_required_riot", "draft_required_vi", "draft_bounty_pending", "draft_bounty_resolved",
-    "draft_bounty_target_seat", "draft_current_seat"
+    "draft_modifier_pending", "draft_current_seat"
 )) {
     $editorNormalize.Add("scoreboard players set $score botc_patch 0")
 }
-$editorNormalize.Add('scoreboard players set draft_topology_offered botc_patch 1')
-$editorNormalize.Add('scoreboard players set draft_opening_offer_active botc_patch 0')
 $editorNormalize.Add('scoreboard players set draft_manual_override botc_patch 1')
 $editorNormalize.Add('scoreboard players set draft_ready botc_patch 0')
 $editorNormalize.Add('execute if score draft_assigned_total botc_patch = buffet_roster_count botc_patch run scoreboard players set draft_ready botc_patch 1')
@@ -2157,7 +3752,8 @@ foreach ($line in New-Header "Rebuild Draft role retirement from every edited ac
 foreach ($role in $roles) {
     $roleId = [int] $role.Id
     $editorRebuildPool.Add(('scoreboard players set draft_chosen_{0} botc_patch 0' -f $roleId))
-    $editorRebuildPool.Add(('scoreboard players set draft_available_{0} botc_patch 1' -f $roleId))
+    $initialAvailability = if ($disabledRoleReasons.ContainsKey([string] $role.Role)) { 0 } else { 1 }
+    $editorRebuildPool.Add(('scoreboard players set draft_available_{0} botc_patch {1}' -f $roleId, $initialAvailability))
     $editorRebuildPool.Add(('execute if score draft_blocked_{0} botc_patch matches 1 run scoreboard players set draft_available_{0} botc_patch 0' -f $roleId))
 }
 for ($seat = 1; $seat -le 15; $seat++) {
@@ -2171,7 +3767,7 @@ Write-GeneratedFile "review/editor/retire_role.mcfunction" (
     (New-Header "Retire one server-owned role after rebuilding edited Draft assignments.") +
     @(
         '$scoreboard players set draft_chosen_$(actual) botc_patch 1',
-        '$execute if score draft_recycling botc_patch matches 0 run scoreboard players set draft_available_$(actual) botc_patch 0'
+        '$scoreboard players set draft_available_$(actual) botc_patch 0'
     )
 )
 
@@ -2284,6 +3880,7 @@ Write-GeneratedFile "review/empty_apply.mcfunction" (
         '$tag @a[tag=botc_buffet_roster,scores={id=$(seat)}] add botc_buffet_emptied',
         'clear @a[tag=botc_buffet_emptied] minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_tool:1b}]',
         'team leave @a[tag=botc_buffet_emptied]',
+        'scoreboard players reset @a[tag=botc_buffet_emptied] id',
         'tag @a[tag=botc_buffet_emptied] remove botc_buffet_roster',
         'tag @a[tag=botc_buffet_emptied] remove botc_buffet_draft_waiting',
         'tag @a[tag=botc_buffet_emptied] remove botc_buffet_draft_current',
@@ -2297,7 +3894,9 @@ Write-GeneratedFile "review/empty_apply.mcfunction" (
         'scoreboard players reset @a[tag=botc_buffet_emptied] botc_buffet_seat',
         '$scoreboard players add buffet_seat_$(seat)_generation botc_patch 1',
         '$data modify storage botc_patch:buffet roster.p$(seat) set value "Open Seat"',
-        '$data modify storage botc_patch:buffet draft.seats.s$(seat) set value {active:0b,name:"Open Seat",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{},seen:{},history:{}}',
+        '$data modify storage botc_patch:buffet draft.seats.s$(seat) set value {active:0b,name:"Open Seat",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,protected_outsider:0,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{},seen:{},history:{}}',
+        '$data remove entity @e[type=minecraft:item_display,tag=house_head,scores={house_id=$(seat)},limit=1] item.components.minecraft:profile',
+        'function ct:start_game/apply_labels',
         'function botc_patch:buffet/draft/review/recheck_unassigned_role with storage botc_patch:buffet action',
         'data modify storage botc_patch:buffet action.actual set from storage botc_patch:buffet action.perceived',
         'function botc_patch:buffet/draft/review/recheck_unassigned_role with storage botc_patch:buffet action',
@@ -2375,7 +3974,6 @@ Write-GeneratedFile "review/unassign_finalized.mcfunction" (
         '$scoreboard players set draft_available_$(perceived) botc_patch 1',
         ('$execute if data storage botc_patch:buffet draft.seats.s$(seat){{modifier_owner:1b}} if score draft_unassign_role botc_patch matches {0} run scoreboard players set draft_atheist_active botc_patch 0' -f $roleIds.atheist),
         ('$execute if data storage botc_patch:buffet draft.seats.s$(seat){{modifier_owner:1b}} if score draft_unassign_role botc_patch matches {0} run scoreboard players set draft_legion_active botc_patch 0' -f $roleIds.legion),
-        ('$execute if data storage botc_patch:buffet draft.seats.s$(seat){{modifier_owner:1b}} if score draft_unassign_role botc_patch matches {0} run scoreboard players set draft_riot_active botc_patch 0' -f $roleIds.riot),
         ('$execute if data storage botc_patch:buffet draft.seats.s$(seat){{modifier_owner:1b}} if score draft_unassign_role botc_patch matches {0} run function botc_patch:buffet/draft/clear_forced_categories' -f $roleIds.lord_of_typhon)
     )
 )
@@ -2421,10 +4019,8 @@ $rebuildRequirements.Add('scoreboard players set draft_required_king botc_patch 
 $rebuildRequirements.Add('scoreboard players set draft_required_damsel botc_patch 0')
 $rebuildRequirements.Add('scoreboard players set draft_required_vi botc_patch 0')
 $rebuildRequirements.Add('scoreboard players set draft_required_legion botc_patch 0')
-$rebuildRequirements.Add('scoreboard players set draft_required_riot botc_patch 0')
 $rebuildRequirements.Add('scoreboard players set draft_vi_assigned botc_patch 0')
 $rebuildRequirements.Add('scoreboard players set draft_legion_assigned botc_patch 0')
-$rebuildRequirements.Add('scoreboard players set draft_riot_assigned botc_patch 0')
 $rebuildRequirements.Add('scoreboard players set draft_has_choirboy botc_patch 0')
 $rebuildRequirements.Add('scoreboard players set draft_has_huntsman botc_patch 0')
 $rebuildRequirements.Add('scoreboard players set draft_has_king botc_patch 0')
@@ -2438,7 +4034,6 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $rebuildRequirements.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{actual:{1}}} run scoreboard players set draft_has_damsel botc_patch 1' -f $seat, $roleIds.damsel))
     $rebuildRequirements.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{actual:{1}}} run scoreboard players add draft_vi_assigned botc_patch 1' -f $seat, $roleIds.village_idiot))
     $rebuildRequirements.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{actual:{1}}} run scoreboard players add draft_legion_assigned botc_patch 1' -f $seat, $roleIds.legion))
-    $rebuildRequirements.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{actual:{1}}} run scoreboard players add draft_riot_assigned botc_patch 1' -f $seat, $roleIds.riot))
     $rebuildRequirements.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{status:2,actual:{1}}} run scoreboard players set draft_bounty_present botc_patch 1' -f $seat, $roleIds.bounty_hunter))
     $rebuildRequirements.Add(('execute if score draft_bounty_target_seat botc_patch matches {0} if data storage botc_patch:buffet draft.seats.s{0}{{status:2,category:1}} run scoreboard players set draft_bounty_target_valid botc_patch 1' -f $seat))
 }
@@ -2452,8 +4047,6 @@ $rebuildRequirements.Add('execute if score draft_vi_initialized botc_patch match
 $rebuildRequirements.Add('execute if score draft_vi_initialized botc_patch matches 1 run scoreboard players operation draft_required_vi botc_patch -= draft_vi_assigned botc_patch')
 $rebuildRequirements.Add('execute if score draft_legion_active botc_patch matches 1 run scoreboard players operation draft_required_legion botc_patch = draft_legion_count botc_patch')
 $rebuildRequirements.Add('execute if score draft_legion_active botc_patch matches 1 run scoreboard players operation draft_required_legion botc_patch -= draft_legion_assigned botc_patch')
-$rebuildRequirements.Add('execute if score draft_riot_active botc_patch matches 1 run scoreboard players operation draft_required_riot botc_patch = draft_riot_total botc_patch')
-$rebuildRequirements.Add('execute if score draft_riot_active botc_patch matches 1 run scoreboard players operation draft_required_riot botc_patch -= draft_riot_assigned botc_patch')
 $rebuildRequirements.Add('execute if score draft_bounty_resolved botc_patch matches 1 unless score draft_bounty_present botc_patch matches 1 run function botc_patch:buffet/draft/start/reset_bounty_target')
 $rebuildRequirements.Add('execute if score draft_bounty_resolved botc_patch matches 1 unless score draft_bounty_target_valid botc_patch matches 1 run function botc_patch:buffet/draft/start/reset_bounty_target')
 $rebuildRequirements.Add('execute unless score draft_bounty_present botc_patch matches 1 run scoreboard players set draft_bounty_pending botc_patch 0')
@@ -2502,7 +4095,7 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $claim.Add(('scoreboard players set @s botc_buffet_seat {0}' -f $seat))
     $claim.Add(('scoreboard players operation @s botc_buffet_seat_gen = buffet_seat_{0}_generation botc_patch' -f $seat))
     $claim.Add('scoreboard players set @s botc_buffet_status 0')
-    $claim.Add(('data modify storage botc_patch:buffet draft.seats.s{0} set value {{active:1b,name:"Seat {0}",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{{}},seen:{{}},history:{{}}}}' -f $seat))
+    $claim.Add(('data modify storage botc_patch:buffet draft.seats.s{0} set value {{active:1b,name:"Seat {0}",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,protected_outsider:0,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{{}},seen:{{}},history:{{}}}}' -f $seat))
     $claim.Add('function ct:start_game/apply_labels')
     for ($count = 5; $count -le 15; $count++) {
         $claim.Add(('execute if score buffet_roster_count botc_patch matches {0} run function botc_patch:buffet/roster/snapshot_names/{0}' -f $count))
@@ -2606,7 +4199,7 @@ function Add-RandomReplacementFunctions {
         $pickLines.Add(("execute {0} run scoreboard players add draft_replace_pool botc_patch 1" -f $predicate))
     }
     $pickLines.Add('execute unless score draft_replace_pool botc_patch matches 1.. run return 0')
-    $pickLines.Add('execute store result score draft_replace_pick botc_patch run random value 0..2147483647')
+    $pickLines.Add('execute store result score draft_replace_pick botc_patch run random value 0..2147483646')
     $pickLines.Add('scoreboard players operation draft_replace_pick botc_patch %= draft_replace_pool botc_patch')
     $pickLines.Add('scoreboard players add draft_replace_pick botc_patch 1')
     $pickLines.Add('scoreboard players set draft_replace_cursor botc_patch 0')
@@ -2634,8 +4227,6 @@ function Add-RandomReplacementFunctions {
 }
 
 Add-RandomReplacementFunctions -Name "vi" -RequiredRole $roleIds.village_idiot -Category 1 -RequiredScore "draft_required_vi"
-Add-RandomReplacementFunctions -Name "legion" -RequiredRole $roleIds.legion -Category 4 -RequiredScore "draft_required_legion"
-Add-RandomReplacementFunctions -Name "riot" -RequiredRole $roleIds.riot -Category 4 -RequiredScore "draft_required_riot"
 
 $bountyResolve = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Choose one random Townsfolk as Bounty Hunter's evil Townsfolk.") {
@@ -2647,7 +4238,7 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $bountyResolve.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{status:2,category:1}} unless data storage botc_patch:buffet draft.seats.s{0}{{actual:{1}}} run scoreboard players add draft_bounty_pool botc_patch 1' -f $seat, $roleIds.bounty_hunter))
 }
 $bountyResolve.Add('execute unless score draft_bounty_pool botc_patch matches 1.. run return 0')
-$bountyResolve.Add('execute store result score draft_bounty_pick botc_patch run random value 0..2147483647')
+$bountyResolve.Add('execute store result score draft_bounty_pick botc_patch run random value 0..2147483646')
 $bountyResolve.Add('scoreboard players operation draft_bounty_pick botc_patch %= draft_bounty_pool botc_patch')
 $bountyResolve.Add('scoreboard players add draft_bounty_pick botc_patch 1')
 $bountyResolve.Add('scoreboard players set draft_bounty_cursor botc_patch 0')
@@ -2663,14 +4254,12 @@ for ($seat = 1; $seat -le 15; $seat++) {
 Write-GeneratedFile "start/resolve_bounty.mcfunction" $bountyResolve
 
 Write-GeneratedFile "start/resolve_specials.mcfunction" (
-    (New-Header "Resolve all private Draft fallbacks before final validation.") +
+    (New-Header "Resolve private Draft dependencies before final validation.") +
     @(
         'function botc_patch:buffet/draft/rebuild_requirements',
         'function botc_patch:buffet/draft/start/resolve_dependencies',
         'function botc_patch:buffet/draft/rebuild_requirements',
         'function botc_patch:buffet/draft/start/resolve_vi',
-        'function botc_patch:buffet/draft/start/resolve_legion',
-        'function botc_patch:buffet/draft/start/resolve_riot',
         'function botc_patch:buffet/draft/start/resolve_bounty',
         'function botc_patch:buffet/draft/rebuild_requirements',
         'function botc_patch:buffet/draft/recount_needs'
@@ -2699,7 +4288,7 @@ foreach ($count in 5..15) {
         $validateMarionette.Add(('execute {0} if data storage botc_patch:buffet draft.seats.s{1}{{status:2,actual:{2}}} run scoreboard players set draft_marionette_recluse botc_patch 1' -f $seatPredicate, $right, $roleIds.recluse))
     }
 }
-$validateMarionette.Add('execute if score draft_marionette_present botc_patch matches 1 unless score draft_marionette_layout_valid botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0')
+$validateMarionette.Add('execute if score draft_marionette_present botc_patch matches 1 unless score draft_marionette_layout_valid botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1')
 Write-GeneratedFile "start/validate_marionette.mcfunction" $validateMarionette
 
 Write-GeneratedFile "start/report_marionette.mcfunction" (
@@ -2757,7 +4346,7 @@ foreach ($jinx in @($jinxPairs | Where-Object { $_.IsExclusion })) {
     $leftName = ConvertTo-JsonString $jinx.LeftName
     $rightName = ConvertTo-JsonString $jinx.RightName
     $predicate = ('if score draft_present_{0} botc_patch matches 1 if score draft_present_{1} botc_patch matches 1' -f $jinx.LeftId, $jinx.RightId)
-    $validateJinxes.Add(('execute {0} run scoreboard players set buffet_hard_valid botc_patch 0' -f $predicate))
+    $validateJinxes.Add(('execute {0} run scoreboard players set buffet_soft_warning botc_patch 1' -f $predicate))
     $validateJinxes.Add(('execute {0} run scoreboard players add draft_jinx_exclusion_count botc_patch 1' -f $predicate))
 }
 Write-GeneratedFile "start/validate_jinxes.mcfunction" $validateJinxes
@@ -2767,38 +4356,48 @@ foreach ($line in New-Header "Validate the completed Draft without mutating assi
     $preflight.Add($line)
 }
 $preflight.Add('scoreboard players set buffet_hard_valid botc_patch 1')
+$preflight.Add('scoreboard players set buffet_soft_warning botc_patch 0')
 $preflight.Add('execute unless score phase game_data matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
 $preflight.Add('execute unless score buffet_mode botc_patch matches 2 run scoreboard players set buffet_hard_valid botc_patch 0')
 $preflight.Add('function botc_patch:buffet/draft/start/validate_marionette')
 $preflight.Add('function botc_patch:buffet/draft/start/validate_jinxes')
+$preflight.Add('execute if score draft_lord_of_typhon_active botc_patch matches 1 run function botc_patch:buffet/draft/topology/lord_of_typhon/validate')
+$preflight.Add('execute if score draft_topology_status botc_patch matches 3 run scoreboard players set buffet_soft_warning botc_patch 1')
 $preflight.Add('execute unless score draft_assigned_total botc_patch = buffet_roster_count botc_patch run scoreboard players set buffet_hard_valid botc_patch 0')
-$preflight.Add('execute unless score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0')
-$preflight.Add('execute unless score draft_need_town botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
-$preflight.Add('execute unless score draft_need_outsider botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
-$preflight.Add('execute unless score draft_need_minion botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
-$preflight.Add('execute unless score draft_need_demon botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
+$preflight.Add('execute unless score draft_atheist_active botc_patch matches 1 unless score draft_assigned_demon botc_patch matches 1.. unless score draft_summoner_active botc_patch matches 1 unless score draft_alchemist_summoner_active botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute if score draft_summoner_active botc_patch matches 1 if score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute if score draft_alchemist_summoner_active botc_patch matches 1 if score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute if score draft_lord_of_typhon_active botc_patch matches 1 unless score draft_lord_of_typhon_valid botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute unless score draft_need_town botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute unless score draft_need_outsider botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute unless score draft_need_minion botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute unless score draft_need_demon botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1')
 $preflight.Add('execute if score draft_modifier_pending botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0')
 $preflight.Add('scoreboard players set draft_online_count botc_patch 0')
 $preflight.Add('execute as @a[tag=botc_buffet_roster] run scoreboard players add draft_online_count botc_patch 1')
 $preflight.Add('execute unless score draft_online_count botc_patch = buffet_roster_count botc_patch run scoreboard players set buffet_hard_valid botc_patch 0')
 for ($seat = 1; $seat -le 15; $seat++) {
     $preflight.Add(('execute if score buffet_roster_count botc_patch matches {0}.. unless data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat))
+    foreach ($roleName in $disabledRoleReasons.Keys) {
+        $roleId = [int] $roleByName[[string] $roleName].Id
+        foreach ($field in @("actual", "perceived", "hermit_forced_ability")) {
+            $preflight.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet draft.seats.s{0}{{{1}:{2}}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat, $field, $roleId))
+        }
+        $preflight.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet draft.seats.s{0}.hermit_abilities{{r{1}:1b}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat, $roleId))
+    }
 }
 $preflight.Add('scoreboard players set draft_safe_town_pool botc_patch 0')
-$preflight.Add('scoreboard players set draft_safe_demon_pool botc_patch 0')
 $preflight.Add('scoreboard players set draft_bounty_pool botc_patch 0')
 for ($seat = 1; $seat -le 15; $seat++) {
     $townPredicate = Get-SafeReplacementPredicate -Seat $seat -Category 1 -RequiredRole $roleIds.village_idiot
-    $demonPredicate = Get-SafeReplacementPredicate -Seat $seat -Category 4 -RequiredRole 0
     $preflight.Add(("execute {0} run scoreboard players add draft_safe_town_pool botc_patch 1" -f $townPredicate))
-    $preflight.Add(("execute {0} run scoreboard players add draft_safe_demon_pool botc_patch 1" -f $demonPredicate))
     $preflight.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{status:2,category:1}} unless data storage botc_patch:buffet draft.seats.s{0}{{actual:{1}}} run scoreboard players add draft_bounty_pool botc_patch 1' -f $seat, $roleIds.bounty_hunter))
 }
-$preflight.Add('execute if score draft_required_vi botc_patch > draft_safe_town_pool botc_patch run scoreboard players set buffet_hard_valid botc_patch 0')
-$preflight.Add('scoreboard players operation draft_required_demon_replacements botc_patch = draft_required_legion botc_patch')
-$preflight.Add('scoreboard players operation draft_required_demon_replacements botc_patch += draft_required_riot botc_patch')
-$preflight.Add('execute if score draft_required_demon_replacements botc_patch > draft_safe_demon_pool botc_patch run scoreboard players set buffet_hard_valid botc_patch 0')
-$preflight.Add('execute if score draft_bounty_pending botc_patch matches 1 unless score draft_bounty_pool botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0')
+$preflight.Add('execute if score draft_required_vi botc_patch > draft_safe_town_pool botc_patch run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute if score draft_required_legion botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute if score draft_bounty_pending botc_patch matches 1 unless score draft_bounty_pool botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute if score draft_manual_override botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1')
+$preflight.Add('execute if score buffet_soft_warning botc_patch matches 1 unless score draft_manual_override botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0')
 Write-GeneratedFile "start/validate_preflight.mcfunction" $preflight
 
 $invalidReport = [System.Collections.Generic.List[string]]::new()
@@ -2818,12 +4417,24 @@ $invalidReport.Add('execute unless score draft_need_town botc_patch matches 0 ru
 $invalidReport.Add('execute unless score draft_need_outsider botc_patch matches 0 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Outsiders","color":"#55ffff","bold":true},{"text":" still needed: ","color":"gray","bold":false},{"score":{"name":"draft_need_outsider","objective":"botc_patch"},"color":"white","bold":true},{"text":".","color":"gray","bold":false}]')
 $invalidReport.Add('execute unless score draft_need_minion botc_patch matches 0 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Minions","color":"#ffaa00","bold":true},{"text":" still needed: ","color":"gray","bold":false},{"score":{"name":"draft_need_minion","objective":"botc_patch"},"color":"white","bold":true},{"text":".","color":"gray","bold":false}]')
 $invalidReport.Add('execute unless score draft_need_demon botc_patch matches 0 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Demons","color":"#ff5555","bold":true},{"text":" still needed: ","color":"gray","bold":false},{"score":{"name":"draft_need_demon","objective":"botc_patch"},"color":"white","bold":true},{"text":".","color":"gray","bold":false}]')
-$invalidReport.Add('execute unless score draft_assigned_demon botc_patch matches 1.. run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Assign at least one ","color":"gray","bold":false},{"text":"Demon","color":"#ff5555","bold":true},{"text":" before starting.","color":"gray","bold":false}]')
+$invalidReport.Add('execute unless score draft_atheist_active botc_patch matches 1 unless score draft_assigned_demon botc_patch matches 1.. unless score draft_summoner_active botc_patch matches 1 unless score draft_alchemist_summoner_active botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Assign at least one ","color":"gray","bold":false},{"text":"Demon","color":"#ff5555","bold":true},{"text":" before starting.","color":"gray","bold":false}]')
+$invalidReport.Add('execute if score draft_topology_status botc_patch matches 3 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"The special setup could not be completed. Correct the final characters before starting.","color":"gray","bold":false}]')
+$invalidReport.Add('execute if score draft_lord_of_typhon_active botc_patch matches 1 unless score draft_lord_of_typhon_valid botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Lord of Typhon still needs its exact contiguous neighboring Minion line. Use private final overrides; no player is notified before start.","color":"gray","bold":false}]')
+$invalidReport.Add('execute if score draft_required_legion botc_patch matches 1.. run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Legion''s chosen majority is incomplete. Correct the final characters before starting.","color":"gray","bold":false}]')
 $invalidReport.Add('execute if score draft_modifier_pending botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Finish the current character setup choice first.","color":"gray","bold":false}]')
 $invalidReport.Add('execute if score draft_required_vi botc_patch > draft_safe_town_pool botc_patch run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"There are not enough Townsfolk seats left for every required ","color":"gray","bold":false},{"text":"Village Idiot","color":"#55aaff","bold":true},{"text":".","color":"gray","bold":false}]')
-$invalidReport.Add('execute if score draft_required_demon_replacements botc_patch > draft_safe_demon_pool botc_patch run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"There are not enough Demon seats left for the required ","color":"gray","bold":false},{"text":"Legion","color":"#ff5555","bold":true},{"text":" or ","color":"gray","bold":false},{"text":"Riot","color":"#ff5555","bold":true},{"text":" players.","color":"gray","bold":false}]')
 $invalidReport.Add('execute if score draft_bounty_pending botc_patch matches 1 unless score draft_bounty_pool botc_patch matches 1.. run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Bounty Hunter","color":"#55aaff","bold":true},{"text":" needs a Townsfolk target, but no eligible player is left.","color":"gray","bold":false}]')
 $invalidReport.Add('execute if score draft_marionette_present botc_patch matches 1 unless score draft_marionette_layout_valid botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Marionette","color":"#ffaa00","bold":true},{"text":" must sit next to an actual Demon or a ","color":"gray","bold":false},{"text":"Recluse","color":"#55ffff","bold":true},{"text":" that may register as the Demon.","color":"gray","bold":false}]')
+foreach ($roleName in $disabledRoleReasons.Keys | Sort-Object) {
+    $role = $roleByName[[string] $roleName]
+    $reason = ConvertTo-JsonString ([string] $disabledRoleReasons[[string] $roleName])
+    for ($seat = 1; $seat -le 15; $seat++) {
+        foreach ($field in @("actual", "perceived", "hermit_forced_ability")) {
+            $invalidReport.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet draft.seats.s{0}{{{1}:{2}}} run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"{3} is unavailable: ","color":"yellow","bold":true}},{{"text":{4},"color":"gray","bold":false}}]' -f $seat, $field, [int] $role.Id, [string] $role.Name, $reason))
+        }
+        $invalidReport.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet draft.seats.s{0}.hermit_abilities{{r{1}:1b}} run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"{2} is unavailable as a Hermit ability: ","color":"yellow","bold":true}},{{"text":{3},"color":"gray","bold":false}}]' -f $seat, [int] $role.Id, [string] $role.Name, $reason))
+    }
+}
 foreach ($jinx in @($jinxPairs | Where-Object { $_.IsExclusion })) {
     $leftName = ConvertTo-JsonString $jinx.LeftName
     $rightName = ConvertTo-JsonString $jinx.RightName
@@ -2837,29 +4448,43 @@ foreach ($line in New-Header "Hard-validate the complete Draft before Sybillian 
     $validate.Add($line)
 }
 $validate.Add('scoreboard players set buffet_hard_valid botc_patch 1')
+$validate.Add('scoreboard players set buffet_soft_warning botc_patch 0')
 $validate.Add('execute unless score phase game_data matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
 $validate.Add('execute unless score buffet_mode botc_patch matches 2 run scoreboard players set buffet_hard_valid botc_patch 0')
 $validate.Add('function botc_patch:buffet/draft/start/validate_marionette')
 $validate.Add('function botc_patch:buffet/draft/start/validate_jinxes')
+$validate.Add('execute if score draft_lord_of_typhon_active botc_patch matches 1 run function botc_patch:buffet/draft/topology/lord_of_typhon/validate')
+$validate.Add('execute if score draft_topology_status botc_patch matches 3 run scoreboard players set buffet_soft_warning botc_patch 1')
 $validate.Add('execute unless score draft_assigned_total botc_patch = buffet_roster_count botc_patch run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute unless score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute unless score draft_need_town botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute unless score draft_need_outsider botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute unless score draft_need_minion botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute unless score draft_need_demon botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0')
+$validate.Add('execute unless score draft_atheist_active botc_patch matches 1 unless score draft_assigned_demon botc_patch matches 1.. unless score draft_summoner_active botc_patch matches 1 unless score draft_alchemist_summoner_active botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute if score draft_summoner_active botc_patch matches 1 if score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute if score draft_alchemist_summoner_active botc_patch matches 1 if score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute if score draft_lord_of_typhon_active botc_patch matches 1 unless score draft_lord_of_typhon_valid botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute unless score draft_need_town botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute unless score draft_need_outsider botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute unless score draft_need_minion botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute unless score draft_need_demon botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1')
 $validate.Add('execute if score draft_modifier_pending botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute if score draft_required_king botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute if score draft_required_damsel botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute if score draft_required_vi botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute if score draft_required_legion botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute if score draft_required_riot botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0')
-$validate.Add('execute if score draft_bounty_pending botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0')
+$validate.Add('execute if score draft_required_king botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute if score draft_required_damsel botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute if score draft_required_vi botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute if score draft_required_legion botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute if score draft_bounty_pending botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1')
 $validate.Add('scoreboard players set draft_online_count botc_patch 0')
 $validate.Add('execute as @a[tag=botc_buffet_roster] run scoreboard players add draft_online_count botc_patch 1')
 $validate.Add('execute unless score draft_online_count botc_patch = buffet_roster_count botc_patch run scoreboard players set buffet_hard_valid botc_patch 0')
 for ($seat = 1; $seat -le 15; $seat++) {
     $validate.Add(('execute if score buffet_roster_count botc_patch matches {0}.. unless data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat))
+    foreach ($roleName in $disabledRoleReasons.Keys) {
+        $roleId = [int] $roleByName[[string] $roleName].Id
+        foreach ($field in @("actual", "perceived", "hermit_forced_ability")) {
+            $validate.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet draft.seats.s{0}{{{1}:{2}}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat, $field, $roleId))
+        }
+        $validate.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet draft.seats.s{0}.hermit_abilities{{r{1}:1b}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat, $roleId))
+    }
 }
+$validate.Add('execute if score draft_manual_override botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1')
+$validate.Add('execute if score buffet_soft_warning botc_patch matches 1 unless score draft_manual_override botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0')
 Write-GeneratedFile "start/validate.mcfunction" $validate
 
 $startWarning = [System.Collections.Generic.List[string]]::new()
@@ -2867,7 +4492,20 @@ foreach ($line in New-Header "Build the Draft start confirmation with every priv
     $startWarning.Add($line)
 }
 $startWarning.Add('data modify storage botc_patch:buffet ui.start set value {type:"multi_action",title:{text:"Review Setup",color:"yellow",bold:true},body:[{type:"plain_message",contents:{text:"Every player has finished and the final setup is legal. Starting ends the Draft and begins the game.",color:"gray"},width:440}],columns:2,actions:[{label:{text:"' + $NextGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Start Game",font:"minecraft:default",color:"green",bold:true}]},action:{type:"run_command",command:"/trigger botc_buffet_action set 7103"}},{label:{text:"' + $BackGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Back",font:"minecraft:default",color:"gray"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set 7100"}}],exit_action:{label:"Close"}}')
-$startWarning.Add('execute if score draft_manual_override botc_patch matches 1 run data modify storage botc_patch:buffet ui.start.body append value {type:"plain_message",contents:{text:"Storyteller override: ",color:"aqua",bold:true,extra:[{text:"final characters were changed after the Draft. Verify that the edited distribution and every setup effect are intentional; these assignments are authoritative.",color:"yellow",bold:false}]},width:440}')
+$startWarning.Add('execute if score draft_manual_override botc_patch matches 1 run data modify storage botc_patch:buffet ui.start.title set value {text:"Unsafe Setup Override",color:"red",bold:true}')
+$startWarning.Add('execute if score draft_manual_override botc_patch matches 1 run data modify storage botc_patch:buffet ui.start.body[0] set value {type:"plain_message",contents:{text:"You changed one or more final characters. Jay''s Patch will use those choices exactly and will not rebalance the setup.",color:"yellow"},width:440}')
+$startWarning.Add('execute if score draft_manual_override botc_patch matches 1 run data modify storage botc_patch:buffet ui.start.actions[0].label set value {text:"' + $NextGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Start Anyway",font:"minecraft:default",color:"red",bold:true}]}')
+$startWarning.Add('execute if score draft_manual_override botc_patch matches 1 run data modify storage botc_patch:buffet ui.start.body append value {type:"plain_message",contents:{text:"Assigned / target: ",color:"aqua",bold:true,extra:[{text:"T ",color:"#55aaff",bold:false},{score:{name:"draft_assigned_town",objective:"botc_patch"},color:"white"},{text:" / ",color:"gray"},{score:{name:"draft_target_town",objective:"botc_patch"},color:"white"},{text:", O ",color:"#55ffff"},{score:{name:"draft_assigned_outsider",objective:"botc_patch"},color:"white"},{text:" / ",color:"gray"},{score:{name:"draft_target_outsider",objective:"botc_patch"},color:"white"},{text:", M ",color:"#ffaa00"},{score:{name:"draft_assigned_minion",objective:"botc_patch"},color:"white"},{text:" / ",color:"gray"},{score:{name:"draft_target_minion",objective:"botc_patch"},color:"white"},{text:", D ",color:"#ff5555"},{score:{name:"draft_assigned_demon",objective:"botc_patch"},color:"white"},{text:" / ",color:"gray"},{score:{name:"draft_target_demon",objective:"botc_patch"},color:"white"}]},width:440}')
+$startWarning.Add('execute if score draft_manual_override botc_patch matches 1 if score buffet_soft_warning botc_patch matches 1 run data modify storage botc_patch:buffet ui.start.body append value {type:"plain_message",contents:{text:"This setup may break normal character counts, required seating, character dependencies, or official setup rules. If you start anyway, you''ll need to handle any resulting setup problems.",color:"red",bold:true},width:440}')
+$startWarning.Add('execute if score draft_manual_override botc_patch matches 1 if score draft_topology_status botc_patch matches 3 run data modify storage botc_patch:buffet ui.start.body append value {type:"plain_message",contents:{text:"Special setup warning: the required special setup could not be completed.",color:"red"},width:440}')
+$startWarning.Add('execute if score draft_manual_override botc_patch matches 1 if score draft_lord_of_typhon_active botc_patch matches 1 unless score draft_lord_of_typhon_valid botc_patch matches 1 run data modify storage botc_patch:buffet ui.start.body append value {type:"plain_message",contents:{text:"Lord of Typhon warning: the required contiguous neighboring Minion line is not valid.",color:"red"},width:440}')
+$startWarning.Add('execute if score draft_manual_override botc_patch matches 1 if score draft_marionette_present botc_patch matches 1 unless score draft_marionette_layout_valid botc_patch matches 1 run data modify storage botc_patch:buffet ui.start.body append value {type:"plain_message",contents:{text:"Marionette warning: no valid Demon or Demon-registering Recluse neighbor was found.",color:"red"},width:440}')
+foreach ($jinx in @($jinxPairs | Where-Object { $_.IsExclusion })) {
+    $leftName = ConvertTo-JsonString $jinx.LeftName
+    $rightName = ConvertTo-JsonString $jinx.RightName
+    $predicate = ('if score draft_manual_override botc_patch matches 1 if score draft_present_{0} botc_patch matches 1 if score draft_present_{1} botc_patch matches 1' -f $jinx.LeftId, $jinx.RightId)
+    $startWarning.Add(('execute {0} run data modify storage botc_patch:buffet ui.start.body append value {{type:"plain_message",contents:{{text:"Official exclusion warning: ",color:"red",bold:true,extra:[{{text:{1},color:"yellow",bold:false}},{{text:" and ",color:"gray"}},{{text:{2},color:"yellow"}},{{text:" cannot normally both be in play.",color:"gray"}}]}},width:440}}' -f $predicate, $leftName, $rightName))
+}
 $startWarning.Add('execute if score draft_marionette_recluse botc_patch matches 1 run data modify storage botc_patch:buffet ui.start.body append value {type:"plain_message",contents:{text:"Marionette setup: ",color:"yellow",bold:true,extra:[{text:"a neighboring Recluse may register as the Demon. The Recluse remains a good Outsider.",color:"gray",bold:false}]},width:440}')
 foreach ($jinx in @($jinxPairs | Where-Object { -not $_.IsExclusion })) {
     $leftName = ConvertTo-JsonString $jinx.LeftName
@@ -2904,15 +4542,21 @@ foreach ($line in New-Header "Build the normalized Draft script plus exact per-s
 }
 $buildScript.Add('data modify storage botc_patch:setup import_payload set value [{id:"_meta",name:"Draft Buffet",author:"Jay''s Patch"}]')
 $buildScript.Add('data modify storage ct:roles roles set value []')
+$buildScript.Add('scoreboard players set draft_script_count_town botc_patch 0')
+$buildScript.Add('scoreboard players set draft_script_count_outsider botc_patch 0')
+$buildScript.Add('scoreboard players set draft_script_count_minion botc_patch 0')
+$buildScript.Add('scoreboard players set draft_script_count_demon botc_patch 0')
 foreach ($role in $roles) {
     $buildScript.Add(('scoreboard players set buffet_role_seen_{0} botc_patch 0' -f [int] $role.Id))
 }
 for ($seat = 1; $seat -le 15; $seat++) {
     $buildScript.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2}} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s{0}.actual' -f $seat))
-    $buildScript.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2}} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action' -f $seat))
+    $buildScript.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2}} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action' -f $seat))
     $buildScript.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2}} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s{0}.perceived' -f $seat))
-    $buildScript.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2}} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action' -f $seat))
+    $buildScript.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2}} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action' -f $seat))
 }
+$buildScript.Add(('execute if score draft_lil_monsta_active botc_patch matches 1 run data modify storage botc_patch:buffet action.role set value {0}' -f $roleIds.lil_monsta))
+$buildScript.Add('execute if score draft_lil_monsta_active botc_patch matches 1 run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action')
 $buildScript.Add('function botc_patch:setup/import/commit')
 $buildScript.Add('data modify storage ct:roles roles set value []')
 for ($seat = 1; $seat -le 15; $seat++) {
@@ -2920,6 +4564,23 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $buildScript.Add(('execute if data storage botc_patch:buffet draft.seats.s{0}{{active:1b,status:2}} run function botc_patch:buffet/greedy/start/append_exact_role with storage botc_patch:buffet action' -f $seat))
 }
 Write-GeneratedFile "start/build_script.mcfunction" $buildScript
+
+$appendImportRole = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Append one trusted Draft role while respecting Sybillian's fixed script-category capacities.") {
+    $appendImportRole.Add($line)
+}
+$appendImportRole.Add('scoreboard players set draft_script_role_added botc_patch 0')
+foreach ($role in $selectableRoles) {
+    $roleId = [int] $role.Id
+    $category = [string] $role.Category
+    $maximum = if ($category -eq "town") { 14 } else { 4 }
+    $predicate = ('execute if data storage botc_patch:buffet action{{role:{0}}} unless score buffet_role_seen_{0} botc_patch matches 1 if score draft_script_count_{1} botc_patch matches ..{2}' -f $roleId, $category, $maximum)
+    $appendImportRole.Add("$predicate run data modify storage botc_patch:setup import_payload append from storage botc_patch:buffet catalog.s$roleId.script_id")
+    $appendImportRole.Add("$predicate run scoreboard players set draft_script_role_added botc_patch 1")
+    $appendImportRole.Add(('execute if data storage botc_patch:buffet action{{role:{0}}} run scoreboard players set buffet_role_seen_{0} botc_patch 1' -f $roleId))
+    $appendImportRole.Add(('execute if data storage botc_patch:buffet action{{role:{0}}} if score draft_script_role_added botc_patch matches 1 run scoreboard players add draft_script_count_{1} botc_patch 1' -f $roleId, $category))
+}
+Write-GeneratedFile "start/append_import_role.mcfunction" $appendImportRole
 
 $applyRoles = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Overwrite Sybillian's random draw with exact Draft actual and perceived assignments.") {
@@ -2977,7 +4638,7 @@ Write-GeneratedFile "start/execute.mcfunction" (
         'scoreboard players set buffet_start_confirmed botc_patch 0',
         'execute unless score phase game_data matches 0 run function botc_patch:buffet/attention/block_self',
         'execute unless score phase game_data matches 0 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"A game is already active.","color":"gray","bold":false}]',
-        'function botc_patch:buffet/draft/start/resolve_specials',
+        'execute unless score draft_manual_override botc_patch matches 1 run function botc_patch:buffet/draft/start/resolve_specials',
         'function botc_patch:buffet/draft/start/validate',
         'execute unless score buffet_hard_valid botc_patch matches 1 run function botc_patch:buffet/draft/start/report_invalid',
         'execute unless score buffet_hard_valid botc_patch matches 1 run return 0',
@@ -2990,6 +4651,10 @@ Write-GeneratedFile "start/execute.mcfunction" (
         'execute unless score phase game_data matches 4 run return 0',
         'function botc_patch:buffet/roster/restore_started_identity',
         'function botc_patch:buffet/draft/start/apply_roles',
+        'scoreboard players set draft_summoner_resolution_pending botc_patch 0',
+        'execute if score draft_summoner_active botc_patch matches 1 run scoreboard players set draft_summoner_resolution_pending botc_patch 1',
+        'execute if score draft_alchemist_summoner_active botc_patch matches 1 run scoreboard players set draft_summoner_resolution_pending botc_patch 1',
+        'scoreboard players set @a[tag=storyteller] botc_grim_edit_mode 0',
         'schedule function botc_patch:buffet/roles/sync_storyteller_hidden 2t replace',
         'function botc_patch:buffet/draft/start/announce_hermit',
         'function botc_patch:storyteller_tools/teleport_den',
@@ -3001,6 +4666,12 @@ Write-GeneratedFile "start/execute.mcfunction" (
 )
 
 # Trigger dispatch remains short and all role selection is server-owned.
+$routeTargetHandlers = @(
+    foreach ($target in 0..15) {
+        'execute if entity @s[tag=storyteller] if score draft_route_pending botc_patch matches 2 if score draft_route_kind botc_patch matches 2 if score @s botc_buffet_action matches {0} run function botc_patch:buffet/draft/route/target_{1}' -f (7700 + $target), $target
+        'execute if entity @s[tag=storyteller] if score draft_route_pending botc_patch matches 2 if score draft_route_kind botc_patch matches 3 if score @s botc_buffet_action matches {0} run function botc_patch:buffet/draft/route/target_{1}' -f (7730 + $target), $target
+    }
+)
 Write-GeneratedFile "handle_action.mcfunction" (
     (New-Header "Dispatch validated Draft player and Storyteller actions.") +
     @(
@@ -3011,9 +4682,11 @@ Write-GeneratedFile "handle_action.mcfunction" (
         'execute if entity @s[tag=botc_buffet_draft_current,tag=!storyteller] if score @s botc_buffet_action matches 7010 run function botc_patch:buffet/draft/discard with storage botc_patch:buffet action',
         'execute if entity @s[tag=botc_buffet_draft_current,tag=!storyteller] if score @s botc_buffet_action matches 7011 run function botc_patch:buffet/draft/remind_reopen',
         'execute if entity @s[tag=storyteller] if score @s botc_buffet_action matches 7100 run function botc_patch:buffet/draft/review/open',
-        'execute if entity @s[tag=storyteller] if score @s botc_buffet_action matches 7101 run function botc_patch:buffet/draft/review/toggle_recycling',
         'execute if entity @s[tag=storyteller] if score @s botc_buffet_action matches 7102 run function botc_patch:buffet/draft/start/try',
-        'execute if entity @s[tag=storyteller] if score @s botc_buffet_action matches 7103 run function botc_patch:buffet/draft/start/execute',
+        'execute if entity @s[tag=storyteller] if score @s botc_buffet_action matches 7103 run function botc_patch:buffet/draft/start/execute'
+    ) +
+    $routeTargetHandlers +
+    @(
         'execute if entity @s[tag=storyteller] if score @s botc_buffet_action matches 7201..7215 run function botc_patch:buffet/draft/review/select_seat',
         'execute if entity @s[tag=storyteller] if score @s botc_buffet_action matches 7300 run function botc_patch:buffet/draft/review/empty_seat',
         'execute if entity @s[tag=storyteller] if score draft_ready botc_patch matches 1 if score @s botc_buffet_action matches 3100 run function botc_patch:buffet/draft/review/editor/open',
@@ -3023,6 +4696,7 @@ Write-GeneratedFile "handle_action.mcfunction" (
         'execute if entity @s[tag=storyteller] if score draft_ready botc_patch matches 1 if score @s botc_buffet_action matches 3112 run function botc_patch:buffet/draft/review/editor/all_outsider',
         'execute if entity @s[tag=storyteller] if score draft_ready botc_patch matches 1 if score @s botc_buffet_action matches 3113 run function botc_patch:buffet/draft/review/editor/all_minion',
         'execute if entity @s[tag=storyteller] if score draft_ready botc_patch matches 1 if score @s botc_buffet_action matches 3114 run function botc_patch:buffet/draft/review/editor/all_demon',
+        'execute if entity @s[tag=storyteller] if score draft_ready botc_patch matches 1 if score @s botc_buffet_action matches 3120 run function botc_patch:buffet/draft/review/editor/confirm_duplicate',
         'execute if entity @s[tag=storyteller] if score draft_ready botc_patch matches 1 if score @s botc_buffet_action matches 4001..6325 run function botc_patch:buffet/draft/review/editor/assign_dispatch',
         ('execute if entity @s[tag=storyteller] if score draft_ready botc_patch matches 1 if score @s botc_buffet_action matches {0} run function botc_patch:buffet/draft/review/editor/hermit/begin_hidden_drunk' -f $DraftEditorHermitDrunkAction),
         ('execute if entity @s[tag=storyteller] if score draft_ready botc_patch matches 1 if score @s botc_buffet_action matches {0} run function botc_patch:buffet/draft/review/editor/hermit/begin_hidden_lunatic' -f $DraftEditorHermitLunaticAction),
@@ -3033,8 +4707,9 @@ Write-GeneratedFile "handle_action.mcfunction" (
         ('execute if entity @s[tag=storyteller] if data storage botc_patch:buffet modifier{{role:{0}}} if score @s botc_buffet_action matches 7431 run function botc_patch:buffet/draft/modifier/choose_delta_plus_1' -f $roleIds.godfather),
         ('execute if entity @s[tag=storyteller] if data storage botc_patch:buffet modifier{{role:{0}}} if score @s botc_buffet_action matches 7440 run function botc_patch:buffet/draft/modifier/hermit/choose_delta_0' -f $roleIds.hermit),
         ('execute if entity @s[tag=storyteller] if data storage botc_patch:buffet modifier{{role:{0}}} if score @s botc_buffet_action matches 7441 run function botc_patch:buffet/draft/modifier/hermit/choose_delta_minus_1' -f $roleIds.hermit),
+        'execute if entity @s[tag=storyteller] if data storage botc_patch:buffet modifier{kind:"alchemist_summoner"} if score @s botc_buffet_action matches 7450 run function botc_patch:buffet/draft/topology/alchemist_summoner/yes',
+        'execute if entity @s[tag=storyteller] if data storage botc_patch:buffet modifier{kind:"alchemist_summoner"} if score @s botc_buffet_action matches 7451 run function botc_patch:buffet/draft/topology/alchemist_summoner/no',
         'execute if entity @s[tag=storyteller] if score @s botc_buffet_action matches 7500..7504 run function botc_patch:buffet/draft/modifier/choose_outsider_target',
-        'execute if entity @s[tag=storyteller] if score @s botc_buffet_action matches 7602..7614 run function botc_patch:buffet/draft/modifier/choose_legion_count',
         ('execute if entity @s[tag=storyteller] if data storage botc_patch:buffet modifier{{role:{0}}} if score @s botc_buffet_action matches 7998 run function botc_patch:buffet/draft/modifier/hermit/clear' -f $roleIds.hermit),
         ('execute if entity @s[tag=storyteller] if data storage botc_patch:buffet modifier{{role:{0}}} if score @s botc_buffet_action matches 7999 run function botc_patch:buffet/draft/modifier/hermit/confirm' -f $roleIds.hermit),
         ('execute if entity @s[tag=storyteller] if data storage botc_patch:buffet modifier{{role:{0}}} if score @s botc_buffet_action matches 8001..8138 run function botc_patch:buffet/draft/modifier/hermit/toggle_dispatch' -f $roleIds.hermit),

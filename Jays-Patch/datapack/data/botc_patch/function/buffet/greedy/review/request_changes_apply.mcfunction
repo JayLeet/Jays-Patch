@@ -1,6 +1,7 @@
 # Keep the prior assignment visible but flag the seat until it is reviewed again.
 
 $data modify storage botc_patch:buffet greedy.seats.s$(seat).submitted set value 0b
+$data modify storage botc_patch:buffet greedy.seats.s$(seat).resubmit_requested set value 1b
 $data modify storage botc_patch:buffet greedy.seats.s$(seat).override set value 0b
 $execute if data storage botc_patch:buffet greedy.seats.s$(seat){role:0} run data modify storage botc_patch:buffet greedy.seats.s$(seat).status set value 0
 $execute unless data storage botc_patch:buffet greedy.seats.s$(seat){role:0} run data modify storage botc_patch:buffet greedy.seats.s$(seat).status set value 3

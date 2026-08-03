@@ -3,48 +3,48 @@
 # Initialize Greedy seat records for the open setup roster.
 data remove storage botc_patch:buffet greedy
 data modify storage botc_patch:buffet greedy set value {seats:{}}
-data modify storage botc_patch:buffet greedy.seats.s1 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s1 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 1.. run data modify storage botc_patch:buffet greedy.seats.s1.active set value 1b
 scoreboard players add buffet_seat_1_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s2 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s2 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 2.. run data modify storage botc_patch:buffet greedy.seats.s2.active set value 1b
 scoreboard players add buffet_seat_2_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s3 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s3 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 3.. run data modify storage botc_patch:buffet greedy.seats.s3.active set value 1b
 scoreboard players add buffet_seat_3_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s4 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s4 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 4.. run data modify storage botc_patch:buffet greedy.seats.s4.active set value 1b
 scoreboard players add buffet_seat_4_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s5 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s5 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 5.. run data modify storage botc_patch:buffet greedy.seats.s5.active set value 1b
 scoreboard players add buffet_seat_5_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s6 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s6 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 6.. run data modify storage botc_patch:buffet greedy.seats.s6.active set value 1b
 scoreboard players add buffet_seat_6_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s7 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s7 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 7.. run data modify storage botc_patch:buffet greedy.seats.s7.active set value 1b
 scoreboard players add buffet_seat_7_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s8 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s8 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 8.. run data modify storage botc_patch:buffet greedy.seats.s8.active set value 1b
 scoreboard players add buffet_seat_8_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s9 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s9 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 9.. run data modify storage botc_patch:buffet greedy.seats.s9.active set value 1b
 scoreboard players add buffet_seat_9_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s10 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s10 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 10.. run data modify storage botc_patch:buffet greedy.seats.s10.active set value 1b
 scoreboard players add buffet_seat_10_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s11 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s11 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 11.. run data modify storage botc_patch:buffet greedy.seats.s11.active set value 1b
 scoreboard players add buffet_seat_11_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s12 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s12 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 12.. run data modify storage botc_patch:buffet greedy.seats.s12.active set value 1b
 scoreboard players add buffet_seat_12_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s13 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s13 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 13.. run data modify storage botc_patch:buffet greedy.seats.s13.active set value 1b
 scoreboard players add buffet_seat_13_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s14 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s14 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 14.. run data modify storage botc_patch:buffet greedy.seats.s14.active set value 1b
 scoreboard players add buffet_seat_14_generation botc_patch 1
-data modify storage botc_patch:buffet greedy.seats.s15 set value {active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s15 set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches 15.. run data modify storage botc_patch:buffet greedy.seats.s15.active set value 1b
 scoreboard players add buffet_seat_15_generation botc_patch 1

@@ -104,7 +104,7 @@ foreach ($seatColor in $seatColors) {
 $open = New-GeneratedHeader "Opens the nomination player dialog while preserving the normal hotbar."
 $open.Add("tag @s add botc_st_tool_used")
 $open.Add("execute unless entity @s[tag=storyteller] run return 0")
-$open.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"You can only nominate during nominations.",color:"red"}]')
+$open.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"You can only nominate during nominations.",color:"gray",bold:false}]')
 $open.Add("function botc_patch:storyteller_tools/nomination_menu/dialog")
 Write-Lines -Path (Join-Path $OutputRoot "open.mcfunction") -Lines $open
 
@@ -124,7 +124,7 @@ Write-BotcFilteredPlayerDialog `
 $selectPlayer = New-GeneratedHeader "Validates a dialog seat before dispatching to the fixed nomination function."
 $selectPlayer.Add("dialog clear @s")
 $selectPlayer.Add("execute unless entity @s[tag=storyteller] run return 0")
-$selectPlayer.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"You can only nominate during nominations.",color:"red"}]')
+$selectPlayer.Add('execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"You can only nominate during nominations.",color:"gray",bold:false}]')
 $selectPlayer.Add('$function botc_patch:storyteller_tools/nomination_menu/select_seat_$(seat)')
 Write-Lines -Path (Join-Path $OutputRoot "select_player.mcfunction") -Lines $selectPlayer
 
@@ -205,16 +205,16 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $lines.Add("execute if entity $targetSelector as $targetSelector run function botc_patch:seat_layout/sync_nominee_name")
     $lines.Add(('execute if entity {0} run clear @a[tag=storyteller] minecraft:carrot_on_a_stick[minecraft:custom_model_data={{strings:["start_vote"]}}]' -f $targetSelector))
     $lines.Add("execute if entity $targetSelector run function botc_patch:storyteller_tools/nomination_menu/action_menu")
-    $lines.Add(('execute unless entity {0} run tellraw @s [{{text:"That player is no longer available.",color:"red"}}]' -f $targetSelector))
+    $lines.Add(('execute unless entity {0} run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"That player is no longer available.",color:"gray",bold:false}}]' -f $targetSelector))
     Write-Lines -Path (Join-Path $OutputRoot "select_seat_$seat.mcfunction") -Lines $lines
 }
 
 $startVote = New-GeneratedHeader "Starts or safely restarts Sybillian's vote and waits for last_nom before exposing Mark."
 $startVote.Add("tag @s add botc_st_tool_used")
-$startVote.Add('execute unless entity @a[tag=botc_st_nom_selected,limit=1] run return run tellraw @s [{text:"The selected player is no longer available.",color:"red"}]')
+$startVote.Add('execute unless entity @a[tag=botc_st_nom_selected,limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"The selected player is no longer available.",color:"gray",bold:false}]')
 $startVote.Add("execute if entity @s[tag=botc_st_nom_vote_started] run function botc_patch:storyteller_tools/nomination_menu/cancel_vote")
 $startVote.Add("execute if entity @s[tag=botc_st_nom_vote_started] as @a[tag=botc_st_nom_selected,limit=1] run function ct:admin/nomination")
-$startVote.Add('execute unless entity @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run return run tellraw @s [{text:"That player couldn''t be nominated.",color:"red"}]')
+$startVote.Add('execute unless entity @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That player couldn''t be nominated.",color:"gray",bold:false}]')
 $startVote.Add("execute as @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run function botc_patch:seat_layout/sync_nominee_name")
 $startVote.Add("tag @s add botc_st_nom_vote_started")
 $startVote.Add("tag @s remove botc_st_nom_vote_finished")
@@ -230,8 +230,8 @@ Write-Lines -Path (Join-Path $OutputRoot "vote_finished.mcfunction") -Lines $vot
 
 $mark = New-GeneratedHeader "Toggles the completed nominee's execution mark in place so it can be changed again without rerunning the vote."
 $mark.Add("tag @s add botc_st_tool_used")
-$mark.Add('execute unless entity @s[tag=botc_st_nom_vote_finished] run return run tellraw @s [{text:"Finish the nomination vote before marking a player.",color:"red"}]')
-$mark.Add('execute unless entity @a[tag=botc_st_nom_selected,tag=last_nom,limit=1] run return run tellraw @s [{text:"That nominee is no longer available.",color:"red"}]')
+$mark.Add('execute unless entity @s[tag=botc_st_nom_vote_finished] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Finish the nomination vote before marking a player.",color:"gray",bold:false}]')
+$mark.Add('execute unless entity @a[tag=botc_st_nom_selected,tag=last_nom,limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That nominee is no longer available.",color:"gray",bold:false}]')
 $mark.Add("tag @s remove botc_st_nom_clear_mark")
 $mark.Add("execute if entity @a[tag=botc_st_nom_selected,tag=last_nom,tag=marked_for_execution,limit=1] run tag @s add botc_st_nom_clear_mark")
 $mark.Add("execute if entity @s[tag=botc_st_nom_clear_mark] run function ct:kill/execute/remove_mark")
@@ -243,19 +243,24 @@ Write-Lines -Path (Join-Path $OutputRoot "mark.mcfunction") -Lines $mark
 $pyre = New-GeneratedHeader "Lights Sybillian's pyre for the currently marked player."
 $pyre.Add("tag @s add botc_st_tool_used")
 $pyre.Add("execute if entity @a[tag=marked_for_execution,limit=1] as @a[tag=marked_for_execution,limit=1] run function ct:kill/execute/light_pyre")
-$pyre.Add('execute unless entity @a[tag=marked_for_execution,limit=1] run tellraw @s [{text:"No player is marked for execution.",color:"red"}]')
+$pyre.Add('execute unless entity @a[tag=marked_for_execution,limit=1] run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No player is marked for execution.",color:"gray",bold:false}]')
 Write-Lines -Path (Join-Path $OutputRoot "pyre.mcfunction") -Lines $pyre
 
 $execute = New-GeneratedHeader "Executes the marked player while preserving the post-execution target."
 $execute.Add("tag @s add botc_st_tool_used")
+$execute.Add('execute if score boomdandy_pyre_state botc_patch matches 1..2 run return run tellraw @s [{text:"Boomdandy\u0027s pyre execution is still resolving.",color:"yellow"}]')
+$execute.Add('execute if entity @s[tag=botc_boomdandy_execution_pending] run return run function botc_patch:storyteller_tools/boomdandy/show_execution_choice')
+$execute.Add('execute if entity @a[tag=storyteller,tag=botc_boomdandy_execution_pending,limit=1] run return run tellraw @s [{text:"Another Storyteller is already choosing how to execute the Boomdandy.",color:"yellow"}]')
 $execute.Add("tag @s remove botc_st_nom_execute_done")
 $execute.Add("tag @s remove botc_st_post_kill_resolved")
+$execute.Add("tag @a remove botc_boomdandy_pyre_owner")
 $execute.Add("tag @a remove botc_st_last_executed")
 $execute.Add("execute if entity @a[tag=marked_for_execution,limit=1] run tag @s add botc_st_nom_execute_done")
 $execute.Add("execute if entity @s[tag=botc_st_nom_execute_done] run tag @a[tag=marked_for_execution,limit=1] add botc_st_last_executed")
-$execute.Add("execute if entity @s[tag=botc_st_nom_execute_done] as @a[tag=botc_st_last_executed,limit=1] run function ct:kill/execute/execute")
+$execute.Add("execute if entity @s[tag=botc_st_nom_execute_done] if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/prepare_execution_choice")
+$execute.Add("execute if entity @s[tag=botc_st_nom_execute_done] unless entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] as @a[tag=botc_st_last_executed,limit=1] run function ct:kill/execute/execute")
 $execute.Add("execute if entity @s[tag=botc_st_nom_execute_done] run function botc_patch:storyteller_tools/post_execution/replace_items")
-$execute.Add('execute unless entity @s[tag=botc_st_nom_execute_done] run tellraw @s [{text:"No player is marked for execution.",color:"red"}]')
+$execute.Add('execute unless entity @s[tag=botc_st_nom_execute_done] run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No player is marked for execution.",color:"gray",bold:false}]')
 $execute.Add("tag @s remove botc_st_nom_execute_done")
 Write-Lines -Path (Join-Path $OutputRoot "execute.mcfunction") -Lines $execute
 
@@ -288,6 +293,9 @@ $cleanup.Add("execute unless entity @a[tag=storyteller,tag=botc_st_nom_action] r
 $cleanup.Add("execute unless score phase game_data matches 3 run tag @a remove botc_st_nom_was_page_2")
 $cleanup.Add("execute unless score phase game_data matches 3 run tag @a remove botc_st_nom_back_done")
 $cleanup.Add("execute unless score phase game_data matches 3 run tag @a remove botc_st_nom_execute_done")
+$cleanup.Add("tag @a[tag=!storyteller] remove botc_boomdandy_execution_pending")
+$cleanup.Add("execute unless score phase game_data matches 3 if entity @a[tag=storyteller,tag=botc_boomdandy_execution_pending,limit=1] run tag @a remove botc_st_last_executed")
+$cleanup.Add("execute unless score phase game_data matches 3 run tag @a remove botc_boomdandy_execution_pending")
 $cleanup.Add("execute unless score phase game_data matches 3 run scoreboard players reset @a botc_st_nom_page")
 Write-Lines -Path (Join-Path $OutputRoot "cleanup_items.mcfunction") -Lines $cleanup
 

@@ -45,7 +45,7 @@ function Write-Lines {
 $open = New-GeneratedHeader "Opens the filtered dead-player Revive dialog without replacing the Storyteller hotbar."
 $open.Add("tag @s add botc_st_tool_used")
 $open.Add("execute unless entity @s[tag=storyteller] run return 0")
-$open.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only revive players during the day.",color:"red"}]')
+$open.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"You can only revive players during the day.",color:"gray",bold:false}]')
 $open.Add("function botc_patch:storyteller_tools/revive_menu/dialog")
 Write-Lines -Path (Join-Path $OutputRoot "open.mcfunction") -Lines $open
 
@@ -65,7 +65,7 @@ Write-BotcFilteredPlayerDialog `
 $selectPlayer = New-GeneratedHeader "Validates a dialog seat before dispatching to its fixed Revive function."
 $selectPlayer.Add("dialog clear @s")
 $selectPlayer.Add("execute unless entity @s[tag=storyteller] run return 0")
-$selectPlayer.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"You can only revive players during the day.",color:"red"}]')
+$selectPlayer.Add('execute unless score phase game_data matches 1..2 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"You can only revive players during the day.",color:"gray",bold:false}]')
 $selectPlayer.Add('$function botc_patch:storyteller_tools/revive_menu/to_seat_$(seat)')
 Write-Lines -Path (Join-Path $OutputRoot "select_player.mcfunction") -Lines $selectPlayer
 
@@ -74,7 +74,7 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $lines = New-GeneratedHeader "Revives the currently dead player in seat $seat through Sybillian."
     $lines.Add("tag @s add botc_st_tool_used")
     $lines.Add("dialog clear @s")
-    $lines.Add(('execute unless entity {0} run return run tellraw @s [{{text:"That player is not dead.",color:"red"}}]' -f $targetSelector))
+    $lines.Add(('execute unless entity {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"That player is not dead.",color:"gray",bold:false}}]' -f $targetSelector))
     $lines.Add("execute as $targetSelector run function ct:kill/revive")
     Write-Lines -Path (Join-Path $OutputRoot "to_seat_$seat.mcfunction") -Lines $lines
 }

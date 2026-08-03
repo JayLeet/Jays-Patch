@@ -398,19 +398,30 @@
                                                                }
                                                            ]
                                           },
-                                          {
-                                              "id":  "change_characters",
-                                              "executes":  [
+                                           {
+                                               "id":  "change_characters",
+                                               "executes":  [
                                                                {
                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/editor/change_characters",
                                                                    "as_console":  true,
                                                                    "silent":  true,
                                                                    "op_level":  4
                                                                }
+                                                            ]
+                                           },
+                                           {
+                                               "id":  "choose_demon",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/editor/demon/begin",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
                                                            ]
-                                          },
-                                          {
-                                              "id":  "announce_fearmonger",
+                                           },
+                                           {
+                                               "id":  "announce_fearmonger",
                                               "executes":  [
                                                                {
                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/announce_fearmonger",
@@ -1044,8 +1055,30 @@
                                                                     "as_console":  true,
                                                                     "silent":  true,
                                                                     "op_level":  4
-                                                                }
-                                                            ]
+                                                                    }
+                                                                ]
+                                           },
+                                           {
+                                               "id":  "execute_unique",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] if entity @s[tag=botc_boomdandy_execution_pending] run function botc_patch:storyteller_tools/boomdandy/execute_unique",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                           },
+                                           {
+                                               "id":  "execute_normal",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] if entity @s[tag=botc_boomdandy_execution_pending] run function botc_patch:storyteller_tools/boomdandy/execute_normal",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
                                            }
                                        ]
                       },

@@ -791,6 +791,18 @@ foreach ($entry in @($postExecutionRows | Sort-Object { [int] $_.Row.order })) {
     if ($entry.Row.PSObject.Properties["excludeOwnerTag"]) {
         $conditions.Add(('unless entity @s[tag={0}]' -f [string] $entry.Row.excludeOwnerTag))
     }
+    if ($entry.Row.PSObject.Properties["unlessScore"]) {
+        $unlessScore = $entry.Row.unlessScore
+        foreach ($property in @("holder", "objective", "range")) {
+            Assert-Property -Object $unlessScore -Name $property -Description "postExecutionTool '$($entry.Item.id)' unlessScore"
+        }
+        if ([string] $unlessScore.holder -notmatch '^[A-Za-z0-9_.+#-]+$' -or
+            [string] $unlessScore.objective -notmatch '^[A-Za-z0-9_.+-]+$' -or
+            [string] $unlessScore.range -notmatch '^-?\d*(\.\.)?-?\d*$') {
+            throw "postExecutionTool '$($entry.Item.id)' has an invalid unlessScore condition."
+        }
+        $conditions.Add(('unless score {0} {1} matches {2}' -f [string] $unlessScore.holder, [string] $unlessScore.objective, [string] $unlessScore.range))
+    }
     $modeCondition = Get-ModeConditionFragment `
         -Row $entry.Row `
         -Description "postExecutionTool '$($entry.Item.id)'"
@@ -1043,6 +1055,16 @@ foreach ($entry in @($postExecutionRows | Sort-Object { [int] $_.Row.order })) {
         $storytellerItemCheckLines.Add(('execute if score phase game_data matches 3 as {0} unless entity {1} run clear @s {2}' -f `
             $entryPostExecutionSelector,
             $inPlaySelector,
+            (New-StackSelector -Item $entry.Item -Row $entry.Row)))
+    }
+    if ($entry.Row.PSObject.Properties["unlessScore"]) {
+        $unlessScore = $entry.Row.unlessScore
+        $phaseCondition += " unless score $([string] $unlessScore.holder) $([string] $unlessScore.objective) matches $([string] $unlessScore.range)"
+        $storytellerItemCheckLines.Add(('execute if score phase game_data matches 3 if score {0} {1} matches {2} as {3} run clear @s {4}' -f `
+            [string] $unlessScore.holder,
+            [string] $unlessScore.objective,
+            [string] $unlessScore.range,
+            $entryPostExecutionSelector,
             (New-StackSelector -Item $entry.Item -Row $entry.Row)))
     }
     Add-RepairCheckLines `

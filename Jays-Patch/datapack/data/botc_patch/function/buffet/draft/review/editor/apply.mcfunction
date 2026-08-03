@@ -8,10 +8,9 @@ $scoreboard players set draft_editor_candidate_seat botc_patch $(seat)
 $scoreboard players set draft_editor_candidate_actual botc_patch $(actual)
 $scoreboard players set draft_editor_candidate_perceived botc_patch $(perceived)
 $scoreboard players set draft_editor_candidate_forced botc_patch $(hermit_forced_ability)
-function botc_patch:buffet/draft/review/editor/check_duplicate with storage botc_patch:buffet draft.editor.pending
-execute if score buffet_duplicate_found botc_patch matches 1 run function botc_patch:buffet/attention/block_self
-execute if score buffet_duplicate_found botc_patch matches 1 run function botc_patch:buffet/draft/review/editor/report_conflict
-execute if score buffet_duplicate_found botc_patch matches 1 run return 0
+execute unless data storage botc_patch:buffet draft.editor{duplicate_confirmed:1b} run function botc_patch:buffet/draft/review/editor/check_duplicate with storage botc_patch:buffet draft.editor.pending
+execute if score buffet_duplicate_found botc_patch matches 1 unless data storage botc_patch:buffet draft.editor{duplicate_confirmed:1b} run return run function botc_patch:buffet/draft/review/editor/report_conflict
+function botc_patch:buffet/draft/review/editor/remove_old_delta with storage botc_patch:buffet draft.editor.pending
 $data modify storage botc_patch:buffet draft.seats.s$(seat).actual set value $(actual)
 $data modify storage botc_patch:buffet draft.seats.s$(seat).perceived set value $(perceived)
 $data modify storage botc_patch:buffet draft.seats.s$(seat).alignment set value $(alignment)
@@ -26,15 +25,12 @@ $data remove storage botc_patch:buffet draft.seats.s$(seat).hermit_abilities
 $data remove storage botc_patch:buffet draft.seats.s$(seat).hermit_forced_ability
 $execute if data storage botc_patch:buffet draft.editor.pending.hermit_abilities run data modify storage botc_patch:buffet draft.seats.s$(seat).hermit_abilities set from storage botc_patch:buffet draft.editor.pending.hermit_abilities
 $execute unless data storage botc_patch:buffet draft.editor.pending{hermit_forced_ability:0} run data modify storage botc_patch:buffet draft.seats.s$(seat).hermit_forced_ability set value $(hermit_forced_ability)
-$scoreboard players set @a[tag=botc_buffet_roster,scores={id=$(seat)}] botc_buffet_role $(actual)
-$scoreboard players set @a[tag=botc_buffet_roster,scores={id=$(seat)}] botc_buffet_perceived $(perceived)
-$scoreboard players set @a[tag=botc_buffet_roster,scores={id=$(seat)}] botc_buffet_alignment $(alignment)
-$scoreboard players set @a[tag=botc_buffet_roster,scores={id=$(seat)}] botc_buffet_perceived_alignment $(perceived_alignment)
 function botc_patch:buffet/draft/review/editor/normalize
 function botc_patch:buffet/draft/review/editor/rebuild_pool
 function botc_patch:buffet/draft/rebuild_requirements
+execute if score draft_lord_of_typhon_active botc_patch matches 1 run function botc_patch:buffet/draft/topology/lord_of_typhon/validate
 scoreboard players set buffet_assignment_applied botc_patch 1
 data remove storage botc_patch:buffet draft.editor
 data remove storage botc_patch:buffet modifier
-tellraw @s [{"text":"✔ ","color":"green","bold":true},{"text":"Final assignment updated. The player's book now shows the new perceived character.","color":"gray","bold":false}]
+tellraw @s [{"text":"✔ ","color":"green","bold":true},{"text":"Character changed privately. The player will see only their final shown character when the game starts.","color":"gray","bold":false}]
 function botc_patch:buffet/draft/review/open_selected

@@ -3,6 +3,8 @@
 - Status: `<investigating / waiting for decision / planned / implementing / verifying / blocked / complete>`
 - Updated: `<YYYY-MM-DD HH:MM TIMEZONE>`
 - Owner: Sol
+- Workflow decision: `use Sol/Luna workflow`
+- Workflow reason: `<Brief value-versus-cost reason>`
 - `/plan` state: `<not started / active / awaiting acceptance / accepted>`
 
 ## Outcome
@@ -50,9 +52,20 @@
 2. [ ] `<Ordered implementation slice>`
 3. [ ] `<Integration, review and verification>`
 
-## Active `/goal`
+## Delivery tracking
 
-`<Do not start until the plan above is accepted; then record the exact goal>`
+- Decision: `<not assessed / use /goal / use accepted-plan checklist>`
+- Reason: `<Brief value-versus-cost reason; assess only after plan acceptance>`
+
+### Active `/goal` (only when used)
+
+`<Record one short goal, or "Not used; accepted plan is the delivery checklist">`
+
+When `/goal` is skipped, do not create a duplicate checklist. Maintain the
+accepted `/plan` above as the active delivery checklist, using the host
+checklist feature when available and this journal otherwise. Keep the outcome,
+acceptance criteria, remaining unchecked steps and exact next action current
+through verification.
 
 ## Current progress
 

@@ -29,6 +29,7 @@ if ([int] $contract.schema -ne 1) {
 
 . $RoleCatalogHelper
 $roles = @(Get-SybillianRoleCatalog -SetFromMenuPath $SetFromMenuPath -CharactersPath $CharactersPath)
+$disabledRoleReasons = Get-BotcDisabledRoleMap -ContractPath $ContractPath -RoleCatalog $roles
 $normalizedCatalog = ($roles | ForEach-Object {
     "$($_.Id)|$($_.Role)|$($_.Name)|$($_.StorageCategory)|$($_.Alignment)"
 }) -join [char] 10
@@ -47,6 +48,12 @@ if ($roles.Count -ne [int] $contract.roleCount) {
 }
 if ($catalogHash -ne [string] $contract.roleCatalogSha256) {
     throw "Sybillian role catalog changed. Expected $($contract.roleCatalogSha256), found $catalogHash. Review role IDs, names, categories, and alignments before updating the contract."
+}
+if (-not $disabledRoleReasons.ContainsKey("organ_grinder")) {
+    throw "Sybillian 1.5.4 compatibility must disable Organ Grinder."
+}
+if ([string] $disabledRoleReasons["organ_grinder"] -notmatch '1\.5\.4') {
+    throw "The Organ Grinder compatibility exclusion must identify the contracted Sybillian version."
 }
 
 $composeText = Get-Content -LiteralPath $ComposePath -Raw
@@ -79,6 +86,18 @@ foreach ($relativePath in @($contract.requiredDataFiles)) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
         throw "Sybillian is missing required data file: $relativePath"
     }
+}
+
+$disabledImportValidation = Get-Content -LiteralPath (Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/setup/import/validate_disabled_roles.mcfunction") -Raw
+$disabledSetupRequestValidation = Get-Content -LiteralPath (Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/setup/compatibility/validate_role_request.mcfunction") -Raw
+$setupWallClickDispatch = Get-Content -LiteralPath (Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/setup_wall/click_dispatch.mcfunction") -Raw
+foreach ($text in @($disabledImportValidation, $disabledSetupRequestValidation, $setupWallClickDispatch)) {
+    if ($text -notmatch 'organ_grinder') {
+        throw "A generated setup compatibility surface does not enforce the Organ Grinder exclusion."
+    }
+}
+if ($setupWallClickDispatch -match 'botc_setup_wall_organ_grinder.*setup_wall/toggle') {
+    throw "The setup wall still routes Organ Grinder to its enable toggle."
 }
 
 $jaySourceFiles = @(

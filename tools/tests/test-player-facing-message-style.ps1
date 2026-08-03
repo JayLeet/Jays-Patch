@@ -62,6 +62,10 @@ $redFeatureAllowlist = @(
     "grim/true_grimoire/sync_player.mcfunction",
     "wraith/discovered.mcfunction"
 )
+$redFirstComponentPattern = 'tellraw\s+\S+\s+(?:\[\s*)?\{\s*"?text"?\s*:\s*"(?<text>[^"]*)"\s*,\s*"?color"?\s*:\s*"?(?:red|dark_red)"?'
+$retiredVisibleCopyPattern = 'Turn Recycling on|Full-catalog Demon assignment|Final 3|in this flow|Draft Buffet Route|Perceived (?:Townsfolk|Demon)|(?:Special|Atheist) Route Outsiders'
+$plainMessagePattern = '\{type:"plain_message",contents:(?<contents>.*?),width:\d+\}'
+$textComponentPattern = '(?<![A-Za-z_])text\s*:\s*"(?<text>(?:\\.|[^"])*)"'
 
 foreach ($file in $functionFiles) {
     $relativePath = Get-RelativeFunctionPath $file.FullName
@@ -72,8 +76,12 @@ foreach ($file in $functionFiles) {
         if ($line -match 'tellraw ' -and $line -match 'Start Game (blocked|Blocker)|"text":"OK ') {
             $violations.Add("$relativePath`:$lineNumber uses a retired generic feedback label.")
         }
-        if ($line -match 'tellraw\s+\S+\s+\{"text":"[^"]+","color":"(?:red|dark_red)"') {
-            $violations.Add("$relativePath`:$lineNumber uses a bare red error instead of the shared ! format.")
+        if ($line -match $redFirstComponentPattern) {
+            $firstText = [string] $Matches["text"]
+            $isStructuredDetail = $firstText -eq "- "
+            if ($firstText -ne "! " -and -not $isStructuredDetail -and $relativePath -notin $redFeatureAllowlist) {
+                $violations.Add("$relativePath`:$lineNumber uses a bare red error instead of the shared ! format.")
+            }
         }
         if ($line -match 'tellraw ' -and $line -match '\{"text":"(?:\\u2713|✓) ') {
             $violations.Add("$relativePath`:$lineNumber uses the light check mark for ordinary success.")
@@ -81,8 +89,24 @@ foreach ($file in $functionFiles) {
         if ($line -match 'tellraw ' -and $line -match '\{"text":"! ","color":"yellow","bold":true\}' -and $relativePath -notin $yellowNoticeAllowlist) {
             $violations.Add("$relativePath`:$lineNumber uses yellow ! for a non-allowlisted notice.")
         }
-        if ($line -match 'tellraw\s+\S+\s+\[(?!\{"text":"! ")\{"text":"[^"]+","color":"(?:red|dark_red)","bold":true\}' -and $relativePath -notin $redFeatureAllowlist) {
-            $violations.Add("$relativePath`:$lineNumber starts with a bold red sentence instead of the shared ! format.")
+        if (-not $line.TrimStart().StartsWith("#") -and $line -match $retiredVisibleCopyPattern) {
+            $violations.Add("$relativePath`:$lineNumber uses retired player-facing wording.")
+        }
+
+        foreach ($plainMessage in [regex]::Matches($line, $plainMessagePattern)) {
+            $visibleText = @(
+                [regex]::Matches($plainMessage.Groups["contents"].Value, $textComponentPattern) |
+                    ForEach-Object { $_.Groups["text"].Value }
+            ) -join ""
+            $sentenceCount = [regex]::Matches($visibleText, '[.!?](?:\\n|\s|$)').Count
+            $hasLineBreak = $visibleText.Contains('\n')
+            $isDenseParagraph = -not $hasLineBreak -and (
+                ($visibleText.Length -ge 150 -and $sentenceCount -ge 4) -or
+                $visibleText.Length -ge 260
+            )
+            if ($isDenseParagraph) {
+                $violations.Add("$relativePath`:$lineNumber contains a dense dialog paragraph; split it into short labeled lines.")
+            }
         }
 
         foreach ($match in [regex]::Matches($line, '(?:minecraft:)?custom_name=(?<name>\[[^\]]*\]|\{[^\}]*\})')) {

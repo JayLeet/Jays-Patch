@@ -27,5 +27,9 @@ execute if score boomdandy_announce_step botc_patch matches 20 run function botc
 execute if score boomdandy_announce_step botc_patch matches 21 run function botc_patch:storyteller_tools/boomdandy/announce/part_2/frame_21
 execute if score boomdandy_announce_step botc_patch matches 22 run function botc_patch:storyteller_tools/boomdandy/announce/part_2/frame_22
 execute if score boomdandy_announce_step botc_patch matches 23 run function botc_patch:storyteller_tools/boomdandy/announce/part_2/frame_23
-execute if score boomdandy_announce_step botc_patch matches ..22 run schedule function botc_patch:storyteller_tools/boomdandy/announce/part_2/advance 2t replace
-execute if score boomdandy_announce_step botc_patch matches 23 run schedule function botc_patch:storyteller_tools/boomdandy/announce/finish 60t replace
+execute if score boomdandy_announce_step botc_patch matches 24 run function botc_patch:storyteller_tools/boomdandy/announce/part_2/frame_24
+execute if score boomdandy_announce_step botc_patch matches 25 run function botc_patch:storyteller_tools/boomdandy/announce/part_2/frame_25
+execute if score boomdandy_announce_step botc_patch matches 26 run function botc_patch:storyteller_tools/boomdandy/announce/part_2/frame_26
+execute if score boomdandy_announce_step botc_patch matches 27 run function botc_patch:storyteller_tools/boomdandy/announce/part_2/frame_27
+execute if score boomdandy_announce_step botc_patch matches ..26 run schedule function botc_patch:storyteller_tools/boomdandy/announce/part_2/advance 2t replace
+execute if score boomdandy_announce_step botc_patch matches 27 run schedule function botc_patch:storyteller_tools/boomdandy/announce/finish 60t replace

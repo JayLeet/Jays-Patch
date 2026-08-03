@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "greedy": {
     "minimumTotalChoices": 8,
     "minimumChoicesPerCategory": 2,
@@ -11,14 +11,144 @@
     ]
   },
   "draft": {
-    "allowRecyclingDefault": false,
+    "generalRecycling": false,
+    "requiredTypeCompletionRecycling": "exact-shortfall-only",
+    "randomization": {
+      "ordinaryRouteWeight": 90,
+      "demonSpecialRouteWeight": 10,
+      "fakeAtheistPercent": 10,
+      "archetypeTickets": [
+        4,
+        2,
+        1
+      ],
+      "hiddenSpecialOpportunity": "first-internal-card-of-first-player-hand"
+    },
+    "topologyRules": {
+      "legion": {
+        "baseOutsiderTarget": "topology-wins",
+        "protectedOutsiderSource": "positive-storyteller-modifier-only"
+      },
+      "trustedDemonEditor": {
+        "availability": "every-night",
+        "automaticThirdNightPrompt": false
+      }
+    },
+    "routes": {
+      "storytellerSelected": [
+        "atheist"
+      ],
+      "demonSpecial": [
+        "kazali",
+        "legion",
+        "lord_of_typhon"
+      ],
+      "controlledTopology": [
+        "lil_monsta",
+        "summoner"
+      ],
+      "ordinaryExceptions": [
+        "riot"
+      ]
+    },
     "setupDefiningRoles": [
       "kazali",
       "atheist",
       "legion",
-      "riot",
-      "lord_of_typhon"
+      "lord_of_typhon",
+      "lil_monsta",
+      "summoner"
     ],
+    "archetypes": {
+      "town_first_night_information": {
+        "type": "town",
+        "characters": ["chef", "clockmaker", "grandmother", "investigator", "knight", "librarian", "noble", "shugenja", "steward", "washerwoman"]
+      },
+      "town_ongoing_information": {
+        "type": "town",
+        "characters": ["balloonist", "bounty_hunter", "chambermaid", "dreamer", "empath", "flowergirl", "fortune_teller", "gambler", "general", "high_priestess", "king", "mathematician", "oracle", "savant", "town_crier", "undertaker", "village_idiot"]
+      },
+      "town_limited_investigation": {
+        "type": "town",
+        "characters": ["artist", "fisherman", "juggler", "seamstress"]
+      },
+      "town_protection_and_survival": {
+        "type": "town",
+        "characters": ["fool", "innkeeper", "lycanthrope", "monk", "pacifist", "sailor", "soldier", "tea_lady"]
+      },
+      "town_death_and_inheritance": {
+        "type": "town",
+        "characters": ["acrobat", "banshee", "cannibal", "choirboy", "farmer", "pixie", "professor", "ravenkeeper", "sage"]
+      },
+      "town_public_action_confirmation_and_alternate_victory": {
+        "type": "town",
+        "characters": ["alsaahir", "atheist", "cult_leader", "gossip", "mayor", "nightwatchman", "princess", "slayer", "virgin"]
+      },
+      "town_suppression_and_interference": {
+        "type": "town",
+        "characters": ["courtier", "exorcist", "magician", "minstrel", "poppy_grower", "preacher"]
+      },
+      "town_character_and_setup_manipulation": {
+        "type": "town",
+        "characters": ["alchemist", "amnesiac", "engineer", "huntsman", "philosopher", "snake_charmer"]
+      },
+      "outsider_hidden_identity_ability_and_registration": {
+        "type": "outsider",
+        "characters": ["drunk", "hermit", "lunatic", "puzzlemaster", "recluse"]
+      },
+      "outsider_voting_and_nomination_constraint": {
+        "type": "outsider",
+        "characters": ["butler", "golem", "mutant", "saint", "zealot"]
+      },
+      "outsider_death_consequence": {
+        "type": "outsider",
+        "characters": ["barber", "klutz", "moonchild", "sweetheart", "tinker"]
+      },
+      "outsider_evil_empowerment": {
+        "type": "outsider",
+        "characters": ["damsel", "hatter", "plague_doctor", "snitch"]
+      },
+      "outsider_alignment_and_victory_volatility": {
+        "type": "outsider",
+        "characters": ["goon", "heretic", "ogre", "politician"]
+      },
+      "minion_lethal_pressure": {
+        "type": "minion",
+        "characters": ["assassin", "boomdandy", "godfather", "harpy", "psychopath", "witch"]
+      },
+      "minion_misinformation_and_surveillance": {
+        "type": "minion",
+        "characters": ["marionette", "poisoner", "spy", "widow", "wraith", "xaan"]
+      },
+      "minion_public_coercion_and_vote_control": {
+        "type": "minion",
+        "characters": ["cerenovus", "fearmonger", "goblin", "organ_grinder", "vizier"]
+      },
+      "minion_execution_and_demon_continuity": {
+        "type": "minion",
+        "characters": ["devils_advocate", "evil_twin", "mastermind", "scarlet_woman"]
+      },
+      "minion_character_and_setup_manipulation": {
+        "type": "minion",
+        "characters": ["baron", "boffin", "mezepheles", "pit_hag", "summoner", "wizard"]
+      },
+      "demon_corruption_and_misinformation": {
+        "type": "demon",
+        "characters": ["no_dashii", "pukka", "vigormortis", "vortox"]
+      },
+      "demon_variable_killing_and_target_control": {
+        "type": "demon",
+        "characters": ["al_hadikhia", "ojo", "po", "shabaloth", "yaggababble"]
+      },
+      "demon_survival_and_transfer": {
+        "type": "demon",
+        "characters": ["fang_gu", "imp", "lil_monsta", "lleech", "zombuul"]
+      },
+      "demon_format_and_setup_changing": {
+        "type": "demon",
+        "characters": ["kazali", "legion", "leviathan", "lord_of_typhon", "riot"]
+      }
+    },
     "mutuallyExclusiveBranches": [
       {
         "id": "heretic_in_play_exclusions",

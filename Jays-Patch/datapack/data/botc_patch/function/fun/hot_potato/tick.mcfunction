@@ -12,9 +12,19 @@ execute if score fun_hot_active botc_patch matches 1 run scoreboard players add 
 execute if score fun_hot_active botc_patch matches 1 run scoreboard players operation fun_hot_seconds botc_patch /= fun_twenty botc_patch
 execute if score fun_hot_active botc_patch matches 1 run title @a[tag=botc_fun_hot_holder] actionbar [{"text":"Pass the Imp: ","color":"gold","bold":true},{"score":{"name":"fun_hot_seconds","objective":"botc_patch"},"color":"red"},{"text":"s","color":"gray"}]
 
-execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches ..200 run scoreboard players add fun_hot_pulse botc_patch 1
-execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches ..200 if score fun_hot_pulse botc_patch matches 20.. at @a[tag=botc_fun_hot_holder,limit=1] run playsound minecraft:entity.warden.heartbeat master @a[distance=..32] ~ ~ ~ 1.0 1.25
-execute if score fun_hot_pulse botc_patch matches 20.. run scoreboard players set fun_hot_pulse botc_patch 0
+# The final ten seconds accelerate steadily as the Imp gets closer to popping.
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 151..200 run scoreboard players add fun_hot_pulse botc_patch 1
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 151..200 if score fun_hot_pulse botc_patch matches 16.. at @a[tag=botc_fun_hot_holder,limit=1] run playsound minecraft:entity.warden.heartbeat master @a[distance=..32] ~ ~ ~ 1.0 1.00
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 151..200 if score fun_hot_pulse botc_patch matches 16.. run scoreboard players set fun_hot_pulse botc_patch 0
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 101..150 run scoreboard players add fun_hot_pulse botc_patch 1
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 101..150 if score fun_hot_pulse botc_patch matches 12.. at @a[tag=botc_fun_hot_holder,limit=1] run playsound minecraft:entity.warden.heartbeat master @a[distance=..32] ~ ~ ~ 1.0 1.20
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 101..150 if score fun_hot_pulse botc_patch matches 12.. run scoreboard players set fun_hot_pulse botc_patch 0
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 51..100 run scoreboard players add fun_hot_pulse botc_patch 1
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 51..100 if score fun_hot_pulse botc_patch matches 8.. at @a[tag=botc_fun_hot_holder,limit=1] run playsound minecraft:entity.warden.heartbeat master @a[distance=..32] ~ ~ ~ 1.0 1.45
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 51..100 if score fun_hot_pulse botc_patch matches 8.. run scoreboard players set fun_hot_pulse botc_patch 0
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 1..50 run scoreboard players add fun_hot_pulse botc_patch 1
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 1..50 if score fun_hot_pulse botc_patch matches 4.. at @a[tag=botc_fun_hot_holder,limit=1] run playsound minecraft:entity.warden.heartbeat master @a[distance=..32] ~ ~ ~ 1.0 1.75
+execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 1..50 if score fun_hot_pulse botc_patch matches 4.. run scoreboard players set fun_hot_pulse botc_patch 0
 
 execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 1 run function botc_patch:fun/hot_potato/explode
 execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches 1.. run scoreboard players remove fun_hot_timer botc_patch 1

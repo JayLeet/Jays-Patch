@@ -45,7 +45,7 @@ $entryLines = New-Header "Builds private in-play Demon and Minion role-icon rows
 $entryLines.Add('tag @s add botc_st_tool_used')
 $entryLines.Add('dialog clear @s')
 $entryLines.Add('execute unless entity @s[tag=storyteller] run return 0')
-$entryLines.Add('execute unless score phase game_data matches 4 run return run tellraw @s {text:"You can only teleport the evil team at night.",color:"red"}')
+$entryLines.Add('execute unless score phase game_data matches 4 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"You can only teleport the evil team at night.",color:"gray",bold:false}]')
 $entryLines.Add('function botc_patch:grim/editor/refresh_live_roles')
 $entryLines.Add('function botc_patch:grim/editor/player_labels/prepare')
 $entryLines.Add('data remove storage botc_patch:dialogs teleport_evil')
