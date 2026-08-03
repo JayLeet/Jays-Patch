@@ -3,16 +3,10 @@
 # Prepare the count-specific Storyteller Draft dashboard.
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:90,stage:0} run return run function botc_patch:buffet/draft/modifier/hermit/show_delta
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:90,stage:1} run return run function botc_patch:buffet/draft/modifier/hermit/open_abilities
+execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{kind:"alchemist_summoner"} run return run function botc_patch:buffet/draft/topology/alchemist_summoner/show
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:54} run return run function botc_patch:buffet/draft/modifier/balloonist/show
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:102} run return run function botc_patch:buffet/draft/modifier/godfather/show
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:119} run return run function botc_patch:buffet/draft/modifier/xaan/show
-execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:129} run return run function botc_patch:buffet/draft/modifier/kazali/show
-execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:134} run return run function botc_patch:buffet/draft/modifier/lord_of_typhon/show
-execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:130} run return run function botc_patch:buffet/draft/modifier/legion/show
-execute if score draft_recycling botc_patch matches 0 run data modify storage botc_patch:buffet ui.recycle_label set value "Recycling: Off"
-execute if score draft_recycling botc_patch matches 0 run data modify storage botc_patch:buffet ui.recycle_color set value "gray"
-execute if score draft_recycling botc_patch matches 1 run data modify storage botc_patch:buffet ui.recycle_label set value "Recycling: On"
-execute if score draft_recycling botc_patch matches 1 run data modify storage botc_patch:buffet ui.recycle_color set value "green"
 scoreboard players set buffet_start_confirmed botc_patch 0
 data modify storage botc_patch:buffet ui.p1_name set from storage botc_patch:buffet draft.seats.s1.name
 data modify storage botc_patch:buffet ui.p1_status set value "●"

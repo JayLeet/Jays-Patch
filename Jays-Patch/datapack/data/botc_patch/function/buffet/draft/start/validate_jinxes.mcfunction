@@ -3,15 +3,15 @@
 # Reject official in-play-exclusion jinx pairs during final Draft validation.
 function botc_patch:buffet/draft/jinx/rebuild_presence
 scoreboard players set draft_jinx_exclusion_count botc_patch 0
-execute if score draft_present_20 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_20 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_20 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_102 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_102 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_102 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_133 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_91 botc_patch matches 1 if score draft_present_133 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_91 botc_patch matches 1 if score draft_present_133 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_101 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_91 botc_patch matches 1 if score draft_present_101 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_91 botc_patch matches 1 if score draft_present_101 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_19 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_91 botc_patch matches 1 if score draft_present_19 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_91 botc_patch matches 1 if score draft_present_19 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_117 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_91 botc_patch matches 1 if score draft_present_117 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_91 botc_patch matches 1 if score draft_present_117 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1

@@ -3,10 +3,10 @@
 # Adds one still-living seat to the final three.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Boomdandy can only be resolved during nominations.",color:"red"}]
-execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"No Boomdandy final-three selection is active.",color:"red"}]
+execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be resolved during nominations.",color:"gray",bold:false}]
+execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Boomdandy Final Three selection is active.",color:"gray",bold:false}]
 execute if score boomdandy_selected botc_patch matches 3.. run return run function botc_patch:storyteller_tools/boomdandy/show_confirm with storage botc_patch:dialogs boomdandy_selection
-$execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,tag=!botc_boomdandy_finalist,scores={id=$(seat)},limit=1] run return run tellraw @s [{text:"That player is no longer available.",color:"red"}]
+$execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,tag=!botc_boomdandy_finalist,scores={id=$(seat)},limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That player is no longer available.",color:"gray",bold:false}]
 function botc_patch:grim/editor/refresh_live_roles
 function botc_patch:grim/editor/player_labels/prepare
 scoreboard players add boomdandy_selected botc_patch 1

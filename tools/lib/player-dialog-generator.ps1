@@ -60,7 +60,7 @@ function Write-BotcFilteredPlayerDialog {
     $builder = & $newHeader "Compacts only currently eligible seated players into a bounded Player (Role) dialog."
     $builder.Add("dialog clear @s")
     $builder.Add("execute unless entity @s[tag=storyteller] run return 0")
-    $builder.Add(('execute unless {0} run return run tellraw @s [{{text:"{1}",color:"red"}}]' -f $PhaseCondition, $InvalidPhaseMessage))
+    $builder.Add(('execute unless {0} run return run tellraw @s [{{text:"! ",color:"red",bold:true}},{{text:"{1}",color:"gray",bold:false}}]' -f $PhaseCondition, $InvalidPhaseMessage))
     $builder.Add("function botc_patch:grim/editor/refresh_live_roles")
     $builder.Add("function botc_patch:grim/editor/player_labels/prepare")
     $builder.Add("data remove storage botc_patch:dialogs $StorageKey")

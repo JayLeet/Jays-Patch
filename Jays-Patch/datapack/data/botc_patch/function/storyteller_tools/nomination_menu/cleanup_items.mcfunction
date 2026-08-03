@@ -42,4 +42,7 @@ execute unless entity @a[tag=storyteller,tag=botc_st_nom_action] run tag @a remo
 execute unless score phase game_data matches 3 run tag @a remove botc_st_nom_was_page_2
 execute unless score phase game_data matches 3 run tag @a remove botc_st_nom_back_done
 execute unless score phase game_data matches 3 run tag @a remove botc_st_nom_execute_done
+tag @a[tag=!storyteller] remove botc_boomdandy_execution_pending
+execute unless score phase game_data matches 3 if entity @a[tag=storyteller,tag=botc_boomdandy_execution_pending,limit=1] run tag @a remove botc_st_last_executed
+execute unless score phase game_data matches 3 run tag @a remove botc_boomdandy_execution_pending
 execute unless score phase game_data matches 3 run scoreboard players reset @a botc_st_nom_page

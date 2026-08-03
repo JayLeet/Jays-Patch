@@ -338,7 +338,7 @@ scoreboard players set draft_chosen_112 botc_patch 0
 scoreboard players set draft_available_112 botc_patch 1
 execute if score draft_blocked_112 botc_patch matches 1 run scoreboard players set draft_available_112 botc_patch 0
 scoreboard players set draft_chosen_113 botc_patch 0
-scoreboard players set draft_available_113 botc_patch 1
+scoreboard players set draft_available_113 botc_patch 0
 execute if score draft_blocked_113 botc_patch matches 1 run scoreboard players set draft_available_113 botc_patch 0
 scoreboard players set draft_chosen_114 botc_patch 0
 scoreboard players set draft_available_114 botc_patch 1

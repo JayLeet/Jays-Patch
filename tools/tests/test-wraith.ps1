@@ -56,6 +56,8 @@ $importExtensions = Read-RequiredFile (Join-Path $FunctionRoot "setup/import/app
 $setupFull = Read-RequiredFile (Join-Path $FunctionRoot "setup/import/full.mcfunction")
 $start = Read-RequiredFile (Join-Path $FunctionRoot "cmd/start.mcfunction")
 $roleReveal = Read-RequiredFile (Join-Path $FunctionRoot "setup_room/start_role_reveal.mcfunction")
+$grimRevealFromSnapshot = Read-RequiredFile (Join-Path $FunctionRoot "grim/reveal/from_snapshot.mcfunction")
+$grimRevealSpawnFromScore = Read-RequiredFile (Join-Path $FunctionRoot "grim/reveal/spawn_from_score.mcfunction")
 $reset = Read-RequiredFile (Join-Path $FunctionRoot "reset/game_state.mcfunction")
 $maintenance = Read-RequiredFile (Join-Path $FunctionRoot "maintenance/item_checks.mcfunction")
 $homeFunction = Read-RequiredFile (Join-Path $FunctionRoot "util/teleport_player_home.mcfunction")
@@ -73,6 +75,8 @@ Assert-Contains $importExtensions 'import_candidate:\[\{id:"wraith"\}\]' "rich W
 Assert-Contains $setupFull 'scoreboard players set wraith role_list 1' "Wraith imported role-list restoration"
 Assert-Contains $start 'function botc_patch:wraith/sync_roles' "Wraith start-game synchronization"
 Assert-Contains $roleReveal 'schedule function botc_patch:wraith/announce 81t replace' "Wraith reveal after upstream announcement"
+Assert-Contains $grimRevealFromSnapshot 'grim_reveal_role botc_patch = grim_seat_\$\(seat\)_role' "Grimoire reveal loads the saved character score"
+Assert-Contains $grimRevealSpawnFromScore 'grim_reveal_role botc_patch matches 325 run function botc_patch:grim/reveal/spawn \{role:"wraith"\}' "Wraith score 325 spawns its Grimoire reveal display"
 Assert-Contains $reset 'function botc_patch:wraith/cleanup_all' "Wraith reset cleanup"
 
 $wraithFiles = @(Get-ChildItem -LiteralPath $WraithRoot -Filter "*.mcfunction" -File -Recurse)

@@ -12,6 +12,7 @@ execute unless score buffet_submit_valid botc_patch matches 1 run function botc_
 execute unless score buffet_submit_valid botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Choose at least 8 characters total and at least 2 of every type or Dealer's Choice before submitting.","color":"gray","bold":false}]
 execute unless score buffet_submit_valid botc_patch matches 1 run return 0
 $data modify storage botc_patch:buffet greedy.seats.s$(seat).submitted set value 1b
+$data modify storage botc_patch:buffet greedy.seats.s$(seat).resubmit_requested set value 0b
 scoreboard players set buffet_start_confirmed botc_patch 0
 function botc_patch:buffet/greedy/recount
 tellraw @s [{"text":"✔ ","color":"green","bold":true},{"text":"Your choices were sent to the ","color":"gray","bold":false},{"text":"Storyteller","color":"gold","bold":true},{"text":". You may still edit and resubmit them.","color":"gray","bold":false}]

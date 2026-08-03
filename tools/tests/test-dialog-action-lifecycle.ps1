@@ -5,7 +5,10 @@ $RepoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $FunctionRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function"
 $allowedWaitRoots = @(
     (Join-Path $FunctionRoot "grim/editor/player_dialog"),
-    (Join-Path $FunctionRoot "grim/editor/character_dialog")
+    (Join-Path $FunctionRoot "grim/editor/character_dialog"),
+    (Join-Path $FunctionRoot "grim/editor/summoner/player_dialog"),
+    (Join-Path $FunctionRoot "grim/editor/summoner/demon_dialog"),
+    (Join-Path $FunctionRoot "grim/editor/summoner/minion_dialog")
 )
 
 $unexpectedWaits = @(
@@ -25,6 +28,9 @@ if ($unexpectedWaits.Count -gt 0) {
 $requiredTransitionWaits = @(
     (Join-Path $FunctionRoot "grim/editor/player_dialog/count_1.mcfunction")
     (Join-Path $FunctionRoot "grim/editor/character_dialog/count_1.mcfunction")
+    (Join-Path $FunctionRoot "grim/editor/summoner/player_dialog/count_1.mcfunction")
+    (Join-Path $FunctionRoot "grim/editor/summoner/demon_dialog/count_1.mcfunction")
+    (Join-Path $FunctionRoot "grim/editor/summoner/minion_dialog/count_1.mcfunction")
 )
 foreach ($path in $requiredTransitionWaits) {
     if (-not (Select-String -LiteralPath $path -SimpleMatch 'after_action:"wait_for_response"' -Quiet)) {

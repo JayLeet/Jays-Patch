@@ -25,6 +25,7 @@ scoreboard objectives add botc_grim_edit_seat dummy
 scoreboard objectives add botc_grim_edit_role dummy
 scoreboard objectives add botc_grim_edit_alignment dummy
 scoreboard objectives add botc_grim_edit_valid dummy
+scoreboard objectives add botc_grim_edit_mode dummy
 scoreboard objectives add botc_grim_marker_view dummy
 scoreboard objectives add botc_reset_seen dummy
 scoreboard objectives add botc_outsider_seen dummy
@@ -75,6 +76,9 @@ scoreboard objectives add id dummy
 scoreboard objectives add house_id dummy
 scoreboard objectives add botc_seat_guide_day dummy
 scoreboard objectives add botc_seat_guide_game dummy
+scoreboard objectives add botc_seat_guide_window dummy
+scoreboard objectives add botc_seat_guide_entered dummy
+scoreboard objectives add botc_seat_guide_tail dummy
 execute unless score winner_timer botc_patch matches -2147483648..2147483647 run scoreboard players set winner_timer botc_patch -1
 execute unless score winner_reveal_timer botc_patch matches -2147483648..2147483647 run scoreboard players set winner_reveal_timer botc_patch -1
 execute unless score winner_pending botc_patch matches -2147483648..2147483647 run scoreboard players set winner_pending botc_patch 0
@@ -113,6 +117,12 @@ execute unless score grim_notice_boomdandy_seen botc_patch matches 0..1 run scor
 execute unless score grim_notice_boomdandy_done botc_patch matches 0..1 run scoreboard players set grim_notice_boomdandy_done botc_patch 0
 execute unless score boomdandy_stage botc_patch matches 0..5 run scoreboard players set boomdandy_stage botc_patch 0
 execute unless score boomdandy_selected botc_patch matches 0..3 run scoreboard players set boomdandy_selected botc_patch 0
+execute unless score boomdandy_pyre_state botc_patch matches 0..2 run scoreboard players set boomdandy_pyre_state botc_patch 0
+execute unless score boomdandy_pyre_timer botc_patch matches 0..120 run scoreboard players set boomdandy_pyre_timer botc_patch 0
+execute unless score boomdandy_pyre_spawned botc_patch matches 0..12 run scoreboard players set boomdandy_pyre_spawned botc_patch 0
+execute unless score boomdandy_pyre_impacted botc_patch matches 0..12 run scoreboard players set boomdandy_pyre_impacted botc_patch 0
+execute unless score boomdandy_pyre_waiting botc_patch matches 0..1 run scoreboard players set boomdandy_pyre_waiting botc_patch 0
+execute unless score boomdandy_pyre_pick botc_patch matches 0..49 run scoreboard players set boomdandy_pyre_pick botc_patch 0
 execute unless score grim_notice_pending botc_patch matches 0..1 run scoreboard players set grim_notice_pending botc_patch 0
 execute unless score reset_requested botc_patch matches -2147483648..2147483647 run scoreboard players set reset_requested botc_patch 0
 execute unless score reset_generation botc_patch matches -2147483648..2147483647 run scoreboard players set reset_generation botc_patch 0
@@ -126,6 +136,8 @@ execute unless score seat_layout_target_count botc_patch matches 0..15 run score
 execute unless score seat_layout_locked_count botc_patch matches 0..15 run scoreboard players set seat_layout_locked_count botc_patch 0
 execute unless score seat_layout_poll botc_patch matches 0..10 run scoreboard players set seat_layout_poll botc_patch 10
 execute unless score seat_guide_clock botc_patch matches 0..5 run scoreboard players set seat_guide_clock botc_patch 0
+execute unless score seat_guide_last_phase botc_patch matches 0..3 run scoreboard players set seat_guide_last_phase botc_patch 0
+execute unless score seat_guide_window botc_patch matches 0..2147483647 run scoreboard players set seat_guide_window botc_patch 0
 execute unless score wraith_night_active botc_patch matches 0..1 run scoreboard players set wraith_night_active botc_patch 0
 execute unless score wraith_visit_zone botc_patch matches 0..15 run scoreboard players set wraith_visit_zone botc_patch 0
 execute unless score wraith_previous_zone botc_patch matches 0..15 run scoreboard players set wraith_previous_zone botc_patch 0

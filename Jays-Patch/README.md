@@ -100,6 +100,10 @@ Generators should consume those sources instead of rebuilding role IDs,
 display names, categories, or alignments independently. The upstream contract
 continues to validate Sybillian's 137-role catalog separately so a Jay-owned
 extension cannot hide upstream drift.
+Organ Grinder remains in that trusted metadata so old state can still be
+identified, but Jay's Patch excludes it from setup, Buffet, and character
+selection while the server targets Sybillian 1.5.4, where the role is
+unsupported.
 
 Before a public build, `tools/build-public-package.ps1` runs the non-live source
 gate, reads the version file, bundles the exact hosted resource pack, writes an
@@ -147,6 +151,8 @@ Keep normal feedback short and predictable:
   is gray, with the changed value highlighted when that helps.
 - Dialog titles are headings and may be bold. Ordinary buttons, navigation,
   category labels, item names, and supporting text are not bold by default.
+- Long dialog instructions use short labeled lines with meaningful colors and
+  line breaks. Do not hide several status meanings inside one gray paragraph.
 - Color carries meaning: red for errors or destructive actions, green for
   completion, yellow for warnings or choices needing attention, and gray for
   supporting words.
@@ -157,6 +163,11 @@ Keep normal feedback short and predictable:
 Write from what the player sees. Say what happened and what they can do next;
 avoid implementation terms such as storage, dispatch, validation, or internal
 phase names in player-facing text.
+
+Use BOTC's game language consistently in visible text: say `character` instead
+of `role`, `actual character` and `shown character` instead of `perceived role`,
+and `Final Three` instead of `Final 3` or `final-three`. Engineering comments,
+score names, and source documentation may keep precise internal terms.
 
 Current owned behavior:
 
@@ -231,12 +242,31 @@ Current owned behavior:
   available as a general game even without a Psychopath, lists only living
   seated players who already chose Rock, Paper, or Scissors, and then delegates
   the countdown, reveal, and cleanup to Sybillian's existing `ct:rps/*` flow.
-- A guarded Boomdandy final-three flow after the Boomdandy is executed. The
-  Storyteller selects and confirms exactly three living players. Every other
+- Before an executed Boomdandy commits, the initiating Storyteller chooses
+  between Jay's unique pyre followed by Final Three and Sybillian's normal
+  execution plus immediate death while the game continues. Closing the choice
+  commits neither path; Storyteller tools reopen it and phase advance remains
+  blocked until the choice is resolved. The separate pyre execution replaces
+  Sybillian's lightning with
+  twelve harmless TNT block displays that rain across the Town Square and
+  visibly accelerate under gravity before exploding one by one over about five
+  seconds. Every impact increases
+  its smoke, flame, spark, and firework density; later impacts add bright flares and
+  explosion emitters, and the twelfth falls into the exact center of the pyre
+  before ending with the largest layered shockwave.
+  The Boomdandy remains
+  alive and the pyre remains lit until the twelfth impact; that last explosion
+  extinguishes the pyre, then the Boomdandy dies through Sybillian's standard
+  death function before the guarded Final Three flow opens. The rain cannot damage
+  blocks, players, or entities; phase advance and Final Three stay locked until
+  death resolves, and an offline Boomdandy is killed when they return rather
+  than before the final impact. The Storyteller then selects and confirms
+  exactly three living players. Every other
   chair disappears, non-finalists die one at a time with 1.5 seconds between
   deaths, and a typewriter warning explains the final vote before Sybillian's
   countdown starts. The three finalists vote by standing near a remaining
-  chair; a strict majority kills that player, while a tie kills nobody. The
+  player's seat, and the title card explicitly names the seat as the voting
+  target; a strict majority kills that player, while a tie kills nobody. The
   selection blocks while a game-start player is offline and safely aborts if
   one of the confirmed finalists dies or disconnects.
 - One-time Storyteller role notifications for in-play Fearmonger, Banshee,
@@ -260,8 +290,13 @@ Current owned behavior:
   item in visual slot 1 while a reveal is active.
   Character changes preserve the seat's remembered reveal alignment; only the
   explicit Set Good and Set Evil controls change alignment. The editor makes
-  the current role prominent in its title and status, and also updates the
+  the current character prominent in its title and status, and also updates the
   acting Storyteller's Sybillian FancyMenu grimoire variable directly.
+  During any night, every Storyteller can open the supported Demon selection
+  path from Change Characters. The Storyteller chooses when to use it; the
+  server does not automatically open a Summoner prompt on night three. The
+  path changes the selected player's live role and evil alignment, and Lil'
+  Monsta continues into its validated direct-Minion assignment.
   Player-dialog names use white for readability, while each `(Role)` suffix is
   blue or red from the seat's effective alignment rather than its character
   category. Role buttons and Player `(Role)` buttons also include generated
@@ -283,16 +318,36 @@ Current owned behavior:
   where that interaction is safer or clearer.
 - Beta Greedy Whalebuffet and Draft Buffet setup modes under Jay's Setup Bag.
   Greedy supports parallel player preferences, late setup joins, Dealer's
-  Choice, private Storyteller assignment, and final legality checks. Draft
+  Choice, private Storyteller assignment, and final legality checks. Its review
+  surfaces identify the exact pending submission, resubmission, missing
+  assignment, or assignment/picks mismatch instead of collapsing them into a
+  generic warning. Buffet rebuilds public player labels and complete head
+  profiles from its stable roster after start and seat changes. Draft
   locks and randomizes the roster, chooses each player's turn privately and at
-  random, uses 3/2/1 offers, recalculates category needs after setup modifiers,
-  and keeps hidden role and dependency fallbacks private. Both modes hand the
-  validated result back to Sybillian's normal start flow. During either setup,
+  random, and uses 3/2/1 offers. Each card chooses uniformly among the legal,
+  nonempty character types; a type closes only when the target no longer accepts
+  it. Characters then use the accepted equal-base and `4/2/1` archetype tickets,
+  reset for every fresh hand. Normal Draft makes one 90/10 ordinary-versus-real-
+  special roll, while Atheist Draft is chosen privately by the Storyteller.
+  Hidden special-looking presentations use the same sequential one-card UI as
+  real special starts. Discarded direct characters return only to fill an exact
+  shortfall when a still-required type cannot supply the next complete hand;
+  there is no general recycling mode. Legion may replace
+  the Draft's baseline Outsider count when forming its majority, but preserves
+  deliberate positive Storyteller Outsider additions as a minimum floor.
+  Automatic Drafts remain strict. After a private final-character override,
+  unsafe counts, required seating, dependencies, and setup restrictions become a clear
+  Storyteller-only warning with an explicit `Start Anyway`; incomplete seats,
+  offline players, active setup prompts, and disabled roles remain blocked.
+  The overridden shown character stays private until game start. Both modes hand
+  the validated result back to Sybillian's normal start flow. During either setup,
   the Storyteller's setup bag is replaced with Reset Game, which keeps the
   normal confirmation before clearing the Buffet. Their generators
   consume `buffet-rules.json` and the versioned official jinx snapshot instead
-  of duplicating role data. Public Djinn-sheet presentation and live
-  multiplayer QA are still beta limitations.
+  of duplicating character data. Expanded live Draft QA covers thirty ordinary
+  games, at least ten of each real special result, every Atheist Outsider target
+  twice, and 2,000 natural route rolls. Public Djinn-sheet presentation remains
+  a beta limitation.
 - A versioned one-time configuration migration that establishes the documented
   fresh-install toggle state without overwriting later user choices on reload.
 - In-place reset and online player-state cleanup. A supported 5-15 player game

@@ -10,6 +10,7 @@ $RoleTablePath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\c
 $CharactersPath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\ct\function\admin\setup\characters.mcfunction"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
 $RoleExtensionPath = Join-Path $RepoRoot "Jays-Patch/role-extensions.json"
+$UpstreamContractPath = Join-Path $RepoRoot "Jays-Patch/upstream-contract.json"
 
 function Assert-File {
     param([string] $Path, [string] $Description)
@@ -40,6 +41,7 @@ Assert-File (Join-Path $EditorRoot "roles/validate_requested.mcfunction") "curre
 Assert-File (Join-Path $EditorRoot "capture_game.mcfunction") "live-game character capture"
 Assert-File (Join-Path $EditorRoot "apply_to_snapshot.mcfunction") "reveal snapshot handoff"
 Assert-File (Join-Path $EditorRoot "sync_storyteller_display.mcfunction") "Sybillian FancyMenu display sync"
+Assert-File (Join-Path $EditorRoot "demon/begin.mcfunction") "trusted nightly Demon editor entrypoint"
 Assert-File (Join-Path $EditorRoot "player_labels/prepare.mcfunction") "shared player-role label preparation"
 Assert-File (Join-Path $EditorRoot "player_labels/prepare_role.mcfunction") "shared player-role lookup"
 Assert-File (Join-Path $WinnerRoot "select_snapshot.mcfunction") "snapshot-based winner selector"
@@ -57,6 +59,7 @@ if (Test-Path -LiteralPath (Join-Path $FunctionRoot "grim/dialog/editable")) {
 }
 
 $playerFiveText = Get-Content -LiteralPath (Join-Path $EditorRoot "player_dialog/count_5.mcfunction") -Raw
+$changeCharactersText = Get-Content -LiteralPath (Join-Path $EditorRoot "change_characters.mcfunction") -Raw
 $playerLabelPrepareText = Get-Content -LiteralPath (Join-Path $EditorRoot "player_labels/prepare.mcfunction") -Raw
 $playerLabelRoleText = Get-Content -LiteralPath (Join-Path $EditorRoot "player_labels/prepare_role.mcfunction") -Raw
 Assert-Contains $playerFiveText 'text:" \$\(p1_name\)",font:"minecraft:default",color:"white"' "white player-name component"
@@ -71,9 +74,12 @@ Assert-Contains $playerLabelPrepareText 'grim_editor_seat_1_alignment botc_patch
 Assert-NotContains $playerLabelPrepareText '_name_color' "retired dynamic player-name color storage"
 Assert-NotContains $playerLabelRoleText 'score_catalog.*\.color' "role-category color overriding effective alignment"
 Assert-Contains $playerLabelRoleText 'p\$\(seat\)_glyph set from storage botc_patch:grim editor\.score_catalog\.s\$\(score\)\.glyph' "shared player role glyph lookup"
+Assert-Contains $changeCharactersText 'scoreboard players set @s botc_grim_edit_mode 0[\s\S]*function botc_patch:grim/editor/player_dialog' "ordinary Change Characters resets only the acting Storyteller's editor mode"
+Assert-Contains $playerFiveText 'Assign Demon Tonight[\s\S]*/botc grimoire choose_demon' "Change Characters exposes the trusted nightly Demon path"
 
 $characterThirtyText = Get-Content -LiteralPath (Join-Path $EditorRoot "character_dialog/count_30.mcfunction") -Raw
-Assert-Contains $characterThirtyText 'text:"CURRENT ROLE\\n",font:"minecraft:default",color:"dark_gray",bold:true' "prominent current-role heading"
+$summonerMinionText = Get-Content -LiteralPath (Join-Path $EditorRoot "summoner/minion_dialog/count_0.mcfunction") -Raw
+Assert-Contains $characterThirtyText 'text:"CURRENT CHARACTER\\n",font:"minecraft:default",color:"dark_gray",bold:true' "prominent current-character heading"
 Assert-Contains $characterThirtyText 'text:" \$\(current_role_name\)",font:"minecraft:default",color:"\$\(current_alignment_color\)",bold:true,underlined:true' "prominent alignment-colored current role"
 Assert-Contains $characterThirtyText 'text:"\$\(current_role_glyph\)",font:"botc_patch:role_icons",color:"white"' "prominent current-role icon"
 Assert-Contains $characterThirtyText 'title:\[\{text:"Edit ",color:"gray"\},\{text:"\$\(player_name\)",color:"white"\},\{text:" - ",color:"dark_gray"\},\{text:"\$\(current_role_name\)",color:"\$\(current_alignment_color\)",bold:true\}\]' "current role in dialog title"
@@ -91,13 +97,35 @@ Assert-Contains $characterThirtyText 'text:"Minions",color:"#ffaa00"' "Minion co
 Assert-Contains $characterThirtyText 'text:"Demons",color:"#ff5555"' "Demon color legend"
 Assert-Contains $characterThirtyText 'after_action:"wait_for_response"' "character dialog duplicate-click protection"
 Assert-NotContains $characterThirtyText 'type:"minecraft:item"|botc_role_\$\(current_role\)' "unstable item body in character dialog"
+Assert-Contains $summonerMinionText 'exit_action:\{label:"Back",action:\{type:"run_command",command:"/botc grimoire choose_demon"\}\}' "Lil' Monsta submenu Back returns to trusted Demon selection"
+
+$demonBeginText = Get-Content -LiteralPath (Join-Path $EditorRoot "demon/begin.mcfunction") -Raw
+$summonerCheckText = Get-Content -LiteralPath (Join-Path $EditorRoot "summoner/check.mcfunction") -Raw
+$summonerApplyText = Get-Content -LiteralPath (Join-Path $EditorRoot "summoner/apply_live.mcfunction") -Raw
+$editorClearText = Get-Content -LiteralPath (Join-Path $EditorRoot "clear_game.mcfunction") -Raw
+$loadText = Get-Content -LiteralPath (Join-Path $FunctionRoot "load.mcfunction") -Raw
+$passiveStorytellerText = Get-Content -LiteralPath (Join-Path $FunctionRoot "storyteller_tools/passive_tick.mcfunction") -Raw
+Assert-Contains $loadText 'scoreboard objectives add botc_grim_edit_mode dummy' "per-Storyteller Demon-dialog objective"
+Assert-Contains $demonBeginText 'unless entity @s\[tag=storyteller\] run return 0' "trusted Demon path repeats the Storyteller guard"
+Assert-Contains $demonBeginText 'unless score phase game_data matches 4 run return' "trusted Demon path is available only at night"
+Assert-Contains $demonBeginText 'scoreboard players set @s botc_grim_edit_mode 1' "trusted Demon mode belongs to the acting Storyteller"
+Assert-Contains $summonerCheckText '(?m)^return 0\s*$' "automatic third-night Summoner prompt is retired"
+Assert-NotContains $summonerCheckText 'current_day|dialog show|change_characters' "retired Summoner prompt cannot open a dialog"
+Assert-Contains $summonerApplyText 'unless score phase game_data matches 4 run return' "trusted Demon commit revalidates night timing"
+Assert-Contains $summonerApplyText 'scoreboard players set @s botc_grim_edit_mode 0' "trusted Demon commit clears only the acting Storyteller's mode"
+Assert-NotContains $summonerApplyText 'third-night|third night' "trusted Demon workflow is not tied to night three"
+Assert-Contains $editorClearText 'scoreboard players reset @a botc_grim_edit_mode' "setup cleanup resets every Storyteller's editor mode"
+Assert-NotContains $passiveStorytellerText 'grim/editor/summoner/check' "passive Storyteller tick does not auto-open Summoner resolution"
 
 $catalogText = Get-Content -LiteralPath (Join-Path $EditorRoot "roles/init.mcfunction") -Raw
+$appendText = Get-Content -LiteralPath (Join-Path $EditorRoot "roles/append.mcfunction") -Raw
 Assert-Contains $catalogText 'catalog\.washerwoman set value \{[^\r\n]+color:"#55aaff"' "Townsfolk role color"
 Assert-Contains $catalogText 'catalog\.butler set value \{[^\r\n]+color:"#55ffff"' "Outsider role color"
 Assert-Contains $catalogText 'catalog\.poisoner set value \{[^\r\n]+color:"#ffaa00"' "Minion role color"
 Assert-Contains $catalogText 'catalog\.imp set value \{[^\r\n]+color:"#ff5555"' "Demon role color"
 Assert-Contains $catalogText 'catalog\.pukka set value \{[^\r\n]+glyph:"[^"\r\n]+"' "Pukka deterministic dialog glyph"
+Assert-Contains $catalogText 'catalog\.organ_grinder set value' "unsupported Organ Grinder remains catalogued for trusted existing-state display"
+Assert-Contains $appendText 'append\{id:"organ_grinder"\}.*grim_editor_role_selectable botc_patch 0' "current-script imports exclude unsupported Organ Grinder"
 
 $validatorText = Get-Content -LiteralPath (Join-Path $EditorRoot "roles/validate_requested.mcfunction") -Raw
 . $RoleCatalogHelper
@@ -107,9 +135,12 @@ $trustedRoles = @(
         -CharactersPath $CharactersPath `
         -ExtensionPath $RoleExtensionPath
 )
-if (@(Select-String -InputObject $validatorText -Pattern 'run function botc_patch:grim/editor/apply_character' -AllMatches).Matches.Count -ne $trustedRoles.Count) {
-    throw "Editor validator must contain exactly one guarded apply path per trusted role."
+$disabledRoles = Get-BotcDisabledRoleMap -ContractPath $UpstreamContractPath -RoleCatalog $trustedRoles
+$selectableRoleCount = @($trustedRoles | Where-Object { -not $disabledRoles.ContainsKey([string] $_.Role) }).Count
+if (@(Select-String -InputObject $validatorText -Pattern 'run function botc_patch:grim/editor/apply_character' -AllMatches).Matches.Count -ne $selectableRoleCount) {
+    throw "Editor validator must contain exactly one guarded apply path per compatibility-eligible trusted role."
 }
+Assert-NotContains $validatorText 'organ_grinder|score:113' "normal and trusted nightly character selection cannot assign unsupported Organ Grinder"
 Assert-NotContains $validatorText 'apply_character \{[^\r\n}]*alignment:' "role selection coupled to a default alignment"
 foreach ($category in @("town", "outsiders", "minions", "demons")) {
     Assert-Contains $validatorText ("in_characters\{" + $category + ":") "current-script $category validation"
@@ -254,9 +285,10 @@ Assert-NotContains ($showGoodText + $showEvilText) 'tag @a add (good|evil)|score
 
 $allEditorSource = (Get-ChildItem -LiteralPath $EditorRoot -Recurse -Filter "*.mcfunction" -File | ForEach-Object { Get-Content -LiteralPath $_.FullName -Raw }) -join "`n"
 Assert-NotContains $allEditorSource 'grim_editor_locked' "retired first-seat-reveal editor lock"
+Assert-NotContains $allEditorSource 'grim_editor_summoner_mode' "retired shared Storyteller Demon-dialog mode"
 
 $commandText = Get-Content -LiteralPath $BotcCommandPath -Raw
-foreach ($command in @("confirm", "change_characters", "announce_fearmonger", "edit_seat", "set_character", "set_good", "set_evil")) {
+foreach ($command in @("confirm", "change_characters", "choose_demon", "announce_fearmonger", "edit_seat", "set_character", "set_good", "set_evil")) {
     Assert-Contains $commandText ('"id"\s*:\s*"' + $command + '"') "/botc grimoire $command command"
 }
 Assert-Contains $commandText 'execute as @s\[tag=storyteller\] run function botc_patch:grim/editor/' "Storyteller command guard"

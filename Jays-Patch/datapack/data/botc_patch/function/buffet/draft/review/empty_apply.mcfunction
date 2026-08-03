@@ -9,6 +9,7 @@ tag @a remove botc_buffet_emptied
 $tag @a[tag=botc_buffet_roster,scores={id=$(seat)}] add botc_buffet_emptied
 clear @a[tag=botc_buffet_emptied] minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_tool:1b}]
 team leave @a[tag=botc_buffet_emptied]
+scoreboard players reset @a[tag=botc_buffet_emptied] id
 tag @a[tag=botc_buffet_emptied] remove botc_buffet_roster
 tag @a[tag=botc_buffet_emptied] remove botc_buffet_draft_waiting
 tag @a[tag=botc_buffet_emptied] remove botc_buffet_draft_current
@@ -22,7 +23,9 @@ scoreboard players reset @a[tag=botc_buffet_emptied] botc_buffet_perceived_align
 scoreboard players reset @a[tag=botc_buffet_emptied] botc_buffet_seat
 $scoreboard players add buffet_seat_$(seat)_generation botc_patch 1
 $data modify storage botc_patch:buffet roster.p$(seat) set value "Open Seat"
-$data modify storage botc_patch:buffet draft.seats.s$(seat) set value {active:0b,name:"Open Seat",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{},seen:{},history:{}}
+$data modify storage botc_patch:buffet draft.seats.s$(seat) set value {active:0b,name:"Open Seat",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,protected_outsider:0,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{},seen:{},history:{}}
+$data remove entity @e[type=minecraft:item_display,tag=house_head,scores={house_id=$(seat)},limit=1] item.components.minecraft:profile
+function ct:start_game/apply_labels
 function botc_patch:buffet/draft/review/recheck_unassigned_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet action.actual set from storage botc_patch:buffet action.perceived
 function botc_patch:buffet/draft/review/recheck_unassigned_role with storage botc_patch:buffet action

@@ -109,7 +109,10 @@ foreach ($option in $options) {
 
 $confirmLines = New-Header "Routes the pre-reveal controls through one contextual option mask."
 $confirmLines.Add('execute unless score phase game_data matches 1.. run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only start ","color":"gray","bold":false},{"text":"Reveal Grimoire","color":"gold","bold":true},{"text":" during an active game.","color":"gray","bold":false}]')
-$confirmLines.Add('execute if score phase game_data matches 3 unless score boomdandy_stage botc_patch matches 2..5 if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/start')
+$confirmLines.Add('execute if score boomdandy_pyre_state botc_patch matches 1..2 run return run tellraw @s [{text:"Boomdandy\u0027s pyre execution is still resolving.",color:"yellow"}]')
+$confirmLines.Add('execute if score phase game_data matches 3 if entity @s[tag=botc_boomdandy_execution_pending] run return run function botc_patch:storyteller_tools/boomdandy/show_execution_choice')
+$confirmLines.Add('execute if score phase game_data matches 3 if entity @a[tag=storyteller,tag=botc_boomdandy_execution_pending,limit=1] run return run tellraw @s [{text:"Another Storyteller is choosing the Boomdandy execution path.",color:"yellow"}]')
+$confirmLines.Add('execute if score phase game_data matches 3 unless score boomdandy_pyre_state botc_patch matches 1..2 unless score boomdandy_stage botc_patch matches 2..5 if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/start')
 $confirmLines.Add('function botc_patch:grim/notifications/acknowledge_outer')
 $confirmLines.Add('data modify storage botc_patch:grim notifications set value {fearmonger_font:"botc_patch:role_icons",banshee_font:"botc_patch:role_icons",alhadikhia_font:"botc_patch:role_icons",madness_font:"botc_patch:role_icons"}')
 foreach ($option in @($options | Where-Object { -not [string]::IsNullOrWhiteSpace([string] $_.NoticeKey) })) {

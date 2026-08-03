@@ -10,7 +10,7 @@ scoreboard players set @s id 3
 scoreboard players set @s botc_buffet_seat 3
 scoreboard players operation @s botc_buffet_seat_gen = buffet_seat_3_generation botc_patch
 scoreboard players set @s botc_buffet_status 0
-data modify storage botc_patch:buffet draft.seats.s3 set value {active:1b,name:"Seat 3",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{},seen:{},history:{}}
+data modify storage botc_patch:buffet draft.seats.s3 set value {active:1b,name:"Seat 3",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,protected_outsider:0,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{},seen:{},history:{}}
 function ct:start_game/apply_labels
 execute if score buffet_roster_count botc_patch matches 5 run function botc_patch:buffet/roster/snapshot_names/5
 execute if score buffet_roster_count botc_patch matches 6 run function botc_patch:buffet/roster/snapshot_names/6

@@ -100,6 +100,7 @@ $storytellerRoleNotificationTest = Join-Path $PSScriptRoot "test-storyteller-rol
 $boomdandyAndNominationKillsTest = Join-Path $PSScriptRoot "test-boomdandy-and-nomination-kills.ps1"
 $storytellerRpsTest = Join-Path $PSScriptRoot "test-storyteller-rps.ps1"
 $buffetGamemodeTest = Join-Path $PSScriptRoot "test-buffet-gamemodes.ps1"
+$draftRandomizationModelTest = Join-Path $PSScriptRoot "test-draft-randomization-model.ps1"
 $funDrunkTest = Join-Path $PSScriptRoot "test-fun-drunk.ps1"
 $funSlayerTest = Join-Path $PSScriptRoot "test-fun-slayer.ps1"
 $funToyboxTest = Join-Path $PSScriptRoot "test-fun-toybox.ps1"
@@ -159,6 +160,7 @@ Assert-FileExists $storytellerRoleNotificationTest "one-time Storyteller role no
 Assert-FileExists $boomdandyAndNominationKillsTest "Boomdandy final-three and nomination role-kill test"
 Assert-FileExists $storytellerRpsTest "Storyteller RPS broker test"
 Assert-FileExists $buffetGamemodeTest "Greedy and Draft Buffet gamemode test"
+Assert-FileExists $draftRandomizationModelTest "Draft randomization deterministic model test"
 Assert-FileExists $funDrunkTest "Drunk fun command and consumable test"
 Assert-FileExists $funToyboxTest "fun toybox and entrance test"
 Assert-FileExists $commandBudgetTest "command-budget safety test"
@@ -251,6 +253,7 @@ if ($adjacentDuplicateCommands.Count -gt 0) {
 & $boomdandyAndNominationKillsTest
 & $storytellerRpsTest
 & $buffetGamemodeTest
+& $draftRandomizationModelTest
 & $funDrunkTest
 & $funSlayerTest
 & $funToyboxTest

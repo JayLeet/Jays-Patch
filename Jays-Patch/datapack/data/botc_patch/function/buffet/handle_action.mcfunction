@@ -1,6 +1,9 @@
 # Dispatch validated trigger actions by mode, phase and caller ownership.
 execute if score phase game_data matches 0 if entity @s[tag=storyteller] if score buffet_mode botc_patch matches 0 if score @s botc_buffet_action matches 1 run function botc_patch:buffet/select_greedy
 execute if score phase game_data matches 0 if entity @s[tag=storyteller] if score buffet_mode botc_patch matches 0 if score @s botc_buffet_action matches 2 run function botc_patch:buffet/select_draft
+execute if score phase game_data matches 0 if entity @s[tag=storyteller] if score buffet_mode botc_patch matches 2 if score draft_route_pending botc_patch matches 1 if score @s botc_buffet_action matches 7110 run function botc_patch:buffet/draft/route/select_normal
+execute if score phase game_data matches 0 if entity @s[tag=storyteller] if score buffet_mode botc_patch matches 2 if score draft_route_pending botc_patch matches 1 if score @s botc_buffet_action matches 7111 run function botc_patch:buffet/draft/route/select_atheist
+execute if score phase game_data matches 0 if entity @s[tag=storyteller] if score buffet_mode botc_patch matches 2 if score draft_route_pending botc_patch matches 1..2 if score @s botc_buffet_action matches 7112 run function botc_patch:buffet/draft/route/reopen
 
 execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8000 run function botc_patch:buffet/personal_grimoire/open
 execute if score buffet_mode botc_patch matches 1..2 if entity @s[tag=botc_buffet_roster,tag=!storyteller] if score @s botc_buffet_action matches 8001..8015 run function botc_patch:buffet/personal_grimoire/select_seat

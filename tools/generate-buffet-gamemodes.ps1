@@ -15,6 +15,7 @@ $CharactersPath = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/
 $RemindersPath = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function/admin/setup/reminder_tokens.mcfunction"
 $ReminderLanguagePath = Join-Path $RepoRoot "data/resources/resourcepack/required/Blood on the Clocktower/assets/minecraft/lang/en_us.json"
 $ExtensionPath = Join-Path $PatchRoot "role-extensions.json"
+$ContractPath = Join-Path $PatchRoot "upstream-contract.json"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
 $RoleGlyphHelper = Join-Path $RepoRoot "tools/lib/role-icon-glyphs.ps1"
 $DialogIconPath = Join-Path $PatchRoot "dialog-icons.json"
@@ -26,6 +27,7 @@ $Checkmark = [string][char] 0x2713
 $SuccessCheckmark = [string][char] 0x2714
 $Crossmark = [string][char] 0x2717
 $StatusDot = [string][char] 0x25CF
+$Bullet = [string][char] 0x2022
 $SeatSuperscripts = @(
     "",
     ([string][char] 0x00B9),
@@ -59,7 +61,7 @@ $BecomePlayerGlyph = Get-BotcDialogIconGlyph -Catalog $dialogIconCatalog -Id "be
 $OffGlyph = Get-BotcDialogIconGlyph -Catalog $dialogIconCatalog -Id "off"
 
 $rules = Get-Content -LiteralPath $RulesPath -Raw | ConvertFrom-Json
-if ([int] $rules.schemaVersion -ne 1) {
+if ([int] $rules.schemaVersion -ne 2) {
     throw "Unsupported buffet-rules schema version '$($rules.schemaVersion)'."
 }
 
@@ -67,6 +69,8 @@ $roles = @(Get-SybillianRoleCatalog `
     -SetFromMenuPath $RolePath `
     -CharactersPath $CharactersPath `
     -ExtensionPath $ExtensionPath)
+$disabledRoleReasons = Get-BotcDisabledRoleMap -ContractPath $ContractPath -RoleCatalog $roles
+$selectableRoles = @($roles | Where-Object { -not $disabledRoleReasons.ContainsKey([string] $_.Role) })
 $roleByName = @{}
 $roleByScriptId = @{}
 foreach ($role in $roles) {
@@ -195,7 +199,7 @@ $greedyCategoryGlyphs = @{
 }
 $hermitGlyph = Get-BotcRoleIconGlyph -RoleScore $roleIds.hermit
 $hermitAbilities = @(
-    $roles | Where-Object {
+    $selectableRoles | Where-Object {
         [string] $_.Category -eq "outsider" -and
         [string] $_.Role -notin @("drunk", "lunatic", "hermit")
     }
@@ -228,11 +232,31 @@ $PersonalGrimoireReminderCategoriesAction = 8523
 $PersonalGrimoireReminderTokenBase = 9000
 $PersonalGrimoireReminderPageSize = 16
 
+# Public, standard Blood on the Clocktower setup counts. These are safe to
+# show to every player because they depend only on the visible roster size;
+# private assignments and setup modifiers must never alter this table.
+$standardCounts = @{
+    5 = @(3, 0, 1, 1)
+    6 = @(3, 1, 1, 1)
+    7 = @(5, 0, 1, 1)
+    8 = @(5, 1, 1, 1)
+    9 = @(5, 2, 1, 1)
+    10 = @(7, 0, 2, 1)
+    11 = @(7, 1, 2, 1)
+    12 = @(7, 2, 2, 1)
+    13 = @(9, 0, 3, 1)
+    14 = @(9, 1, 3, 1)
+    15 = @(9, 2, 3, 1)
+}
+
 $excludedGreedy = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
 foreach ($roleName in @($rules.greedy.playerExcludedRoles)) {
     if (-not $roleByName.ContainsKey([string] $roleName)) {
         throw "Unknown Greedy exclusion '$roleName'."
     }
+    [void] $excludedGreedy.Add([string] $roleName)
+}
+foreach ($roleName in $disabledRoleReasons.Keys) {
     [void] $excludedGreedy.Add([string] $roleName)
 }
 
@@ -512,8 +536,10 @@ for ($count = 5; $count -le 15; $count++) {
     for ($seat = 1; $seat -le $count; $seat++) {
         $actions += '{label:{text:"$(p' + $seat + '_unknown)",font:"minecraft:default",color:"gray",extra:[{text:"$(p' + $seat + '_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" ' + $SeatSuperscripts[$seat] + ' $(p' + $seat + '_name)",font:"minecraft:default",color:"white"},{text:" - $(p' + $seat + '_role)",font:"minecraft:default",color:"$(p' + $seat + '_color)"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + ($PersonalGrimoireSeatBase + $seat) + '"}}'
     }
-    $actions += '{label:{text:"' + $GrimoireGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Open Grimoire View",font:"minecraft:default",color:"gold"}]},tooltip:{text:"View your current private character notes in Sybillian\u0027s Grimoire",color:"gray"},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + $PersonalGrimoireViewAction + '"}}'
-    $dialog = '$dialog show @s {type:"multi_action",title:{text:"Personal Grimoire",color:"red",bold:true},body:{type:"plain_message",contents:{text:"Your private notes. Choose a player to edit their character or reminder tokens.",color:"gray"},width:420},columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Close"}}'
+    $publicCounts = $standardCounts[$count]
+    $countLine = '{text:"' + $Bullet + ' Townsfolk: ' + $publicCounts[0] + '",color:"#55aaff",extra:[{text:"  ' + $Bullet + ' Outsiders: ' + $publicCounts[1] + '",color:"#55ffff"},{text:"  ' + $Bullet + ' Minions: ' + $publicCounts[2] + '",color:"#ffaa00"},{text:"  ' + $Bullet + ' Demons: ' + $publicCounts[3] + '",color:"#ff5555"}]}'
+    $openGrimoireLine = '{text:"' + $GrimoireGlyph + '",font:"botc_patch:ui_icons",color:"white",click_event:{action:"run_command",command:"/trigger botc_buffet_action set ' + $PersonalGrimoireViewAction + '"},hover_event:{action:"show_text",value:{text:"View your current private character notes in Sybillian\u0027s Grimoire",color:"gray"}},extra:[{text:" Open Grimoire View",font:"minecraft:default",color:"gold"}]}'
+    $dialog = '$dialog show @s {type:"multi_action",title:{text:"Personal Grimoire",color:"red",bold:true},body:[{type:"plain_message",contents:{text:"Your private notes. Choose a player to edit their character or reminder tokens.",color:"gray"},width:420},{type:"plain_message",contents:' + $countLine + ',width:420},{type:"plain_message",contents:' + $openGrimoireLine + ',width:420}],columns:3,actions:[' + ($actions -join ',') + '],exit_action:{label:"Close"}}'
     Write-GeneratedFile "personal_grimoire/dialog/count_$count.mcfunction" (
         (New-Header "Show $count private Personal Grimoire player entries.") +
         @($dialog)
@@ -665,17 +691,27 @@ foreach ($category in $personalReminderCategories) {
             $reminder = $categoryReminders[$entryIndex]
             $pageActions += New-ReminderButton -Reminder $reminder -Action ($PersonalGrimoireReminderTokenBase + [int] $reminder.Index)
         }
+        $navigationParts = @()
         if ($page -gt 1) {
-            $pageActions += '{label:{text:"' + $BackGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Previous",font:"minecraft:default",color:"gray"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + $PersonalGrimoireReminderPreviousAction + '"}}'
+            $navigationParts += '{text:"' + $BackGlyph + '",font:"botc_patch:ui_icons",color:"white",click_event:{action:"run_command",command:"/trigger botc_buffet_action set ' + $PersonalGrimoireReminderPreviousAction + '"},extra:[{text:" Previous",font:"minecraft:default",color:"gray"}]}'
         }
         if ($page -lt $pageCount) {
-            $pageActions += '{label:{text:"' + $NextGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Next",font:"minecraft:default",color:"green"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + $PersonalGrimoireReminderNextAction + '"}}'
+            if ($navigationParts.Count -gt 0) {
+                $navigationParts += '{text:"     "}'
+            }
+            $navigationParts += '{text:"' + $NextGlyph + '",font:"botc_patch:ui_icons",color:"white",click_event:{action:"run_command",command:"/trigger botc_buffet_action set ' + $PersonalGrimoireReminderNextAction + '"},extra:[{text:" Next",font:"minecraft:default",color:"green"}]}'
         }
         $title = [string] $category.Label + " Reminders"
         if ($pageCount -gt 1) {
             $title += " ($page/$pageCount)"
         }
-        $dialog = 'dialog show @s {type:"multi_action",title:{text:' + (ConvertTo-JsonString $title) + ',color:"' + [string] $category.Color + '",bold:true},body:{type:"plain_message",contents:{text:"Choose a reminder for the selected space.",color:"gray"},width:440},columns:4,actions:[' + ($pageActions -join ',') + '],exit_action:{label:{text:"' + $BackGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Categories",font:"minecraft:default",color:"gray"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + $PersonalGrimoireReminderCategoriesAction + '"}}}'
+        $instructionBody = '{type:"plain_message",contents:{text:"Choose a reminder for the selected space.",color:"gray"},width:440}'
+        $body = $instructionBody
+        if ($navigationParts.Count -gt 0) {
+            $navigationBody = '{type:"plain_message",contents:[' + ($navigationParts -join ',') + '],width:440}'
+            $body = '[' + $instructionBody + ',' + $navigationBody + ']'
+        }
+        $dialog = 'dialog show @s {type:"multi_action",title:{text:' + (ConvertTo-JsonString $title) + ',color:"' + [string] $category.Color + '",bold:true},body:' + $body + ',columns:4,actions:[' + ($pageActions -join ',') + '],exit_action:{label:{text:"' + $BackGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Categories",font:"minecraft:default",color:"gray"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + $PersonalGrimoireReminderCategoriesAction + '"}}}'
         Write-GeneratedFile ("personal_grimoire/reminders/{0}_{1}.mcfunction" -f [string] $category.Id, $page) (
             (New-Header "Show page $page of $pageCount for $($category.Label) reminder tokens.") +
             @($dialog)
@@ -741,7 +777,7 @@ Write-GeneratedFile "personal_grimoire/reminders/clear.mcfunction" (
 foreach ($category in @("town", "outsider", "minion", "demon")) {
     $info = Get-CategoryInfo $category
     $actions = @()
-    foreach ($role in $roles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name) {
+    foreach ($role in $selectableRoles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name) {
         $actions += New-RoleButton -Role $role -Action ($PersonalGrimoireRoleBase + [int] $role.Id)
     }
     $dialog = 'dialog show @s {type:"multi_action",title:{text:"' + $info.Label + '",color:"' + $info.Color + '",bold:true},columns:4,actions:[' + ($actions -join ',') + '],exit_action:{label:{text:"' + $BackGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Back",font:"minecraft:default",color:"gray"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + $PersonalGrimoireCategoriesAction + '"}}}'
@@ -755,7 +791,7 @@ $personalSelectCharacter = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Dispatch one trusted private Personal Grimoire character choice.") {
     $personalSelectCharacter.Add($line)
 }
-foreach ($role in $roles) {
+foreach ($role in $selectableRoles) {
     $personalSelectCharacter.Add(('execute if score @s botc_buffet_action matches {0} run function botc_patch:buffet/personal_grimoire/store_character {{role:{1},id:"{2}"}}' -f ($PersonalGrimoireRoleBase + [int] $role.Id), [int] $role.Id, [string] $role.Role))
 }
 Write-GeneratedFile "personal_grimoire/select_character.mcfunction" $personalSelectCharacter
@@ -861,6 +897,7 @@ $clearLines.Add("scoreboard players set buffet_draft_ready botc_patch 0")
 $clearLines.Add("scoreboard players set draft_ready botc_patch 0")
 $clearLines.Add("scoreboard players set draft_manual_override botc_patch 0")
 $clearLines.Add("scoreboard players set draft_current_seat botc_patch 0")
+$clearLines.Add("function botc_patch:buffet/draft/clear_state")
 $clearLines.Add("execute as @a[tag=botc_buffet_roster,tag=!storyteller] run function botc_patch:buffet/personal_grimoire/reset_player")
 $clearLines.Add("data remove storage botc_patch:buffet roster")
 $clearLines.Add("data remove storage botc_patch:buffet greedy")
@@ -876,6 +913,10 @@ $clearLines.Add("tag @a remove botc_buffet_had_choice")
 $clearLines.Add("tag @a remove botc_buffet_draft_waiting")
 $clearLines.Add("tag @a remove botc_buffet_draft_current")
 $clearLines.Add("tag @a remove botc_buffet_draft_forced")
+$clearLines.Add("tag @a remove botc_buffet_draft_forced_legion")
+$clearLines.Add("tag @a remove botc_buffet_draft_fake_atheist")
+$clearLines.Add("tag @a remove botc_buffet_draft_route_atheist")
+$clearLines.Add("tag @a remove botc_buffet_draft_route_special")
 $clearLines.Add("tag @a remove botc_buffet_claimed")
 $clearLines.Add("tag @a remove botc_buffet_emptied")
 $clearLines.Add("scoreboard players reset @a botc_buffet_action")
@@ -905,7 +946,7 @@ foreach ($line in New-Header "Initialize Greedy seat records for the open setup 
 $seatInitLines.Add("data remove storage botc_patch:buffet greedy")
 $seatInitLines.Add("data modify storage botc_patch:buffet greedy set value {seats:{}}")
 for ($seat = 1; $seat -le 15; $seat++) {
-    $seatInitLines.Add(('data modify storage botc_patch:buffet greedy.seats.s{0} set value {{active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{{}}}}' -f $seat))
+    $seatInitLines.Add(('data modify storage botc_patch:buffet greedy.seats.s{0} set value {{active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{{}}}}' -f $seat))
     $seatInitLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. run data modify storage botc_patch:buffet greedy.seats.s{0}.active set value 1b' -f $seat))
     $seatInitLines.Add(('scoreboard players add buffet_seat_{0}_generation botc_patch 1' -f $seat))
 }
@@ -991,7 +1032,7 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $claimLines.Add("scoreboard players set @s id $seat")
     $claimLines.Add("scoreboard players set @s botc_buffet_seat $seat")
     $claimLines.Add("scoreboard players operation @s botc_buffet_seat_gen = buffet_seat_$($seat)_generation botc_patch")
-    $claimLines.Add(('data modify storage botc_patch:buffet greedy.seats.s{0} set value {{active:1b,name:"Seat {0}",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{{}}}}' -f $seat))
+    $claimLines.Add(('data modify storage botc_patch:buffet greedy.seats.s{0} set value {{active:1b,name:"Seat {0}",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{{}}}}' -f $seat))
     $claimLines.Add(('execute if score buffet_roster_count botc_patch matches ..{0} run scoreboard players set buffet_roster_count botc_patch {1}' -f ($seat - 1), $seat))
     $claimLines.Add("scoreboard players operation player_count game_data = buffet_roster_count botc_patch")
     $claimLines.Add("scoreboard players operation seat_layout_target_count botc_patch = buffet_roster_count botc_patch")
@@ -1064,6 +1105,17 @@ for ($seat = 1; $seat -le 15; $seat++) {
 $syncCtPlayersLines.Add("execute as @a run function ct:start_game/roles/set_grim_variables with storage ct:players players")
 Write-GeneratedFile "roster/sync_ct_players.mcfunction" $syncCtPlayersLines
 
+$refreshStartedHouseProfilesLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Replace every started Buffet house profile from the authoritative locked roster.") {
+    $refreshStartedHouseProfilesLines.Add($line)
+}
+$refreshStartedHouseProfilesLines.Add("execute as @e[type=minecraft:item_display,tag=house_head] run data remove entity @s item.components.minecraft:profile")
+for ($seat = 1; $seat -le 15; $seat++) {
+    $refreshStartedHouseProfilesLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. run data modify entity @e[type=minecraft:item_display,tag=house_head,scores={{house_id={0}}},limit=1] item.components.minecraft:profile set value {{name:""}}' -f $seat))
+    $refreshStartedHouseProfilesLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. run data modify entity @e[type=minecraft:item_display,tag=house_head,scores={{house_id={0}}},limit=1] item.components.minecraft:profile.name set from storage botc_patch:buffet roster.p{0}' -f $seat))
+}
+Write-GeneratedFile "roster/refresh_started_house_profiles.mcfunction" $refreshStartedHouseProfilesLines
+
 $restoreStartedIdentityLines = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Restore Buffet-owned seat identity after Sybillian randomizes the ordinary start roster.") {
     $restoreStartedIdentityLines.Add($line)
@@ -1072,6 +1124,8 @@ $restoreStartedIdentityLines.Add("execute as @a[tag=botc_buffet_roster,scores={b
 $restoreStartedIdentityLines.Add("execute as @a[tag=botc_buffet_roster,scores={botc_buffet_seat=1..15}] run function botc_patch:buffet/roster/restore_team")
 $restoreStartedIdentityLines.Add("function botc_patch:seat_layout/lock_after_start")
 $restoreStartedIdentityLines.Add("function botc_patch:buffet/roster/sync_ct_players")
+$restoreStartedIdentityLines.Add("function botc_patch:buffet/roster/refresh_started_house_profiles")
+$restoreStartedIdentityLines.Add("function ct:start_game/apply_labels")
 Write-GeneratedFile "roster/restore_started_identity.mcfunction" $restoreStartedIdentityLines
 
 # Recount one player's server-side choice storage and derive its review status.
@@ -1271,6 +1325,7 @@ $submitLines.Add("execute unless score buffet_submit_valid botc_patch matches 1 
 $submitLines.Add(('execute unless score buffet_submit_valid botc_patch matches 1 run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"Choose at least {0} characters total and at least {1} of every type or Dealer''s Choice before submitting.","color":"gray","bold":false}}]' -f $minimumTotal, $minimumEach))
 $submitLines.Add("execute unless score buffet_submit_valid botc_patch matches 1 run return 0")
 $submitLines.Add('$data modify storage botc_patch:buffet greedy.seats.s$(seat).submitted set value 1b')
+$submitLines.Add('$data modify storage botc_patch:buffet greedy.seats.s$(seat).resubmit_requested set value 0b')
 $submitLines.Add("scoreboard players set buffet_start_confirmed botc_patch 0")
 $submitLines.Add("function botc_patch:buffet/greedy/recount")
 $submitLines.Add('tellraw @s [{"text":"' + $SuccessCheckmark + ' ","color":"green","bold":true},{"text":"Your choices were sent to the ","color":"gray","bold":false},{"text":"Storyteller","color":"gold","bold":true},{"text":". You may still edit and resubmit them.","color":"gray","bold":false}]')
@@ -1283,9 +1338,9 @@ foreach ($line in New-Header "Prepare the Storyteller's Greedy review dashboard.
 }
 $dashboardPrepareLines.Add('data remove storage botc_patch:buffet greedy.hermit_pending')
 $dashboardPrepareLines.Add('scoreboard players set buffet_start_confirmed botc_patch 0')
-$dashboardPrepareLines.Add('execute if score buffet_duplicates botc_patch matches 0 run data modify storage botc_patch:buffet ui.duplicate_label set value "Duplicates: Off"')
-$dashboardPrepareLines.Add('execute if score buffet_duplicates botc_patch matches 0 run data modify storage botc_patch:buffet ui.duplicate_color set value "gray"')
-$dashboardPrepareLines.Add('execute if score buffet_duplicates botc_patch matches 1 run data modify storage botc_patch:buffet ui.duplicate_label set value "Duplicates: On"')
+$dashboardPrepareLines.Add('execute if score buffet_duplicates botc_patch matches 0 run data modify storage botc_patch:buffet ui.duplicate_state set value "' + $Crossmark + '"')
+$dashboardPrepareLines.Add('execute if score buffet_duplicates botc_patch matches 0 run data modify storage botc_patch:buffet ui.duplicate_color set value "red"')
+$dashboardPrepareLines.Add('execute if score buffet_duplicates botc_patch matches 1 run data modify storage botc_patch:buffet ui.duplicate_state set value "' + $Checkmark + '"')
 $dashboardPrepareLines.Add('execute if score buffet_duplicates botc_patch matches 1 run data modify storage botc_patch:buffet ui.duplicate_color set value "green"')
 for ($seat = 1; $seat -le 15; $seat++) {
     $dashboardPrepareLines.Add(('data modify storage botc_patch:buffet ui.p{0}_name set from storage botc_patch:buffet greedy.seats.s{0}.name' -f $seat))
@@ -1296,7 +1351,11 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $dashboardPrepareLines.Add(('data modify storage botc_patch:buffet ui.p{0}_role_close set value ""' -f $seat))
     $dashboardPrepareLines.Add(('data modify storage botc_patch:buffet ui.p{0}_glyph set value ""' -f $seat))
     $dashboardPrepareLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} run data modify storage botc_patch:buffet ui.p{0}_color set value "#ff5555"' -f $seat))
-    $dashboardPrepareLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,submitted:1b}} run data modify storage botc_patch:buffet ui.p{0}_color set value "#55ff55"' -f $seat))
+    $dashboardPrepareLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,submitted:1b,role:0}} run data modify storage botc_patch:buffet ui.p{0}_color set value "#ffaa00"' -f $seat))
+    $dashboardPrepareLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,submitted:1b,status:3}} unless data storage botc_patch:buffet greedy.seats.s{0}{{role:0}} run data modify storage botc_patch:buffet ui.p{0}_color set value "#ff55ff"' -f $seat))
+    $dashboardPrepareLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,submitted:1b,status:2}} unless data storage botc_patch:buffet greedy.seats.s{0}{{role:0}} run data modify storage botc_patch:buffet ui.p{0}_color set value "#55ff55"' -f $seat))
+    $dashboardPrepareLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,resubmit_requested:1b}} unless data storage botc_patch:buffet greedy.seats.s{0}{{submitted:1b}} run data modify storage botc_patch:buffet ui.p{0}_color set value "#ffff55"' -f $seat))
+    $dashboardPrepareLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} unless entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat={0}}},limit=1] run data modify storage botc_patch:buffet ui.p{0}_color set value "#555555"' -f $seat))
     $dashboardPrepareLines.Add(('execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s{0}.role' -f $seat))
     $dashboardPrepareLines.Add(('data modify storage botc_patch:buffet action.seat set value {0}' -f $seat))
     $dashboardPrepareLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action' -f $seat))
@@ -1316,14 +1375,30 @@ Write-GeneratedFile "greedy/review/prepare_role.mcfunction" (
     )
 )
 
+$greedyStatusZeroWidth = [string][char] 0x200C
+$greedyStatusOpenLead = " " * 6
+$greedyStatusChoosingLead = (" " * 6) + ($greedyStatusZeroWidth * 4)
+# Bold zero-width non-joiners keep their glyph invisible while contributing the
+# one-pixel bold advance needed to align the third row with the two rows above.
+$greedyStatusMismatchLead = (" " * 14) + ($greedyStatusZeroWidth * 3)
+$greedyStatusOpenGap = " " * 12
+$greedyStatusOpenRightNudge = $greedyStatusZeroWidth
+$greedyStatusOfflineTail = (" " * 7) + $greedyStatusZeroWidth
+$greedyStatusChoosingGap = " " * 14
+$greedyStatusResubmittingTail = $greedyStatusZeroWidth
+$greedyStatusAssignGap = " " * 14
+$greedyStatusMismatchTail = (" " * 14) + $greedyStatusZeroWidth
+$greedyStatusMismatchTailNudge = $greedyStatusZeroWidth * 3
+
 for ($count = 5; $count -le 15; $count++) {
     $actions = @()
     for ($seat = 1; $seat -le $count; $seat++) {
         $actions += '{label:{text:"$(p' + $seat + '_status)",color:"$(p' + $seat + '_color)",bold:true,extra:[{text:" ' + $SeatSuperscripts[$seat] + ' ",font:"minecraft:default",color:"gray",bold:false},{text:"$(p' + $seat + '_name)",font:"minecraft:default",color:"$(p' + $seat + '_name_color)"},{text:"$(p' + $seat + '_role_open)",font:"minecraft:default",color:"gray",bold:false},{text:"$(p' + $seat + '_glyph)",font:"botc_patch:role_icons",color:"white"},{text:"$(p' + $seat + '_role_close)",font:"minecraft:default",color:"gray",bold:false}]},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + (2000 + $seat) + '"}}'
     }
-    $actions += '{label:{text:"$(duplicate_label)",color:"$(duplicate_color)"},action:{type:"run_command",command:"/trigger botc_buffet_action set 3001"}}'
-    $actions += '{label:{text:"' + $NextGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Start Game",font:"minecraft:default",color:"green",bold:true}]},action:{type:"run_command",command:"/trigger botc_buffet_action set 3002"}}'
-    $dialog = '$dialog show @s {type:"multi_action",title:{text:"Buffet Review",color:"gold",bold:true},body:[{type:"plain_message",contents:{text:"Seat ' + $SeatSuperscripts[1] + ' is the north chair; numbering continues clockwise. Red: choices not submitted. Green: choices submitted. Gray: open seat. Assigned names use character type colors.",color:"gray"},width:440}],columns:3,actions:[' + ($actions -join ",") + '],exit_action:{label:"Close"}}'
+    $duplicateLine = '{text:"' + $ChangeCharactersGlyph + '",font:"botc_patch:ui_icons",color:"white",click_event:{action:"run_command",command:"/trigger botc_buffet_action set 3001"},extra:[{text:" Duplicates: ",font:"minecraft:default",color:"white"},{text:"$(duplicate_state)",font:"minecraft:default",color:"$(duplicate_color)",bold:true}]}'
+    $startLine = '{text:"' + $NextGlyph + '",font:"botc_patch:ui_icons",color:"white",click_event:{action:"run_command",command:"/trigger botc_buffet_action set 3002"},extra:[{text:" Start Game",font:"minecraft:default",color:"green",bold:true}]}'
+    $reviewLegend = '{text:"Seat order",color:"gold",bold:true,extra:[{text:"\nSeat ' + $SeatSuperscripts[1] + ' is the red chair. The remaining seats follow the chair colors in order.\n\n",color:"gray",bold:false},{text:"Player status",color:"gold",bold:true},{text:"\n' + $greedyStatusOpenLead + $StatusDot + '",color:"gray",bold:true},{text:" Open seat",color:"white",bold:true},{text:"' + $greedyStatusOpenGap + '",color:"white",bold:false},{text:"' + $greedyStatusOpenRightNudge + $StatusDot + '",color:"dark_gray",bold:true},{text:" Offline",color:"white",bold:true},{text:"' + $greedyStatusOfflineTail + '",color:"white",bold:false},{text:"\n' + $greedyStatusChoosingLead + $StatusDot + '",color:"red",bold:true},{text:" Choosing",color:"white",bold:true},{text:"' + $greedyStatusChoosingGap + '",color:"white",bold:false},{text:"' + $StatusDot + '",color:"yellow",bold:true},{text:" Resubmitting",color:"white",bold:true},{text:"' + $greedyStatusResubmittingTail + '",color:"white",bold:false},{text:"\n' + $greedyStatusMismatchLead + $StatusDot + '",color:"gold",bold:true},{text:" Assign",color:"white",bold:true},{text:"' + $greedyStatusAssignGap + '",color:"white",bold:true},{text:"' + $StatusDot + '",color:"light_purple",bold:true},{text:" Reassign",color:"white",bold:true},{text:"' + $greedyStatusMismatchTail + '",color:"white",bold:false},{text:"' + $greedyStatusMismatchTailNudge + '",color:"white",bold:true},{text:"\n' + $StatusDot + '",color:"green",bold:true},{text:" Ready",color:"white",bold:true}]}'
+    $dialog = '$dialog show @s {type:"multi_action",title:{text:"Buffet Review",color:"gold",bold:true},body:[{type:"plain_message",contents:' + $reviewLegend + ',width:440},{type:"plain_message",contents:' + $duplicateLine + ',width:440},{type:"plain_message",contents:' + $startLine + ',width:440}],columns:3,actions:[' + ($actions -join ",") + '],exit_action:{label:"Close"}}'
     Write-GeneratedFile "greedy/review/dashboard_$count.mcfunction" (
         (New-Header "Show the $count-seat Greedy Storyteller dashboard.") +
         @($dialog)
@@ -1337,9 +1412,18 @@ foreach ($line in New-Header "Build the selected player's compact Greedy review 
 }
 $selectedBuildLines.Add('data modify storage botc_patch:buffet ui.dynamic set value {type:"multi_action",title:{text:"Player Choices",color:"gold",bold:true},body:[],columns:4,actions:[],exit_action:{label:{text:"' + $BackGlyph + '",font:"botc_patch:ui_icons",color:"white",extra:[{text:" Back",font:"minecraft:default",color:"gray"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set 3000"}}}')
 $selectedBuildLines.Add('$data modify storage botc_patch:buffet ui.dynamic.title.text set from storage botc_patch:buffet greedy.seats.s$(seat).name')
-$selectedBuildLines.Add('$execute unless data storage botc_patch:buffet greedy.seats.s$(seat){submitted:1b} run data modify storage botc_patch:buffet ui.dynamic.body append value {type:"plain_message",contents:{text:"This player has not submitted choices yet.",color:"red"},width:400}')
-$selectedBuildLines.Add('$execute if data storage botc_patch:buffet greedy.seats.s$(seat){submitted:1b} run data modify storage botc_patch:buffet ui.dynamic.body append value {type:"plain_message",contents:{text:"The player''s submitted choices are listed first. Choose one, or use an override.",color:"gray"},width:400}')
-$selectedBuildLines.Add('$execute if data storage botc_patch:buffet greedy.seats.s$(seat){submitted:1b,dealer:1b} run data modify storage botc_patch:buffet ui.dynamic.body append value {type:"plain_message",contents:{text:"Dealer''s Choice: ",color:"gold",bold:true,extra:[{text:"assign any character. Listed characters are preferences.",color:"gray",bold:false}]},width:400}')
+$selectedBuildLines.Add('$execute unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=$(seat)},limit=1] run data modify storage botc_patch:buffet ui.dynamic.body append value {type:"plain_message",contents:{text:"Offline",color:"red",bold:true,extra:[{text:"\nThis player must rejoin before the game can start.",color:"gray",bold:false}]},width:400}')
+$selectedBuildLines.Add('$execute if entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=$(seat)},limit=1] unless data storage botc_patch:buffet greedy.seats.s$(seat){submitted:1b} unless data storage botc_patch:buffet greedy.seats.s$(seat){resubmit_requested:1b} run data modify storage botc_patch:buffet ui.dynamic.body append value {type:"plain_message",contents:{text:"Choosing",color:"red",bold:true,extra:[{text:"\nThis player is still choosing their characters.",color:"gray",bold:false}]},width:400}')
+$selectedBuildLines.Add('$execute if entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=$(seat)},limit=1] if data storage botc_patch:buffet greedy.seats.s$(seat){submitted:1b,role:0} run data modify storage botc_patch:buffet ui.dynamic.body append value {type:"plain_message",contents:{text:"Assign",color:"gold",bold:true,extra:[{text:"\nThis player submitted their choices. Choose their character.",color:"gray",bold:false}]},width:400}')
+$selectedBuildLines.Add('$execute if entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=$(seat)},limit=1] unless data storage botc_patch:buffet greedy.seats.s$(seat){submitted:1b} if data storage botc_patch:buffet greedy.seats.s$(seat){resubmit_requested:1b,role:0} run data modify storage botc_patch:buffet ui.dynamic.body append value {type:"plain_message",contents:{text:"Resubmitting",color:"yellow",bold:true,extra:[{text:"\nThe Storyteller requested new choices.",color:"gray",bold:false}]},width:400}')
+$selectedBuildLines.Add('$execute if entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=$(seat)},limit=1] if data storage botc_patch:buffet greedy.seats.s$(seat){submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s$(seat){role:0} run data modify storage botc_patch:buffet ui.dynamic.body append value {type:"plain_message",contents:{text:"Ready",color:"green",bold:true,extra:[{text:"\nSubmitted characters are listed first. Choose one, or use an override.",color:"gray",bold:false}]},width:400}')
+foreach ($role in $roles) {
+    $roleName = ConvertTo-JsonString ([string] $role.Name)
+    $roleColor = ConvertTo-JsonString ([string] $role.Color)
+    $selectedBuildLines.Add(('$execute if entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat=$(seat)}},limit=1] unless data storage botc_patch:buffet greedy.seats.s$(seat){{submitted:1b}} if data storage botc_patch:buffet greedy.seats.s$(seat){{resubmit_requested:1b,role:{0}}} run data modify storage botc_patch:buffet ui.dynamic.body append value {{type:"plain_message",contents:{{text:"Resubmitting",color:"yellow",bold:true,extra:[{{text:"\n",color:"gray",bold:false}},{{text:{1},color:{2},bold:true}},{{text:" is reserved while the player responds to the Storyteller''s request.",color:"gray",bold:false}}]}},width:400}}' -f [int] $role.Id, $roleName, $roleColor))
+    $selectedBuildLines.Add(('$execute if entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat=$(seat)}},limit=1] if data storage botc_patch:buffet greedy.seats.s$(seat){{submitted:1b,status:3}} unless data storage botc_patch:buffet greedy.seats.s$(seat){{role:0}} if data storage botc_patch:buffet greedy.seats.s$(seat){{role:{0}}} run data modify storage botc_patch:buffet ui.dynamic.body append value {{type:"plain_message",contents:{{text:"Reassign",color:"light_purple",bold:true,extra:[{{text:"\n",color:"gray",bold:false}},{{text:{1},color:{2},bold:true}},{{text:" is outside this player''s current choices.",color:"gray",bold:false}}]}},width:400}}' -f [int] $role.Id, $roleName, $roleColor))
+}
+$selectedBuildLines.Add('$execute if entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=$(seat)},limit=1] if data storage botc_patch:buffet greedy.seats.s$(seat){submitted:1b,dealer:1b} run data modify storage botc_patch:buffet ui.dynamic.body append value {type:"plain_message",contents:{text:"Dealer''s Choice: ",color:"gold",bold:true,extra:[{text:"assign any character. Listed characters are preferences.",color:"gray",bold:false}]},width:400}')
 foreach ($role in $roles | Where-Object { -not $excludedGreedy.Contains([string] $_.Role) } | Sort-Object Name) {
     $button = New-RoleButton -Role $role -Action (4000 + [int] $role.Id)
     $selectedButton = New-RoleButton -Role $role -Action (4000 + [int] $role.Id) -PrefixText ($Checkmark + " ") -PrefixColor "#55ff55" -NameColor "#55ff55"
@@ -1356,6 +1440,29 @@ Write-GeneratedFile "greedy/review/build_selected.mcfunction" $selectedBuildLine
 Write-GeneratedFile "greedy/review/show_dynamic.mcfunction" (
     (New-Header "Show a dynamically assembled Greedy review dialog.") +
     @('$dialog show @s $(dynamic)')
+)
+
+Write-GeneratedFile "greedy/review/empty_seat_apply.mcfunction" (
+    (New-Header "Invalidate the previous occupant generation before opening the seat.") +
+    @(
+        '$scoreboard players add buffet_seat_$(seat)_generation botc_patch 1',
+        '$tag @a[tag=botc_buffet_roster,scores={id=$(seat)}] add botc_buffet_emptied',
+        'tag @a[tag=botc_buffet_emptied] remove botc_buffet_roster',
+        'team leave @a[tag=botc_buffet_emptied]',
+        'scoreboard players reset @a[tag=botc_buffet_emptied] id',
+        'scoreboard players reset @a[tag=botc_buffet_emptied] botc_buffet_seat',
+        'scoreboard players reset @a[tag=botc_buffet_emptied] botc_buffet_seat_gen',
+        'clear @a[tag=botc_buffet_emptied] minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_choices:1b}]',
+        'tag @a[tag=botc_buffet_emptied] remove botc_buffet_emptied',
+        '$data remove entity @e[type=minecraft:item_display,tag=house_head,scores={house_id=$(seat)},limit=1] item.components.minecraft:profile',
+        '$data modify storage botc_patch:buffet greedy.seats.s$(seat) set value {active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}',
+        '$data modify storage botc_patch:buffet roster.p$(seat) set value "Open Seat"',
+        'function ct:start_game/apply_labels',
+        'scoreboard players set buffet_start_confirmed botc_patch 0',
+        'tellraw @a [{"text":"A seat has opened up.","color":"yellow"}]',
+        'function botc_patch:buffet/item_checks',
+        'function botc_patch:buffet/greedy/review/open'
+    )
 )
 
 # Clicking an inactive seat offers a deliberate roster compaction. Removing a
@@ -1431,7 +1538,7 @@ for ($removedSeat = 1; $removedSeat -le 15; $removedSeat++) {
     }
 
     for ($oldCount = [Math]::Max(5, $removedSeat); $oldCount -le 15; $oldCount++) {
-        $applyLines.Add(('execute if score buffet_roster_count botc_patch matches {0} run data modify storage botc_patch:buffet greedy.seats.s{0} set value {{active:0b,name:"Open Seat",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{{}}}}' -f $oldCount))
+        $applyLines.Add(('execute if score buffet_roster_count botc_patch matches {0} run data modify storage botc_patch:buffet greedy.seats.s{0} set value {{active:0b,name:"Open Seat",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{{}}}}' -f $oldCount))
         $applyLines.Add(('execute if score buffet_roster_count botc_patch matches {0} run data modify storage botc_patch:buffet roster.p{0} set value "Open Seat"' -f $oldCount))
         $applyLines.Add(('execute if score buffet_roster_count botc_patch matches {0} run data remove entity @e[type=minecraft:item_display,tag=house_head,scores={{house_id={0}}},limit=1] item.components.minecraft:profile' -f $oldCount))
     }
@@ -1447,6 +1554,7 @@ for ($removedSeat = 1; $removedSeat -le 15; $removedSeat++) {
         $applyLines.Add(('execute if score buffet_roster_count botc_patch matches {0} run function botc_patch:buffet/roster/snapshot_names/{0}' -f $count))
     }
     for ($seat = 1; $seat -le 15; $seat++) {
+        $applyLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} run data modify entity @e[type=minecraft:item_display,tag=house_head,scores={{house_id={0}}},limit=1] item.components.minecraft:profile set value {{name:""}}' -f $seat))
         $applyLines.Add(('execute if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} run data modify entity @e[type=minecraft:item_display,tag=house_head,scores={{house_id={0}}},limit=1] item.components.minecraft:profile.name set from storage botc_patch:buffet roster.p{0}' -f $seat))
         $applyLines.Add(('execute unless data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} run data remove entity @e[type=minecraft:item_display,tag=house_head,scores={{house_id={0}}},limit=1] item.components.minecraft:profile' -f $seat))
     }
@@ -1470,7 +1578,7 @@ Write-GeneratedFile "greedy/review/all_menu.mcfunction" (
 
 foreach ($category in @("town", "outsider", "minion", "demon")) {
     $info = Get-CategoryInfo $category
-    $categoryRoles = @($roles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name)
+    $categoryRoles = @($selectableRoles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name)
     $actions = @()
     foreach ($role in $categoryRoles) {
         if ([string] $role.Role -in @("drunk", "lunatic", "marionette")) {
@@ -1505,13 +1613,13 @@ Write-GeneratedFile "greedy/review/hidden_menu.mcfunction" (
 foreach ($category in @("town", "demon")) {
     $info = Get-CategoryInfo $category
     $actions = @()
-    foreach ($role in $roles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name) {
+    foreach ($role in $selectableRoles | Where-Object { [string] $_.Category -eq $category } | Sort-Object Name) {
         if ([string] $role.Role -in @("drunk", "lunatic", "marionette")) {
             continue
         }
         $actions += New-RoleButton -Role $role -Action (6000 + [int] $role.Id)
     }
-    $dialog = 'dialog show @s {type:"multi_action",title:{text:"Perceived ' + $info.Label + '",color:"' + $info.Color + '",bold:true},body:[{type:"plain_message",contents:{text:"Choose the character this player will be told they are.",color:"gray"},width:380}],columns:4,actions:[' + ($actions -join ",") + '],exit_action:{label:"Back",action:{type:"run_command",command:"/trigger botc_buffet_action set 3105"}}}'
+    $dialog = 'dialog show @s {type:"multi_action",title:{text:"Shown ' + $info.Label + '",color:"' + $info.Color + '",bold:true},body:[{type:"plain_message",contents:{text:"Choose the character this player will see.",color:"gray"},width:380}],columns:4,actions:[' + ($actions -join ",") + '],exit_action:{label:"Back",action:{type:"run_command",command:"/trigger botc_buffet_action set 3105"}}}'
     Write-GeneratedFile "greedy/review/perceived_$category.mcfunction" (
         (New-Header "Choose the perceived $($info.Label) role for a hidden assignment.") +
         @($dialog)
@@ -1523,7 +1631,7 @@ $assignDispatchLines = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Dispatch trusted Greedy Storyteller role assignments.") {
     $assignDispatchLines.Add($line)
 }
-foreach ($role in $roles | Where-Object { [string] $_.Role -notin @("drunk", "lunatic", "marionette", "hermit") }) {
+foreach ($role in $selectableRoles | Where-Object { [string] $_.Role -notin @("drunk", "lunatic", "marionette", "hermit") }) {
     $assignDispatchLines.Add(('execute if score @s botc_buffet_action matches {0} run function botc_patch:buffet/greedy/review/assign {{role:{1},alignment:{2}}}' -f (4000 + [int] $role.Id), [int] $role.Id, [int] $role.Alignment))
 }
 $assignDispatchLines.Add(('execute if score @s botc_buffet_action matches {0} run function botc_patch:buffet/greedy/review/hermit/route_direct' -f (4000 + $roleIds.hermit)))
@@ -1531,7 +1639,7 @@ foreach ($hiddenRole in @("drunk", "lunatic", "marionette")) {
     $role = $roleByName[$hiddenRole]
     $assignDispatchLines.Add(('execute if score @s botc_buffet_action matches {0} run function botc_patch:buffet/greedy/review/select_hidden {{role:{1},alignment:{2}}}' -f (5000 + [int] $role.Id), [int] $role.Id, [int] $role.Alignment))
 }
-foreach ($role in $roles | Where-Object { [string] $_.Category -in @("town", "demon") -and [string] $_.Role -notin @("drunk", "lunatic", "marionette") }) {
+foreach ($role in $selectableRoles | Where-Object { [string] $_.Category -in @("town", "demon") -and [string] $_.Role -notin @("drunk", "lunatic", "marionette") }) {
     $assignDispatchLines.Add(('execute if score @s botc_buffet_action matches {0} if data storage botc_patch:buffet greedy.hermit_pending{{active:1b}} run function botc_patch:buffet/greedy/review/hermit/select_perceived {{perceived:{1},perceived_alignment:{2}}}' -f (6000 + [int] $role.Id), [int] $role.Id, [int] $role.Alignment))
     $assignDispatchLines.Add(('execute if score @s botc_buffet_action matches {0} unless data storage botc_patch:buffet greedy.hermit_pending{{active:1b}} run function botc_patch:buffet/greedy/review/assign_perceived {{perceived:{1},perceived_alignment:{2}}}' -f (6000 + [int] $role.Id), [int] $role.Id, [int] $role.Alignment))
 }
@@ -1812,6 +1920,13 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $validateStartLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. unless entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat={0}}},limit=1] run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat))
     $validateStartLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. unless data storage botc_patch:buffet greedy.seats.s{0}{{submitted:1b}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat))
     $validateStartLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. unless data storage botc_patch:buffet greedy.seats.s{0}{{status:2}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat))
+    foreach ($roleName in $disabledRoleReasons.Keys) {
+        $roleId = [int] $roleByName[[string] $roleName].Id
+        foreach ($field in @("role", "perceived", "hermit_forced_ability")) {
+            $validateStartLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{{1}:{2}}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat, $field, $roleId))
+        }
+        $validateStartLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}.hermit_abilities{{r{1}:1b}} run scoreboard players set buffet_hard_valid botc_patch 0' -f $seat, $roleId))
+    }
 }
 foreach ($category in @("town", "outsider", "minion", "demon")) {
     $validateStartLines.Add("function botc_patch:buffet/greedy/start/count_$category")
@@ -1984,14 +2099,41 @@ foreach ($line in New-Header "Explain every hard Greedy start blocker privately 
     $invalidReportLines.Add($line)
 }
 $invalidReportLines.Add('function botc_patch:buffet/attention/block_self')
+Write-GeneratedFile "greedy/start/report_assignment_mismatch.mcfunction" (
+    (New-Header "Name one submitted Greedy assignment that is absent from the current picks.") +
+    @('$tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Seat $(seat)","color":"yellow","bold":true},{"text":" (","color":"gray","bold":false},{"nbt":"greedy.seats.s$(seat).name","storage":"botc_patch:buffet","color":"white","bold":true},{"text":") has ","color":"gray","bold":false},{"nbt":"catalog.s$(role).name","storage":"botc_patch:buffet","color":"yellow","bold":true},{"text":" assigned, but it is not in the current picks and no override is active.","color":"gray","bold":false}]')
+)
+Write-GeneratedFile "greedy/start/report_resubmission.mcfunction" (
+    (New-Header "Name one reserved Greedy assignment during a Storyteller-requested resubmission.") +
+    @('$tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Seat $(seat)","color":"yellow","bold":true},{"text":" (","color":"gray","bold":false},{"nbt":"greedy.seats.s$(seat).name","storage":"botc_patch:buffet","color":"white","bold":true},{"text":") is resubmitting because the Storyteller requested new choices. Their previous assignment, ","color":"gray","bold":false},{"nbt":"catalog.s$(role).name","storage":"botc_patch:buffet","color":"yellow","bold":true},{"text":", is reserved but does not count.","color":"gray","bold":false}]')
+)
 for ($seat = 1; $seat -le 15; $seat++) {
     $seatLabel = $SeatSuperscripts[$seat]
+    $choosingCondition = ('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} if entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat={0}}},limit=1] unless data storage botc_patch:buffet greedy.seats.s{0}{{submitted:1b}} unless data storage botc_patch:buffet greedy.seats.s{0}{{resubmit_requested:1b}} run' -f $seat)
+    $resubmissionCondition = ('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,resubmit_requested:1b}} if entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat={0}}},limit=1] unless data storage botc_patch:buffet greedy.seats.s{0}{{submitted:1b}} unless data storage botc_patch:buffet greedy.seats.s{0}{{role:0}} run' -f $seat)
+    $assignmentMismatchCondition = ('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,submitted:1b,status:3}} unless data storage botc_patch:buffet greedy.seats.s{0}{{role:0}} if entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat={0}}},limit=1] run' -f $seat)
     $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. unless data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"Seat {1}","color":"yellow","bold":true}},{{"text":" is open. Fill it or remove it from Buffet Review.","color":"gray","bold":false}}]' -f $seat, $seatLabel))
     $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} unless entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat={0}}},limit=1] run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"Seat {1}","color":"yellow","bold":true}},{{"text":" (","color":"gray","bold":false}},{{"nbt":"greedy.seats.s{0}.name","storage":"botc_patch:buffet","color":"white","bold":true}},{{"text":") is offline.","color":"gray","bold":false}}]' -f $seat, $seatLabel))
-    $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b}} unless data storage botc_patch:buffet greedy.seats.s{0}{{submitted:1b}} run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"Seat {1}","color":"yellow","bold":true}},{{"text":" (","color":"gray","bold":false}},{{"nbt":"greedy.seats.s{0}.name","storage":"botc_patch:buffet","color":"white","bold":true}},{{"text":") has not submitted choices.","color":"gray","bold":false}}]' -f $seat, $seatLabel))
-    $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,submitted:1b,role:0}} run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"Seat {1}","color":"yellow","bold":true}},{{"text":" (","color":"gray","bold":false}},{{"nbt":"greedy.seats.s{0}.name","storage":"botc_patch:buffet","color":"white","bold":true}},{{"text":") does not have a character.","color":"gray","bold":false}}]' -f $seat, $seatLabel))
-    $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,submitted:1b}} unless data storage botc_patch:buffet greedy.seats.s{0}{{role:0}} unless data storage botc_patch:buffet greedy.seats.s{0}{{status:2}} run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"Seat {1}","color":"yellow","bold":true}},{{"text":" (","color":"gray","bold":false}},{{"nbt":"greedy.seats.s{0}.name","storage":"botc_patch:buffet","color":"white","bold":true}},{{"text":") has an assignment that needs review.","color":"gray","bold":false}}]' -f $seat, $seatLabel))
-    $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,role:{1}}} run function botc_patch:buffet/greedy/start/report_hermit_{0}' -f $seat, $roleIds.hermit))
+    $invalidReportLines.Add($choosingCondition + (' tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"Seat {0}","color":"yellow","bold":true}},{{"text":" (","color":"gray","bold":false}},{{"nbt":"greedy.seats.s{1}.name","storage":"botc_patch:buffet","color":"white","bold":true}},{{"text":") is still choosing their characters.","color":"gray","bold":false}}]' -f $seatLabel, $seat))
+    $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,resubmit_requested:1b,role:0}} if entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat={0}}},limit=1] unless data storage botc_patch:buffet greedy.seats.s{0}{{submitted:1b}} run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"Seat {1}","color":"yellow","bold":true}},{{"text":" (","color":"gray","bold":false}},{{"nbt":"greedy.seats.s{0}.name","storage":"botc_patch:buffet","color":"white","bold":true}},{{"text":") is resubmitting because the Storyteller requested new choices.","color":"gray","bold":false}}]' -f $seat, $seatLabel))
+    $invalidReportLines.Add("$resubmissionCondition data modify storage botc_patch:buffet action.seat set value $seat")
+    $invalidReportLines.Add("$resubmissionCondition data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet greedy.seats.s$seat.role")
+    $invalidReportLines.Add("$resubmissionCondition function botc_patch:buffet/greedy/start/report_resubmission with storage botc_patch:buffet action")
+    $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,submitted:1b,role:0}} if entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat={0}}},limit=1] run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"Seat {1}","color":"yellow","bold":true}},{{"text":" (","color":"gray","bold":false}},{{"nbt":"greedy.seats.s{0}.name","storage":"botc_patch:buffet","color":"white","bold":true}},{{"text":") does not have a character.","color":"gray","bold":false}}]' -f $seat, $seatLabel))
+    $invalidReportLines.Add("$assignmentMismatchCondition data modify storage botc_patch:buffet action.seat set value $seat")
+    $invalidReportLines.Add("$assignmentMismatchCondition data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet greedy.seats.s$seat.role")
+    $invalidReportLines.Add("$assignmentMismatchCondition function botc_patch:buffet/greedy/start/report_assignment_mismatch with storage botc_patch:buffet action")
+    $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{active:1b,submitted:1b,status:2,role:{1}}} if entity @a[tag=botc_buffet_roster,scores={{botc_buffet_seat={0}}},limit=1] run function botc_patch:buffet/greedy/start/report_hermit_{0}' -f $seat, $roleIds.hermit))
+}
+foreach ($roleName in $disabledRoleReasons.Keys | Sort-Object) {
+    $role = $roleByName[[string] $roleName]
+    $reason = ConvertTo-JsonString ([string] $disabledRoleReasons[[string] $roleName])
+    for ($seat = 1; $seat -le 15; $seat++) {
+        foreach ($field in @("role", "perceived", "hermit_forced_ability")) {
+            $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}{{{1}:{2}}} run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"{3} is unavailable: ","color":"yellow","bold":true}},{{"text":{4},"color":"gray","bold":false}}]' -f $seat, $field, [int] $role.Id, [string] $role.Name, $reason))
+        }
+        $invalidReportLines.Add(('execute if score buffet_roster_count botc_patch matches {0}.. if data storage botc_patch:buffet greedy.seats.s{0}.hermit_abilities{{r{1}:1b}} run tellraw @s [{{"text":"! ","color":"red","bold":true}},{{"text":"{2} is unavailable as a Hermit ability: ","color":"yellow","bold":true}},{{"text":{3},"color":"gray","bold":false}}]' -f $seat, [int] $role.Id, [string] $role.Name, $reason))
+    }
 }
 $invalidReportLines.Add('execute unless score buffet_count_demon botc_patch matches 1.. run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Assign at least one ","color":"gray","bold":false},{"text":"Demon","color":"#ff5555","bold":true},{"text":".","color":"gray","bold":false}]')
 $invalidReportLines.Add('execute if score buffet_has_choirboy botc_patch matches 1 unless score buffet_has_king botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Choirboy","color":"#55aaff","bold":true},{"text":" is in play, so assign ","color":"gray","bold":false},{"text":"King","color":"#55aaff","bold":true},{"text":" too.","color":"gray","bold":false}]')
@@ -2004,19 +2146,6 @@ foreach ($jinx in @($jinxPairs | Where-Object { $_.IsExclusion })) {
 }
 Write-GeneratedFile "greedy/start/report_invalid.mcfunction" $invalidReportLines
 
-$standardCounts = @{
-    5 = @(3, 0, 1, 1)
-    6 = @(3, 1, 1, 1)
-    7 = @(5, 0, 1, 1)
-    8 = @(5, 1, 1, 1)
-    9 = @(5, 2, 1, 1)
-    10 = @(7, 0, 2, 1)
-    11 = @(7, 1, 2, 1)
-    12 = @(7, 2, 2, 1)
-    13 = @(9, 0, 3, 1)
-    14 = @(9, 1, 3, 1)
-    15 = @(9, 2, 3, 1)
-}
 foreach ($count in 5..15) {
     $expected = $standardCounts[$count]
     $validateStartLines.Add(('execute if score buffet_roster_count botc_patch matches {0} unless score buffet_count_town botc_patch matches {1} run scoreboard players set buffet_soft_warning botc_patch 1' -f $count, $expected[0]))

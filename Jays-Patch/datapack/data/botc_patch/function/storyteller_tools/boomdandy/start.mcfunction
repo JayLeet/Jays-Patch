@@ -3,8 +3,11 @@
 # Starts or reopens the Boomdandy final-three selection before Sybillian's countdown.
 tag @s add botc_st_tool_used
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Boomdandy can only be resolved during nominations.",color:"red"}]
-execute unless entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run tellraw @s [{text:"The last executed player is not the Boomdandy.",color:"red"}]
+execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy can only be resolved during nominations.",color:"gray",bold:false}]
+execute if entity @s[tag=botc_boomdandy_execution_pending] run return run function botc_patch:storyteller_tools/boomdandy/show_execution_choice
+execute if entity @a[tag=storyteller,tag=botc_boomdandy_execution_pending,limit=1] run return run tellraw @s [{text:"Another Storyteller is choosing the Boomdandy execution path.",color:"yellow"}]
+execute if score boomdandy_pyre_state botc_patch matches 1..2 run return run tellraw @s [{text:"Boomdandy\u0027s pyre execution is still resolving.",color:"yellow"}]
+execute unless entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"The last executed player is not the Boomdandy.",color:"gray",bold:false}]
 execute if score boomdandy_stage botc_patch matches 1 run return run function botc_patch:storyteller_tools/boomdandy/dialog
 execute if score boomdandy_stage botc_patch matches 2..4 run return run tellraw @s [{text:"Boomdandy is already resolving.",color:"yellow"}]
 execute if score boomdandy_stage botc_patch matches 5 run return run tellraw @s [{text:"Boomdandy has already been resolved this game.",color:"yellow"}]

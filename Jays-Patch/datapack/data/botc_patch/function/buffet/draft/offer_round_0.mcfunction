@@ -2,19 +2,23 @@
 # Do not hand-edit this file; update the generator or Jays-Patch/buffet-rules.json.
 # Generate Draft round 0 with 3 private offer(s).
 scoreboard players set draft_offer_failed botc_patch 0
-scoreboard players set draft_hidden_used_round botc_patch 0
-$data modify storage botc_patch:buffet draft.seats.s$(seat).offers set value {}
+scoreboard players set draft_hand_size botc_patch 3
+function botc_patch:buffet/draft/pick/reset_hand with storage botc_patch:buffet action
+scoreboard players set draft_internal_position botc_patch 1
 data modify storage botc_patch:buffet action.option set value 1
 execute if entity @s[tag=botc_buffet_draft_forced] run function botc_patch:buffet/draft/pick/forced with storage botc_patch:buffet action
 execute unless entity @s[tag=botc_buffet_draft_forced] run function botc_patch:buffet/draft/pick/category with storage botc_patch:buffet action
+scoreboard players set draft_internal_position botc_patch 2
 data modify storage botc_patch:buffet action.option set value 2
-function botc_patch:buffet/draft/pick/category with storage botc_patch:buffet action
+execute if score draft_diversion botc_patch matches 0 run function botc_patch:buffet/draft/pick/category with storage botc_patch:buffet action
+scoreboard players set draft_internal_position botc_patch 3
 data modify storage botc_patch:buffet action.option set value 3
-function botc_patch:buffet/draft/pick/category with storage botc_patch:buffet action
-execute if score draft_offer_failed botc_patch matches 0 if score draft_opening_offer_active botc_patch matches 1 run function botc_patch:buffet/draft/pick/close_opening
+execute if score draft_diversion botc_patch matches 0 run function botc_patch:buffet/draft/pick/category with storage botc_patch:buffet action
 execute if score draft_offer_failed botc_patch matches 1 run function botc_patch:buffet/attention/block_storytellers
 execute if score draft_offer_failed botc_patch matches 1 run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Draft paused because no legal character could be offered. Review the remaining character counts before continuing.","color":"gray","bold":false}]
 execute if score draft_offer_failed botc_patch matches 1 run return 0
+execute if score draft_diversion botc_patch matches 1 run return run function botc_patch:buffet/draft/special/start_hidden with storage botc_patch:buffet action
+function botc_patch:buffet/draft/shuffle/3 with storage botc_patch:buffet action
 $data modify storage botc_patch:buffet draft.seats.s$(seat).round set value 0
 data modify storage botc_patch:buffet action.round set value 0
 function botc_patch:buffet/draft/store_round_history with storage botc_patch:buffet action

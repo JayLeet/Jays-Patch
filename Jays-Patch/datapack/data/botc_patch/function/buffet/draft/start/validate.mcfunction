@@ -2,38 +2,105 @@
 # Do not hand-edit this file; update the generator or Jays-Patch/buffet-rules.json.
 # Hard-validate the complete Draft before Sybillian starts the ordinary game.
 scoreboard players set buffet_hard_valid botc_patch 1
+scoreboard players set buffet_soft_warning botc_patch 0
 execute unless score phase game_data matches 0 run scoreboard players set buffet_hard_valid botc_patch 0
 execute unless score buffet_mode botc_patch matches 2 run scoreboard players set buffet_hard_valid botc_patch 0
 function botc_patch:buffet/draft/start/validate_marionette
 function botc_patch:buffet/draft/start/validate_jinxes
+execute if score draft_lord_of_typhon_active botc_patch matches 1 run function botc_patch:buffet/draft/topology/lord_of_typhon/validate
+execute if score draft_topology_status botc_patch matches 3 run scoreboard players set buffet_soft_warning botc_patch 1
 execute unless score draft_assigned_total botc_patch = buffet_roster_count botc_patch run scoreboard players set buffet_hard_valid botc_patch 0
-execute unless score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0
-execute unless score draft_need_town botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0
-execute unless score draft_need_outsider botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0
-execute unless score draft_need_minion botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0
-execute unless score draft_need_demon botc_patch matches 0 run scoreboard players set buffet_hard_valid botc_patch 0
+execute unless score draft_atheist_active botc_patch matches 1 unless score draft_assigned_demon botc_patch matches 1.. unless score draft_summoner_active botc_patch matches 1 unless score draft_alchemist_summoner_active botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
+execute if score draft_summoner_active botc_patch matches 1 if score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1
+execute if score draft_alchemist_summoner_active botc_patch matches 1 if score draft_assigned_demon botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1
+execute if score draft_lord_of_typhon_active botc_patch matches 1 unless score draft_lord_of_typhon_valid botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
+execute unless score draft_need_town botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1
+execute unless score draft_need_outsider botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1
+execute unless score draft_need_minion botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1
+execute unless score draft_need_demon botc_patch matches 0 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_modifier_pending botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
-execute if score draft_required_king botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0
-execute if score draft_required_damsel botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0
-execute if score draft_required_vi botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0
-execute if score draft_required_legion botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0
-execute if score draft_required_riot botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0
-execute if score draft_bounty_pending botc_patch matches 1.. run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_required_king botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1
+execute if score draft_required_damsel botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1
+execute if score draft_required_vi botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1
+execute if score draft_required_legion botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1
+execute if score draft_bounty_pending botc_patch matches 1.. run scoreboard players set buffet_soft_warning botc_patch 1
 scoreboard players set draft_online_count botc_patch 0
 execute as @a[tag=botc_buffet_roster] run scoreboard players add draft_online_count botc_patch 1
 execute unless score draft_online_count botc_patch = buffet_roster_count botc_patch run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 1.. unless data storage botc_patch:buffet draft.seats.s1{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 1.. if data storage botc_patch:buffet draft.seats.s1{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 1.. if data storage botc_patch:buffet draft.seats.s1{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 1.. if data storage botc_patch:buffet draft.seats.s1{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 1.. if data storage botc_patch:buffet draft.seats.s1.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 2.. unless data storage botc_patch:buffet draft.seats.s2{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 2.. if data storage botc_patch:buffet draft.seats.s2{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 2.. if data storage botc_patch:buffet draft.seats.s2{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 2.. if data storage botc_patch:buffet draft.seats.s2{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 2.. if data storage botc_patch:buffet draft.seats.s2.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 3.. unless data storage botc_patch:buffet draft.seats.s3{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 3.. if data storage botc_patch:buffet draft.seats.s3{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 3.. if data storage botc_patch:buffet draft.seats.s3{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 3.. if data storage botc_patch:buffet draft.seats.s3{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 3.. if data storage botc_patch:buffet draft.seats.s3.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 4.. unless data storage botc_patch:buffet draft.seats.s4{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 4.. if data storage botc_patch:buffet draft.seats.s4{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 4.. if data storage botc_patch:buffet draft.seats.s4{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 4.. if data storage botc_patch:buffet draft.seats.s4{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 4.. if data storage botc_patch:buffet draft.seats.s4.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 5.. unless data storage botc_patch:buffet draft.seats.s5{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 5.. if data storage botc_patch:buffet draft.seats.s5{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 5.. if data storage botc_patch:buffet draft.seats.s5{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 5.. if data storage botc_patch:buffet draft.seats.s5{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 5.. if data storage botc_patch:buffet draft.seats.s5.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 6.. unless data storage botc_patch:buffet draft.seats.s6{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 6.. if data storage botc_patch:buffet draft.seats.s6{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 6.. if data storage botc_patch:buffet draft.seats.s6{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 6.. if data storage botc_patch:buffet draft.seats.s6{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 6.. if data storage botc_patch:buffet draft.seats.s6.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 7.. unless data storage botc_patch:buffet draft.seats.s7{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 7.. if data storage botc_patch:buffet draft.seats.s7{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 7.. if data storage botc_patch:buffet draft.seats.s7{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 7.. if data storage botc_patch:buffet draft.seats.s7{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 7.. if data storage botc_patch:buffet draft.seats.s7.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 8.. unless data storage botc_patch:buffet draft.seats.s8{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 8.. if data storage botc_patch:buffet draft.seats.s8{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 8.. if data storage botc_patch:buffet draft.seats.s8{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 8.. if data storage botc_patch:buffet draft.seats.s8{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 8.. if data storage botc_patch:buffet draft.seats.s8.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 9.. unless data storage botc_patch:buffet draft.seats.s9{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 9.. if data storage botc_patch:buffet draft.seats.s9{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 9.. if data storage botc_patch:buffet draft.seats.s9{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 9.. if data storage botc_patch:buffet draft.seats.s9{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 9.. if data storage botc_patch:buffet draft.seats.s9.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 10.. unless data storage botc_patch:buffet draft.seats.s10{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 10.. if data storage botc_patch:buffet draft.seats.s10{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 10.. if data storage botc_patch:buffet draft.seats.s10{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 10.. if data storage botc_patch:buffet draft.seats.s10{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 10.. if data storage botc_patch:buffet draft.seats.s10.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 11.. unless data storage botc_patch:buffet draft.seats.s11{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 11.. if data storage botc_patch:buffet draft.seats.s11{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 11.. if data storage botc_patch:buffet draft.seats.s11{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 11.. if data storage botc_patch:buffet draft.seats.s11{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 11.. if data storage botc_patch:buffet draft.seats.s11.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 12.. unless data storage botc_patch:buffet draft.seats.s12{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 12.. if data storage botc_patch:buffet draft.seats.s12{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 12.. if data storage botc_patch:buffet draft.seats.s12{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 12.. if data storage botc_patch:buffet draft.seats.s12{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 12.. if data storage botc_patch:buffet draft.seats.s12.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 13.. unless data storage botc_patch:buffet draft.seats.s13{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 13.. if data storage botc_patch:buffet draft.seats.s13{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 13.. if data storage botc_patch:buffet draft.seats.s13{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 13.. if data storage botc_patch:buffet draft.seats.s13{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 13.. if data storage botc_patch:buffet draft.seats.s13.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 14.. unless data storage botc_patch:buffet draft.seats.s14{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 14.. if data storage botc_patch:buffet draft.seats.s14{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 14.. if data storage botc_patch:buffet draft.seats.s14{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 14.. if data storage botc_patch:buffet draft.seats.s14{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 14.. if data storage botc_patch:buffet draft.seats.s14.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
 execute if score buffet_roster_count botc_patch matches 15.. unless data storage botc_patch:buffet draft.seats.s15{active:1b,status:2} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 15.. if data storage botc_patch:buffet draft.seats.s15{actual:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 15.. if data storage botc_patch:buffet draft.seats.s15{perceived:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 15.. if data storage botc_patch:buffet draft.seats.s15{hermit_forced_ability:113} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score buffet_roster_count botc_patch matches 15.. if data storage botc_patch:buffet draft.seats.s15.hermit_abilities{r113:1b} run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_manual_override botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
+execute if score buffet_soft_warning botc_patch matches 1 unless score draft_manual_override botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0

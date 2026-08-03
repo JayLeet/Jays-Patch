@@ -120,15 +120,18 @@ Assert-Contains $boomdandyEliminate '(?m)^function ct:kill/die\s*$' "Boomdandy d
 Assert-Contains $boomdandyAnnouncementFinish '(?m)^function ct:loop/boomdandy/start\s*$' "Boomdandy starts Sybillian's countdown only after the warning"
 Assert-Contains $boomdandyResolveVote 'boomdandy_votes_1 botc_patch matches 2\.\.' "Boomdandy resolution requires a strict finalist majority"
 
-# Character changes are legal only during an active game and before the reveal
-# snapshot is locked. Reveal start must set that lock; setup cleanup must clear it.
+# Ordinary character changes are legal only during an active game and before the
+# reveal snapshot is locked. A trusted full-catalog Demon action may bypass that
+# lock only for its acting Storyteller and only during a night. Setup cleanup
+# must clear the lock.
 foreach ($entry in @(
     @{ Text = $grimSetCharacter; Name = "character change" },
     @{ Text = $grimSetAlignment; Name = "alignment change" }
 )) {
     Assert-Contains $entry.Text 'unless entity @s\[tag=storyteller\] run return 0' "$($entry.Name) is Storyteller-guarded"
     Assert-Contains $entry.Text 'unless score phase game_data matches 1\.\. run return' "$($entry.Name) is active-game-only"
-    Assert-Contains $entry.Text 'if score grim_editor_reveal_started botc_patch matches 1 run return' "$($entry.Name) is blocked after reveal starts"
+    Assert-Contains $entry.Text 'if score grim_editor_reveal_started botc_patch matches 1 unless score @s botc_grim_edit_mode matches 1\.\.2 run return' "$($entry.Name) is blocked after reveal starts except for the acting Storyteller's trusted Demon workflow"
+    Assert-Contains $entry.Text 'if score @s botc_grim_edit_mode matches 1\.\.2 unless score phase game_data matches 4 run return' "$($entry.Name) revalidates night timing for trusted Demon actions"
 }
 Assert-Contains $grimStart 'scoreboard players set grim_editor_reveal_started botc_patch 1' "Reveal Grimoire locks editor state"
 Assert-Contains $grimClear 'scoreboard players set grim_editor_reveal_started botc_patch 0' "setup cleanup unlocks editor state"

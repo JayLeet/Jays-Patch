@@ -62,5 +62,4 @@ $scoreboard players set draft_chosen_$(perceived) botc_patch 0
 $scoreboard players set draft_available_$(perceived) botc_patch 1
 $execute if data storage botc_patch:buffet draft.seats.s$(seat){modifier_owner:1b} if score draft_unassign_role botc_patch matches 53 run scoreboard players set draft_atheist_active botc_patch 0
 $execute if data storage botc_patch:buffet draft.seats.s$(seat){modifier_owner:1b} if score draft_unassign_role botc_patch matches 130 run scoreboard players set draft_legion_active botc_patch 0
-$execute if data storage botc_patch:buffet draft.seats.s$(seat){modifier_owner:1b} if score draft_unassign_role botc_patch matches 136 run scoreboard players set draft_riot_active botc_patch 0
 $execute if data storage botc_patch:buffet draft.seats.s$(seat){modifier_owner:1b} if score draft_unassign_role botc_patch matches 134 run function botc_patch:buffet/draft/clear_forced_categories

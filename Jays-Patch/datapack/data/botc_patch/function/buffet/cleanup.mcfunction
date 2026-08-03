@@ -12,6 +12,7 @@ scoreboard players set buffet_draft_ready botc_patch 0
 scoreboard players set draft_ready botc_patch 0
 scoreboard players set draft_manual_override botc_patch 0
 scoreboard players set draft_current_seat botc_patch 0
+function botc_patch:buffet/draft/clear_state
 execute as @a[tag=botc_buffet_roster,tag=!storyteller] run function botc_patch:buffet/personal_grimoire/reset_player
 data remove storage botc_patch:buffet roster
 data remove storage botc_patch:buffet greedy
@@ -27,6 +28,10 @@ tag @a remove botc_buffet_had_choice
 tag @a remove botc_buffet_draft_waiting
 tag @a remove botc_buffet_draft_current
 tag @a remove botc_buffet_draft_forced
+tag @a remove botc_buffet_draft_forced_legion
+tag @a remove botc_buffet_draft_fake_atheist
+tag @a remove botc_buffet_draft_route_atheist
+tag @a remove botc_buffet_draft_route_special
 tag @a remove botc_buffet_claimed
 tag @a remove botc_buffet_emptied
 scoreboard players reset @a botc_buffet_action
