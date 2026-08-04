@@ -39,12 +39,12 @@ teleport around the game. **Storyteller Tools** keeps the most useful controls
 together in one item.
 
 Storyteller's Passage lets the Storyteller move and teleport as a spectator,
-then returns them safely when they enter or leave a private voice area.
+then returns them safely when they enter or re-enter a private voice area.
 
 Use item mode, dialog mode or Sybillian's original setup bag. Pick the option
 that feels best for you.
 
-### 📖 Reveal how the game ended
+### 📖 Grimoire Reveal
 
 Reveal every player's character and alignment one seat at a time, with sounds,
 particles and a spotlight moving around the circle. The Storyteller can correct
@@ -60,7 +60,7 @@ Night Chat backports Sybillian's 1.6.0 beta feature for servers using modpack
 1.5.4. During the night, seated players inside a house receive a microphone in
 their second hotbar slot. Hold it to speak with anyone else holding one.
 
-### 👻 More character moments
+### 👻 Character changes and the addition of Wraith
 
 - **Wraith** players can keep their eyes closed, peek from home or sneak out
   with the Storyteller at night.
@@ -78,10 +78,9 @@ their second hotbar slot. Hold it to speak with anyone else holding one.
 
 - Choose personal night music from the Minecraft music catalog, including
   random playback and lower-pitched versions. It stays off by default.
-- Raise or lower your hand, join the Storyteller queue and start a votekick
-  without leaving the game.
-- Fire colourful Paint Guns, starpass the Imp in Hot Potato, drink Silly Juice,
-  roll a d20 or claim the Town Square with a King or Vizier entrance.
+- Raise or lower your hand, join the Storyteller queue and start a votekick.
+- Fire colourful Paint Guns, starpass the Imp in Hot Potato, drink Silly Juice, or
+  roll a d20.
 - Use `/botc help` whenever you need the full command list.
 
 ### 🏡 A world built for the patch
