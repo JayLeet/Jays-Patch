@@ -16,10 +16,10 @@
 - [x] Every visible letter in `Rainbow Paint Gun` follows the full seven-colour rainbow cycle.
 - [x] Hot Potato stays silent for its first 20 seconds, then plays exactly one heartbeat per second from 10 seconds remaining through 1 second, rising from pitch 0.60 to 1.95 in 0.15 steps.
 - [x] Hot Potato passes keep roughly the first three blocks as a single-flame handle before widening into a three-pronged head, and announce the sender and receiver as `<sender> starpassed to <receiver>!`.
-- [x] The Vizier entrance uses the King's opening burst sounds and five-note palette, descending to a clearly low bell at pitch 0.50.
+- [x] The Vizier entrance uses the King's opening burst sounds and same level-up finale, with that final cue lowered from the King's pitch 0.70 to 0.50.
 - [ ] The corrected Beta 4 public package passes its publication gate and replaces the existing GitHub asset and tag target without creating Beta 5.
 - [x] Jay's writing guide tells release writers to lead with the fun or useful player result and omit technical details that do not affect play.
-- [ ] All six public GitHub release descriptions explain their player-facing value in that style while keeping version-specific facts accurate.
+- [x] All six public GitHub release descriptions explain their player-facing value in that style while keeping version-specific facts accurate.
 - [x] A Modrinth-ready delta contains only the three corrected runtime functions under their `world/datapacks/jays_patch` paths plus short apply instructions.
 
 ## Scope and boundaries
@@ -42,7 +42,7 @@
 ## Inference
 
 - `A pitch sequence from 0.60 to 1.95 in 0.15 steps gives the final ten seconds a distinct ascending heartbeat while remaining inside Minecraft's normal 0.5-2.0 audible pitch range.`
-- `Using the same bell sound for the first and final timed Vizier notes makes their 1.50-to-0.50 drop directly comparable instead of relying on the naturally bright level-up sound.`
+- `Keeping the King's level-up finale at Minecraft's minimum pitch 0.50 preserves the matching jingle while making the final cue as low as that sound can play.`
 
 ## Unknowns
 
@@ -51,7 +51,7 @@
 ## Recommendations
 
 - `Use seven Minecraft text colours in a continuous letter-by-letter cycle and a dedicated Hot Potato heartbeat function so the timing table stays easy to audit.`
-- `Copy the King's two opening playsounds into the Vizier burst, use a pitch-0.50 bell for the final timed note, and delay the pitchfork's side tines until the last two blocks.`
+- `Copy the King's two opening playsounds into the Vizier burst, keep its level-up finale at pitch 0.50, and delay the pitchfork's side tines until the last two blocks.`
 
 ## Project-owner decisions
 
@@ -68,10 +68,11 @@
 | `Make release notes focus on what players care about instead of how features work.` | `Jay explicitly wants the fun or useful result to lead, using Paint Guns as the example.` | `2026-08-04` |
 | `Apply the player-value rule to every existing GitHub release description.` | `Requested by Jay.` | `2026-08-04` |
 | `Create a small Modrinth delta for the current code correction.` | `Jay wants to apply the three runtime files quickly without uploading the full package.` | `2026-08-04` |
+| `Keep the Vizier's King-style level-up finale and only lower its pitch.` | `Jay clarified that changing the final sound itself was not intended.` | `2026-08-04` |
 
 ## Accepted `/plan`
 
-1. [x] Replace the remaining old Vizier opening sounds, make the final note clearly lowest, lengthen the pitchfork handle and update focused checks.
+1. [x] Replace the remaining old Vizier opening sounds, keep the King-style finale at pitch 0.50, lengthen the pitchfork handle and update focused checks.
 2. [x] Rewrite the canonical writing rule, Beta 4 notes and all six GitHub release descriptions around player value.
 3. [x] Refresh the source baseline, then rebuild and inspect Beta 4 through the reviewed publication gate.
 4. [ ] Commit and push the correction, replace the existing Beta 4 asset and tag target, update every release description, verify the public result, and record release evidence.
@@ -92,6 +93,7 @@
 - `The canonical writing guide and Beta 4 source notes now lead with the experience players care about. All six existing GitHub descriptions and tagged feature boundaries have been inspected for the external rewrite.`
 - `Player-first replacement descriptions are prepared for v1.5.4, v1.6.0, v1.6.1, v1.7.0, v1.8.0 and v1.9.0-beta.4.`
 - `Jays-Patch/dist/modrinth-delta-beta4-jingle-pitchfork contains the Vizier burst, Vizier timed jingle and Hot Potato raycast at their server-relative paths, plus HOW TO APPLY.txt.`
+- `Jay clarified that the Vizier finale must keep the King's entity.player.levelup sound. The source, focused guard and Modrinth delta now use that sound at pitch 0.50 and explicitly reject the temporary bell substitution.`
 
 ## Active Luna assignments
 
@@ -112,11 +114,13 @@
 | `Public Beta 4 replacement verification` | `pass` | `The existing v1.9.0-beta.4 release and tag target cfe2cc7798cd4881b2ed11ea3e21d4f3cc264f45. It has exactly one asset, Jay.s.Patch.v1.9.0-beta.4.zip, at 73,284,401 bytes with GitHub digest sha256:94867f2ee2fe32c11ddda809b28442216815abd0ada7ab12122c0375791afe82.` |
 | `Independent public download verification` | `pass` | `A fresh download from the GitHub release matched 73,284,401 bytes and SHA-256 94867f2ee2fe32c11ddda809b28442216815abd0ada7ab12122c0375791afe82.` |
 | `Post-release in-game review` | `fail` | `Jay heard the old Vizier opening, found the level-up finale too bright, and found the Hot Potato pitchfork handle too short.` |
-| `Focused correction check` | `pass` | `tools/tests/test-fun-toybox.ps1 and git diff --check passed with the corrected opening burst, pitch-0.50 bell finale and delayed pitchfork tines.` |
+| `Focused correction check` | `pass` | `tools/tests/test-fun-toybox.ps1 and git diff --check passed with the corrected opening burst, King-style entity.player.levelup finale at pitch 0.50, an explicit no-bell guard and delayed pitchfork tines.` |
 | `Player-first release-note review` | `pass` | `All six proposed descriptions were checked for their tagged feature boundaries and for removal of implementation-focused language such as light sampling, display storage, cleanup state, validation and hashes.` |
 | `Modrinth delta parity` | `pass` | `The three copied runtime functions match their source SHA-256 hashes exactly; the folder contains only those functions and HOW TO APPLY.txt.` |
 | `Corrected public-package gate` | `pass` | `The full publication gate passed against the refreshed 3,108-file source baseline and built Jay's Patch v1.9.0-beta.4.zip.` |
-| `Corrected archive inspection` | `pass` | `73,284,390 bytes; SHA-256 7cc3dc5e359ba157d808c7a8423994d5f11e8a4c4f7d6cf3c5c3ba8e2444c590; 2,644 entries; the ZIP contains the King's opening sounds, the bell finale at pitch 0.50 and delayed pitchfork bands 7..8, 5..6 and 1..4.` |
+| `Corrected archive inspection` | `superseded` | `The 73,284,390-byte archive with SHA-256 7cc3dc5e359ba157d808c7a8423994d5f11e8a4c4f7d6cf3c5c3ba8e2444c590 used a bell finale. Jay clarified that the King-style level-up sound must remain, so this asset will be replaced again.` |
+| `Final corrected public-package gate` | `pass` | `The full source and publication gates passed against the refreshed 3,108-file baseline and rebuilt Jay's Patch v1.9.0-beta.4.zip.` |
+| `Final corrected archive inspection` | `pass` | `The 73,284,403-byte archive has SHA-256 5d72eec60ca4be0c80132e5a05f1973443f594fc576e244bfc855b8d1b5de210 and 2,644 entries. Direct inspection proved the King opening sounds, entity.player.levelup finale at pitch 0.50, absence of the substituted bell and old Vizier opening, and the lengthened pitchfork handle bands.` |
 
 ## Current blocker
 
@@ -124,7 +128,7 @@
 
 ## Exact next step
 
-`Review and commit only the intended correction, test, release-note, journal and source-baseline files before updating GitHub.`
+`Commit and push the final correction, then replace and independently verify the temporary bell-finale Beta 4 asset in place.`
 
 ## Final outcome
 

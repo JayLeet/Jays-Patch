@@ -575,12 +575,12 @@ foreach ($vizierPitch in @(
     @{ Timer = 55; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.1'; Pitch = '1\.25' },
     @{ Timer = 40; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.1'; Pitch = '1\.10' },
     @{ Timer = 25; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.2'; Pitch = '0\.90' },
-    @{ Timer = 10; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.3'; Pitch = '0\.50' }
+    @{ Timer = 10; Sound = 'minecraft:entity\.player\.levelup'; Volume = '1\.3'; Pitch = '0\.50' }
 )) {
     Assert-Contains $vizierTickText "matches $($vizierPitch.Timer) run playsound $($vizierPitch.Sound) master @a\[distance=\.\.64\] ~ ~ ~ $($vizierPitch.Volume) $($vizierPitch.Pitch)" "descending Vizier King-jingle note at timer $($vizierPitch.Timer)"
 }
 Assert-DoesNotContain $vizierTickText 'minecraft:(?:block\.note_block\.didgeridoo|entity\.warden\.(?:heartbeat|sonic_boom)|block\.respawn_anchor\.charge)' "old Vizier jingle sound set"
-Assert-DoesNotContain $vizierTickText 'minecraft:entity\.player\.levelup' "bright Vizier level-up finale"
+Assert-DoesNotContain $vizierTickText 'matches 10 run playsound minecraft:block\.note_block\.bell' "substituted Vizier finale sound"
 if ($kingUseText.IndexOf("unless block ~ -64 ~ minecraft:warped_planks", [System.StringComparison]::Ordinal) -gt $kingUseText.IndexOf("clear @s", [System.StringComparison]::Ordinal)) {
     throw "The King Town Square guard must run before consuming the item."
 }
