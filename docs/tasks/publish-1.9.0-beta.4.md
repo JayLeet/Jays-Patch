@@ -1,7 +1,7 @@
 # Publish Jay's Patch v1.9.0 Beta 4
 
-- Status: `implementing`
-- Updated: `2026-08-04 18:33 CEST`
+- Status: `complete`
+- Updated: `2026-08-04 18:12 CEST`
 - Owner: Sol
 - Workflow decision: `use Sol/Luna workflow`
 - Workflow reason: `This task publishes a versioned public package, Git commit, tag, and GitHub release. A small release and rollback record is worth the documentation cost.`
@@ -13,9 +13,9 @@
 
 ## Done when
 
-- [ ] The intended release source and Beta 4 metadata are committed and pushed without the unrelated diagnostic scripts.
-- [ ] The reviewed package builder and complete non-live publication gate pass.
-- [ ] The Beta 4 prerelease and its package are publicly available and independently verified.
+- [x] The intended release source and Beta 4 metadata are committed and pushed without the unrelated diagnostic scripts.
+- [x] The reviewed package builder and complete non-live publication gate pass.
+- [x] The Beta 4 prerelease and its package are publicly available and independently verified.
 
 ## Scope and boundaries
 
@@ -57,7 +57,7 @@
 
 1. [x] Audit the complete release diff, update Beta 4 version-owned metadata, and preserve unrelated diagnostics.
 2. [x] Run the reviewed public-package builder once, inspect the archive, and record the complete publication gate.
-3. [ ] Stage only intended release files, commit, push, publish and independently verify Beta 4, then remove only Beta 3.
+3. [x] Stage only intended release files, commit, push, publish and independently verify Beta 4, then remove only Beta 3.
 
 ## Delivery tracking
 
@@ -79,6 +79,10 @@
 - `The cumulative GitHub description is recorded in docs/tasks/publish-1.9.0-beta.4-release-notes.md.`
 - `The staging audit found that the new Greedy language generator inherited Windows CRLF from ConvertTo-Json. The generator now normalizes that output to LF, its focused generation/check and Buffet suite pass, and the final baseline/package gates pass after the source change.`
 - `The final staging audit contains 155 intended files, no whitespace errors, and neither unrelated diagnostic script.`
+- `Release commit 04951bd0 is pushed to origin/codex/jays-patch-1.9-beta-recovery.`
+- `GitHub prerelease v1.9.0-beta.4 points to the exact release commit and uses the complete cumulative description.`
+- `The public asset was downloaded independently and matches the local package's 73,283,934-byte size and SHA-256 6ea6f340aafd098f24f95761376fd976e566b7b288377ae58a52c0e8910b638f.`
+- `Beta 3 was removed only after Beta 4 verification. Stable releases v1.8.0 through v1.5.4 remain published.`
 
 ## Active Luna assignments
 
@@ -102,7 +106,11 @@
 | `Greedy language LF normalization` | `pass` | `Generated file contains zero CRLF sequences; generator -Check and focused Buffet tests pass.` |
 | `Final post-normalization baseline and package gates` | `pass` | `Baseline matches 3,107 owned files; complete source gate, world manifest, hosted-pack and package parity checks pass.` |
 | `Final staged-scope audit` | `pass` | `155 intended files; zero excluded diagnostic scripts; git diff --cached --check passes.` |
-| `Public asset verification` | `not run` | `Pending publication.` |
+| `Release commit and branch push` | `pass` | `04951bd0 is the remote recovery-branch head.` |
+| `GitHub Beta 4 metadata` | `pass` | `Public prerelease title, cumulative body, tag, exact target commit and single package asset match the release plan.` |
+| `Public asset verification` | `pass` | `Independent download matches 73,283,934 bytes and SHA-256 6ea6f340aafd098f24f95761376fd976e566b7b288377ae58a52c0e8910b638f.` |
+| `Beta 3 cleanup` | `pass` | `The v1.9.0-beta.3 release and remote tag are absent; all stable releases remain.` |
+| `Draft pull request` | `unavailable` | `The recovery branch and main have unrelated history; the established versioned GitHub release path was used without rewriting history.` |
 
 ## Current blocker
 
@@ -110,8 +118,8 @@
 
 ## Exact next step
 
-`Commit the intended Beta 4 source and push the recovery branch.`
+`None. Beta 4 is published and verified, and Beta 3 is removed.`
 
 ## Final outcome
 
-`Pending.`
+`Jay's Patch v1.9.0 Beta 4 is publicly available with the complete cumulative beta description and verified package. Beta 3 was removed after verification, stable releases were preserved, unrelated diagnostics remain untracked, and the live server was not mutated.`
