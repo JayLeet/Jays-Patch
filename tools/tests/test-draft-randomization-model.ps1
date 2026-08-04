@@ -6,6 +6,7 @@ $PatchRoot = Join-Path $RepoRoot "Jays-Patch"
 $DraftRoot = Join-Path $PatchRoot "datapack/data/botc_patch/function/buffet/draft"
 $GrimRoot = Join-Path $PatchRoot "datapack/data/botc_patch/function/grim/editor"
 $RulesPath = Join-Path $PatchRoot "buffet-rules.json"
+$DraftGeneratorPath = Join-Path $RepoRoot "tools/generate-draft-buffet.ps1"
 
 function Assert-True {
     param([bool] $Condition, [string] $Description)
@@ -56,6 +57,7 @@ function Test-AlchemistSummonerLegal {
 }
 
 $rules = Get-Content -LiteralPath $RulesPath -Raw -Encoding UTF8 | ConvertFrom-Json
+$draftGeneratorText = Get-Content -LiteralPath $DraftGeneratorPath -Raw -Encoding UTF8
 Assert-Equal ([int] $rules.schemaVersion) 2 "rules schema is version 2"
 Assert-Equal ([bool] $rules.draft.generalRecycling) $false "general recycling is disabled"
 Assert-Equal ([string] $rules.draft.requiredTypeCompletionRecycling) "exact-shortfall-only" "every still-required type uses exact-shortfall recycling"
@@ -65,6 +67,7 @@ Assert-Equal ([string] $rules.draft.topologyRules.legion.baseOutsiderTarget) "to
 Assert-Equal ([string] $rules.draft.topologyRules.legion.protectedOutsiderSource) "positive-storyteller-modifier-only" "only positive Storyteller modifiers protect Legion Outsiders"
 Assert-Equal ([string] $rules.draft.topologyRules.trustedDemonEditor.availability) "every-night" "trusted Demon editor availability"
 Assert-Equal ([bool] $rules.draft.topologyRules.trustedDemonEditor.automaticThirdNightPrompt) $false "trusted Demon editor has no automatic third-night prompt"
+Assert-NotContains $draftGeneratorText 'Legacy schema-1 picker|Weight category selection by the number of still-required slots' "retired weighted schema-1 picker is absent from the generator"
 
 # Every nonempty subset of the four character types maps each random ordinal to
 # exactly one type. This proves 1/4, 1/3, 1/2 and forced selection as types close.
@@ -364,6 +367,8 @@ Assert-NotContains $editorApply 'botc_buffet_role|botc_buffet_perceived|history 
 Assert-Contains $editorApply 'draft/review/editor/normalize' "pre-start override records Storyteller authority through normalized Draft state"
 Assert-Contains $editorApply 'check_duplicate[\s\S]*report_conflict[\s\S]*remove_old_delta' "duplicate confirmation occurs before any override mutation"
 Assert-Contains $editorDuplicatePrompt 'Character Already Used[\s\S]*Use Anyway' "duplicate overrides remain available through explicit Storyteller confirmation"
+Assert-Contains $editorDuplicatePrompt 'columns:1,actions:\[\{label:\{text:"Use Anyway"' "duplicate override keeps only its exceptional action in the main grid"
+Assert-Contains $editorDuplicatePrompt 'exit_action:\{label:"Go Back"' "duplicate override uses the dedicated Back navigation slot"
 Assert-Contains $editorConfirmDuplicate 'duplicate_confirmed set value 1b[\s\S]*review/editor/apply' "Storyteller confirmation authorizes the staged duplicate"
 Assert-NotContains ($editorDuplicatePrompt + $editorConfirmDuplicate) 'draft_recycling|Turn Recycling on' "duplicate authority stays independent from retired recycling"
 Assert-NotContains $editorApply 'topology/.*/editor_block' "Storyteller overrides are not rejected by automatic topology constraints"
@@ -387,5 +392,6 @@ Assert-NotContains $summonerCheck 'current_day|dialog show|change_characters' "S
 Assert-Contains $summonerApply 'unless score phase game_data matches 4 run return' "trusted Demon assignment revalidates night timing at commit"
 Assert-Contains $summonerApply 'scoreboard players set @s botc_grim_edit_mode 0' "trusted Demon assignment clears only the acting Storyteller's mode"
 Assert-Contains $summonerApply 'botc_grim_edit_role| role |tag @s add demon|tag @s add minion' "Summoner resolution applies trusted live role state"
+Assert-Contains $summonerApply '\{"text":"\\u2714 ","color":"green","bold":true\}' "trusted Demon assignment uses the shared heavy-check completion format"
 
 Write-Host "Draft randomization deterministic model checks passed." -ForegroundColor Green

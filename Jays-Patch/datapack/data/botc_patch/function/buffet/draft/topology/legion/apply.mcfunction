@@ -13,7 +13,7 @@ scoreboard players set draft_legion_floor_possible botc_patch 1
 execute if score draft_legion_unfilled_floor botc_patch > draft_legion_waiting botc_patch run scoreboard players set draft_legion_floor_possible botc_patch 0
 execute unless score draft_legion_floor_possible botc_patch matches 1 run function botc_patch:buffet/draft/topology/rollback
 execute unless score draft_legion_floor_possible botc_patch matches 1 run function botc_patch:buffet/draft/topology/block
-execute unless score draft_legion_floor_possible botc_patch matches 1 run return run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Legion cannot keep every Outsider the Storyteller added because too few unfinished seats remain. Previous changes were restored. Correct the final characters before starting.","color":"gray","bold":false}]
+execute unless score draft_legion_floor_possible botc_patch matches 1 run return run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Legion cannot keep every Outsider the Storyteller added with the remaining seats. Changes were restored; adjust the final characters before starting.","color":"gray","bold":false}]
 scoreboard players operation draft_legion_waiting_available botc_patch = draft_legion_waiting botc_patch
 scoreboard players operation draft_legion_waiting_available botc_patch -= draft_legion_unfilled_floor botc_patch
 scoreboard players operation draft_legion_conversion_need botc_patch = draft_required_legion botc_patch

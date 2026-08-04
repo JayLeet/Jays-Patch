@@ -175,7 +175,8 @@ $revealDialogPrepareRoleText = Get-Content -LiteralPath (Join-Path $FunctionRoot
 $revealDialogAppendText = Get-Content -LiteralPath (Join-Path $FunctionRoot "grim/dialog/append.mcfunction") -Raw
 Assert-Contains $confirmDefaultText 'Change Characters' "pre-reveal editor action"
 Assert-Contains $confirmDefaultText '/botc grimoire change_characters' "pre-reveal editor command"
-Assert-Contains $confirmDefaultText 'text:" Back",font:"minecraft:default",color:"gray"' "pre-reveal Back navigation label"
+Assert-Contains $confirmDefaultText 'exit_action:\{label:\{text:"[^\"]+",font:"botc_patch:ui_icons"[^\r\n]*text:" Back",font:"minecraft:default",color:"gray"[^\r\n]*/botc grimoire cancel' "pre-reveal Back navigation uses the dedicated exit slot"
+Assert-NotContains ($confirmDefaultText.Substring(0, $confirmDefaultText.IndexOf(',exit_action:'))) 'text:" Back"' "pre-reveal Back navigation is absent from the main action grid"
 Assert-NotContains $confirmDefaultText 'text:" Cancel",font:"minecraft:default",color:"gray"' "stale pre-reveal Cancel navigation label"
 Assert-Contains $confirmText 'scores=\{id=1\.\.15,role=108\}.*grim_confirm_options botc_patch 1' "Fearmonger contextual option bit"
 Assert-Contains $confirmFearmongerText 'text:" Fearmonger"' "Fearmonger action when its option bit is present"

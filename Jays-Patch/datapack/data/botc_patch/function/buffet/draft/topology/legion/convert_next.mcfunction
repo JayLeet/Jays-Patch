@@ -37,7 +37,7 @@ execute if score draft_legion_convert_category botc_patch matches 1 unless score
 execute if score draft_legion_convert_category botc_patch matches 1 unless score draft_topology_owner botc_patch matches 15 if data storage botc_patch:buffet draft.seats.s15{status:2,category:1} run scoreboard players add draft_legion_convert_pool botc_patch 1
 execute if score draft_legion_convert_pool botc_patch matches 0 run function botc_patch:buffet/draft/topology/rollback
 execute if score draft_legion_convert_pool botc_patch matches 0 run function botc_patch:buffet/draft/topology/block
-execute if score draft_legion_convert_pool botc_patch matches 0 run return run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Legion's chosen majority could not be completed. Previous changes were restored. Correct the final characters before starting.","color":"gray","bold":false}]
+execute if score draft_legion_convert_pool botc_patch matches 0 run return run tellraw @a[tag=storyteller] [{"text":"! ","color":"red","bold":true},{"text":"Legion's chosen majority could not be completed. Changes were restored; adjust the final characters before starting.","color":"gray","bold":false}]
 execute store result score draft_legion_convert_pick botc_patch run random value 0..2147483646
 scoreboard players operation draft_legion_convert_pick botc_patch %= draft_legion_convert_pool botc_patch
 scoreboard players add draft_legion_convert_pick botc_patch 1

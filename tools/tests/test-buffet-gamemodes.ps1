@@ -137,9 +137,6 @@ if ($rules.draft.generalRecycling -ne $false -or $rules.draft.requiredTypeComple
 if ([int] $rules.schemaVersion -ne 2 -or @($rules.draft.randomization.archetypeTickets) -join "," -ne "4,2,1") {
     throw "Draft must use the accepted schema-2 randomization contract."
 }
-if (@($rules.draft.setupDefiningRoles).Count -lt 1) {
-    throw "Draft must define its one-time setup-defining opening roles."
-}
 if (@($rules.draft.mutuallyExclusiveBranches).Count -lt 1) {
     throw "Draft must define its private pre-offer conflict branches."
 }
@@ -1058,8 +1055,8 @@ Assert-Contains $greedyInvalidReport 'Organ Grinder is unavailable:.*Unsupported
 Assert-Contains $greedyInvalidReport 'Organ Grinder is unavailable as a Hermit ability:.*Unsupported by Sybillian 1\.5\.4\.' "the blocked-start report explains stale Hermit Organ Grinder state"
 Assert-Contains $greedyInvalidReport 'function botc_patch:buffet/attention/block_self' "a blocked Greedy start closes review and plays the shared blocker alert once"
 Assert-NotContains $greedyInvalidReport 'dialog show|review/open' "hard-start diagnostics stay in chat and cannot reopen a menu"
-Assert-Contains $greedyStartExecute 'unless score phase game_data matches 4 if score start_player_count botc_patch matches 5\.\.15 run tellraw @s .*Sybillian did not enter the first night' "an unexplained Sybillian handoff failure is reported after a valid player count"
-Assert-Contains $greedyStartExecute 'Sybillian did not enter the first night.*roster was unlocked' "the final handoff failure tells the Storyteller that retrying is safe"
+Assert-Contains $greedyStartExecute 'unless score phase game_data matches 4 if score start_player_count botc_patch matches 5\.\.15 run tellraw @s .*Sybillian did not start the first night' "an unexplained Sybillian handoff failure is reported after a valid player count"
+Assert-Contains $greedyStartExecute 'Sybillian did not start the first night.*player list was unlocked' "the final handoff failure tells the Storyteller that retrying is safe"
 Assert-Contains $buffetYouAre 'title @a\[tag=storyteller\] title "You are\.\.\."' "the Buffet reveal opens with the ordinary Storyteller title card"
 Assert-Contains $buffetAnnouncePerceived 'title @s title \{"text":"The Storyteller","color":"yellow"\}' "the Buffet reveal identifies the Storyteller after the suspense delay"
 Assert-Contains $buffetAnnouncePerceived 'tag=storyteller.*fmvariable set role false none' "the Buffet reveal preserves the Storyteller's neutral role variable"

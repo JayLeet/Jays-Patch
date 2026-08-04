@@ -509,7 +509,7 @@ $summonerApplyLiveLines.Add('scoreboard players set draft_summoner_resolution_pe
 $summonerApplyLiveLines.Add('scoreboard players set @s botc_grim_edit_mode 0')
 $summonerApplyLiveLines.Add('scoreboard players set @s botc_grim_edit_valid 1')
 $summonerApplyLiveLines.Add('dialog clear @s')
-$summonerApplyLiveLines.Add('$tellraw @s [{"text":"Demon assigned: ","color":"green","bold":true},{"text":"$(name)","color":"$(color)","bold":true},{"text":" is now in play and the selected player is evil.","color":"gray","bold":false}]')
+$summonerApplyLiveLines.Add('$tellraw @s [{"text":"\u2714 ","color":"green","bold":true},{"text":"Demon assigned: ","color":"gray","bold":false},{"text":"$(name)","color":"$(color)","bold":true},{"text":" is now in play and the selected player is evil.","color":"gray","bold":false}]')
 Write-Lines -Path (Join-Path $OutputRoot "summoner/apply_live.mcfunction") -Lines $summonerApplyLiveLines
 
 if ($Check) {

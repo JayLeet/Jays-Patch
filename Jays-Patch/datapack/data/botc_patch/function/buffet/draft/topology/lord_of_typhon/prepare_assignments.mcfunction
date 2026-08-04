@@ -5,4 +5,4 @@ execute unless score draft_lord_of_typhon_active botc_patch matches 1 run return
 execute store result score draft_target_town botc_patch run data get storage botc_patch:buffet draft.topology.final_target_town
 execute store result score draft_target_minion botc_patch run data get storage botc_patch:buffet draft.topology.final_target_minion
 function botc_patch:buffet/draft/recount_needs
-tellraw @a[tag=storyteller] [{"text":"Lord of Typhon still needs its final Minions. Assign them in one neighboring line, with at least one on each side. Players will not see these changes before the game starts.","color":"yellow"}]
+tellraw @a[tag=storyteller] [{"text":"Lord of Typhon still needs one neighboring Minion line with at least one Minion on each side. Assign it privately before starting.","color":"yellow"}]

@@ -149,10 +149,8 @@ for ($mask = 0; $mask -le $maxMask; $mask++) {
     if (($mask -band $killBit) -ne 0) {
         $actions.Add('{label:' + $killLabel + ',action:{type:"run_command",command:"/botc kill"}}')
     }
-    $actions.Add('{label:' + $backLabel + ',action:{type:"run_command",command:"/botc grimoire cancel"}}')
-
     $lines = New-Header "Pre-reveal confirmation for contextual option mask $mask."
-    $dialogCommand = 'dialog show @s {type:"multi_action",title:' + $titleLabel + ',actions:[' + ($actions -join ',') + ']}'
+    $dialogCommand = 'dialog show @s {type:"multi_action",title:' + $titleLabel + ',actions:[' + ($actions -join ',') + '],exit_action:{label:' + $backLabel + ',action:{type:"run_command",command:"/botc grimoire cancel"}}}'
     if ($dialogCommand.Contains('$(')) {
         $dialogCommand = '$' + $dialogCommand
     }

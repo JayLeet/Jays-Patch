@@ -1,6 +1,6 @@
 {
     "schema":  1,
-    "version":  "1.9.0-beta.2",
+    "version":  "1.9.0-beta.3",
     "files":  [
                   {
                       "path":  ".gitattributes",
@@ -24,8 +24,8 @@
                   },
                   {
                       "path":  "Jays-Patch/buffet-rules.json",
-                      "bytes":  7339,
-                      "sha256":  "56a2ed8e93d3902ae59470b3df99f04bceb136a5ab522b471ce65466efa6e09c"
+                      "bytes":  7194,
+                      "sha256":  "77e461c7179ff5e26e7e8c0174e988b360ff369e638923937dbb574550764102"
                   },
                   {
                       "path":  "Jays-Patch/config/owners.txt",
@@ -2989,8 +2989,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/draft/review/editor/report_conflict.mcfunction",
-                      "bytes":  2861,
-                      "sha256":  "6dc64a750a2b4c76d7f74975aa76e2508a444c8555b471b00eac261606b375cc"
+                      "bytes":  2522,
+                      "sha256":  "2111a97af2866a77137b0e7f3248f3476ac6e211e21dd5b49d47b9fc43f0b80f"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/draft/review/editor/resolve_conflict.mcfunction",
@@ -3739,13 +3739,13 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/draft/topology/legion/apply.mcfunction",
-                      "bytes":  2604,
-                      "sha256":  "4341299dce3ebdbb830c6e557d8026a01418f705cea9f6673c321cf2dfa0d90f"
+                      "bytes":  2579,
+                      "sha256":  "68872e3ae04ea71fcaac75677c2ccae234791134cad42b5a415555998ab2b4ed"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/draft/topology/legion/choose.mcfunction",
-                      "bytes":  22002,
-                      "sha256":  "6c1fdc4b146299678dbbc580aa1805e81b7bda69d39419c8451b27032c35a935"
+                      "bytes":  21992,
+                      "sha256":  "f1ec4356f36f7fdfbe70a991bd6338e76c93815b1b5b3999caaaf2d46c9a298a"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/draft/topology/legion/choose_10_0.mcfunction",
@@ -4044,8 +4044,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/draft/topology/legion/convert_next.mcfunction",
-                      "bytes":  31465,
-                      "sha256":  "d1dabfd779b2ea510a59e07d884ecf7f8dd8dc6b7e2f86eac3fcd12eaed49c74"
+                      "bytes":  31455,
+                      "sha256":  "1f95fe1c92826bb1ac19cf8da8d08dc7c02ca17c4ab2848a0b9011b337489012"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/draft/topology/legion/convert_seat_1.mcfunction",
@@ -4154,8 +4154,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/draft/topology/lord_of_typhon/prepare_assignments.mcfunction",
-                      "bytes":  857,
-                      "sha256":  "0ccf791e72db8e0c6b555e5320bcbd2210af74a9891e9294e02487355601914a"
+                      "bytes":  814,
+                      "sha256":  "0a074ff01771bed69cc9ed45a262634a6c2f4efcf699521f369456b78118a0aa"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/draft/topology/lord_of_typhon/validate.mcfunction",
@@ -4924,8 +4924,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/greedy/start/execute.mcfunction",
-                      "bytes":  2697,
-                      "sha256":  "bb7e9bd09abed4cb32eab68c475d94555016b571be4d5792b204b83822eb0f44"
+                      "bytes":  2661,
+                      "sha256":  "9a359844afb53479489dadda9d27cbe15d4b21719888de35550049b70bd5d52d"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/buffet/greedy/start/report_assignment_mismatch.mcfunction",
@@ -5704,8 +5704,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/cmd/help.mcfunction",
-                      "bytes":  2122,
-                      "sha256":  "c90a545d2146aae9697d58da3f052d5e23bb95f40b86dfcb655870dfd69fad15"
+                      "bytes":  2161,
+                      "sha256":  "8791e0d42c67277b88da2858d6df9faadbcb1191d5c934407f93a15fb0551176"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/cmd/reset_game.mcfunction",
@@ -6154,643 +6154,643 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_0.mcfunction",
-                      "bytes":  1131,
-                      "sha256":  "f883845d8be146c75832ebdcd0ab02ef7a9c92ecd326212790bd74fd64867920"
+                      "bytes":  1143,
+                      "sha256":  "e70fd33a2589e931708ed49cfff0424e703d5a9ae46ea91d65bd523c9efaa3fc"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_1.mcfunction",
-                      "bytes":  1332,
-                      "sha256":  "6fe325664e1e8eb891c7ee7d8bf77bd8545c6768b472c91ca103eb0d2c355340"
+                      "bytes":  1344,
+                      "sha256":  "abf0b125d2a3344411b9539eb97ffabb7af23b212c3e247da80f260de1ed48cc"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_10.mcfunction",
-                      "bytes":  1530,
-                      "sha256":  "1989b56037fb5924d8700a7bbc5c0a9d4a82ccf132585c9bd35afa6692c1714b"
+                      "bytes":  1542,
+                      "sha256":  "c2ed6019ad10fe9e018055432e0f682a425a95e73659db540a94e48e63dd5673"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_100.mcfunction",
-                      "bytes":  1760,
-                      "sha256":  "daeff6a4315217227e9a599d02e4f64b0996cd27ccbc92734c7885ed98f62609"
+                      "bytes":  1772,
+                      "sha256":  "38ffee2eb7a174029def56990b5c6b6d77deb2202b731cbd3b70ffd4ba2f5223"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_101.mcfunction",
-                      "bytes":  1960,
-                      "sha256":  "dd9519c93145d2e3db36146654da4929eb35b21a71482f5fb0edaa6744e90cac"
+                      "bytes":  1972,
+                      "sha256":  "19e5f711241e8c694692b1770b58590893e9e7ff2433c1e853482f1ce3c7ab8b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_102.mcfunction",
-                      "bytes":  1957,
-                      "sha256":  "c985354ad55869ccf048572fe2b1f8cec44aa384e0473cdc3cfd1d600b3135fc"
+                      "bytes":  1969,
+                      "sha256":  "0173b2a7300b95d1246e56c6446f2a567d0271c1c5786c4d48685e7bb064bd07"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_103.mcfunction",
-                      "bytes":  2157,
-                      "sha256":  "8808564ca4699ee92b8e06e1ce55efbb6c8891c042458c57e5b48fdc29dcf573"
+                      "bytes":  2169,
+                      "sha256":  "54589800831798d169e0e1b5da73679602e2771b2301fb17deb95ab7d5ffa2c4"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_104.mcfunction",
-                      "bytes":  1754,
-                      "sha256":  "1c4cfe9301f9db184543c2e658111ccfa127907f13279efd0df78e15128aaa62"
+                      "bytes":  1766,
+                      "sha256":  "f4e00edaeaf1509a6703033bc54fd858486326ed988baa17d3402b25c3ec94c6"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_105.mcfunction",
-                      "bytes":  1954,
-                      "sha256":  "d993c42e9e41fc910bf566fa4a9c81ae6e16125bf3cd047f2ca291743f39a913"
+                      "bytes":  1966,
+                      "sha256":  "ca680aba96233088048b82a644250d99cecb729670c7323af0efd534b395d489"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_106.mcfunction",
-                      "bytes":  1951,
-                      "sha256":  "124f1b92156a8c8fb33019ab210ddbac5a65e16b6961d6e3d4696b76b966582f"
+                      "bytes":  1963,
+                      "sha256":  "df68b64a321947cdc837dbf7ac269fd8b7aaf612fb879aed0ec7ca995951186b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_107.mcfunction",
-                      "bytes":  2151,
-                      "sha256":  "344ff5088de2e53ca5ef8c30192041418412834a87d9f4bd7e55b0d216f16317"
+                      "bytes":  2163,
+                      "sha256":  "1125fa9a1d335bb69073db3e469e44b8ebe5e8d2be21800812f1b8baed1cb0ee"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_108.mcfunction",
-                      "bytes":  1960,
-                      "sha256":  "044712cbed066fb34f0e6ae8c9f00fdcc9f14c358afc8705f9e1d54403bf4727"
+                      "bytes":  1972,
+                      "sha256":  "d363bd06b488915c47c756fbca1f8ea1c64e1bc0034fe84d9af0d51c09da7489"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_109.mcfunction",
-                      "bytes":  2160,
-                      "sha256":  "cf606770ce81c9f00189bb32544536e3c1feb97847843a8273955319c810845d"
+                      "bytes":  2172,
+                      "sha256":  "c01452093516e7a8c51bc8e444ee9f225ae47c1dd1be1a552692c1ec7c1229b8"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_11.mcfunction",
-                      "bytes":  1730,
-                      "sha256":  "e0ed8f2e61afc65119b8784c6c363139eb20db7c5168f21fb0b01329b21b2a4d"
+                      "bytes":  1742,
+                      "sha256":  "8a3bed3c6f9ef1cc3af3bd3fffb90ffa7605a2faa916b0c39733a90b07730853"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_110.mcfunction",
-                      "bytes":  2157,
-                      "sha256":  "a01812b824244cf68c960e39fd7238f8a6eb8c0c982025f2a20c6ce5e9955a6b"
+                      "bytes":  2169,
+                      "sha256":  "6be33963db8ff3c2737524d332c0a56726f8514112d7c6b54dc5824ecc5e5d55"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_111.mcfunction",
-                      "bytes":  2357,
-                      "sha256":  "3cffdc44a89e2bfc304423caaae0fab8ea7f1562e3eb66bc1aa105a0341a9d15"
+                      "bytes":  2369,
+                      "sha256":  "312f36d601b7aa1377590518e19c08ef89b7e10e5b5e8f0d1ae50400fc6d9401"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_112.mcfunction",
-                      "bytes":  1746,
-                      "sha256":  "ebfe8d81d9f78f445cd81646e52266f0c907d1f099e2bac44bfd3f73eae7f6dc"
+                      "bytes":  1758,
+                      "sha256":  "c1f20824047dc94926bbd522b0f8aad55b4614aeb1e47cc5d522d3def97b641e"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_113.mcfunction",
-                      "bytes":  1947,
-                      "sha256":  "eb60bf0532dd8a7b3aae491bee764f0413e552681af312b525832710cd4ec695"
+                      "bytes":  1959,
+                      "sha256":  "4ee09df54fe1a975d5ca97acc4c807b2414917eb8bd23e5be442ddd0f190b36f"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_114.mcfunction",
-                      "bytes":  1944,
-                      "sha256":  "83dd08ce63092c43feaab8e17d4bbb7e20fad11d39935b889da5de8eba74ebab"
+                      "bytes":  1956,
+                      "sha256":  "8a06baef67b615fa099befe83a9ce321965f7a5bde77fa15b3575c2336da4933"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_115.mcfunction",
-                      "bytes":  2144,
-                      "sha256":  "13b6d30786fc0383b3c098f9d6c3f1372031d2d2dedd308cbf899d8d2b88a1e2"
+                      "bytes":  2156,
+                      "sha256":  "497a898ba395da6e234e42218c39ab069647eb0022891b35abe56cf3264f3c7b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_116.mcfunction",
-                      "bytes":  1953,
-                      "sha256":  "24422e59719f8c28624dfb4ec8d09d8b37b3f35a32c3f3ade5e12a2503d085b4"
+                      "bytes":  1965,
+                      "sha256":  "1660f3cb99d432cef01aa4bb422c54f3d71d410eb68ccfcc748700f9532eee1e"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_117.mcfunction",
-                      "bytes":  2153,
-                      "sha256":  "9faf66ec7eebdac2e77908f86202b54266ba967fe70c8f7ada48b294582da1a2"
+                      "bytes":  2165,
+                      "sha256":  "3bd21b6a31455294d662e8b7c94b2d25ec1b842dafff9af26b64d9bd2965d710"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_118.mcfunction",
-                      "bytes":  2150,
-                      "sha256":  "4819fb70f445d82f082bea14cd0ee9f16cabbb8cc91b729fd8de14382d646ab2"
+                      "bytes":  2162,
+                      "sha256":  "fdc52fbc2ea5e419b85c2c1706c267771f1e73523dbf0447746e7ae1e9816a4c"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_119.mcfunction",
-                      "bytes":  2350,
-                      "sha256":  "4c3ec73ebb7d1688498a7d67748941bbdcbc334d9d34f81d0837f62a56ce4fc6"
+                      "bytes":  2362,
+                      "sha256":  "417328132e5d1be121295608bee057de86e0e7a88579cdc9eecab7075faf5c18"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_12.mcfunction",
-                      "bytes":  1539,
-                      "sha256":  "aa026e117abdbb2c6ecb5488380c94b36bee76845c144b855ffe5ac5efd0c07c"
+                      "bytes":  1551,
+                      "sha256":  "a705a7ec1306c50458104a6c0011030d5622b546602ac96f0aed838a7bed0dbf"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_120.mcfunction",
-                      "bytes":  1947,
-                      "sha256":  "258e0533a7db1c4a8d32923cb6c78b66a7aa76dcbabf63d3b8b86c19b9ed4577"
+                      "bytes":  1959,
+                      "sha256":  "c7b646f57b21469eec3eb7ebf3c9a6a4273b8efe3a8dd3c482ca10a39036e051"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_121.mcfunction",
-                      "bytes":  2147,
-                      "sha256":  "cf2fbd0180ebed05cf6c50e52b7bb7faec953c401e351db5697ce637919ea862"
+                      "bytes":  2159,
+                      "sha256":  "99badaa76145f25be66f2a04004cb3e0a421f50c27d5d3dc683f889dd9a26d6a"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_122.mcfunction",
-                      "bytes":  2144,
-                      "sha256":  "a62a06554f14e2c1858c7cba658a6b3cc8fa6f840f3c2036b4258b54a4c733d9"
+                      "bytes":  2156,
+                      "sha256":  "aba75c0972fe5e4a271bc2145369321369339805b601e2abd6dfa568a8b91acb"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_123.mcfunction",
-                      "bytes":  2344,
-                      "sha256":  "2aa5c1741698836bfbb460bd662ecf0230fa5f263dbb620ffc203f676e9731af"
+                      "bytes":  2356,
+                      "sha256":  "2fce942ae6b18940e9c53def781b1eca9526068741e935b5fbbcf5759ae89d6b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_124.mcfunction",
-                      "bytes":  2153,
-                      "sha256":  "df085a3a8b2af273deae9c15c9bad1f50d7c8377bd4697f20296fe4db2fb8e42"
+                      "bytes":  2165,
+                      "sha256":  "76a3017f9127ae08af6855452606bdd4bd354bbc411b99edc74e1daf81bd218b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_125.mcfunction",
-                      "bytes":  2353,
-                      "sha256":  "d3814212a0c81afbe11871930210477ea33aa92d9490a57141d9178da6720b8e"
+                      "bytes":  2365,
+                      "sha256":  "9851cd7ee31284662eac311dfba1142940627da7dc52a1809744860439879bc3"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_126.mcfunction",
-                      "bytes":  2350,
-                      "sha256":  "a4a05e9e21bcd9c0386b292c96fd31294b54ba388c1e536e169f09524ecc20ff"
+                      "bytes":  2362,
+                      "sha256":  "a03206cb3939c12ef2124954afd53e6199444adeb18d7834a740c7ab2904a0c9"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_127.mcfunction",
-                      "bytes":  2550,
-                      "sha256":  "3f324207411ed9ce79428169ae52883fb7969cc750eaafd112953457a6780f75"
+                      "bytes":  2562,
+                      "sha256":  "80ff4e7330fea49555e284c1d9e97f327f0ede2117dc527085a153004ae87094"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_13.mcfunction",
-                      "bytes":  1739,
-                      "sha256":  "5eab4615b636843332c968f9063f411e309cbbf27e4e137b01864df40ac22e7e"
+                      "bytes":  1751,
+                      "sha256":  "64ae79d6fb26fa3882c9496c01b286037e9ff0fc8e93b480e1efd10e92bfe10c"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_14.mcfunction",
-                      "bytes":  1736,
-                      "sha256":  "ed65c635de979fe3a1695fa2743633bba83cf884f58bc24224763e6226c98592"
+                      "bytes":  1748,
+                      "sha256":  "35278bba6d157d6b5c516fce2e1f5f89d32cf9682511d6c1f360dd705df89955"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_15.mcfunction",
-                      "bytes":  1936,
-                      "sha256":  "fec7c6cd4fc411ce1c942c8b28b5b254c7361cc0087b77a1044b23e9168a28eb"
+                      "bytes":  1948,
+                      "sha256":  "6b7732dc7fa2abfd444f78e7a39983cac9bcc86a8e03d586b9a6a0c7aa912730"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_16.mcfunction",
-                      "bytes":  1325,
-                      "sha256":  "cb855b7e3aee924dfe81da127210817677ec7467de23d213db4f66faebdff9ef"
+                      "bytes":  1337,
+                      "sha256":  "29c6eaaa06ae5259c54b28dd79519174cab5513dfc213e5d451e1180de0f5311"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_17.mcfunction",
-                      "bytes":  1526,
-                      "sha256":  "2d4cf20a6aad581c502548acdf6165216fb4b7e64857d407d3b4747b17d9fa98"
+                      "bytes":  1538,
+                      "sha256":  "5ec7fa9546108afcfff2b7c151daedc1e922310cd56b4b18e16d13dfc2013702"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_18.mcfunction",
-                      "bytes":  1523,
-                      "sha256":  "0bd2ab066adb9623ac2791e4fa1a628dce6c2afdf3069c8073499c1aeaf7e2b3"
+                      "bytes":  1535,
+                      "sha256":  "fd2030a0ade9d6624b14df3af1144210c2986be705c0a1c25a8c513fed1302e5"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_19.mcfunction",
-                      "bytes":  1723,
-                      "sha256":  "bdbe8402e6f2e11d49f92ad74ae773cd26f777016899970b92e50c367f3ce976"
+                      "bytes":  1735,
+                      "sha256":  "aa9141dd37b6762f2c923c9512d221cfb4eed396786d62158010bc168bb3473d"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_2.mcfunction",
-                      "bytes":  1329,
-                      "sha256":  "32a840fb5de2a32813423b5c9bf2f6ab2f94d7a91d5e406c4c799611f8951da2"
+                      "bytes":  1341,
+                      "sha256":  "c752233e55dcf27f228f75bf986f5a659d98f26ac52b62a56791bb709bacfad2"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_20.mcfunction",
-                      "bytes":  1532,
-                      "sha256":  "56481df8f45a19dfbb4d36652e114aa4709a574589ffcb236ad76f6cd2812c1b"
+                      "bytes":  1544,
+                      "sha256":  "115b02c1ba333acee45563165a3081b2f47cf86f2ec64ef780dc2fc2a9e4f36a"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_21.mcfunction",
-                      "bytes":  1732,
-                      "sha256":  "b8a187573c1809df33669736d5c313f73cdb4806a603208767b1c94f77d113bf"
+                      "bytes":  1744,
+                      "sha256":  "c5ceff035973bae7a3780b96f423b56d54263635c463eb1f92e3b3c09f2960d2"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_22.mcfunction",
-                      "bytes":  1729,
-                      "sha256":  "7f46bc941903b01630c5a451b8b70e3abeb25a44051173a9098014ca09cdbade"
+                      "bytes":  1741,
+                      "sha256":  "59612f190c95f94a901246a474f81926decdad1c3c3a770ba0dbd2a0fa4be1d5"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_23.mcfunction",
-                      "bytes":  1929,
-                      "sha256":  "a00b70972067107285d7128dd18af4233db3e23e61c629933c87d1f64662fccf"
+                      "bytes":  1941,
+                      "sha256":  "defb9f61cf5c678e43a1358e687172a1fe8f388525dabaea59aa2e839d45c957"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_24.mcfunction",
-                      "bytes":  1526,
-                      "sha256":  "be306f1b1c32ebe33d294adce88c22795cefea9f52af3a61ce6707526363e77c"
+                      "bytes":  1538,
+                      "sha256":  "732528cf650a9f1f736e04c56913caec826a3d867e66182915a0b8a03caa5a9f"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_25.mcfunction",
-                      "bytes":  1726,
-                      "sha256":  "8ef8522d4834a79293a7491659c602e344a7ee8cafcbbb7b02481f7485d1ed08"
+                      "bytes":  1738,
+                      "sha256":  "925b984df23612b2e0669485ab609e6adaba9e6b39b83965eeaec83a237200f7"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_26.mcfunction",
-                      "bytes":  1723,
-                      "sha256":  "dc0e57d7f2169d42d7a6ab11c7dd46455e03c114d31ce6e569d3658c86004038"
+                      "bytes":  1735,
+                      "sha256":  "2e36609e2f5804fcaa51dd9fb9a08a539ad852de0ada55764eb8a64b026bdadb"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_27.mcfunction",
-                      "bytes":  1923,
-                      "sha256":  "48cfe1690e9e1f314acef143ac4b835faa2c4c76a3207ea663bb5992cd9a1b6e"
+                      "bytes":  1935,
+                      "sha256":  "2561b54a0114a280d66f5bd317887db020edafbe8f5ddb7a3fe7f1e23a228af2"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_28.mcfunction",
-                      "bytes":  1732,
-                      "sha256":  "d27715738d99ef4b9ab2447af985ce5b961ebe60a67472a8629abe85a2ace246"
+                      "bytes":  1744,
+                      "sha256":  "e2bcda0653932f78c5a93e0730a85153fa977dc4514b7088477d087a1e4d1ad0"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_29.mcfunction",
-                      "bytes":  1932,
-                      "sha256":  "1e9e7443ad9b2b4b9d5d531818fe3615f303ad97420229d9131bb52870bab2e5"
+                      "bytes":  1944,
+                      "sha256":  "be803ab2304ed644ec6e4b7c498616c65c1780e38243d8ac7c1bf1afa2e0f1fa"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_3.mcfunction",
-                      "bytes":  1529,
-                      "sha256":  "1b3d56682b96f61bac24aa7b0255344fcb38b02eaed7e00675158d63c9adcca1"
+                      "bytes":  1541,
+                      "sha256":  "db49f9cd6c6a38c43edf0181683af74a78c9364e800c0c7d2cb3f88e1db47aa1"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_30.mcfunction",
-                      "bytes":  1929,
-                      "sha256":  "dbd3782e44a542c8fea68433e0e4d1a8c863aab4614c2d8afebf60fe35b55db4"
+                      "bytes":  1941,
+                      "sha256":  "aab3f7619cc4e4d07b7de70972450077e3ff50c7fbb5e2dc5fe6482bc7436251"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_31.mcfunction",
-                      "bytes":  2129,
-                      "sha256":  "ca449972339c324ad267ce8de688279a6e71b15b473e534a3d938a5854972156"
+                      "bytes":  2141,
+                      "sha256":  "888d092fa6753c4e28875df04d15f8dfddfc5d60c299ad467e7915cf7b9bb349"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_32.mcfunction",
-                      "bytes":  1340,
-                      "sha256":  "f7c512d4b04d57a086beb6070c999a8d2a6754496b9d5a191be278fb774653bf"
+                      "bytes":  1352,
+                      "sha256":  "cbc3e24a23dfb0368edbb03260b5e755799a8151df3442af30bcb5fa1651b5ef"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_33.mcfunction",
-                      "bytes":  1541,
-                      "sha256":  "d2847e6947bbf20ebdf8cc94ac13e22b06b2ddb9e178618dce89d720b5002e86"
+                      "bytes":  1553,
+                      "sha256":  "b1dbdecd87939600d508b52484e374363f75ae65bcac2239eabec06dbda17ea2"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_34.mcfunction",
-                      "bytes":  1538,
-                      "sha256":  "c78b02d8f3da4f2862807d5b8d001da94f95889655b1d2625e857138dfd0427a"
+                      "bytes":  1550,
+                      "sha256":  "7f72a4f254134680c7b36516e4f88158461a1dd88e3f4a9244eaffb93941671c"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_35.mcfunction",
-                      "bytes":  1738,
-                      "sha256":  "0636b928006f24c8131336253949e4d923d92a6fb5d9df03d518ef6641e98f79"
+                      "bytes":  1750,
+                      "sha256":  "c0c2acf671efd4e8f0400d718b98973065bde6d8f208d93acf4554474aa42b30"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_36.mcfunction",
-                      "bytes":  1547,
-                      "sha256":  "e84adeb74d03adff98b150402846d3a878a071273f4547286508523ece8f20b6"
+                      "bytes":  1559,
+                      "sha256":  "0cf886eaaa8f620bdbbff9d7c9822c1577a4ffd75fb912a6b74de1a3e28379fd"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_37.mcfunction",
-                      "bytes":  1747,
-                      "sha256":  "2f95d1f070c9206679aa84cb12092e46d3b59906107801e453e9e1bf6f8d901a"
+                      "bytes":  1759,
+                      "sha256":  "78487043288a7de9aa24db4a4527b781fffdb2a766ad9dbd5393d46b95968201"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_38.mcfunction",
-                      "bytes":  1744,
-                      "sha256":  "8b9d001192abfac2f51a734ba618abbb5362b927558cc2b6327c9bd12db42313"
+                      "bytes":  1756,
+                      "sha256":  "ca662fe7745c77a1954b4397d2e8d7bbf9a3a110086900c432a7d6bcf60d2e7c"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_39.mcfunction",
-                      "bytes":  1944,
-                      "sha256":  "0b5caa830a15a5b699116795c6d548c949c79c1fd2817b66c07b7a8755b21ed6"
+                      "bytes":  1956,
+                      "sha256":  "b5678f9bd61a17718fa193dfb60c700805fd8b501a50e468e14d8b72cc70b574"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_4.mcfunction",
-                      "bytes":  1338,
-                      "sha256":  "2d9e9a44dab691372d1b7272d163225366e5955b67555212afe1ed4bbb2bb524"
+                      "bytes":  1350,
+                      "sha256":  "fc1a55f0136ead21bdca800ff4e8dd8fac9b44a3e3bc4340d9046d8506cc9f95"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_40.mcfunction",
-                      "bytes":  1541,
-                      "sha256":  "28e70150c2e0d64aacf8153632aa3ccd6de48115e32897c7a0a63320b16ef8ee"
+                      "bytes":  1553,
+                      "sha256":  "8eebdb6b367c6543caaa6c7420e82097b941ccaf132f3aa2e87cad5cb6720270"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_41.mcfunction",
-                      "bytes":  1741,
-                      "sha256":  "01b4b0fa659359f5b271677110e0347e73b39840e77d33a5060a037105679838"
+                      "bytes":  1753,
+                      "sha256":  "ebfc6244e914e73907770ebc95e4cd71a2ecc3ecf6e92edcf337c45665311641"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_42.mcfunction",
-                      "bytes":  1738,
-                      "sha256":  "42ed893fb3c8dfe72e078b14f2769a0c1e36b0dcd3a14029c11614dbff1ee696"
+                      "bytes":  1750,
+                      "sha256":  "533e79c8bd5d32466baa29b1c20c4d5723e9141f3c498f98668819b8b6db8b59"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_43.mcfunction",
-                      "bytes":  1938,
-                      "sha256":  "51d44199c40f63d3956a6b6391a2a7bc980a11889a5a2896a4024f9b83aac405"
+                      "bytes":  1950,
+                      "sha256":  "7256a54bafd9a89ca9c254ecfe03534761a010df912c1f34163668237887a29d"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_44.mcfunction",
-                      "bytes":  1747,
-                      "sha256":  "dfbf6000cd9bde550f6b4d73f36f72bee27419f1cdda15f36f34e4ce59a6a26f"
+                      "bytes":  1759,
+                      "sha256":  "542edd17eb62d3750e4188a134584261dce154e96cd0320aa8f37ab67abb0c77"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_45.mcfunction",
-                      "bytes":  1947,
-                      "sha256":  "55b32b0405ddce8e82ee145d31739bf857670691bf585d97ec92cc77a7118c5f"
+                      "bytes":  1959,
+                      "sha256":  "758de89e1caba42fa1253c2fa0b12c61078434162b3c04df8284523255f5f9b2"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_46.mcfunction",
-                      "bytes":  1944,
-                      "sha256":  "aae9c2526117dd2dfd38f66a47fadd46c57c28f2b982b32e9835195186f66138"
+                      "bytes":  1956,
+                      "sha256":  "caedc5e94a755a6ec1f361a168fc90bd85d7dcee6237750c96d6b2c43ff35560"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_47.mcfunction",
-                      "bytes":  2144,
-                      "sha256":  "c732a7850d72257ea633b0797b76a717d7e38809e7392d4cf9f361dc4d2db207"
+                      "bytes":  2156,
+                      "sha256":  "65d039b6bf0a9ac0717a9b2325e6438d6e6dc42b26066a9acacf4894dfe68e02"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_48.mcfunction",
-                      "bytes":  1533,
-                      "sha256":  "f094cb7d420416b08fe50106afb1537976aa41f15ee9700ec8437aff6bb6ab66"
+                      "bytes":  1545,
+                      "sha256":  "212d850e4b0435c3fed2892925a7f1042cc622771c5654e6893862488df05b7b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_49.mcfunction",
-                      "bytes":  1734,
-                      "sha256":  "0462b21e2346ab23cc135740cb4498d8c6f4c616eb4cfd2df2c3186b3fb82f4f"
+                      "bytes":  1746,
+                      "sha256":  "5bfdcd079860d620a5237e8e319c492a0bdb203bcb34dfe914994ac90aa17d69"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_5.mcfunction",
-                      "bytes":  1538,
-                      "sha256":  "5282c10cf44fbcfb18e77471b5ec4f9cf70ea5eb9e54f4ef42f37676c18c79a1"
+                      "bytes":  1550,
+                      "sha256":  "e603ed4468e304edf49a1631a65d630a67666fbccce41eda831bfda911cb5c80"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_50.mcfunction",
-                      "bytes":  1731,
-                      "sha256":  "759ce398602299e6fd327c1404658ec36409096dbdbfeecf309151f915afe271"
+                      "bytes":  1743,
+                      "sha256":  "c3e5ef4218e7be8f2141f44323df158685d0c32b919289ad781e24ee396f29b6"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_51.mcfunction",
-                      "bytes":  1931,
-                      "sha256":  "33c093ebed03720deab675c2bce6c70334858f6bc00a1e94b7dfa4e7271012a9"
+                      "bytes":  1943,
+                      "sha256":  "38f63282a5ea30b91ac0c915a2923147e7d3620cdc52ad969864a3e06c6c899c"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_52.mcfunction",
-                      "bytes":  1740,
-                      "sha256":  "b34a53b06e1aee170e3cf781a92d09b73ca2543d13eddbe0beab5219a7d9ad8d"
+                      "bytes":  1752,
+                      "sha256":  "c717d5cd6b07a46ff6443062514390178628f657b4cfe593c5e1062497cc5e8e"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_53.mcfunction",
-                      "bytes":  1940,
-                      "sha256":  "f692cac9c96236102c59cee8a9b07f83d55ccde7df52d2d444398395498087a9"
+                      "bytes":  1952,
+                      "sha256":  "d996f33103a38f7c0d738e049087461d1e463a1b5534be737882e01bad36a9ad"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_54.mcfunction",
-                      "bytes":  1937,
-                      "sha256":  "eac24e262cc1740d5b8b8d352071272ad4163e2474387ac2b2d78793d75ce5bf"
+                      "bytes":  1949,
+                      "sha256":  "8a24efef9c52ee36623a0d663686de0b4c57708e7454fd81009f52047830c9b8"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_55.mcfunction",
-                      "bytes":  2137,
-                      "sha256":  "e65b1623345c230398157008e0eaa575387191beb6145dfd28b480715025183a"
+                      "bytes":  2149,
+                      "sha256":  "40b52d94ba2760ea872881a39d2ca25cd4928ba4c05a82fe0cf0086a7b0898a1"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_56.mcfunction",
-                      "bytes":  1734,
-                      "sha256":  "cd86ad7a27f50b23f2315d6209f7abb7a9cc6ddc8de0217fcc4cf0d5555cda1e"
+                      "bytes":  1746,
+                      "sha256":  "5006d7bdf3dba53842363e508fbdc4a0122bed428dc8e1e8cd7cda67947110e7"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_57.mcfunction",
-                      "bytes":  1934,
-                      "sha256":  "35a6f3bda5aa916c938f0f9799a0e5a44cbfabb47ef84d8e4938952d4c7389ef"
+                      "bytes":  1946,
+                      "sha256":  "6d08800eee09d59946c14e704e620758ed8ba1df8699f3256425c619bb4a6806"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_58.mcfunction",
-                      "bytes":  1931,
-                      "sha256":  "80bff86156a0dadc78e6fcc09de15242a4514af0c55ae73617bf085c202dd8d0"
+                      "bytes":  1943,
+                      "sha256":  "21b55ac90eef166e44442d860330f79b29afdceb8c803443512ccd2315813145"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_59.mcfunction",
-                      "bytes":  2131,
-                      "sha256":  "c0c9bbe34236ca0332f8c69721051f3eeae65442a84029176452e1e233ab3fb3"
+                      "bytes":  2143,
+                      "sha256":  "2d46688111fac23e1ee51ca9bc1d8b047625b7dfeb41de72a8f349df9b306cc3"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_6.mcfunction",
-                      "bytes":  1535,
-                      "sha256":  "0d7f6b78fb679f3faf5de772d9a428088b17f4e36ebdf388e5a72421760a7816"
+                      "bytes":  1547,
+                      "sha256":  "90409b71ebb640b7c0e2e0a1e7d1675c9eb8f9867eff9495030c17181338d6e4"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_60.mcfunction",
-                      "bytes":  1940,
-                      "sha256":  "56ac56cc8626caad735e69530b59e286ae2e4a7e79e484b570ccc3e8b87d1b90"
+                      "bytes":  1952,
+                      "sha256":  "a71e834be3e837ac7cbd17e5e97686b7c4f67f68c355d521e43a10ee33d154e5"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_61.mcfunction",
-                      "bytes":  2140,
-                      "sha256":  "60961defb703cf11acdd2bdf5113ba7b913a4a1a65f143c553752e429df913a6"
+                      "bytes":  2152,
+                      "sha256":  "117d3a85750f28915f26c856c2234c6a108716f90d7af06d4b61959ae51913d0"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_62.mcfunction",
-                      "bytes":  2137,
-                      "sha256":  "969e022ab4795393c1c76913d9ed7c8a0c35b1954c67c85962997a9d39104596"
+                      "bytes":  2149,
+                      "sha256":  "b734125d5ba329845dff42a095a16006268c245a72b5a99e1951c2207dae85a7"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_63.mcfunction",
-                      "bytes":  2337,
-                      "sha256":  "4eebc0c39293258b1feab5af8334dcd1d1b91f860af2f03fd1277c3fb4644cf0"
+                      "bytes":  2349,
+                      "sha256":  "2f1fb2f1285458e512abbede6be0f3bfcc5fb46849698402a3b9ff24247e48af"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_64.mcfunction",
-                      "bytes":  1344,
-                      "sha256":  "533cb8170ce6e5e1e62a395cf691f4e13839f7ce23ba04c3284014baf59d89a1"
+                      "bytes":  1356,
+                      "sha256":  "5754bf8e6fad8a63714e32eb02b0e088ec84a63c3bd0b890d7fad13e7633fe1d"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_65.mcfunction",
-                      "bytes":  1545,
-                      "sha256":  "6fc26cdbb53c46535ad034fc9d76fcfb239723dba31857a63411ac43c8bbd622"
+                      "bytes":  1557,
+                      "sha256":  "6ebdd48eaa6de3056d8a645161b85436f18043b173ded48021ee69c778ef2d57"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_66.mcfunction",
-                      "bytes":  1542,
-                      "sha256":  "36837010882793c49392edfdfcc91add45689bca810d85b2e68de4394ad170e8"
+                      "bytes":  1554,
+                      "sha256":  "e2e1e0e40b73a71dd3837b70a855451557960b9665feff27faabb4957e834a95"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_67.mcfunction",
-                      "bytes":  1742,
-                      "sha256":  "e4e574ac1ad948be8dc7040e05c3582b82d66eea22861ba46bfcc390628444d9"
+                      "bytes":  1754,
+                      "sha256":  "6cd761328cee363a042ddc1650e5e250ca401447d0447ee8adb5086007fecd66"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_68.mcfunction",
-                      "bytes":  1551,
-                      "sha256":  "a93598b131576b87581f55c1b361ab7a468e6f3983d345825be87e2a383006c6"
+                      "bytes":  1563,
+                      "sha256":  "7ffc87d62beeea1adbd7adf36f169be3ca261e59e3c2fb079ceccf8ad815a40b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_69.mcfunction",
-                      "bytes":  1751,
-                      "sha256":  "6535743d7c4d4a2e728e039f889d9d454b267408f65e154f295744d031ac60b3"
+                      "bytes":  1763,
+                      "sha256":  "191191efd885ba46a7cd343e989c60314471739ecf70d36f5312b865048eba64"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_7.mcfunction",
-                      "bytes":  1735,
-                      "sha256":  "414fab65681d6a59b1d898ba67c7a71d2da1c6ee636396a27432f820c9f7409b"
+                      "bytes":  1747,
+                      "sha256":  "c8bed1c5695a4be52d3a4469925fa03576d7da1e2c4dc3340fbacb24842ee79d"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_70.mcfunction",
-                      "bytes":  1748,
-                      "sha256":  "d5d611970b37a0916b22364a21fb9441ae7619865d46ad5302f0a735c7ba5fb1"
+                      "bytes":  1760,
+                      "sha256":  "7ee6eb0423e7a966ec8e695a9546125c13ab240414d1a2945e40e0f80ca97b66"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_71.mcfunction",
-                      "bytes":  1948,
-                      "sha256":  "b71435be28866043b427df364adf69f87f8e2700902fcc694a37b419b0994830"
+                      "bytes":  1960,
+                      "sha256":  "12a3d91f98ec522db39a50fae6fb21401bb5832cf57ba59c0dd0c6f775101cb6"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_72.mcfunction",
-                      "bytes":  1545,
-                      "sha256":  "c3f378347387f0969251f9232d9375099ad98f1bfd2c2ef49e464b0a79281bb3"
+                      "bytes":  1557,
+                      "sha256":  "88866c737e74fbab02490c157116ce2b91293c9223c3227f9b63d4e8570f52e9"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_73.mcfunction",
-                      "bytes":  1745,
-                      "sha256":  "2cd14edda9db96c42afe655c3d337af313e3d6148073b213a8a34a2a1336de8c"
+                      "bytes":  1757,
+                      "sha256":  "c8b02b2a0e8820ecb199af62661c3786d94a0484c42cdfe131d9b017ce41d6c4"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_74.mcfunction",
-                      "bytes":  1742,
-                      "sha256":  "d520ae2b776ee0e57d7a2af833a66ab9623bc7dc632b85f19437c680a169c62a"
+                      "bytes":  1754,
+                      "sha256":  "92dc0347fde33ccd559ec829a4847ab5f5e07adb6b5df0ab33021f65505f7da5"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_75.mcfunction",
-                      "bytes":  1942,
-                      "sha256":  "2a349abb640e987012422aa75176c16cb3203bd50f96fbf2e508d8d17543784f"
+                      "bytes":  1954,
+                      "sha256":  "8974d2d6fff630cfaa5b0cf2c7ddcf6f72922b99040a5746f12386b0807db76e"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_76.mcfunction",
-                      "bytes":  1751,
-                      "sha256":  "4f4bb7ed01fc87194ba320990e98ba7f69ad5f54badbb57e56624b0ca392171a"
+                      "bytes":  1763,
+                      "sha256":  "60f22255e3fa096321766962d0d54395fa56b2f6ae2c4085b1a83f2f801f47fc"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_77.mcfunction",
-                      "bytes":  1951,
-                      "sha256":  "8eaf27960cef68e169fcf27b831cbce73d3920bd1a650abc2de042f31c888bd0"
+                      "bytes":  1963,
+                      "sha256":  "033052de230c43f112d6846d0d00f1d86c6740dafbb43827ca7ba80a1371b8cd"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_78.mcfunction",
-                      "bytes":  1948,
-                      "sha256":  "d7ca8744f861644e8d44e3eb125200981b33ab8e161a475ee7b2670243197a9c"
+                      "bytes":  1960,
+                      "sha256":  "bf2f64939dde212b9e72f2f291e444a40e42f7a8f6e7c9c55b8aa137d0507fde"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_79.mcfunction",
-                      "bytes":  2148,
-                      "sha256":  "2578bf01cc36cbca1f49a3d304b58da4b4ff2f41c41c795259b8bc9ea3943171"
+                      "bytes":  2160,
+                      "sha256":  "b839d212c35e3a1cc2be10879f416861b44de0739fd29fd686a2a51007f6b848"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_8.mcfunction",
-                      "bytes":  1332,
-                      "sha256":  "baf6c03d277dceb268db4bf3889c52f74ba34eed7aa1718182d74475ef61e242"
+                      "bytes":  1344,
+                      "sha256":  "a3fc764a37ae0779387f1c1f3b49aaa765d027e17c013caa155773ce5d7b7c17"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_80.mcfunction",
-                      "bytes":  1537,
-                      "sha256":  "ae524470ffd06aa1b7a37f7479699ae1c94b44b0507412b79378a33b8ab94f57"
+                      "bytes":  1549,
+                      "sha256":  "8d7dfb2a628ba579533ffd50fd1dcc2ab8b82e48fefc1ae2ae995d602724c218"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_81.mcfunction",
-                      "bytes":  1738,
-                      "sha256":  "9328342a671aaf97782affd605bf772e49a9b6d60b8643def5f4113a93a5070f"
+                      "bytes":  1750,
+                      "sha256":  "5c2cfd6295d4d5a80f018e552f25733adfcc513f0b1e4453ad9f1328a9fd0fa9"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_82.mcfunction",
-                      "bytes":  1735,
-                      "sha256":  "4315e5128be67f8a2677f9859c5bc473d3dae7b075f501c0acade74c593f7789"
+                      "bytes":  1747,
+                      "sha256":  "b9a0a9bdd852b76eea9f6556a2ba1fec7f5edecb60ac4f7858d08e653cc183c1"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_83.mcfunction",
-                      "bytes":  1935,
-                      "sha256":  "ea287e541ac4dd5ade215c3bf7f6030de35bc44b359d95863f0d068c98c3a108"
+                      "bytes":  1947,
+                      "sha256":  "c2000504763bdd182c0c66b75238bf429a2045efedaf3e0e6a8991d84e269e7a"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_84.mcfunction",
-                      "bytes":  1744,
-                      "sha256":  "c48fb2c083d3ca4c6f3cde8acd626b4445c52692dcda9a89b34d1240546cab3a"
+                      "bytes":  1756,
+                      "sha256":  "40c699f7c7aa4960ed5861b4197b261a3bdd1714e0af64c64b73c5cd264c9181"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_85.mcfunction",
-                      "bytes":  1944,
-                      "sha256":  "77bb5bc61d9ba4ad0e1f05081ae973e9f894988e84b5c4f71a405fd09883ea61"
+                      "bytes":  1956,
+                      "sha256":  "ad90d86d3cda4f95135d88f81284edbdd58ca7571e3bf8f255df84e7338768dd"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_86.mcfunction",
-                      "bytes":  1941,
-                      "sha256":  "751605c2920c3d55fef8f9fca7f2ae3a2f3dfdb35d5757404c302b3f9ab6d3ab"
+                      "bytes":  1953,
+                      "sha256":  "17479297ab2338c9e02ab0b7265e971def778b9293e6f6338b81279e74c47fde"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_87.mcfunction",
-                      "bytes":  2141,
-                      "sha256":  "6fddb6ebcef935320ac03d9ce1608e122725c94dddcc7c3d4f354b6294f8c776"
+                      "bytes":  2153,
+                      "sha256":  "0792b09bf0d1e193a406add8c8425c325f55a8ad4b8d93811d13e61bd22c9af6"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_88.mcfunction",
-                      "bytes":  1738,
-                      "sha256":  "eff4246caeeecf707b605bdf75af4c23c98850b70201cb2b0569611c31243453"
+                      "bytes":  1750,
+                      "sha256":  "6403d5deac6000b82ab0e32d8fc5611d80e36a29039ebab73327cb0f99b8e8d7"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_89.mcfunction",
-                      "bytes":  1938,
-                      "sha256":  "404932da8cf107b7f171873171bddf6418fbf2cfe56a5d31171614a6c096286e"
+                      "bytes":  1950,
+                      "sha256":  "ae927876df2aa632bd3af5e1e3e2dfa65595a1c0e3fcb8e3f4265007d906a51e"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_9.mcfunction",
-                      "bytes":  1532,
-                      "sha256":  "63356ba1e608e11bc9eec61755fcdff1aba931234689e40da36f2b531b991807"
+                      "bytes":  1544,
+                      "sha256":  "127e50f88c54e33e98ff61b09ec9965544fc8f0efeec2a000db8fe2e5b158f05"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_90.mcfunction",
-                      "bytes":  1935,
-                      "sha256":  "2df68a46dca24bc3fb1b2e0f45fd38abbfa580d7430f5eb1ec62e6a6df5c9384"
+                      "bytes":  1947,
+                      "sha256":  "8dccff7f1b742184be7afe2695c8e4da306f852946afacb62184be2e1caaa77e"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_91.mcfunction",
-                      "bytes":  2135,
-                      "sha256":  "7440c3f0939f929dbef152002191102883c890eb04e6c6d7e4d776dc09d72927"
+                      "bytes":  2147,
+                      "sha256":  "e8682b4ce01c8a4c2c277df252c7e3b50d220a6376f1dc75530a2e6d12b39635"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_92.mcfunction",
-                      "bytes":  1944,
-                      "sha256":  "14f8bb4c6580fba75879a762dfc35540e95095efa43b1af352d8afabcf1b6e8d"
+                      "bytes":  1956,
+                      "sha256":  "821fdc003b30db1cc378b1622f447b544eeed5abcdb6cec3af0892a618e6c29f"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_93.mcfunction",
-                      "bytes":  2144,
-                      "sha256":  "c023e7e9345f2eb30cdbbee8be439eee313fb0ddbf0ccc784cc39e5237ad6288"
+                      "bytes":  2156,
+                      "sha256":  "cc4eba1449ded9993b8c9f28ff1a921a51159c6a1ad9445876bd87fbbed2c3c2"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_94.mcfunction",
-                      "bytes":  2141,
-                      "sha256":  "195e8885dead3e3e6cf5756ca48d615dd1903a18ee90ad3063d3a663f94d4d13"
+                      "bytes":  2153,
+                      "sha256":  "314ac2c3ffc8b5498e28b9c32493e12a7dfcdbea6d39981abb1bd48458c8ab67"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_95.mcfunction",
-                      "bytes":  2341,
-                      "sha256":  "fd82fcbe45c1b96a9e29f5488885d35268be77f72d872815d5ad3c1cd204c3e4"
+                      "bytes":  2353,
+                      "sha256":  "3bef14635a3532747dfc933064080822aa59d7ba3724df5786fb339be1912112"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_96.mcfunction",
-                      "bytes":  1552,
-                      "sha256":  "13dc9c911e57a4d408e2df9b6017ccc6fdbd4610e407672229cfdf1e42bf8be9"
+                      "bytes":  1564,
+                      "sha256":  "15087d2e9bf3ca7496dc86465be5747d89d997a9b265f6900598f0660338bb1b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_97.mcfunction",
-                      "bytes":  1753,
-                      "sha256":  "497067a7c2b8542eff1593ccccd8f136ced0f3b42deec0938f52f0ab6106ab69"
+                      "bytes":  1765,
+                      "sha256":  "8984293833092bbd0d8765bc5dea504ec87b7c3bdc558d36b193e2ce0eb94b8f"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_98.mcfunction",
-                      "bytes":  1750,
-                      "sha256":  "59f31de134d1e0f84cc0d473baf45a01f09c83dee5ca246928d2654dad2d6379"
+                      "bytes":  1762,
+                      "sha256":  "d41a40df047f192fb1c6f8230882fb57f19fdca3f86e6daf930bf76ca117ac7c"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/confirm/options_99.mcfunction",
-                      "bytes":  1950,
-                      "sha256":  "24aa0b63beb9479e3840800d63cfa1c5712934b64d2306f85abe6f5a53f451cd"
+                      "bytes":  1962,
+                      "sha256":  "fbafa0b64cd67f6b8163bacad75ce006d0879b2ce4045add90d02d79b53df0d6"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/dialog.mcfunction",
@@ -7274,8 +7274,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/editor/summoner/apply_live.mcfunction",
-                      "bytes":  27004,
-                      "sha256":  "3dd81112e8a8e8d396ed0ef8233156bbacad44e2cb7532587aee1cbab4fc9c36"
+                      "bytes":  27051,
+                      "sha256":  "e205033345c71148fb5fe05435ed13a91cc5c750632c330db509ef78ea5debbe"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/grim/editor/summoner/apply_minion.mcfunction",
@@ -8749,8 +8749,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/setup/import/fail_demon_limit.mcfunction",
-                      "bytes":  399,
-                      "sha256":  "2261ba24885490f45ddc6a5d994296b5f1dcb8e9794652dba19c50960c8f812f"
+                      "bytes":  404,
+                      "sha256":  "28c5150b6e0d5a4439c05b6f050e042f36ab51958a0be23781f55b5667cb3899"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/setup/import/fail_disabled_organ_grinder.mcfunction",
@@ -8759,18 +8759,18 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/setup/import/fail_minion_limit.mcfunction",
-                      "bytes":  402,
-                      "sha256":  "387df546a66055499765ffa53e91e0fa89110f9efebb825bfe8cbca72a11b975"
+                      "bytes":  407,
+                      "sha256":  "a2f41db4fb010fb184ad86a98060c0cfdc49c7bdcd483773c19cc5c9294067d2"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/setup/import/fail_outsider_limit.mcfunction",
-                      "bytes":  408,
-                      "sha256":  "c58f48376121a13915b7599a5becf00a8f7c72b4bcd2657d4a003a03790b5183"
+                      "bytes":  413,
+                      "sha256":  "006f0a73e21184c4368bab327b743fdff8e92dac8315e01bcdcb8fcb7afd38ce"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/setup/import/fail_town_limit.mcfunction",
-                      "bytes":  407,
-                      "sha256":  "f820f73dc028b769566a12b7d533f76571032a4cfafc546fe0955cce3e030cd9"
+                      "bytes":  412,
+                      "sha256":  "8ecaa907fc1ccaa43b11b6a894a7236353d8cfe09490a61c487d1eb93f6d7020"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/setup/import/full.mcfunction",
@@ -12580,7 +12580,7 @@
                   {
                       "path":  "Jays-Patch/public-package/README.md",
                       "bytes":  9661,
-                      "sha256":  "fa0b40b35fd806abef94121622ab5a9a6d947b8e99f10b38c748be111cd0925a"
+                      "sha256":  "e84464b6b4da51aea212eb6c2adf7451c73e82f079e4d531abf4604b5f4f0c64"
                   },
                   {
                       "path":  "Jays-Patch/resourcepack/assets/botc_patch/font/role_icons.json",
@@ -14610,12 +14610,12 @@
                   {
                       "path":  "Jays-Patch/version.txt",
                       "bytes":  13,
-                      "sha256":  "12ef7562d166f1562232b8e9efb9e4e37a0b64930da9f0299349c802e7e1fd2e"
+                      "sha256":  "048ea58e80e287ed4dbdc1ff60d8a1627a0589cefb7ead2b4027d7c9bca85fc2"
                   },
                   {
                       "path":  "Jays-Patch/world-template-manifest.json",
                       "bytes":  17550,
-                      "sha256":  "344eee10dfce0fb0621d875db90915760611049109ab9918c6e398ef7480dcae"
+                      "sha256":  "6d52b59cdaa44c1ac1d5d384351806aa1e096175ea32660b85738b56c4740669"
                   },
                   {
                       "path":  "Jays-Patch/yawp-compatibility.json",
@@ -14694,8 +14694,8 @@
                   },
                   {
                       "path":  "tools/generate-buffet-gamemodes.ps1",
-                      "bytes":  197382,
-                      "sha256":  "3f565c7f8f8d399f43717b168d407bed4b246d7b6a6a89b73901017784c135d1"
+                      "bytes":  197346,
+                      "sha256":  "855fd81ca0714461005f08b00809d075a4fb71844e07419c0049ddfe5919f900"
                   },
                   {
                       "path":  "tools/generate-dialog-icons.ps1",
@@ -14704,8 +14704,8 @@
                   },
                   {
                       "path":  "tools/generate-draft-buffet.ps1",
-                      "bytes":  399114,
-                      "sha256":  "4f87b23018856f4f2ef7eb6913d756ab1f02b2ae88b1030a6f6e57144910478c"
+                      "bytes":  371156,
+                      "sha256":  "05050b5bc8e5ab41e9e87b86cd553f9e3b76be93fc413ee07ad5a2f98592402d"
                   },
                   {
                       "path":  "tools/generate-grim-alhadikhia.ps1",
@@ -14714,13 +14714,13 @@
                   },
                   {
                       "path":  "tools/generate-grim-character-editor.ps1",
-                      "bytes":  48931,
-                      "sha256":  "df9a7a9356344ac9cabab4d445b4755adb5e6837f057d3282debbe151f81d409"
+                      "bytes":  48978,
+                      "sha256":  "ffff0102e2b2e2e3c34a5e93fe764b833d99742830528a17e6466783fc1381e5"
                   },
                   {
                       "path":  "tools/generate-grim-confirm.ps1",
-                      "bytes":  9903,
-                      "sha256":  "867c57d7f311312aed4b3cc33758d8043050d65ce3272ea3acc8641305d30c72"
+                      "bytes":  9894,
+                      "sha256":  "709c3fc75280c6755f1ef043045aca4f069425acdd0d4bf840fb411958ab3f8d"
                   },
                   {
                       "path":  "tools/generate-grim-dialog.ps1",
@@ -14914,8 +14914,8 @@
                   },
                   {
                       "path":  "tools/tests/test-buffet-gamemodes.ps1",
-                      "bytes":  156289,
-                      "sha256":  "19ea881f7cb29ff9680739621b8731d9aaecdd402dfe2351e12c5ac7f7ca73d8"
+                      "bytes":  156165,
+                      "sha256":  "2e4bf667509650bec38ea877286c8f2ed3fba19f662da290d815949609b1314b"
                   },
                   {
                       "path":  "tools/tests/test-command-budget.ps1",
@@ -14949,8 +14949,8 @@
                   },
                   {
                       "path":  "tools/tests/test-draft-randomization-model.ps1",
-                      "bytes":  29135,
-                      "sha256":  "2e3aa9b37be746a2c25c3ef95cb1e9e5e6624c949cd04c44d4a87232ff5f8861"
+                      "bytes":  29939,
+                      "sha256":  "8ba7d1b26e9bca528c73a82ae1e26a665d958d8eab607c2ed06695e44116d286"
                   },
                   {
                       "path":  "tools/tests/test-fun-drunk.ps1",
@@ -14974,8 +14974,8 @@
                   },
                   {
                       "path":  "tools/tests/test-grim-character-editor.ps1",
-                      "bytes":  28879,
-                      "sha256":  "c69df844cf49fbc9247eb1bf081e0a105d80fac99b843f1a1982c0c400309ff6"
+                      "bytes":  29181,
+                      "sha256":  "4c8843722c08981c457cb33f8db4148dce887e861b2ce8f8a26759230effb477"
                   },
                   {
                       "path":  "tools/tests/test-grim-rescind.ps1",
@@ -14994,8 +14994,8 @@
                   },
                   {
                       "path":  "tools/tests/test-player-facing-message-style.ps1",
-                      "bytes":  6517,
-                      "sha256":  "2ff0979f31c95645ccdb7b4a6af6437b650e99d69db3b38bc7217d90d0e0285e"
+                      "bytes":  9262,
+                      "sha256":  "02fa180f78e8e3916e43379dd0f239c2be84d77d2f54e9ab378ee232d27550c5"
                   },
                   {
                       "path":  "tools/tests/test-public-config-hygiene.ps1",

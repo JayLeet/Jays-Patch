@@ -18,7 +18,7 @@ scoreboard players set buffet_roster_locked botc_patch 1
 function botc_patch:cmd/start
 execute unless score phase game_data matches 4 run scoreboard players set buffet_roster_locked botc_patch 0
 execute unless score phase game_data matches 4 if score start_player_count botc_patch matches 5..15 run function botc_patch:buffet/attention/block_self
-execute unless score phase game_data matches 4 if score start_player_count botc_patch matches 5..15 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Sybillian did not enter the first night, so the game did not finish starting. The roster was unlocked; check the server log before trying again.","color":"gray","bold":false}]
+execute unless score phase game_data matches 4 if score start_player_count botc_patch matches 5..15 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Sybillian did not start the first night. The player list was unlocked; check the server log, then try again.","color":"gray","bold":false}]
 execute unless score phase game_data matches 4 run return 0
 function botc_patch:buffet/roster/restore_started_identity
 function botc_patch:buffet/greedy/start/apply_roles
