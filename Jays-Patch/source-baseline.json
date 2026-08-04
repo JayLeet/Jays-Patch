@@ -12864,8 +12864,8 @@
                   },
                   {
                       "path":  "Jays-Patch/public-package/README.md",
-                      "bytes":  8830,
-                      "sha256":  "2d95fc15d86cedc61d5181bd122c752bfbcd8303b9337e76e45f06806179e0ae"
+                      "bytes":  8765,
+                      "sha256":  "efa253e5d2df9d3963e75dc13f80b4d52391d81068c9237dc517c926020b5933"
                   },
                   {
                       "path":  "Jays-Patch/resourcepack/assets/botc_patch/font/role_icons.json",
