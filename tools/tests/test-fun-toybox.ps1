@@ -572,9 +572,9 @@ foreach ($openingSound in @(
 Assert-DoesNotContain $vizierBurstText 'minecraft:(?:block\.note_block\.didgeridoo|entity\.warden\.heartbeat)' "old Vizier opening sounds"
 foreach ($vizierPitch in @(
     @{ Timer = 70; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.0'; Pitch = '1\.00' },
-    @{ Timer = 55; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.1'; Pitch = '0\.85' },
-    @{ Timer = 40; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.1'; Pitch = '0\.70' },
-    @{ Timer = 25; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.2'; Pitch = '0\.60' },
+    @{ Timer = 55; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.1'; Pitch = '1\.25' },
+    @{ Timer = 40; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.1'; Pitch = '1\.10' },
+    @{ Timer = 25; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.2'; Pitch = '0\.90' },
     @{ Timer = 10; Sound = 'minecraft:entity\.player\.levelup'; Volume = '1\.3'; Pitch = '0\.50' }
 )) {
     Assert-Contains $vizierTickText "matches $($vizierPitch.Timer) run playsound $($vizierPitch.Sound) master @a\[distance=\.\.64\] ~ ~ ~ $($vizierPitch.Volume) $($vizierPitch.Pitch)" "descending Vizier King-jingle note at timer $($vizierPitch.Timer)"
