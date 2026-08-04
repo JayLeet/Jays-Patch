@@ -3,7 +3,6 @@ execute if score fun_entrance_active botc_patch matches 1 run function botc_patc
 function botc_patch:fun/entrance/cleanup_light
 scoreboard players set fun_hot_active botc_patch 0
 scoreboard players set fun_hot_timer botc_patch 0
-scoreboard players set fun_hot_pulse botc_patch 0
 scoreboard players set fun_dice_active botc_patch 0
 scoreboard players set fun_dice_timer botc_patch 0
 tag @a remove botc_fun_hot_holder

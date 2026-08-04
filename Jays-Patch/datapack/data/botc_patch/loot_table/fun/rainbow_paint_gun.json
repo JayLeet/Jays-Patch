@@ -10,7 +10,30 @@
           "functions": [
             {
               "function": "minecraft:set_name",
-              "name": {"text": "Rainbow Paint Gun", "color": "light_purple", "bold": true, "italic": false}
+              "name": {
+                "text": "",
+                "bold": true,
+                "italic": false,
+                "extra": [
+                  {"text": "R", "color": "red"},
+                  {"text": "a", "color": "gold"},
+                  {"text": "i", "color": "yellow"},
+                  {"text": "n", "color": "green"},
+                  {"text": "b", "color": "aqua"},
+                  {"text": "o", "color": "blue"},
+                  {"text": "w", "color": "light_purple"},
+                  {"text": " "},
+                  {"text": "P", "color": "red"},
+                  {"text": "a", "color": "gold"},
+                  {"text": "i", "color": "yellow"},
+                  {"text": "n", "color": "green"},
+                  {"text": "t", "color": "aqua"},
+                  {"text": " "},
+                  {"text": "G", "color": "blue"},
+                  {"text": "u", "color": "light_purple"},
+                  {"text": "n", "color": "red"}
+                ]
+              }
             },
             {
               "function": "minecraft:set_lore",

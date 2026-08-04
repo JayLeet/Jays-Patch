@@ -88,6 +88,23 @@ foreach ($file in $lootFiles) {
     try { $null = $text | ConvertFrom-Json } catch { throw "Invalid fun loot JSON in $file`: $($_.Exception.Message)" }
 }
 
+$rainbowLoot = Read-RequiredText (Join-Path $LootRoot "rainbow_paint_gun.json") | ConvertFrom-Json
+$rainbowNameFunctions = @($rainbowLoot.pools[0].entries[0].functions | Where-Object { [string] $_.function -eq "minecraft:set_name" })
+if ($rainbowNameFunctions.Count -ne 1) {
+    throw "Rainbow Paint Gun must define exactly one item name."
+}
+$rainbowName = $rainbowNameFunctions[0].name
+$rainbowNameParts = @($rainbowName.extra)
+if ([string] $rainbowName.text -ne "" -or $rainbowName.bold -ne $true -or $rainbowName.italic -ne $false -or
+    (($rainbowNameParts | ForEach-Object { [string] $_.text }) -join "") -ne "Rainbow Paint Gun") {
+    throw "Rainbow Paint Gun must keep its exact bold, non-italic display name."
+}
+$rainbowVisibleParts = @($rainbowNameParts | Where-Object { [string] $_.text -ne " " })
+$expectedRainbowColors = "red,gold,yellow,green,aqua,blue,light_purple,red,gold,yellow,green,aqua,blue,light_purple,red"
+if ($rainbowVisibleParts.Count -ne 15 -or (($rainbowVisibleParts | ForEach-Object { [string] $_.color }) -join ",") -ne $expectedRainbowColors) {
+    throw "Every visible Rainbow Paint Gun letter must follow the seven-colour rainbow cycle."
+}
+
 $boomText = Read-RequiredText (Join-Path $FunctionRoot "fun/boomdandy/burst.mcfunction")
 Assert-Contains $boomText 'particle minecraft:firework' "Boomdandy confetti"
 Assert-Contains $boomText 'entity\.firework_rocket\.blast' "Boomdandy burst sound"
@@ -100,6 +117,7 @@ $hotShootText = Read-RequiredText (Join-Path $FunctionRoot "fun/hot_potato/shoot
 $hotPassText = Read-RequiredText (Join-Path $FunctionRoot "fun/hot_potato/pass.mcfunction")
 $hotReceiveText = Read-RequiredText (Join-Path $FunctionRoot "fun/hot_potato/receive.mcfunction")
 $hotTickText = Read-RequiredText (Join-Path $FunctionRoot "fun/hot_potato/tick.mcfunction")
+$hotHeartbeatText = Read-RequiredText (Join-Path $FunctionRoot "fun/hot_potato/heartbeat.mcfunction")
 $hotExplodeText = Read-RequiredText (Join-Path $FunctionRoot "fun/hot_potato/explode.mcfunction")
 $hotEquipHeadText = Read-RequiredText (Join-Path $FunctionRoot "fun/hot_potato/equip_head.mcfunction")
 $hotSaveHeadText = Read-RequiredText (Join-Path $FunctionRoot "fun/hot_potato/save_head.mcfunction")
@@ -401,6 +419,16 @@ Assert-DoesNotContain $hotShootText 'scoreboard players set @s botc_fun_hot_rang
 Assert-Contains $hotRaycastText 'if entity @a\[tag=storyteller,tag=!botc_fun_hot_holder,gamemode=!spectator,dx=0\.2,dy=0\.2,dz=0\.2,limit=1,sort=nearest\]' "Hot Potato Storyteller collision excluding only the holder"
 Assert-Contains $hotRaycastText 'scoreboard players set @s botc_fun_hot_range 0' "Hot Potato Storyteller trace stop"
 Assert-Contains $hotRaycastText 'tag=!botc_fun_hot_holder,tag=!storyteller' "Hot Potato recipient guard still excludes every Storyteller"
+Assert-Contains $hotRaycastText 'particle minecraft:flame ~ ~ ~ 0 0 0 0 1' "Hot Potato pitchfork centre trail"
+foreach ($pitchforkTine in @(
+    @{ Range = "15..16"; Offset = "0.08" },
+    @{ Range = "13..14"; Offset = "0.16" },
+    @{ Range = "1..12"; Offset = "0.24" }
+)) {
+    Assert-Contains $hotRaycastText ([regex]::Escape("matches $($pitchforkTine.Range) if block ~ ~ ~ #minecraft:replaceable run particle minecraft:flame ^-$($pitchforkTine.Offset) ^ ^")) "Hot Potato pitchfork left tine at $($pitchforkTine.Range)"
+    Assert-Contains $hotRaycastText ([regex]::Escape("matches $($pitchforkTine.Range) if block ~ ~ ~ #minecraft:replaceable run particle minecraft:flame ^$($pitchforkTine.Offset) ^ ^")) "Hot Potato pitchfork right tine at $($pitchforkTine.Range)"
+}
+Assert-Contains $hotPassText ([regex]::Escape('{"selector":"@s","color":"yellow"},{"text":" starpassed to ","color":"gold"},{"selector":"@a[tag=botc_fun_hot_target,limit=1,sort=nearest]","color":"red"},{"text":"!","color":"gray"}')) "Hot Potato sender-to-recipient starpass announcement"
 Assert-Contains $hotTickText 'unless items entity @s inventory\.\*' "Hot Potato main-inventory ownership check"
 Assert-Contains $hotTickText 'unless items entity @s hotbar\.\*' "Hot Potato hotbar ownership check"
 Assert-Contains $hotTickText 'unless items entity @s weapon\.offhand' "Hot Potato offhand ownership check"
@@ -460,32 +488,24 @@ foreach ($pair in @(
 Assert-Contains $hotStartText 'scoreboard players add fun_hot_generation botc_patch 1' "Hot Potato round generation"
 Assert-Contains $hotReceiveText 'scoreboard players operation @s botc_fun_hot_generation = fun_hot_generation botc_patch' "holder generation ownership"
 Assert-Contains $hotTickText 'unless score @s botc_fun_hot_generation = fun_hot_generation botc_patch' "stale offline-holder reconciliation"
-foreach ($band in @(
-    @{ Timer = "151..200"; Interval = 16; Pitch = "1.00" },
-    @{ Timer = "101..150"; Interval = 12; Pitch = "1.20" },
-    @{ Timer = "51..100"; Interval = 8; Pitch = "1.45" },
-    @{ Timer = "1..50"; Interval = 4; Pitch = "1.75" }
-)) {
-    $prefix = "execute if score fun_hot_active botc_patch matches 1 if score fun_hot_timer botc_patch matches $($band.Timer)"
-    $add = "$prefix run scoreboard players add fun_hot_pulse botc_patch 1"
-    $sound = "$prefix if score fun_hot_pulse botc_patch matches $($band.Interval).. at @a[tag=botc_fun_hot_holder,limit=1] run playsound minecraft:entity.warden.heartbeat master @a[distance=..32] ~ ~ ~ 1.0 $($band.Pitch)"
-    $reset = "$prefix if score fun_hot_pulse botc_patch matches $($band.Interval).. run scoreboard players set fun_hot_pulse botc_patch 0"
-    Assert-Contains $hotTickText ([regex]::Escape($add)) "Hot Potato heartbeat counter for $($band.Timer)"
-    Assert-Contains $hotTickText ([regex]::Escape($sound)) "Hot Potato heartbeat sound for $($band.Timer)"
-    Assert-Contains $hotTickText ([regex]::Escape($reset)) "Hot Potato heartbeat reset for $($band.Timer)"
-    if ($hotTickText.IndexOf($add, [System.StringComparison]::Ordinal) -ge $hotTickText.IndexOf($sound, [System.StringComparison]::Ordinal) -or
-        $hotTickText.IndexOf($sound, [System.StringComparison]::Ordinal) -ge $hotTickText.IndexOf($reset, [System.StringComparison]::Ordinal)) {
-        throw "Hot Potato heartbeat band $($band.Timer) must count, sound, then reset its pulse."
-    }
+Assert-Contains $hotTickText ([regex]::Escape("execute if score fun_hot_active botc_patch matches 1 run function botc_patch:fun/hot_potato/heartbeat")) "shared Hot Potato heartbeat dispatch"
+Assert-DoesNotContain $hotTickText 'playsound minecraft:entity\.warden\.heartbeat' "inline Hot Potato heartbeat sound"
+$hotHeartbeatLines = @($hotHeartbeatText -split "`r?`n" | Where-Object { $_ -match 'playsound minecraft:entity\.warden\.heartbeat' })
+if ($hotHeartbeatLines.Count -ne 10) {
+    throw "Hot Potato must play exactly ten heartbeats during its final ten seconds."
 }
-Assert-DoesNotContain $hotTickText 'fun_hot_timer botc_patch matches \.\.200' "old fixed-rate Hot Potato heartbeat"
-foreach ($invalidRange in @("200..151", "150..101", "100..51", "50..1")) {
-    Assert-DoesNotContain $hotTickText ([regex]::Escape("fun_hot_timer botc_patch matches $invalidRange")) "invalid descending Hot Potato heartbeat range $invalidRange"
+foreach ($secondsRemaining in 10..1) {
+    $timer = $secondsRemaining * 20
+    $pitch = (0.60 + ((10 - $secondsRemaining) * 0.15)).ToString("0.00", [System.Globalization.CultureInfo]::InvariantCulture)
+    $expectedHeartbeat = "execute if score fun_hot_timer botc_patch matches $timer at @a[tag=botc_fun_hot_holder,limit=1] run playsound minecraft:entity.warden.heartbeat master @a[distance=..32] ~ ~ ~ 1.0 $pitch"
+    Assert-Contains $hotHeartbeatText ([regex]::Escape($expectedHeartbeat)) "Hot Potato heartbeat at $secondsRemaining seconds and pitch $pitch"
 }
+Assert-DoesNotContain $hotHeartbeatText 'fun_hot_timer botc_patch matches (?:\d+\.\.(?:\d+)?|\.\.\d+)' "Hot Potato heartbeat timer range"
+Assert-DoesNotContain (($hotStartText, $hotTickText, $hotExplodeText, $funLoadText) -join "`n") 'fun_hot_pulse' "obsolete Hot Potato pulse counter"
 Assert-Contains $loadText 'scoreboard objectives add botc_fun_hot_pass_cd dummy' "Hot Potato cooldown objective"
 Assert-Contains $loadText 'scoreboard objectives add botc_fun_hot_immunity dummy' "Hot Potato return-immunity objective"
 Assert-Contains $loadText 'scoreboard objectives add botc_fun_hot_generation dummy' "Hot Potato generation objective"
-Assert-DoesNotContain (($hotCommandStartText, $hotStartText, $hotRaycastText, $hotTickText, $hotExplodeText, $hotEquipHeadText, $hotSaveHeadText, $hotRestoreHeadText, $hotHolderEffectsText) -join "`n") '\b(damage|summon minecraft:tnt|effect give @s minecraft:(?:nausea|poison|wither|instant_damage))\b' "unintended harmful Hot Potato behavior"
+Assert-DoesNotContain (($hotCommandStartText, $hotStartText, $hotRaycastText, $hotTickText, $hotHeartbeatText, $hotExplodeText, $hotEquipHeadText, $hotSaveHeadText, $hotRestoreHeadText, $hotHolderEffectsText) -join "`n") '\b(damage|summon minecraft:tnt|effect give @s minecraft:(?:nausea|poison|wither|instant_damage))\b' "unintended harmful Hot Potato behavior"
 
 $diceStartText = Read-RequiredText (Join-Path $FunctionRoot "fun/dice_roll/start.mcfunction")
 $diceBeginText = Read-RequiredText (Join-Path $FunctionRoot "fun/dice_roll/begin.mcfunction")
@@ -541,15 +561,15 @@ Assert-Contains $kingUseText 'You can only make your King claim in the Town Squa
 Assert-Contains $kingTickText 'matches 10 run playsound minecraft:entity\.player\.levelup master @a\[distance=\.\.64\] ~ ~ ~ 1\.3 0\.70' "low-pitched King level-up finale"
 Assert-DoesNotContain $kingTickText 'minecraft:ui\.toast\.challenge_complete' "overused King challenge-complete finale"
 foreach ($vizierPitch in @(
-    @{ Timer = 70; Sound = 'minecraft:block\.note_block\.didgeridoo'; Volume = '1\.2'; Pitch = '0\.65' },
-    @{ Timer = 55; Sound = 'minecraft:entity\.warden\.heartbeat'; Volume = '1\.2'; Pitch = '0\.80' },
-    @{ Timer = 40; Sound = 'minecraft:block\.respawn_anchor\.charge'; Volume = '1\.0'; Pitch = '0\.95' },
-    @{ Timer = 25; Sound = 'minecraft:block\.note_block\.didgeridoo'; Volume = '1\.3'; Pitch = '1\.10' },
-    @{ Timer = 10; Sound = 'minecraft:entity\.warden\.sonic_boom'; Volume = '0\.75'; Pitch = '1\.25' }
+    @{ Timer = 70; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.0'; Pitch = '1\.50' },
+    @{ Timer = 55; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.1'; Pitch = '1\.25' },
+    @{ Timer = 40; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.1'; Pitch = '1\.10' },
+    @{ Timer = 25; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.2'; Pitch = '0\.90' },
+    @{ Timer = 10; Sound = 'minecraft:entity\.player\.levelup'; Volume = '1\.3'; Pitch = '0\.70' }
 )) {
-    Assert-Contains $vizierTickText "matches $($vizierPitch.Timer) run playsound $($vizierPitch.Sound) master @a\[distance=\.\.64\] ~ ~ ~ $($vizierPitch.Volume) $($vizierPitch.Pitch)" "ascending Vizier pitch at timer $($vizierPitch.Timer)"
+    Assert-Contains $vizierTickText "matches $($vizierPitch.Timer) run playsound $($vizierPitch.Sound) master @a\[distance=\.\.64\] ~ ~ ~ $($vizierPitch.Volume) $($vizierPitch.Pitch)" "descending Vizier King-jingle note at timer $($vizierPitch.Timer)"
 }
-Assert-DoesNotContain $vizierTickText ' ~ ~ ~ [0-9.]+ 0\.40' "descending ultra-low Vizier cue"
+Assert-DoesNotContain $vizierTickText 'minecraft:(?:block\.note_block\.didgeridoo|entity\.warden\.(?:heartbeat|sonic_boom)|block\.respawn_anchor\.charge)' "old Vizier jingle sound set"
 if ($kingUseText.IndexOf("unless block ~ -64 ~ minecraft:warped_planks", [System.StringComparison]::Ordinal) -gt $kingUseText.IndexOf("clear @s", [System.StringComparison]::Ordinal)) {
     throw "The King Town Square guard must run before consuming the item."
 }

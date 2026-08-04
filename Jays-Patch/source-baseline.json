@@ -5859,8 +5859,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/entrance/vizier/tick.mcfunction",
-                      "bytes":  1242,
-                      "sha256":  "a1ccb679492377284f6149d85f53823dbe75f9b19d5c41b4012b5ffe6bd84c72"
+                      "bytes":  1220,
+                      "sha256":  "e09853b5f54ef229ea219a18a31e34031b96416a9f8efef56fec953f5f44a2fa"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/apply_holder_effects.mcfunction",
@@ -5869,8 +5869,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/begin.mcfunction",
-                      "bytes":  1483,
-                      "sha256":  "cbc8871a6d6134b1f04154e63201ecc05c851c9bf04da15917ff5c67e6378e14"
+                      "bytes":  1433,
+                      "sha256":  "37a5a1fdb166e4ce8281444a1cbd3e9aa4e5ed5100ec2d831bd0a8917bac0be6"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/cleanup_stale_holder.mcfunction",
@@ -5884,18 +5884,23 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/explode.mcfunction",
-                      "bytes":  1599,
-                      "sha256":  "d621c4bc63a0d95bfbf5da12cf106f9b0cdf8ad05ad9b4f6b1069e1c2639f24e"
+                      "bytes":  1549,
+                      "sha256":  "46156eb3bc5148b1c9c98da54d8a35c86c2e8c0ab2a01528eeb82d6706fd920c"
+                  },
+                  {
+                      "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/heartbeat.mcfunction",
+                      "bytes":  1886,
+                      "sha256":  "de6ec62490b7b4e45ae10364807093fba52ff9c865b20e2c84cb2862580f120d"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/pass.mcfunction",
-                      "bytes":  808,
-                      "sha256":  "cba2451b7050fd088758f938391adf354abf59bbadccd1148ad3b6a867f5594d"
+                      "bytes":  804,
+                      "sha256":  "139f60cbc6e955871dc57d6c5cf2c2901981c6e9838c707d9b4782f1ae468546"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/raycast.mcfunction",
-                      "bytes":  1113,
-                      "sha256":  "16ad3e1feba44711214b32e484db52d51db391efe107288962a0c25cb94db5d4"
+                      "bytes":  2190,
+                      "sha256":  "d281cebedec9596d27020d7e1b59d3440b96795e98670670921b92812aeecce6"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/receive.mcfunction",
@@ -5929,13 +5934,13 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/tick.mcfunction",
-                      "bytes":  5750,
-                      "sha256":  "1185971ce6c3602bd737f248e1bc3b0d28a7ca91620301d36de23e349886a05f"
+                      "bytes":  3225,
+                      "sha256":  "063f9f04e484462ee0c121f1fe5e8665be8c8ebf0caf91ffc3bf7c6f7de24099"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/load.mcfunction",
-                      "bytes":  2293,
-                      "sha256":  "09809673cbb5158d84de12d83b47c52af7b28f162010bd047c451ca0d7c45d29"
+                      "bytes":  2243,
+                      "sha256":  "46167656786f5c7e79346e0a8a3bdcf34372ce8826d891afed9b425fc60354c6"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/paint_gun/candidates/create.mcfunction",
@@ -12614,8 +12619,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/loot_table/fun/rainbow_paint_gun.json",
-                      "bytes":  1086,
-                      "sha256":  "296c5aa2c854a73dcdb8bd886f291fbf95b2bb5de7c62b433fcede7dbc5bae0f"
+                      "bytes":  1988,
+                      "sha256":  "7261725f257f38a70c06f0bc3ebddee8fdfc366011284da1ac94b04153e5f2f5"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/loot_table/fun/sillyjuice.json",
@@ -15379,8 +15384,8 @@
                   },
                   {
                       "path":  "tools/tests/test-fun-toybox.ps1",
-                      "bytes":  51880,
-                      "sha256":  "2abe5d8a099b3ba71f6838568de212950e3a8fc3e3a0f0aa118b15b349003812"
+                      "bytes":  53835,
+                      "sha256":  "728bb4bd0bb612bb6422f9d449cfc53bc1bc3b05ef48cd74dcef0e995d7d48ed"
                   },
                   {
                       "path":  "tools/tests/test-game-state-invariants.ps1",

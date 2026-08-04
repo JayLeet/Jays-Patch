@@ -7,7 +7,6 @@ clear @a minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc
 execute as @e[type=minecraft:item] if items entity @s contents minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_fun_hot_potato"]}] run kill @s
 scoreboard players set fun_hot_active botc_patch 1
 scoreboard players set fun_hot_timer botc_patch 600
-scoreboard players set fun_hot_pulse botc_patch 0
 scoreboard players add fun_hot_generation botc_patch 1
 tag @s add botc_fun_hot_holder
 scoreboard players operation @s botc_fun_hot_generation = fun_hot_generation botc_patch
