@@ -192,4 +192,4 @@ scoreboard players set draft_summoner_resolution_pending botc_patch 0
 scoreboard players set @s botc_grim_edit_mode 0
 scoreboard players set @s botc_grim_edit_valid 1
 dialog clear @s
-$tellraw @s [{"text":"Demon assigned: ","color":"green","bold":true},{"text":"$(name)","color":"$(color)","bold":true},{"text":" is now in play and the selected player is evil.","color":"gray","bold":false}]
+$tellraw @s [{"text":"\u2714 ","color":"green","bold":true},{"text":"Demon assigned: ","color":"gray","bold":false},{"text":"$(name)","color":"$(color)","bold":true},{"text":" is now in play and the selected player is evil.","color":"gray","bold":false}]

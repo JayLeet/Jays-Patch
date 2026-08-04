@@ -62,7 +62,16 @@ $redFeatureAllowlist = @(
     "grim/true_grimoire/sync_player.mcfunction",
     "wraith/discovered.mcfunction"
 )
+$greenFirstComponentAllowlist = @(
+    "buffet/draft/next_turn.mcfunction",
+    "buffet/draft/turn_cue.mcfunction"
+)
+$denseTellrawAllowlist = @(
+    "buffet/draft/jinx/report.mcfunction"
+)
 $redFirstComponentPattern = 'tellraw\s+\S+\s+(?:\[\s*)?\{\s*"?text"?\s*:\s*"(?<text>[^"]*)"\s*,\s*"?color"?\s*:\s*"?(?:red|dark_red)"?'
+$greenFirstComponentPattern = 'tellraw\s+\S+\s+(?:\[\s*)?\{\s*"?text"?\s*:\s*"(?<text>[^"]*)"\s*,\s*"?color"?\s*:\s*"?(?:green|dark_green)"?'
+$heavyCheckText = ([char] 0x2714) + " "
 $retiredVisibleCopyPattern = 'Turn Recycling on|Full-catalog Demon assignment|Final 3|in this flow|Draft Buffet Route|Perceived (?:Townsfolk|Demon)|(?:Special|Atheist) Route Outsiders'
 $plainMessagePattern = '\{type:"plain_message",contents:(?<contents>.*?),width:\d+\}'
 $textComponentPattern = '(?<![A-Za-z_])text\s*:\s*"(?<text>(?:\\.|[^"])*)"'
@@ -83,7 +92,13 @@ foreach ($file in $functionFiles) {
                 $violations.Add("$relativePath`:$lineNumber uses a bare red error instead of the shared ! format.")
             }
         }
-        if ($line -match 'tellraw ' -and $line -match '\{"text":"(?:\\u2713|✓) ') {
+        if ($line -match $greenFirstComponentPattern) {
+            $firstText = [string] $Matches["text"]
+            if ($firstText -ne $heavyCheckText -and $firstText -ne '\u2714 ' -and $relativePath -notin $greenFirstComponentAllowlist) {
+                $violations.Add("$relativePath`:$lineNumber uses bare green completion text instead of the shared heavy-check format.")
+            }
+        }
+        if ($line -match 'tellraw ' -and $line -match '\{"text":"(?:\\u2713|\u2713) ') {
             $violations.Add("$relativePath`:$lineNumber uses the light check mark for ordinary success.")
         }
         if ($line -match 'tellraw ' -and $line -match '\{"text":"! ","color":"yellow","bold":true\}' -and $relativePath -notin $yellowNoticeAllowlist) {
@@ -91,6 +106,40 @@ foreach ($file in $functionFiles) {
         }
         if (-not $line.TrimStart().StartsWith("#") -and $line -match $retiredVisibleCopyPattern) {
             $violations.Add("$relativePath`:$lineNumber uses retired player-facing wording.")
+        }
+
+        if (-not $line.TrimStart().StartsWith("#")) {
+            foreach ($textMatch in [regex]::Matches($line, $textComponentPattern)) {
+                $visibleText = [regex]::Replace([string] $textMatch.Groups["text"].Value, '\$\([^)]+\)', '')
+                if ($visibleText -match '(?i)\broles?\b') {
+                    $violations.Add("$relativePath`:$lineNumber uses visible role terminology instead of character terminology.")
+                }
+            }
+        }
+
+        if ($line -match 'tellraw ' -and $relativePath -notin $denseTellrawAllowlist) {
+            $visibleTellrawText = @(
+                [regex]::Matches($line, $textComponentPattern) |
+                    ForEach-Object { $_.Groups["text"].Value }
+            ) -join ""
+            $visibleTellrawText = [regex]::Replace($visibleTellrawText, '^(?:! |\u2714 |\\u2714 )', '')
+            $sentenceCount = [regex]::Matches($visibleTellrawText, '[.!?](?:\\n|\s|$)').Count
+            $hasLineBreak = $visibleTellrawText.Contains('\n')
+            $isDenseTellraw = -not $hasLineBreak -and (
+                ($visibleTellrawText.Length -ge 140 -and $sentenceCount -ge 2) -or
+                ($visibleTellrawText.Length -ge 120 -and $sentenceCount -ge 3)
+            )
+            if ($isDenseTellraw) {
+                $violations.Add("$relativePath`:$lineNumber contains a dense tellraw paragraph; shorten it or split it into scannable lines.")
+            }
+        }
+
+        if ($line -match 'dialog show' -and $line -match 'actions:\[') {
+            $exitActionIndex = $line.IndexOf(',exit_action:')
+            $actionGrid = if ($exitActionIndex -ge 0) { $line.Substring(0, $exitActionIndex) } else { $line }
+            if ($actionGrid -match '(?:label:"(?:Go )?Back"|label:\{text:"(?:Go )?Back"|text:" (?:Go )?Back")') {
+                $violations.Add("$relativePath`:$lineNumber puts Back navigation in the main action grid instead of exit_action.")
+            }
         }
 
         foreach ($plainMessage in [regex]::Matches($line, $plainMessagePattern)) {

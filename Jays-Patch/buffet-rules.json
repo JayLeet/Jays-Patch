@@ -51,14 +51,6 @@
         "riot"
       ]
     },
-    "setupDefiningRoles": [
-      "kazali",
-      "atheist",
-      "legion",
-      "lord_of_typhon",
-      "lil_monsta",
-      "summoner"
-    ],
     "archetypes": {
       "town_first_night_information": {
         "type": "town",
