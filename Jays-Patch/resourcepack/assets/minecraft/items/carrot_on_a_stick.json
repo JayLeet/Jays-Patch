@@ -2064,6 +2064,28 @@
                                 {
                                     "when":  {
                                                  "strings":  [
+                                                                 "botc_fun_paint_gun"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/fun/paint_gun"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
+                                                                 "botc_fun_rainbow_paint_gun"
+                                                             ]
+                                             },
+                                    "model":  {
+                                                  "type":  "minecraft:model",
+                                                  "model":  "botc_patch:item/fun/rainbow_paint_gun"
+                                              }
+                                },
+                                {
+                                    "when":  {
+                                                 "strings":  [
                                                                  "botc_fun_boomdandy"
                                                              ]
                                              },

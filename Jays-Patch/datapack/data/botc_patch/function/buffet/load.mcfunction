@@ -13,6 +13,7 @@ scoreboard objectives add botc_buffet_minion dummy
 scoreboard objectives add botc_buffet_demon dummy
 scoreboard objectives add botc_buffet_seat dummy
 scoreboard objectives add botc_buffet_seat_gen dummy
+scoreboard objectives add botc_greedy_hud_seen dummy
 scoreboard objectives add botc_bg_target dummy
 scoreboard objectives add botc_bg_rslot dummy
 scoreboard objectives add botc_bg_rcat dummy
@@ -49,6 +50,8 @@ execute unless score buffet_hard_valid botc_patch matches 0..1 run scoreboard pl
 execute unless score buffet_soft_warning botc_patch matches 0..1 run scoreboard players set buffet_soft_warning botc_patch 0
 execute unless score buffet_start_confirmed botc_patch matches 0..1 run scoreboard players set buffet_start_confirmed botc_patch 0
 execute unless score buffet_draft_ready botc_patch matches 0..1 run scoreboard players set buffet_draft_ready botc_patch 0
+execute unless score buffet_greedy_hud_ready botc_patch matches 0..1 run scoreboard players set buffet_greedy_hud_ready botc_patch 0
+execute if score buffet_mode botc_patch matches 1 if score phase game_data matches 1.. run scoreboard players set buffet_greedy_hud_ready botc_patch 1
 execute unless score draft_current_seat botc_patch matches 0..15 run scoreboard players set draft_current_seat botc_patch 0
 execute unless score buffet_seat_1_generation botc_patch matches 0.. run scoreboard players set buffet_seat_1_generation botc_patch 0
 execute unless score buffet_seat_2_generation botc_patch matches 0.. run scoreboard players set buffet_seat_2_generation botc_patch 0

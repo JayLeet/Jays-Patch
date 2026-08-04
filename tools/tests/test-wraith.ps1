@@ -147,5 +147,6 @@ Assert-Contains $carrotSelector 'botc_role_wraith' "Wraith carrot selector"
 Assert-Contains $paperSelector 'botc_role_wraith' "Wraith paper selector"
 Assert-Contains $model 'botc_patch:item/role/wraith' "Wraith model texture"
 Assert-Contains $language 'clocktower\.role\.wraith\.name' "Wraith translation"
+Assert-Contains $language 'clocktower\.role\.wraith\.desc"\s*:\s*"You may choose to open your eyes at night\. You wake when other evil players do\."' "global official Wraith ability text"
 
 Write-Host "Wraith adapter and state-machine checks passed." -ForegroundColor Green

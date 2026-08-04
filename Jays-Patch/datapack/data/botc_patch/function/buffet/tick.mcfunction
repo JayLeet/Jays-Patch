@@ -3,6 +3,7 @@ execute if score phase game_data matches 0 if score buffet_mode botc_patch match
 execute if score buffet_mode botc_patch matches 1..2 as @a[tag=botc_buffet_roster,tag=!storyteller] run scoreboard players enable @s botc_buffet_action
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 as @a[tag=botc_buffet_roster] run function botc_patch:buffet/roster/validate_return
 execute if score phase game_data matches 0.. if score buffet_mode botc_patch matches 1..2 as @a[tag=botc_buffet_roster,tag=!storyteller] unless data entity @s Inventory[{Slot:8b}].components."minecraft:custom_data"{botc_buffet_public_script:1b,botc_buffet_public_script_version:2} run function botc_patch:buffet/script/redact_player
+execute if score phase game_data matches 1.. if score buffet_mode botc_patch matches 1 if score buffet_greedy_hud_ready botc_patch matches 1 as @a[tag=botc_buffet_roster,tag=!storyteller] unless score @s botc_greedy_hud_seen = @s botc_leave_game run function botc_patch:buffet/roles/sync_greedy_hud
 
 # Keep the ordinary setup reset available without reopening every setup-tool action.
 execute if score phase game_data matches 0 if score buffet_mode botc_patch matches 1..2 run tag @a remove botc_setup_tool_used

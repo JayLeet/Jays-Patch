@@ -7,6 +7,7 @@ $VariantDir = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function/
 $RoleGlyphHelper = Join-Path $RepoRoot "tools/lib/role-icon-glyphs.ps1"
 $DialogIconPath = Join-Path $RepoRoot "Jays-Patch/dialog-icons.json"
 $MusicTrackPath = Join-Path $RepoRoot "Jays-Patch/music-tracks.json"
+$GreedyAbilityOverridePath = Join-Path $RepoRoot "Jays-Patch/greedy-ability-overrides.json"
 $DialogIconHelper = Join-Path $RepoRoot "tools/lib/dialog-icons.ps1"
 $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
 
@@ -19,6 +20,21 @@ $evilWinLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalo
 $rescindLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "reset") -Font "botc_patch:ui_icons" -Text "Cancel Reveal" -Color "dark_red" -Bold $true
 $closeLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "back") -Font "botc_patch:ui_icons" -Text "Close" -Color "gray"
 $titleLabel = New-BotcDialogGlyphLabel -Glyph (Get-BotcDialogIconGlyph -Catalog $icons -Id "reveal_grimoire") -Font "botc_patch:ui_icons" -Text "Grimoire Reveal" -Color "white"
+$greedyAbilityDocument = Get-Content -LiteralPath $GreedyAbilityOverridePath -Raw -Encoding UTF8 | ConvertFrom-Json
+if ([int] $greedyAbilityDocument.schemaVersion -ne 1) {
+    throw "Unsupported Greedy ability override schema version '$($greedyAbilityDocument.schemaVersion)'."
+}
+$greedyAbilityOverrides = @($greedyAbilityDocument.overrides)
+if ($greedyAbilityOverrides.Count -ne [int] $greedyAbilityDocument.expectedOverrideCount) {
+    throw "Greedy ability override count is $($greedyAbilityOverrides.Count), expected $($greedyAbilityDocument.expectedOverrideCount)."
+}
+$greedyAbilityRoles = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+foreach ($override in $greedyAbilityOverrides) {
+    $roleName = [string] $override.role
+    if ($roleName -notmatch '^[a-z0-9_]+$' -or -not $greedyAbilityRoles.Add($roleName)) {
+        throw "Greedy ability override contains an invalid or duplicate role '$roleName'."
+    }
+}
 
 function New-Header {
     param([string] $Responsibility)
@@ -48,7 +64,7 @@ function New-DialogLine {
     $dialogActions.Add('{label:' + $goodWinLabel + ',action:{type:"run_command",command:"/botc winner good"}}')
     $dialogActions.Add('{label:' + $evilWinLabel + ',action:{type:"run_command",command:"/botc winner evil"}}')
     for ($index = 1; $index -le $SeatCount; $index++) {
-        $dialogActions.Add('{label:{text:"$(e' + $index + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(e' + $index + '_name)",font:"minecraft:default",color:"white"},{text:" ($(e' + $index + '_role))",font:"minecraft:default",color:"$(e' + $index + '_color)"}]},tooltip:{text:"Seat $(e' + $index + '_seat)",color:"gray"},action:{type:"run_command",command:"/botc grimoire reveal_seat_$(e' + $index + '_seat)"}}')
+        $dialogActions.Add('{label:{text:"$(e' + $index + '_glyph)",font:"botc_patch:role_icons",color:"white",extra:[{text:" $(e' + $index + '_name)",font:"minecraft:default",color:"white"},{text:" ($(e' + $index + '_role))",font:"minecraft:default",color:"$(e' + $index + '_color)"}]},tooltip:{translate:"clocktower.role.$(e' + $index + '_ability_role).desc",fallback:"Character unknown",color:"gray"},action:{type:"run_command",command:"/botc grimoire reveal_seat_$(e' + $index + '_seat)"}}')
     }
     $dialogActions.Add('{label:' + $rescindLabel + ',action:{type:"run_command",command:"/botc grimoire rescind_confirm"}}')
 
@@ -64,6 +80,7 @@ $prepareLines.Add("data remove storage botc_patch:grim reveal_dialog")
 for ($seat = 1; $seat -le 15; $seat++) {
     $prepareLines.Add(('data modify storage botc_patch:grim reveal_dialog.p{0}_name set value "Seat {0}"' -f $seat))
     $prepareLines.Add(('data modify storage botc_patch:grim reveal_dialog.p{0}_role set value "Unknown"' -f $seat))
+    $prepareLines.Add(('data modify storage botc_patch:grim reveal_dialog.p{0}_ability_role set value "none"' -f $seat))
     $prepareLines.Add(('data modify storage botc_patch:grim reveal_dialog.p{0}_glyph set value "{1}"' -f $seat, $noneGlyph))
     $prepareLines.Add(('data modify storage botc_patch:grim reveal_dialog.p{0}_color set value "#aaaaaa"' -f $seat))
     $prepareLines.Add(('execute if score grim_seat_{0}_occupied botc_patch matches 1 if score grim_seat_{0}_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p{0}_color set value "#55aaff"' -f $seat))
@@ -77,12 +94,18 @@ Write-Lines -Path (Join-Path $VariantDir "prepare.mcfunction") -Lines $prepareLi
 
 $prepareRoleLines = New-Header "Resolves one snapshot role through the trusted Storyteller editor catalog."
 $prepareRoleLines.Add('$data modify storage botc_patch:grim reveal_dialog.p$(seat)_role set from storage botc_patch:grim editor.score_catalog.s$(score).name')
+$prepareRoleLines.Add('$data modify storage botc_patch:grim reveal_dialog.p$(seat)_ability_role set from storage botc_patch:grim editor.score_catalog.s$(score).id')
 $prepareRoleLines.Add('$data modify storage botc_patch:grim reveal_dialog.p$(seat)_glyph set from storage botc_patch:grim editor.score_catalog.s$(score).glyph')
+foreach ($override in $greedyAbilityOverrides) {
+    $roleName = [string] $override.role
+    $prepareRoleLines.Add(('$execute if score buffet_mode botc_patch matches 1 if data storage botc_patch:grim editor.score_catalog.s$(score){{id:"{0}"}} run data modify storage botc_patch:grim reveal_dialog.p$(seat)_ability_role set value "greedy_{0}"' -f $roleName))
+}
 Write-Lines -Path (Join-Path $VariantDir "prepare_role.mcfunction") -Lines $prepareRoleLines
 
 $appendLines = New-Header "Copies one occupied unrevealed seat into the next compact reveal-dialog entry."
 $appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_name set from storage botc_patch:grim reveal_dialog.p$(source)_name')
 $appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_role set from storage botc_patch:grim reveal_dialog.p$(source)_role')
+$appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_ability_role set from storage botc_patch:grim reveal_dialog.p$(source)_ability_role')
 $appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_glyph set from storage botc_patch:grim reveal_dialog.p$(source)_glyph')
 $appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_color set from storage botc_patch:grim reveal_dialog.p$(source)_color')
 $appendLines.Add('$data modify storage botc_patch:grim reveal_dialog_visible.e$(target)_seat set value $(source)')

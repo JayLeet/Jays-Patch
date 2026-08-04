@@ -11,6 +11,9 @@ $CharactersPath = Join-Path $RepoRoot "data\resources\datapack\required\ct\data\
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
 $RoleExtensionPath = Join-Path $RepoRoot "Jays-Patch/role-extensions.json"
 $UpstreamContractPath = Join-Path $RepoRoot "Jays-Patch/upstream-contract.json"
+$GreedyAbilityPath = Join-Path $RepoRoot "Jays-Patch/greedy-ability-overrides.json"
+$UpstreamLanguagePath = Join-Path $RepoRoot "data/resources/resourcepack/required/Blood on the Clocktower/assets/minecraft/lang/en_us.json"
+$JayLanguagePath = Join-Path $RepoRoot "Jays-Patch/resourcepack/assets/botc_patch/lang/en_us.json"
 
 function Assert-File {
     param([string] $Path, [string] $Description)
@@ -137,6 +140,15 @@ $trustedRoles = @(
 )
 $disabledRoles = Get-BotcDisabledRoleMap -ContractPath $UpstreamContractPath -RoleCatalog $trustedRoles
 $selectableRoleCount = @($trustedRoles | Where-Object { -not $disabledRoles.ContainsKey([string] $_.Role) }).Count
+$abilityLanguageText = (Get-Content -LiteralPath $UpstreamLanguagePath -Raw -Encoding UTF8) + "`n" + (Get-Content -LiteralPath $JayLanguagePath -Raw -Encoding UTF8)
+$abilityLanguageKeys = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+[regex]::Matches($abilityLanguageText, '"([^"]+)"\s*:') | ForEach-Object { [void] $abilityLanguageKeys.Add($_.Groups[1].Value) }
+foreach ($role in $trustedRoles) {
+    $abilityKey = "clocktower.role.$([string] $role.Role).desc"
+    if (-not $abilityLanguageKeys.Contains($abilityKey)) {
+        throw "The global Grimoire tooltip has no ability translation for '$([string] $role.Role)'."
+    }
+}
 if (@(Select-String -InputObject $validatorText -Pattern 'run function botc_patch:grim/editor/apply_character' -AllMatches).Matches.Count -ne $selectableRoleCount) {
     throw "Editor validator must contain exactly one guarded apply path per compatibility-eligible trusted role."
 }
@@ -173,6 +185,7 @@ $revealDialogFiveText = Get-Content -LiteralPath (Join-Path $FunctionRoot "grim/
 $revealDialogPrepareText = Get-Content -LiteralPath (Join-Path $FunctionRoot "grim/dialog/prepare.mcfunction") -Raw
 $revealDialogPrepareRoleText = Get-Content -LiteralPath (Join-Path $FunctionRoot "grim/dialog/prepare_role.mcfunction") -Raw
 $revealDialogAppendText = Get-Content -LiteralPath (Join-Path $FunctionRoot "grim/dialog/append.mcfunction") -Raw
+$greedyAbilityDocument = Get-Content -LiteralPath $GreedyAbilityPath -Raw -Encoding UTF8 | ConvertFrom-Json
 Assert-Contains $confirmDefaultText 'Change Characters' "pre-reveal editor action"
 Assert-Contains $confirmDefaultText '/botc grimoire change_characters' "pre-reveal editor command"
 Assert-Contains $confirmDefaultText 'exit_action:\{label:\{text:"[^\"]+",font:"botc_patch:ui_icons"[^\r\n]*text:" Back",font:"minecraft:default",color:"gray"[^\r\n]*/botc grimoire cancel' "pre-reveal Back navigation uses the dedicated exit slot"
@@ -189,21 +202,31 @@ Assert-NotContains $dialogText 'Change Characters|grim/editor|dialog/editable' "
 Assert-Contains $revealDialogFiveText 'text:" \$\(e1_name\)",font:"minecraft:default",color:"white"' "white reveal player component"
 Assert-Contains $revealDialogFiveText 'text:" \(\$\(e1_role\)\)",font:"minecraft:default",color:"\$\(e1_color\)"' "alignment-colored reveal suffix"
 Assert-Contains $revealDialogFiveText 'text:"\$\(e1_glyph\)",font:"botc_patch:role_icons",color:"white"' "reveal player role icon"
+Assert-Contains $revealDialogFiveText 'tooltip:\{translate:"clocktower\.role\.\$\(e1_ability_role\)\.desc",fallback:"Character unknown",color:"gray"\}' "reveal character ability tooltip"
+Assert-NotContains $revealDialogFiveText 'tooltip:\{text:"Seat ' "retired reveal seat-number tooltip"
 Assert-Contains $revealDialogFiveText 'columns:2' "winner controls on their own first row"
 Assert-Contains $revealDialogFiveText 'font:"botc_patch:ui_icons"[^\r\n]+text:" Good Wins",font:"minecraft:default",color:"#0000aa",bold:true' "icon-enhanced dark-blue Good Wins control"
 Assert-Contains $revealDialogFiveText 'font:"botc_patch:ui_icons"[^\r\n]+text:" Evil Wins",font:"minecraft:default",color:"#aa0000",bold:true' "icon-enhanced dark-red Evil Wins control"
 Assert-NotContains $revealDialogFiveText 'after_action:"wait_for_response"' "terminal reveal action wait state"
 Assert-Contains $revealDialogPrepareText 'set from storage ct:players players\.p1' "game-start player name snapshot"
+Assert-Contains $revealDialogPrepareText 'reveal_dialog\.p1_ability_role set value "none"' "safe unknown reveal ability fallback"
 Assert-NotContains $revealDialogPrepareText '_name_color' "retired reveal player-name color storage"
 Assert-Contains $revealDialogPrepareText 'grim_seat_1_alignment botc_patch matches 1.*p1_color set value "#55aaff"' "snapshot Good alignment color"
 Assert-Contains $revealDialogPrepareText 'grim_seat_1_alignment botc_patch matches 2.*p1_color set value "#ff5555"' "snapshot Evil alignment color"
 Assert-Contains $revealDialogPrepareRoleText 'editor\.score_catalog\.s\$\(score\)\.name' "snapshot role-name lookup"
+Assert-Contains $revealDialogPrepareRoleText 'p\$\(seat\)_ability_role set from storage botc_patch:grim editor\.score_catalog\.s\$\(score\)\.id' "snapshot official ability lookup"
 Assert-Contains $revealDialogPrepareRoleText 'editor\.score_catalog\.s\$\(score\)\.glyph' "snapshot role-glyph lookup"
+foreach ($override in @($greedyAbilityDocument.overrides)) {
+    $roleName = [string] $override.role
+    $expectedRoute = '$execute if score buffet_mode botc_patch matches 1 if data storage botc_patch:grim editor.score_catalog.s$(score){id:"' + $roleName + '"} run data modify storage botc_patch:grim reveal_dialog.p$(seat)_ability_role set value "greedy_' + $roleName + '"'
+    Assert-Contains $revealDialogPrepareRoleText ([regex]::Escape($expectedRoute)) "Greedy reveal ability route for $roleName"
+}
 Assert-NotContains $revealDialogPrepareRoleText 'editor\.score_catalog\.s\$\(score\)\.color' "snapshot role-category color override"
 Assert-Contains $dialogText 'unless score grim_seat_1_revealed botc_patch matches 1' "revealed-seat exclusion"
 Assert-Contains $dialogText 'grim_dialog_visible_size botc_patch' "unrevealed-seat compact count"
 Assert-Contains $dialogText 'grim/dialog/append with storage botc_patch:grim reveal_dialog_lookup' "compact reveal entry builder"
 Assert-Contains $revealDialogAppendText 'reveal_dialog_visible\.e\$\(target\)_seat set value \$\(source\)' "compacted reveal seat routing"
+Assert-Contains $revealDialogAppendText 'reveal_dialog_visible\.e\$\(target\)_ability_role set from storage botc_patch:grim reveal_dialog\.p\$\(source\)_ability_role' "compacted reveal ability route"
 Assert-Contains $revealDialogAppendText 'reveal_dialog_visible\.e\$\(target\)_glyph set from storage' "compacted reveal role glyph"
 Assert-NotContains $revealDialogAppendText '_name_color' "retired compacted player-name color"
 Assert-NotContains $revealDialogFiveText 'Reveal Seat' "generic reveal-seat labels"

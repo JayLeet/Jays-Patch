@@ -18,3 +18,19 @@ scoreboard players set @a botc_fun_hot_immunity 0
 clear @a minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_fun_hot_potato"]}]
 execute as @e[type=minecraft:item] if items entity @s contents minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["botc_fun_hot_potato"]}] run kill @s
 tag @e[type=minecraft:item] remove botc_fun_hot_drop
+kill @e[type=minecraft:block_display,tag=botc_fun_paint]
+kill @e[type=minecraft:snowball,tag=botc_fun_paint_projectile]
+kill @e[type=minecraft:snowball,tag=botc_fun_paint_visual]
+kill @e[type=minecraft:marker,tag=botc_fun_paint_projectile]
+kill @e[type=minecraft:marker,tag=botc_fun_paint_candidate]
+kill @e[type=minecraft:marker,tag=botc_fun_paint_aim]
+tag @a remove botc_fun_paint_rainbow_shooter
+tag @a remove botc_fun_paint_hit_player
+scoreboard players set @a botc_fun_paint_cooldown 0
+scoreboard players set @a botc_fun_paint_range 0
+scoreboard players set @a botc_fun_paint_count 0
+scoreboard players set fun_paint_displays botc_patch 0
+scoreboard players set fun_paint_oldest botc_patch -1
+scoreboard players set fun_paint_palette botc_patch 11
+scoreboard players set fun_paint_next_id botc_patch 0
+execute unless score fun_paint_next_owner botc_patch matches -2147483648..2147483647 run scoreboard players set fun_paint_next_owner botc_patch 0

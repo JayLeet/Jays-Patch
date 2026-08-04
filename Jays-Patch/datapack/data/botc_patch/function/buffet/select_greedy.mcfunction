@@ -27,6 +27,7 @@ title @a[tag=botc_buffet_roster] title {"text":"Choose at least 2 of each type."
 schedule function botc_patch:buffet/greedy/intro_second 4s replace
 
 tellraw @a [{"text":"Greedy Whalebuffet","color":"gold","bold":true},{"text":" is about to begin...","color":"gray","bold":false}]
+tellraw @a [{"text":"Some characters abilities have been adjusted, you can view them here: ","color":"gray"},{"text":"https://greedy.antihype.space/#section-greedy-characters","color":"aqua","underlined":true,"click_event":{"action":"open_url","url":"https://greedy.antihype.space/#section-greedy-characters"},"hover_event":{"action":"show_text","value":{"text":"Open the Greedy character changes","color":"gray"}}}]
 tellraw @a[tag=storyteller] [{"text":"Use ","color":"gray"},{"text":"Buffet Review","color":"gold","bold":true},{"text":" to see each player's choices, assign characters and start the game.","color":"gray","bold":false}]
 function botc_patch:buffet/item_checks
 scoreboard players set botc_item_maintenance_pending botc_patch 1

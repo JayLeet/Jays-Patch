@@ -203,6 +203,11 @@ $restartBody = $restartMatch.Groups["body"].Value
 if ($restartBody -match 'StopManagedServer|StopPlayit|StopDockerDesktopIfManaged|DockerComposeArgs\("down"\)') {
     throw "Server-only restart must not stop Playit, Docker Desktop, or the full compose project"
 }
+$restartDeploy = $restartBody.IndexOf('DeployJaysPatch("PATCH", false);', [System.StringComparison]::Ordinal)
+$restartStart = $restartBody.IndexOf('Step("MINECRAFT", "Starting Minecraft server");', [System.StringComparison]::Ordinal)
+if ($restartDeploy -lt 0 -or $restartStart -lt 0 -or $restartDeploy -ge $restartStart) {
+    throw "Server-only restart must deploy Jay's Patch and resource-pack settings before Minecraft starts."
+}
 Assert-TextContains $sourceText ([regex]::Escape('Console.IsOutputRedirected')) "redirected launcher output avoids interactive console handles"
 Assert-TextContains $sourceText 'private static void StartDashboard\(\)[\s\S]*?DashboardActive = false;[\s\S]*?if \(Console\.IsOutputRedirected\)[\s\S]*?return;' "redirected offline startup skips cursor-based dashboard rendering"
 foreach ($requiredCommand in @(

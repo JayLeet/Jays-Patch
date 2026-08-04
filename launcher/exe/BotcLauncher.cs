@@ -1338,6 +1338,10 @@ internal static partial class BotcLauncher
             Detail("Minecraft container is not running; starting it instead");
         }
 
+        // Minecraft reads resource-pack settings during startup, so deploy while
+        // it is stopped. PostStartupSync still reloads and verifies final parity.
+        DeployJaysPatch("PATCH", false);
+
         Step("MINECRAFT", "Starting Minecraft server");
         CommandResult up = Run("docker", DockerComposeArgs("up -d " + MinecraftComposeService), true);
         CommandOutput("DOCKER", up.OutputLines);

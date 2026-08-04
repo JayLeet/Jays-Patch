@@ -193,6 +193,8 @@
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_shugenja` | `botc_patch:item/role/shugenja` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_role_slayer` | `botc_patch:item/role/slayer` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_slayer` | `botc_patch:item/role/slayer` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_paint_gun` | `botc_patch:item/fun/paint_gun` |
+| `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_rainbow_paint_gun` | `botc_patch:item/fun/rainbow_paint_gun` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_boomdandy` | `botc_patch:item/role/boomdandy` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_hot_potato` | `botc_patch:item/role/imp` |
 | `minecraft:carrot_on_a_stick` | `assets/minecraft/items/carrot_on_a_stick.json` | `botc_fun_king` | `botc_patch:item/role/king` |

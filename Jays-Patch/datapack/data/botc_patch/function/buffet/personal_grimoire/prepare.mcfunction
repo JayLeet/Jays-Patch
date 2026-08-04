@@ -7,6 +7,7 @@ execute if data storage botc_patch:buffet roster.p1 run data modify storage botc
 data modify storage botc_patch:buffet ui.personal_grimoire.p1_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p1_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p1_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p1_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p1_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:1,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s1
@@ -16,6 +17,7 @@ execute if data storage botc_patch:buffet roster.p2 run data modify storage botc
 data modify storage botc_patch:buffet ui.personal_grimoire.p2_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p2_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p2_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p2_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p2_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:2,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s2
@@ -25,6 +27,7 @@ execute if data storage botc_patch:buffet roster.p3 run data modify storage botc
 data modify storage botc_patch:buffet ui.personal_grimoire.p3_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p3_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p3_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p3_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p3_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:3,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s3
@@ -34,6 +37,7 @@ execute if data storage botc_patch:buffet roster.p4 run data modify storage botc
 data modify storage botc_patch:buffet ui.personal_grimoire.p4_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p4_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p4_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p4_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p4_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:4,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s4
@@ -43,6 +47,7 @@ execute if data storage botc_patch:buffet roster.p5 run data modify storage botc
 data modify storage botc_patch:buffet ui.personal_grimoire.p5_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p5_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p5_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p5_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p5_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:5,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s5
@@ -52,6 +57,7 @@ execute if data storage botc_patch:buffet roster.p6 run data modify storage botc
 data modify storage botc_patch:buffet ui.personal_grimoire.p6_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p6_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p6_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p6_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p6_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:6,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s6
@@ -61,6 +67,7 @@ execute if data storage botc_patch:buffet roster.p7 run data modify storage botc
 data modify storage botc_patch:buffet ui.personal_grimoire.p7_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p7_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p7_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p7_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p7_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:7,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s7
@@ -70,6 +77,7 @@ execute if data storage botc_patch:buffet roster.p8 run data modify storage botc
 data modify storage botc_patch:buffet ui.personal_grimoire.p8_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p8_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p8_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p8_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p8_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:8,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s8
@@ -79,6 +87,7 @@ execute if data storage botc_patch:buffet roster.p9 run data modify storage botc
 data modify storage botc_patch:buffet ui.personal_grimoire.p9_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p9_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p9_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p9_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p9_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:9,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s9
@@ -88,6 +97,7 @@ execute if data storage botc_patch:buffet roster.p10 run data modify storage bot
 data modify storage botc_patch:buffet ui.personal_grimoire.p10_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p10_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p10_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p10_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p10_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:10,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s10
@@ -97,6 +107,7 @@ execute if data storage botc_patch:buffet roster.p11 run data modify storage bot
 data modify storage botc_patch:buffet ui.personal_grimoire.p11_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p11_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p11_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p11_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p11_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:11,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s11
@@ -106,6 +117,7 @@ execute if data storage botc_patch:buffet roster.p12 run data modify storage bot
 data modify storage botc_patch:buffet ui.personal_grimoire.p12_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p12_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p12_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p12_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p12_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:12,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s12
@@ -115,6 +127,7 @@ execute if data storage botc_patch:buffet roster.p13 run data modify storage bot
 data modify storage botc_patch:buffet ui.personal_grimoire.p13_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p13_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p13_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p13_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p13_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:13,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s13
@@ -124,6 +137,7 @@ execute if data storage botc_patch:buffet roster.p14 run data modify storage bot
 data modify storage botc_patch:buffet ui.personal_grimoire.p14_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p14_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p14_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p14_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p14_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:14,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s14
@@ -133,6 +147,7 @@ execute if data storage botc_patch:buffet roster.p15 run data modify storage bot
 data modify storage botc_patch:buffet ui.personal_grimoire.p15_unknown set value "?"
 data modify storage botc_patch:buffet ui.personal_grimoire.p15_glyph set value ""
 data modify storage botc_patch:buffet ui.personal_grimoire.p15_role set value "Unknown"
+data modify storage botc_patch:buffet ui.personal_grimoire.p15_ability_role set value "none"
 data modify storage botc_patch:buffet ui.personal_grimoire.p15_color set value "#aaaaaa"
 data modify storage botc_patch:buffet action.personal_grimoire set value {seat:15,role:0}
 execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s15

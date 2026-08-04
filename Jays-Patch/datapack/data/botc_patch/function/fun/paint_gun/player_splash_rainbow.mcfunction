@@ -1,0 +1,12 @@
+# Eleven bright colours form one unmistakable Rainbow burst around the hit player.
+particle minecraft:dust{color:[0.902,0.098,0.294],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[0.961,0.510,0.192],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[1.000,0.882,0.098],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[0.749,0.937,0.271],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[0.235,0.706,0.294],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[0.259,0.831,0.957],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[0.227,0.698,0.855],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[0.263,0.388,0.847],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[0.569,0.118,0.706],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[0.941,0.196,0.902],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
+particle minecraft:dust{color:[0.835,0.400,0.557],scale:1.5} ~ ~ ~ 0.8 1.0 0.8 0.12 12 force @a[distance=..48]
