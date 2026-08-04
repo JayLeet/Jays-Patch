@@ -1,6 +1,6 @@
 # Update Jay's Patch v1.9.0 Beta 4 in place
 
-- Status: `verifying`
+- Status: `completed`
 - Updated: `2026-08-04 20:13 CEST`
 - Owner: Sol
 - Workflow decision: `use Sol/Luna workflow`
@@ -17,7 +17,7 @@
 - [x] Hot Potato stays silent for its first 20 seconds, then plays exactly one heartbeat per second from 10 seconds remaining through 1 second, rising from pitch 0.60 to 1.95 in 0.15 steps.
 - [x] Hot Potato passes draw a three-pronged flaming pitchfork and announce the sender and receiver as `<sender> starpassed to <receiver>!`.
 - [x] The Vizier entrance uses the King's five-note sound sequence and timing with pitches descending from 1.50 to 0.70.
-- [ ] The reviewed Beta 4 public package passes its publication gate and replaces the existing GitHub asset, description and tag target without creating Beta 5.
+- [x] The reviewed Beta 4 public package passes its publication gate and replaces the existing GitHub asset, description and tag target without creating Beta 5.
 
 ## Scope and boundaries
 
@@ -60,7 +60,7 @@
 
 1. [x] Implement the rainbow item name, final-ten-second ascending heartbeat, flaming pitchfork pass trail, sender-to-receiver announcement, descending Vizier jingle and revised cumulative Beta 4 notes.
 2. [x] Run focused checks, refresh generated metadata and baseline, then build and inspect Beta 4 through the reviewed publication gate.
-3. [ ] Commit and push the source, replace the existing Beta 4 asset and tag target, verify the public result, and record release evidence.
+3. [x] Commit and push the source, replace the existing Beta 4 asset and tag target, verify the public result, and record release evidence.
 
 ## Delivery tracking
 
@@ -73,7 +73,7 @@
 
 ## Current progress
 
-- `The requested item-name and Hot Potato changes are implemented. The public description has been rewritten from the verified 1.9 beta feature boundary, and the replacement archive has passed its publication gate and content inspection.`
+- `The requested item-name, Hot Potato and Vizier changes are implemented. The cumulative public description is updated, and the existing Beta 4 asset and tag now point to the reviewed replacement without creating Beta 5.`
 
 ## Active Luna assignments
 
@@ -90,7 +90,9 @@
 | `Known-good source baseline refresh` | `pass` | `The publication checks passed after the Vizier change and Jays-Patch/source-baseline.json was refreshed for 3,108 owned files.` |
 | `Reviewed public-package builder` | `pass` | `The final staged package passed the full publication gate after every requested change and was built as Jay's Patch v1.9.0-beta.4.zip.` |
 | `Built archive inspection` | `pass` | `73,284,401 bytes; SHA-256 94867f2ee2fe32c11ddda809b28442216815abd0ada7ab12122c0375791afe82; 2,644 entries; manifest version 1.9.0-beta.4; rainbow name, ten heartbeats, starpass text, six pitchfork-tine commands and all five descending Vizier cues verified inside the ZIP.` |
-| `Public Beta 4 replacement verification` | `not run` | `Pending package publication.` |
+| `Source publication` | `pass` | `Commit cfe2cc7798cd4881b2ed11ea3e21d4f3cc264f45 was pushed to codex/jays-patch-1.9-beta-recovery.` |
+| `Public Beta 4 replacement verification` | `pass` | `The existing v1.9.0-beta.4 release and tag target cfe2cc7798cd4881b2ed11ea3e21d4f3cc264f45. It has exactly one asset, Jay.s.Patch.v1.9.0-beta.4.zip, at 73,284,401 bytes with GitHub digest sha256:94867f2ee2fe32c11ddda809b28442216815abd0ada7ab12122c0375791afe82.` |
+| `Independent public download verification` | `pass` | `A fresh download from the GitHub release matched 73,284,401 bytes and SHA-256 94867f2ee2fe32c11ddda809b28442216815abd0ada7ab12122c0375791afe82.` |
 
 ## Current blocker
 
@@ -98,8 +100,8 @@
 
 ## Exact next step
 
-`Review and commit only the intended source, generated metadata, tests and release records; push them before replacing the existing public Beta 4.`
+`None; delivery and public verification are complete.`
 
 ## Final outcome
 
-`Pending.`
+`Jay's Patch 1.9.0 Beta 4 was updated in place at https://github.com/JayLeet/Jays-Patch/releases/tag/v1.9.0-beta.4. No Beta 5 or second release asset was created.`
