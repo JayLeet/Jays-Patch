@@ -15384,8 +15384,8 @@
                   },
                   {
                       "path":  "tools/tests/test-fun-toybox.ps1",
-                      "bytes":  54714,
-                      "sha256":  "895f0f5ea6a8be77ffcab30205322ce724b9664271ecd2b0994792529872e4e2"
+                      "bytes":  54847,
+                      "sha256":  "70878e2d39b4db4e5aae7725b21fcd0ab7551a8af96817763860bec7df0c0f6a"
                   },
                   {
                       "path":  "tools/tests/test-game-state-invariants.ps1",
