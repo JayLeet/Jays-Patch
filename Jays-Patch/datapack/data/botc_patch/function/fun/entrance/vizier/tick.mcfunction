@@ -1,4 +1,4 @@
-execute if score fun_entrance_timer botc_patch matches 70 run playsound minecraft:block.note_block.bell master @a[distance=..64] ~ ~ ~ 1.0 1.50
+execute if score fun_entrance_timer botc_patch matches 70 run playsound minecraft:block.note_block.bell master @a[distance=..64] ~ ~ ~ 1.0 1.35
 execute if score fun_entrance_timer botc_patch matches 55 run playsound minecraft:block.note_block.chime master @a[distance=..64] ~ ~ ~ 1.1 1.25
 execute if score fun_entrance_timer botc_patch matches 40 run playsound minecraft:block.note_block.bell master @a[distance=..64] ~ ~ ~ 1.1 1.10
 execute if score fun_entrance_timer botc_patch matches 25 run playsound minecraft:block.note_block.chime master @a[distance=..64] ~ ~ ~ 1.2 0.90
