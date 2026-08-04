@@ -421,9 +421,9 @@ Assert-Contains $hotRaycastText 'scoreboard players set @s botc_fun_hot_range 0'
 Assert-Contains $hotRaycastText 'tag=!botc_fun_hot_holder,tag=!storyteller' "Hot Potato recipient guard still excludes every Storyteller"
 Assert-Contains $hotRaycastText 'particle minecraft:flame ~ ~ ~ 0 0 0 0 1' "Hot Potato pitchfork centre trail"
 foreach ($pitchforkTine in @(
-    @{ Range = "15..16"; Offset = "0.08" },
-    @{ Range = "13..14"; Offset = "0.16" },
-    @{ Range = "1..12"; Offset = "0.24" }
+    @{ Range = "7..8"; Offset = "0.08" },
+    @{ Range = "5..6"; Offset = "0.16" },
+    @{ Range = "1..4"; Offset = "0.24" }
 )) {
     Assert-Contains $hotRaycastText ([regex]::Escape("matches $($pitchforkTine.Range) if block ~ ~ ~ #minecraft:replaceable run particle minecraft:flame ^-$($pitchforkTine.Offset) ^ ^")) "Hot Potato pitchfork left tine at $($pitchforkTine.Range)"
     Assert-Contains $hotRaycastText ([regex]::Escape("matches $($pitchforkTine.Range) if block ~ ~ ~ #minecraft:replaceable run particle minecraft:flame ^$($pitchforkTine.Offset) ^ ^")) "Hot Potato pitchfork right tine at $($pitchforkTine.Range)"
@@ -528,8 +528,10 @@ $entranceUpdateLightText = Read-RequiredText (Join-Path $FunctionRoot "fun/entra
 $entranceCleanupLightText = Read-RequiredText (Join-Path $FunctionRoot "fun/entrance/cleanup_light.mcfunction")
 $kingAutoText = Read-RequiredText (Join-Path $FunctionRoot "fun/entrance/king/auto_tick.mcfunction")
 $kingUseText = Read-RequiredText (Join-Path $FunctionRoot "fun/entrance/king/use.mcfunction")
+$kingBurstText = Read-RequiredText (Join-Path $FunctionRoot "fun/entrance/king/burst.mcfunction")
 $kingTickText = Read-RequiredText (Join-Path $FunctionRoot "fun/entrance/king/tick.mcfunction")
 $vizierStartText = Read-RequiredText (Join-Path $FunctionRoot "fun/entrance/vizier/start.mcfunction")
+$vizierBurstText = Read-RequiredText (Join-Path $FunctionRoot "fun/entrance/vizier/burst.mcfunction")
 $vizierTickText = Read-RequiredText (Join-Path $FunctionRoot "fun/entrance/vizier/tick.mcfunction")
 Assert-Contains $entranceStartText 'time query daytime' "exact entrance time capture"
 Assert-Contains $entranceStartText 'gamerule doDaylightCycle' "entrance daylight capture"
@@ -560,16 +562,25 @@ Assert-Contains $kingUseText 'execute at @s unless block ~ -64 ~ minecraft:warpe
 Assert-Contains $kingUseText 'You can only make your King claim in the Town Square\.' "King Town Square feedback"
 Assert-Contains $kingTickText 'matches 10 run playsound minecraft:entity\.player\.levelup master @a\[distance=\.\.64\] ~ ~ ~ 1\.3 0\.70' "low-pitched King level-up finale"
 Assert-DoesNotContain $kingTickText 'minecraft:ui\.toast\.challenge_complete' "overused King challenge-complete finale"
+foreach ($openingSound in @(
+    'playsound minecraft:entity\.firework_rocket\.blast master @a\[distance=\.\.64\] ~ ~ ~ 1\.2 1\.3',
+    'playsound minecraft:block\.note_block\.chime master @a\[distance=\.\.64\] ~ ~ ~ 1\.1 0\.75'
+)) {
+    Assert-Contains $kingBurstText $openingSound "King opening sound mirrored by Vizier"
+    Assert-Contains $vizierBurstText $openingSound "Vizier copy of King opening sound"
+}
+Assert-DoesNotContain $vizierBurstText 'minecraft:(?:block\.note_block\.didgeridoo|entity\.warden\.heartbeat)' "old Vizier opening sounds"
 foreach ($vizierPitch in @(
     @{ Timer = 70; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.0'; Pitch = '1\.50' },
     @{ Timer = 55; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.1'; Pitch = '1\.25' },
     @{ Timer = 40; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.1'; Pitch = '1\.10' },
     @{ Timer = 25; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.2'; Pitch = '0\.90' },
-    @{ Timer = 10; Sound = 'minecraft:entity\.player\.levelup'; Volume = '1\.3'; Pitch = '0\.70' }
+    @{ Timer = 10; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.3'; Pitch = '0\.50' }
 )) {
     Assert-Contains $vizierTickText "matches $($vizierPitch.Timer) run playsound $($vizierPitch.Sound) master @a\[distance=\.\.64\] ~ ~ ~ $($vizierPitch.Volume) $($vizierPitch.Pitch)" "descending Vizier King-jingle note at timer $($vizierPitch.Timer)"
 }
 Assert-DoesNotContain $vizierTickText 'minecraft:(?:block\.note_block\.didgeridoo|entity\.warden\.(?:heartbeat|sonic_boom)|block\.respawn_anchor\.charge)' "old Vizier jingle sound set"
+Assert-DoesNotContain $vizierTickText 'minecraft:entity\.player\.levelup' "bright Vizier level-up finale"
 if ($kingUseText.IndexOf("unless block ~ -64 ~ minecraft:warped_planks", [System.StringComparison]::Ordinal) -gt $kingUseText.IndexOf("clear @s", [System.StringComparison]::Ordinal)) {
     throw "The King Town Square guard must run before consuming the item."
 }

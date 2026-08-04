@@ -1,7 +1,7 @@
 # Update Jay's Patch v1.9.0 Beta 4 in place
 
-- Status: `completed`
-- Updated: `2026-08-04 20:13 CEST`
+- Status: `implementing correction`
+- Updated: `2026-08-04 20:48 CEST`
 - Owner: Sol
 - Workflow decision: `use Sol/Luna workflow`
 - Workflow reason: `This task changes two player-facing fun features and replaces an existing public package asset and tag in place. A small release and rollback record is worth the documentation cost.`
@@ -9,19 +9,22 @@
 
 ## Outcome
 
-`Give the Rainbow Paint Gun a fully rainbow item name, improve Hot Potato's final-ten-second heartbeat, pass trail and announcement, give the Vizier a descending version of the King's jingle, rewrite the cumulative Beta 4 GitHub description in Jay's voice, and replace the existing Beta 4 package in place.`
+`Keep the completed Beta 4 changes, correct the Vizier jingle and Hot Potato pitchfork, make release writing focus on what players care about, rewrite every public GitHub release description, and replace the existing Beta 4 package in place again.`
 
 ## Done when
 
 - [x] Every visible letter in `Rainbow Paint Gun` follows the full seven-colour rainbow cycle.
 - [x] Hot Potato stays silent for its first 20 seconds, then plays exactly one heartbeat per second from 10 seconds remaining through 1 second, rising from pitch 0.60 to 1.95 in 0.15 steps.
-- [x] Hot Potato passes draw a three-pronged flaming pitchfork and announce the sender and receiver as `<sender> starpassed to <receiver>!`.
-- [x] The Vizier entrance uses the King's five-note sound sequence and timing with pitches descending from 1.50 to 0.70.
-- [x] The reviewed Beta 4 public package passes its publication gate and replaces the existing GitHub asset, description and tag target without creating Beta 5.
+- [x] Hot Potato passes keep roughly the first three blocks as a single-flame handle before widening into a three-pronged head, and announce the sender and receiver as `<sender> starpassed to <receiver>!`.
+- [x] The Vizier entrance uses the King's opening burst sounds and five-note palette, descending to a clearly low bell at pitch 0.50.
+- [ ] The corrected Beta 4 public package passes its publication gate and replaces the existing GitHub asset and tag target without creating Beta 5.
+- [x] Jay's writing guide tells release writers to lead with the fun or useful player result and omit technical details that do not affect play.
+- [ ] All six public GitHub release descriptions explain their player-facing value in that style while keeping version-specific facts accurate.
+- [x] A Modrinth-ready delta contains only the three corrected runtime functions under their `world/datapacks/jays_patch` paths plus short apply instructions.
 
 ## Scope and boundaries
 
-- In scope: `Rainbow Paint Gun loot-table name, Hot Potato heartbeat timing and pitch, pass trail and announcement, Vizier entrance jingle, focused regression tests, generated metadata and source baseline, cumulative Beta 4 release notes, public package, source commits, existing Beta 4 tag and GitHub release asset`
+- In scope: `Rainbow Paint Gun loot-table name, Hot Potato heartbeat timing and pitch, pass trail and announcement, Vizier entrance jingle, focused regression tests, generated metadata and source baseline, Modrinth hot-sync delta, Jay's canonical writing guide, all six public GitHub release descriptions, cumulative Beta 4 release notes, public package, source commits, existing Beta 4 tag and GitHub release asset`
 - Non-goals: `new Paint Gun mechanics, changing the Hot Potato duration, resource-pack art or hosted-pack replacement, live-server deployment or reload, a Beta 5 release, or unrelated diagnostics`
 - Must preserve: `all other fun-feature behavior, the existing public Beta 4 URL, stable releases, live data, BOTC-Live-Trace.ps1, tools/capture-botc-client-heap.ps1, and unrelated work`
 - Safety constraints: `keep the old public asset and tag target until the replacement source and package are ready; replace only v1.9.0-beta.4; build only through the reviewed package tool; stage explicit intended paths`
@@ -32,10 +35,14 @@
 - `Hot Potato currently lasts 600 ticks and uses four pulse intervals in only the final ten seconds, with pitch bands 1.00, 1.20, 1.45 and 1.75.`
 - `The current public release is v1.9.0-beta.4, targets commit 04951bd0, and owns one 73,283,934-byte package asset with SHA-256 6ea6f340aafd098f24f95761376fd976e566b7b288377ae58a52c0e8910b638f.`
 - `The only unrelated worktree files are the two known untracked diagnostic scripts.`
+- `The published Vizier burst still contains the old didgeridoo at pitch 0.42 and Warden heartbeat at pitch 0.60, which proves the first heard sounds were not changed with the timed jingle.`
+- `The published final timed cue is entity.player.levelup at pitch 0.70. Its source sound remains perceptually bright even though 0.70 is the smallest number in that timed sequence.`
+- `The published pitchfork starts widening at range scores 15..16, about one block into its roughly five-block trail, so most of the beam is currently the fork head rather than the handle.`
 
 ## Inference
 
 - `A pitch sequence from 0.60 to 1.95 in 0.15 steps gives the final ten seconds a distinct ascending heartbeat while remaining inside Minecraft's normal 0.5-2.0 audible pitch range.`
+- `Using the same bell sound for the first and final timed Vizier notes makes their 1.50-to-0.50 drop directly comparable instead of relying on the naturally bright level-up sound.`
 
 ## Unknowns
 
@@ -44,6 +51,7 @@
 ## Recommendations
 
 - `Use seven Minecraft text colours in a continuous letter-by-letter cycle and a dedicated Hot Potato heartbeat function so the timing table stays easy to audit.`
+- `Copy the King's two opening playsounds into the Vizier burst, use a pitch-0.50 bell for the final timed note, and delay the pitchfork's side tines until the last two blocks.`
 
 ## Project-owner decisions
 
@@ -55,12 +63,18 @@
 | `Start the Hot Potato heartbeat only at 10 seconds remaining.` | `Jay corrected the earlier all-round timing before implementation.` | `2026-08-04` |
 | `Use a flaming pitchfork pass trail and the literal message <sender> starpassed to <receiver>!.` | `Jay clarified that starpassed is the verb, not a star separator.` | `2026-08-04` |
 | `Give the Vizier the King's jingle with descending pitch.` | `Requested by Jay before the public replacement was published.` | `2026-08-04` |
+| `Replace the remaining old Vizier opening sounds and make the last note audibly lowest.` | `Jay's in-game test found the opening and finale still sounded wrong.` | `2026-08-04` |
+| `Lengthen the Hot Potato pitchfork handle.` | `Jay's in-game test showed the fork head begins too early to read as a pitchfork.` | `2026-08-04` |
+| `Make release notes focus on what players care about instead of how features work.` | `Jay explicitly wants the fun or useful result to lead, using Paint Guns as the example.` | `2026-08-04` |
+| `Apply the player-value rule to every existing GitHub release description.` | `Requested by Jay.` | `2026-08-04` |
+| `Create a small Modrinth delta for the current code correction.` | `Jay wants to apply the three runtime files quickly without uploading the full package.` | `2026-08-04` |
 
 ## Accepted `/plan`
 
-1. [x] Implement the rainbow item name, final-ten-second ascending heartbeat, flaming pitchfork pass trail, sender-to-receiver announcement, descending Vizier jingle and revised cumulative Beta 4 notes.
-2. [x] Run focused checks, refresh generated metadata and baseline, then build and inspect Beta 4 through the reviewed publication gate.
-3. [x] Commit and push the source, replace the existing Beta 4 asset and tag target, verify the public result, and record release evidence.
+1. [x] Replace the remaining old Vizier opening sounds, make the final note clearly lowest, lengthen the pitchfork handle and update focused checks.
+2. [x] Rewrite the canonical writing rule, Beta 4 notes and all six GitHub release descriptions around player value.
+3. [x] Refresh the source baseline, then rebuild and inspect Beta 4 through the reviewed publication gate.
+4. [ ] Commit and push the correction, replace the existing Beta 4 asset and tag target, update every release description, verify the public result, and record release evidence.
 
 ## Delivery tracking
 
@@ -73,7 +87,11 @@
 
 ## Current progress
 
-- `The requested item-name, Hot Potato and Vizier changes are implemented. The cumulative public description is updated, and the existing Beta 4 asset and tag now point to the reviewed replacement without creating Beta 5.`
+- `The previous Beta 4 replacement is published, but Jay's in-game test exposed two remaining Vizier audio problems and a pitchfork proportion problem. The correction is now reopened before another in-place replacement.`
+- `The bounded Vizier audio and pitchfork proportion corrections are implemented and pass the focused fun-toybox check.`
+- `The canonical writing guide and Beta 4 source notes now lead with the experience players care about. All six existing GitHub descriptions and tagged feature boundaries have been inspected for the external rewrite.`
+- `Player-first replacement descriptions are prepared for v1.5.4, v1.6.0, v1.6.1, v1.7.0, v1.8.0 and v1.9.0-beta.4.`
+- `Jays-Patch/dist/modrinth-delta-beta4-jingle-pitchfork contains the Vizier burst, Vizier timed jingle and Hot Potato raycast at their server-relative paths, plus HOW TO APPLY.txt.`
 
 ## Active Luna assignments
 
@@ -93,6 +111,12 @@
 | `Source publication` | `pass` | `Commit cfe2cc7798cd4881b2ed11ea3e21d4f3cc264f45 was pushed to codex/jays-patch-1.9-beta-recovery.` |
 | `Public Beta 4 replacement verification` | `pass` | `The existing v1.9.0-beta.4 release and tag target cfe2cc7798cd4881b2ed11ea3e21d4f3cc264f45. It has exactly one asset, Jay.s.Patch.v1.9.0-beta.4.zip, at 73,284,401 bytes with GitHub digest sha256:94867f2ee2fe32c11ddda809b28442216815abd0ada7ab12122c0375791afe82.` |
 | `Independent public download verification` | `pass` | `A fresh download from the GitHub release matched 73,284,401 bytes and SHA-256 94867f2ee2fe32c11ddda809b28442216815abd0ada7ab12122c0375791afe82.` |
+| `Post-release in-game review` | `fail` | `Jay heard the old Vizier opening, found the level-up finale too bright, and found the Hot Potato pitchfork handle too short.` |
+| `Focused correction check` | `pass` | `tools/tests/test-fun-toybox.ps1 and git diff --check passed with the corrected opening burst, pitch-0.50 bell finale and delayed pitchfork tines.` |
+| `Player-first release-note review` | `pass` | `All six proposed descriptions were checked for their tagged feature boundaries and for removal of implementation-focused language such as light sampling, display storage, cleanup state, validation and hashes.` |
+| `Modrinth delta parity` | `pass` | `The three copied runtime functions match their source SHA-256 hashes exactly; the folder contains only those functions and HOW TO APPLY.txt.` |
+| `Corrected public-package gate` | `pass` | `The full publication gate passed against the refreshed 3,108-file source baseline and built Jay's Patch v1.9.0-beta.4.zip.` |
+| `Corrected archive inspection` | `pass` | `73,284,390 bytes; SHA-256 7cc3dc5e359ba157d808c7a8423994d5f11e8a4c4f7d6cf3c5c3ba8e2444c590; 2,644 entries; the ZIP contains the King's opening sounds, the bell finale at pitch 0.50 and delayed pitchfork bands 7..8, 5..6 and 1..4.` |
 
 ## Current blocker
 
@@ -100,8 +124,8 @@
 
 ## Exact next step
 
-`None; delivery and public verification are complete.`
+`Review and commit only the intended correction, test, release-note, journal and source-baseline files before updating GitHub.`
 
 ## Final outcome
 
-`Jay's Patch 1.9.0 Beta 4 was updated in place at https://github.com/JayLeet/Jays-Patch/releases/tag/v1.9.0-beta.4. No Beta 5 or second release asset was created.`
+`Pending the post-release audio and pitchfork correction.`
