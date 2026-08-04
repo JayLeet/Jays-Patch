@@ -2,115 +2,93 @@
 
 Jay's Patch is my unofficial server-side add-on for
 [Sybillian's Blood on the Clocktower modpack](https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4).
-It adds circular seating, end-game Grimoire reveals and a private setup room.
-It also gives the Storyteller quicker access to Sybillian's tools and backports
-Night Chat from Sybillian's newer beta.
+It adds new ways to build games, quicker Storyteller controls, character-specific
+moments and more things to mess around with between games. Players also sit in a
+proper circle, and Night Chat lets people speak privately during the night.
 
 I made it for **Sybillian's modpack 1.5.4** on
 **Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
 
-**[Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.1/Jay.s.Patch.v1.9.0-beta.1.zip)**
+**[Download Jay's Patch v1.9.0-beta.4](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.4/Jay.s.Patch.v1.9.0-beta.4.zip)**
 
 ## What does it add?
 
-### 1. 🪑 Circular seating
+### 🪑 A Town Square that fits the game
 
-No more conga lines. Players are placed in a circle that adjusts to the number
-of people in the game, from 1 to 15 players.
+No more conga lines. From 1 to 15 players are seated in a circle that adjusts
+while everyone joins and locks when the game starts.
 
-The layout updates while everyone is joining, then locks when the game starts.
+### 🎲 More ways to build a game
 
-### 2. 📖 End-game Grimoire reveal
+The private setup room gives the Storyteller a wall of character icons for
+**Trouble Brewing**, **Sects and Violets**, **Bad Moon Rising** or an imported
+custom script. Right-click characters to change the setup, then start the game
+from the items in your hotbar.
 
-The Storyteller can reveal each player's character and alignment one seat at a
-time, including sounds, particles and a spotlight moving around the circle.
+- **Greedy Whalebuffet** lets everyone privately submit their favourite
+  characters at the same time or choose Dealer's Choice. Greedy's adjusted
+  character abilities appear in role displays and Grimoire dialogs.
+- **Draft Buffet** gives each player a private turn to choose from 3, then 2,
+  then 1 character while the game changes around earlier picks.
 
-If something changed during the game, the Storyteller can update a player's
-displayed character or alignment before starting the reveal.
+### 🎭 Quicker Storyteller controls
 
-The Storyteller can cancel an accidental reveal before anything is shown.
-
-### 3. 🎭 Storyteller controls
-
-These features already exist in Sybillian's modpack. My patch makes them
-available through quicker hotbar items and server-side dialog menus.
-
-- ⏭️ **Advance the phase**
-- 💀 **Kill or revive players**
-- 🔥 **Manage nominations**
-- ⏱️ **Set a Timer**
-- 🪑 **Return everyone to their seats**
-- 🚪 **Teleport to players, houses, the evil team or the Storyteller den**
-- 📖 **A new item called Storyteller Tools**
+Use hotbar items or server-side dialog menus to advance the phase, set timers,
+kill or revive players, manage nominations, return everyone to their seats and
+teleport around the game. **Storyteller Tools** keeps the most useful controls
+together in one item.
 
 Storyteller's Passage lets the Storyteller move and teleport as a spectator,
-then safely returns them when they enter or leave a private voice area.
+then returns them safely when they enter or leave a private voice area.
 
-You can use item mode, dialog mode or Sybillian's original setup bag. Pick the
-option that feels best for you.
+Use item mode, dialog mode or Sybillian's original setup bag. Pick the option
+that feels best for you.
 
-### 4. 🧰 A different way to set up games
+### 📖 Reveal how the game ended
 
-My setup bag takes the Storyteller to a private setup room with a wall of
-character icons.
+Reveal every player's character and alignment one seat at a time, with sounds,
+particles and a spotlight moving around the circle. The Storyteller can correct
+a displayed character or alignment before the reveal starts and cancel an
+accidental reveal before anything is shown.
 
-- 📜 Pick **Trouble Brewing**, **Sects and Violets** or **Bad Moon Rising**.
-- ✏️ Import a custom script when you want to play something different.
-- 🖱️ Right-click characters on the wall to add or remove them from the setup.
-- 🔔 Start the game or navigate around using the items in your hotbar.
+Good and Evil each get their own winner reveal with a short suspense sequence,
+titles, fireworks and matching heads for the winners.
 
-### 5. 🎲 Beta game modes
+### 🎙️ Talk privately at night
 
-The Setup Bag includes two different ways to choose characters before the
-game begins.
+Night Chat backports Sybillian's 1.6.0 beta feature for servers using modpack
+1.5.4. During the night, seated players inside a house receive a microphone in
+their second hotbar slot. Hold it to speak with anyone else holding one.
 
-- **Greedy Whalebuffet** lets everyone submit private character preferences at
-  the same time. Players can also choose Dealer's Choice and leave the
-  decision up to the Storyteller.
-- **Draft Buffet** gives players turns in a random order. Each player
-  chooses from a changing set of characters while the remaining setup
-  adjusts around earlier choices.
+### 👻 More character moments
 
-### 6. 🎙️ Night Chat
+- **Wraith** players can keep their eyes closed, peek from home or sneak out
+  with the Storyteller at night.
+- **Spy and Widow** players can privately see the true Grimoire.
+- Character tools help the Storyteller handle Fearmonger announcements,
+  Banshee votes, Al-Hadikhia targets, Cerenovus executions and Boomdandy
+  finales.
+- A Boomdandy execution can lead into a unique Final Three or use Sybillian's
+  normal execution so the game continues.
+- Rock Paper Scissors starts Sybillian's original two-player countdown after
+  both players choose, and notification badges tell the Storyteller when an
+  in-play character has an action available.
 
-This backports Sybillian's Night Chat from the 1.6.0 beta for servers using
-modpack 1.5.4. During the night, seated players inside a house receive a
-microphone in their second hotbar slot. Hold it to speak with anyone else
-holding a Night Chat microphone.
+### 🎉 More to do around the game
 
-### 7. 🎉 Winner reveals
+- Choose personal night music from the Minecraft music catalog, including
+  random playback and lower-pitched versions. It stays off by default.
+- Raise or lower your hand, join the Storyteller queue and start a votekick
+  without leaving the game.
+- Fire colourful Paint Guns, starpass the Imp in Hot Potato, drink Silly Juice,
+  roll a d20 or claim the Town Square with a King or Vizier entrance.
+- Use `/botc help` whenever you need the full command list.
 
-Good and Evil each get a winner reveal with a short suspense sequence,
-sounds, titles and fireworks. The winning players also receive matching heads
-for the celebration.
+### 🏡 A world built for the patch
 
-### 8. 🏡 Setup room and world edits
-
-I added a dedicated setup room, changes to the inn and several interior and
-exterior touch-ups to the included world. These changes are why installation
-replaces your existing world folder.
-
-## More additions
-
-- 🎵 **Personal night music** stays off by default and lets each player choose
-  from every jukebox disc, ambient tracks, random playback and lower or normal
-  pitch.
-- 🙋 **Raise and lower your hand** with a simple hotbar item.
-- 🧑‍⚖️ **Storyteller queue** so players can join, leave and check their place in line.
-- 🗳️ **Votekicks** that show the current vote count and remove the player when the vote succeeds.
-- 👻 **Banshee voting controls** for single or double votes after the Banshee dies.
-- 🎭 **Character tools** for Fearmonger announcements, Banshee awakening,
-  Al-Hadikhia targets, Cerenovus madness executions and Boomdandy finales.
-- 👻 **Wraith support** with Closed, Peek and Eyes Open choices during the
-  night, including private visits and a chance for good players to spot the
-  Wraith.
-- 📕 **Spy and Widow Grimoire views** let the Storyteller show the true characters
-  in their personal Grimoire.
-- 💥 **Boomdandy final three** removes every other chair, eliminates non-finalists one at a time and lets the survivors vote by standing near the player they want to die.
-- ✊ **Rock Paper Scissors** lets the Storyteller start Sybillian's original
-  two-player countdown from Grimoire Tools after both players make their choice.
-- ❗ **Notification badges** show the Storyteller when an in-play character has a relevant action available.
-- 🛠️ **Useful commands** for setup, game phases, teleporting, timers and player management.
+The included world has a dedicated setup room, changes to the inn and several
+interior and exterior touch-ups. These changes are why installation replaces
+your existing world folder.
 
 ## Installation
 
@@ -121,6 +99,8 @@ Do not install only the `jays_patch` datapack folder.
 
 - [Sybillian's Blood on the Clocktower 1.5.4](https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4)
 - Minecraft Java Edition 1.21.10
+
+Organ Grinder is disabled because Sybillian 1.5.4 does not support it.
 
 ### Back up your server
 
@@ -133,7 +113,7 @@ Do not install only the `jays_patch` datapack folder.
 1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
 2. Start the server once, then stop it completely.
 3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.9.0-beta.1](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.1/Jay.s.Patch.v1.9.0-beta.1.zip) and extract it.
+4. [Download Jay's Patch v1.9.0-beta.4](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.4/Jay.s.Patch.v1.9.0-beta.4.zip) and extract it.
 5. Replace your server's `world` folder with the included `world` folder.
 6. Copy the included `config` folder into your server folder. Merge it with the
    existing `config` folder and replace files when asked.
@@ -146,10 +126,10 @@ Do not install only the `jays_patch` datapack folder.
 ```properties
 function-permission-level=3
 spawn-protection=0
-resource-pack=https://download.mc-packs.net/pack/923113b3d4ef3dd6487d038c1e956e2b06b9397b.zip
-resource-pack-id=259d8831-fd5a-4a50-98f3-1c3494da2902
+resource-pack=https://download.mc-packs.net/pack/4c20eb69b74e8138d55d1ddeb29dc79722335d8d.zip
+resource-pack-id=d469daa3-17aa-4f4f-8e61-e4dcde432776
 resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
-resource-pack-sha1=923113b3d4ef3dd6487d038c1e956e2b06b9397b
+resource-pack-sha1=4c20eb69b74e8138d55d1ddeb29dc79722335d8d
 ```
 
 If the hosted resource pack stops working, upload
@@ -172,6 +152,8 @@ Run `/botc help` in game to see the full command list.
 | `/botc fun boomdandy` | Gives you a single-use party popper with a short countdown and fireworks. |
 | `/botc fun hot_potato` | Starts hot potato with the Imp. Right-click another player to pass it before it pops. |
 | `/botc fun dice_roll` | Publicly rolls a 20-sided die. You can use it once per minute. |
+| `/botc fun paint_gun` | Gives you a temporary Paint Gun that fires your seat colour. |
+| `/botc fun rainbow_paint_gun` | Gives you a temporary Paint Gun that splashes connected blocks with bright random colours. |
 | `/botc slayer [player]` | Gives you a Slayer's Bow. Only the Storyteller can give one to another player. |
 | `/botc king` | Gives you a King entrance item. Use it in the Town Square to make your claim. |
 | `/botc vizier <player>` | Lets the Storyteller reveal the selected player's Vizier entrance. |
