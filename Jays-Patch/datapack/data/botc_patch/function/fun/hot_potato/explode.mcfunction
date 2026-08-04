@@ -11,4 +11,3 @@ tag @a remove botc_fun_hot_target
 scoreboard players set @a botc_fun_hot_immunity 0
 scoreboard players set fun_hot_active botc_patch 0
 scoreboard players set fun_hot_timer botc_patch 0
-scoreboard players set fun_hot_pulse botc_patch 0
