@@ -571,7 +571,7 @@ foreach ($openingSound in @(
 }
 Assert-DoesNotContain $vizierBurstText 'minecraft:(?:block\.note_block\.didgeridoo|entity\.warden\.heartbeat)' "old Vizier opening sounds"
 foreach ($vizierPitch in @(
-    @{ Timer = 70; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.0'; Pitch = '1\.00' },
+    @{ Timer = 70; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.0'; Pitch = '1\.35' },
     @{ Timer = 55; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.1'; Pitch = '1\.25' },
     @{ Timer = 40; Sound = 'minecraft:block\.note_block\.bell'; Volume = '1\.1'; Pitch = '1\.10' },
     @{ Timer = 25; Sound = 'minecraft:block\.note_block\.chime'; Volume = '1\.2'; Pitch = '0\.90' },
