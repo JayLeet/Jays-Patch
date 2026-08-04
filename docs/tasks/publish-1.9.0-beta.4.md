@@ -1,7 +1,7 @@
 # Publish Jay's Patch v1.9.0 Beta 4
 
 - Status: `complete`
-- Updated: `2026-08-04 18:12 CEST`
+- Updated: `2026-08-04 18:17 CEST`
 - Owner: Sol
 - Workflow decision: `use Sol/Luna workflow`
 - Workflow reason: `This task publishes a versioned public package, Git commit, tag, and GitHub release. A small release and rollback record is worth the documentation cost.`
@@ -52,6 +52,7 @@
 | `Do not implement the rave-cat idea in this release.` | `Jay deferred it to conserve usage.` | `2026-08-04` |
 | `Remove Beta 3 after Beta 4 is verified.` | `Jay explicitly approved removing the superseded prerelease.` | `2026-08-04` |
 | `Use a cumulative Beta 4 release description.` | `The public beta description must retain every feature from the first 1.9 beta and add every later feature and fix through Beta 4.` | `2026-08-04` |
+| `Exclude features introduced before 1.9.0 Beta 1.` | `Jay noticed that the first cumulative draft incorrectly included older package features; the description should cover only features introduced or expanded during the 1.9 beta line.` | `2026-08-04` |
 
 ## Accepted `/plan`
 
@@ -83,6 +84,8 @@
 - `GitHub prerelease v1.9.0-beta.4 points to the exact release commit and uses the complete cumulative description.`
 - `The public asset was downloaded independently and matches the local package's 73,283,934-byte size and SHA-256 6ea6f340aafd098f24f95761376fd976e566b7b288377ae58a52c0e8910b638f.`
 - `Beta 3 was removed only after Beta 4 verification. Stable releases v1.8.0 through v1.5.4 remain published.`
+- `A post-publication tag and release-note audit found that the first cumulative description included features already present before 1.9. Stable READMEs and GitHub bodies establish the boundary: 1.5.4 owns the original core feature set, 1.6.x owns Night Chat and character-action notifications, 1.7.0 owns the original Boomdandy Final Three and nomination deaths, and 1.8.0 owns Storyteller Rock Paper Scissors.`
+- `The corrected Beta 4 description now starts with the actual Beta 1 additions: Buffet modes, Wraith support, Spy/Widow personal Grimoires, and the expanded Boomdandy flow. It then lists only later 1.9 beta additions and fixes.`
 
 ## Active Luna assignments
 
@@ -111,6 +114,8 @@
 | `Public asset verification` | `pass` | `Independent download matches 73,283,934 bytes and SHA-256 6ea6f340aafd098f24f95761376fd976e566b7b288377ae58a52c0e8910b638f.` |
 | `Beta 3 cleanup` | `pass` | `The v1.9.0-beta.3 release and remote tag are absent; all stable releases remain.` |
 | `Draft pull request` | `unavailable` | `The recovery branch and main have unrelated history; the established versioned GitHub release path was used without rewriting history.` |
+| `Stable-version feature-boundary audit` | `pass` | `Tagged READMEs and GitHub release bodies for v1.5.4, v1.6.0, v1.6.1, v1.7.0 and v1.8.0 identify the features that predate the 1.9 beta line.` |
+| `Corrected GitHub Beta 4 description` | `pass` | `The live release body exactly matches the revised 1.9-only cumulative notes file.` |
 
 ## Current blocker
 
@@ -122,4 +127,4 @@
 
 ## Final outcome
 
-`Jay's Patch v1.9.0 Beta 4 is publicly available with the complete cumulative beta description and verified package. Beta 3 was removed after verification, stable releases were preserved, unrelated diagnostics remain untracked, and the live server was not mutated.`
+`Jay's Patch v1.9.0 Beta 4 is publicly available with a corrected cumulative description limited to features introduced or expanded during the 1.9 beta line, plus its verified package. Beta 3 was removed after verification, stable releases were preserved, unrelated diagnostics remain untracked, and the live server was not mutated.`
