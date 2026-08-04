@@ -1,7 +1,7 @@
 # Update Jay's Patch v1.9.0 Beta 4 in place
 
-- Status: `implementing correction`
-- Updated: `2026-08-04 20:48 CEST`
+- Status: `complete`
+- Updated: `2026-08-04 21:10 CEST`
 - Owner: Sol
 - Workflow decision: `use Sol/Luna workflow`
 - Workflow reason: `This task changes two player-facing fun features and replaces an existing public package asset and tag in place. A small release and rollback record is worth the documentation cost.`
@@ -17,7 +17,7 @@
 - [x] Hot Potato stays silent for its first 20 seconds, then plays exactly one heartbeat per second from 10 seconds remaining through 1 second, rising from pitch 0.60 to 1.95 in 0.15 steps.
 - [x] Hot Potato passes keep roughly the first three blocks as a single-flame handle before widening into a three-pronged head, and announce the sender and receiver as `<sender> starpassed to <receiver>!`.
 - [x] The Vizier entrance uses the King's opening burst sounds and same level-up finale, with that final cue lowered from the King's pitch 0.70 to 0.50.
-- [ ] The corrected Beta 4 public package passes its publication gate and replaces the existing GitHub asset and tag target without creating Beta 5.
+- [x] The corrected Beta 4 public package passes its publication gate and replaces the existing GitHub asset and tag target without creating Beta 5.
 - [x] Jay's writing guide tells release writers to lead with the fun or useful player result and omit technical details that do not affect play.
 - [x] All six public GitHub release descriptions explain their player-facing value in that style while keeping version-specific facts accurate.
 - [x] A Modrinth-ready delta contains only the three corrected runtime functions under their `world/datapacks/jays_patch` paths plus short apply instructions.
@@ -75,7 +75,7 @@
 1. [x] Replace the remaining old Vizier opening sounds, keep the King-style finale at pitch 0.50, lengthen the pitchfork handle and update focused checks.
 2. [x] Rewrite the canonical writing rule, Beta 4 notes and all six GitHub release descriptions around player value.
 3. [x] Refresh the source baseline, then rebuild and inspect Beta 4 through the reviewed publication gate.
-4. [ ] Commit and push the correction, replace the existing Beta 4 asset and tag target, update every release description, verify the public result, and record release evidence.
+4. [x] Commit and push the correction, replace the existing Beta 4 asset and tag target, update every release description, verify the public result, and record release evidence.
 
 ## Delivery tracking
 
@@ -121,6 +121,10 @@
 | `Corrected archive inspection` | `superseded` | `The 73,284,390-byte archive with SHA-256 7cc3dc5e359ba157d808c7a8423994d5f11e8a4c4f7d6cf3c5c3ba8e2444c590 used a bell finale. Jay clarified that the King-style level-up sound must remain, so this asset will be replaced again.` |
 | `Final corrected public-package gate` | `pass` | `The full source and publication gates passed against the refreshed 3,108-file baseline and rebuilt Jay's Patch v1.9.0-beta.4.zip.` |
 | `Final corrected archive inspection` | `pass` | `The 73,284,403-byte archive has SHA-256 5d72eec60ca4be0c80132e5a05f1973443f594fc576e244bfc855b8d1b5de210 and 2,644 entries. Direct inspection proved the King opening sounds, entity.player.levelup finale at pitch 0.50, absence of the substituted bell and old Vizier opening, and the lengthened pitchfork handle bands.` |
+| `Final correction source publication` | `pass` | `Commit 89774dc44d69c5b1f643aa2766f9c0f4478d5c45 was pushed to codex/jays-patch-1.9-beta-recovery.` |
+| `Final public Beta 4 replacement` | `pass` | `The existing v1.9.0-beta.4 release and tag now target 89774dc44d69c5b1f643aa2766f9c0f4478d5c45. The release remains a prerelease with exactly one asset named Jay.s.Patch.v1.9.0-beta.4.zip at 73,284,403 bytes and GitHub digest sha256:5d72eec60ca4be0c80132e5a05f1973443f594fc576e244bfc855b8d1b5de210.` |
+| `Final independent public download` | `pass` | `A fresh GitHub download matched 73,284,403 bytes and SHA-256 5d72eec60ca4be0c80132e5a05f1973443f594fc576e244bfc855b8d1b5de210. Its archived Vizier tick uses entity.player.levelup at pitch 0.50 and contains no timer-10 bell substitution.` |
+| `Final Modrinth delta parity` | `pass` | `The refreshed Vizier tick in the four-file delta matches source SHA-256 4a32c1c02d9e89fdb4d24456f57ea65710553522efb148870d9fb8d52e619840.` |
 
 ## Current blocker
 
@@ -128,8 +132,8 @@
 
 ## Exact next step
 
-`Commit and push the final correction, then replace and independently verify the temporary bell-finale Beta 4 asset in place.`
+`None; delivery and verification are complete.`
 
 ## Final outcome
 
-`Pending the post-release audio and pitchfork correction.`
+`Beta 4 was corrected in place without creating Beta 5. The Vizier now keeps the King's level-up finale at pitch 0.50, the longer-handled Hot Potato pitchfork and player-first release descriptions remain published, and the refreshed Modrinth delta is ready to copy.`
