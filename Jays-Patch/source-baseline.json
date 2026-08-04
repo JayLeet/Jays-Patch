@@ -5860,7 +5860,7 @@
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/entrance/vizier/tick.mcfunction",
                       "bytes":  1220,
-                      "sha256":  "4a32c1c02d9e89fdb4d24456f57ea65710553522efb148870d9fb8d52e619840"
+                      "sha256":  "6ecbfbaac7090aee87ef98cc5513941c209cc5d55f9abaa66f9071ab7e13247b"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/apply_holder_effects.mcfunction",
