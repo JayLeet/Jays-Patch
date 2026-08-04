@@ -5860,7 +5860,7 @@
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/entrance/vizier/tick.mcfunction",
                       "bytes":  1220,
-                      "sha256":  "d18590cdd167e5c2fa0339f7f9adc5379fbdbf3febfbe872155634bbfe61837f"
+                      "sha256":  "4a32c1c02d9e89fdb4d24456f57ea65710553522efb148870d9fb8d52e619840"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/fun/hot_potato/apply_holder_effects.mcfunction",
@@ -15384,8 +15384,8 @@
                   },
                   {
                       "path":  "tools/tests/test-fun-toybox.ps1",
-                      "bytes":  54687,
-                      "sha256":  "0b268d5e2685ba5de8f175a3c0fdc8b76fa8d04a7bde002d0854e3e38d4eea88"
+                      "bytes":  54714,
+                      "sha256":  "895f0f5ea6a8be77ffcab30205322ce724b9664271ecd2b0994792529872e4e2"
                   },
                   {
                       "path":  "tools/tests/test-game-state-invariants.ps1",
