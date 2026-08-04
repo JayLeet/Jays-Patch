@@ -172,6 +172,15 @@ score names, and source documentation may keep precise internal terms.
 Current owned behavior:
 
 - `/botc` non-setup Jay's Patch command bridge.
+- `/botc fun paint_gun` gives seated players a temporary cosmetic sprayer in
+  their assigned BOTC colour. `/botc fun rainbow_paint_gun` gives every painted
+  block a different random bright concrete colour. Both use the real visible
+  snowball as the flight authority for up to 50 blocks and paint up to five
+  connected eligible full blocks in a surface-aligned 5x5 footprint for 20 seconds. The
+  displays copy the brightest local light touching each covered block. Hitting a
+  player triggers a large gun-matched burst and paints up to ten connected nearby
+  blocks. Paint never replaces world blocks; signs, partial blocks, foliage,
+  fluids, containers, and game assets stop or reject the shot.
 - Server-authority Sybillian-style Storyteller/setup brokers through Melius.
 - Raise/lower hand item cleanup and seat lamps.
 - Banshee activation through the Storyteller's pre-reveal controls, with
@@ -322,7 +331,11 @@ Current owned behavior:
   surfaces identify the exact pending submission, resubmission, missing
   assignment, or assignment/picks mismatch instead of collapsing them into a
   generic warning. Buffet rebuilds public player labels and complete head
-  profiles from its stable roster after start and seat changes. Draft
+  profiles from its stable roster after start and seat changes. During Greedy
+  games, the 20 characters marked Ω in Sai's supplied script show that
+  script's adjusted ability text in the player's existing role HUD. Their
+  names, icons and gameplay role IDs remain standard; Draft and non-Buffet
+  games keep the standard text. Draft
   locks and randomizes the roster, chooses each player's turn privately and at
   random, and uses 3/2/1 offers. Each card chooses uniformly among the legal,
   nonempty character types; a type closes only when the target no longer accepts
@@ -361,8 +374,8 @@ Current migration state:
   `Jays-Patch/world-template`.
 - Use Sybillian-style Storyteller commands for normal game management and
   setup. Keep `/botc` for Jay-owned non-setup features such as queue, votekick,
-  music, the `/botc fun` toybox, King and Vizier entrances, the `/botc slayer` practice shot,
-  grimoire reveal, and winner reveal.
+  music, the `/botc fun` toybox and Paint Guns, King and Vizier entrances, the
+  `/botc slayer` practice shot, grimoire reveal, and winner reveal.
 - Use `Jays-Patch/world-template` as the shareable clean world and manual
   recovery source.
 - Normal `/botc reset_game` does not stop or restart the server. It calls

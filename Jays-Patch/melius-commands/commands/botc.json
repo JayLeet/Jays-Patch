@@ -202,6 +202,28 @@
                                                                    "as_console":  true,
                                                                    "silent":  false,
                                                                    "op_level":  2
+                                                                   }
+                                                               ]
+                                          },
+                                          {
+                                              "id":  "paint_gun",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "function botc_patch:fun/paint_gun/give",
+                                                                   "as_console":  true,
+                                                                   "silent":  false,
+                                                                   "op_level":  2
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "rainbow_paint_gun",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "function botc_patch:fun/paint_gun/give_rainbow",
+                                                                   "as_console":  true,
+                                                                   "silent":  false,
+                                                                   "op_level":  2
                                                                }
                                                            ]
                                           }

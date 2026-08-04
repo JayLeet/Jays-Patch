@@ -9,7 +9,7 @@ Night Chat from Sybillian's newer beta.
 I made it for **Sybillian's modpack 1.5.4** on
 **Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
 
-**[Download Jay's Patch v1.9.0-beta.3](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.3/Jay.s.Patch.v1.9.0-beta.3.zip)**
+**[Download Jay's Patch v1.9.0-beta.4](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.4/Jay.s.Patch.v1.9.0-beta.4.zip)**
 
 ## What does it add?
 
@@ -66,7 +66,8 @@ game begins.
 
 - **Greedy Whalebuffet** lets everyone submit private character preferences at
   the same time. Players can also choose Dealer's Choice and leave the
-  decision up to the Storyteller.
+  decision up to the Storyteller. Characters with adjusted Greedy abilities
+  show the correct text in role displays and Grimoire dialogs.
 - **Draft Buffet** gives players turns in a random order with 3, then 2, then 1
   card. Every card rolls equally among the character types the unfinished game
   can still accept, so any legal mix of Townsfolk, Outsiders, Minions and Demons
@@ -136,7 +137,7 @@ Organ Grinder is disabled because Sybillian 1.5.4 does not support it.
 1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
 2. Start the server once, then stop it completely.
 3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.9.0-beta.3](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.3/Jay.s.Patch.v1.9.0-beta.3.zip) and extract it.
+4. [Download Jay's Patch v1.9.0-beta.4](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.4/Jay.s.Patch.v1.9.0-beta.4.zip) and extract it.
 5. Replace your server's `world` folder with the included `world` folder.
 6. Copy the included `config` folder into your server folder. Merge it with the
    existing `config` folder and replace files when asked.
@@ -149,10 +150,10 @@ Organ Grinder is disabled because Sybillian 1.5.4 does not support it.
 ```properties
 function-permission-level=3
 spawn-protection=0
-resource-pack=https://download.mc-packs.net/pack/923113b3d4ef3dd6487d038c1e956e2b06b9397b.zip
-resource-pack-id=259d8831-fd5a-4a50-98f3-1c3494da2902
+resource-pack=https://download.mc-packs.net/pack/4c20eb69b74e8138d55d1ddeb29dc79722335d8d.zip
+resource-pack-id=d469daa3-17aa-4f4f-8e61-e4dcde432776
 resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
-resource-pack-sha1=923113b3d4ef3dd6487d038c1e956e2b06b9397b
+resource-pack-sha1=4c20eb69b74e8138d55d1ddeb29dc79722335d8d
 ```
 
 If the hosted resource pack stops working, upload
@@ -175,6 +176,8 @@ Run `/botc help` in game to see the full command list.
 | `/botc fun boomdandy` | Gives you a single-use party popper with a short countdown and fireworks. |
 | `/botc fun hot_potato` | Starts hot potato with the Imp. Right-click another player to pass it before it pops. |
 | `/botc fun dice_roll` | Publicly rolls a 20-sided die. You can use it once per minute. |
+| `/botc fun paint_gun` | Gives you a temporary Paint Gun that fires your seat colour. |
+| `/botc fun rainbow_paint_gun` | Gives you a temporary Paint Gun that splashes connected blocks with bright random colours. |
 | `/botc slayer [player]` | Gives you a Slayer's Bow. Only the Storyteller can give one to another player. |
 | `/botc king` | Gives you a King entrance item. Use it in the Town Square to make your claim. |
 | `/botc vizier <player>` | Lets the Storyteller reveal the selected player's Vizier entrance. |

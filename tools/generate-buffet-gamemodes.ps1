@@ -10,10 +10,14 @@ $PatchRoot = Join-Path $RepoRoot "Jays-Patch"
 $OutputRoot = Join-Path $PatchRoot "datapack/data/botc_patch/function/buffet"
 $RulesPath = Join-Path $PatchRoot "buffet-rules.json"
 $JinxPath = Join-Path $PatchRoot "buffet-jinxes.json"
+$AbilityOverridesPath = Join-Path $PatchRoot "greedy-ability-overrides.json"
 $RolePath = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function/admin/setup/set_from_menu.mcfunction"
 $CharactersPath = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function/admin/setup/characters.mcfunction"
 $RemindersPath = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function/admin/setup/reminder_tokens.mcfunction"
 $ReminderLanguagePath = Join-Path $RepoRoot "data/resources/resourcepack/required/Blood on the Clocktower/assets/minecraft/lang/en_us.json"
+$SybillianRoleTextureRoot = Join-Path $RepoRoot "data/resources/resourcepack/required/Blood on the Clocktower/assets/ct/textures/role"
+$GreedyRoleTextureRoot = Join-Path $PatchRoot "resourcepack/assets/ct/textures/role"
+$GreedyLanguagePath = Join-Path $PatchRoot "resourcepack/assets/botc_patch_greedy/lang/en_us.json"
 $ExtensionPath = Join-Path $PatchRoot "role-extensions.json"
 $ContractPath = Join-Path $PatchRoot "upstream-contract.json"
 $RoleCatalogHelper = Join-Path $RepoRoot "tools/lib/sybillian-role-catalog.ps1"
@@ -84,6 +88,41 @@ foreach ($role in $roles) {
 $roleIds = @{}
 foreach ($role in $roles) {
     $roleIds[[string] $role.Role] = [int] $role.Id
+}
+
+$abilityOverridesDocument = [System.IO.File]::ReadAllText($AbilityOverridesPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+if ([int] $abilityOverridesDocument.schemaVersion -ne 1) {
+    throw "Unsupported Greedy ability override schema version '$($abilityOverridesDocument.schemaVersion)'."
+}
+$greedyAbilityOverrides = @($abilityOverridesDocument.overrides)
+if ($greedyAbilityOverrides.Count -ne [int] $abilityOverridesDocument.expectedOverrideCount) {
+    throw "Greedy ability override count is $($greedyAbilityOverrides.Count), expected $($abilityOverridesDocument.expectedOverrideCount)."
+}
+$greedyAbilityByRole = @{}
+$greedyAbilitySourceIds = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+foreach ($override in $greedyAbilityOverrides) {
+    $roleName = [string] $override.role
+    $sourceId = [string] $override.sourceId
+    $ability = [string] $override.ability
+    if ($roleName -notmatch '^[a-z0-9_]+$' -or -not $roleByName.ContainsKey($roleName)) {
+        throw "Greedy ability override references unknown role '$roleName'."
+    }
+    if ($greedyAbilityByRole.ContainsKey($roleName)) {
+        throw "Greedy ability override repeats role '$roleName'."
+    }
+    if ([string]::IsNullOrWhiteSpace($sourceId) -or -not $greedyAbilitySourceIds.Add($sourceId)) {
+        throw "Greedy ability override has a missing or duplicate source id '$sourceId'."
+    }
+    if ([string]::IsNullOrWhiteSpace($ability)) {
+        throw "Greedy ability override for '$roleName' has no ability text."
+    }
+    if ([string] $roleByName[$roleName].Category -notin @("town", "outsider", "minion", "demon")) {
+        throw "Greedy ability override '$roleName' is not a Townsfolk, Outsider, Minion or Demon."
+    }
+    if ($disabledRoleReasons.ContainsKey($roleName)) {
+        throw "Greedy ability override '$roleName' targets a disabled role."
+    }
+    $greedyAbilityByRole[$roleName] = $override
 }
 
 $trustedScriptIds = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
@@ -300,6 +339,53 @@ function Write-GeneratedFile {
     [System.IO.File]::WriteAllText($path, $content, $Utf8NoBom)
 }
 
+function Write-GeneratedTextFile {
+    param(
+        [string] $Path,
+        [string] $Content,
+        [string] $Description
+    )
+
+    if ($Check) {
+        if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+            throw "Generated $Description is missing: $Path"
+        }
+        if ([System.IO.File]::ReadAllText($Path) -ne $Content) {
+            throw "Generated $Description is stale: $Path"
+        }
+        return
+    }
+
+    [System.IO.Directory]::CreateDirectory((Split-Path -Parent $Path)) | Out-Null
+    [System.IO.File]::WriteAllText($Path, $Content, $Utf8NoBom)
+}
+
+function Sync-GeneratedBinaryFile {
+    param(
+        [string] $Source,
+        [string] $Destination,
+        [string] $Description
+    )
+
+    if (-not (Test-Path -LiteralPath $Source -PathType Leaf)) {
+        throw "Missing source for generated $Description`: $Source"
+    }
+    if ($Check) {
+        if (-not (Test-Path -LiteralPath $Destination -PathType Leaf)) {
+            throw "Generated $Description is missing: $Destination"
+        }
+        $sourceHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $Source).Hash
+        $destinationHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $Destination).Hash
+        if ($sourceHash -cne $destinationHash) {
+            throw "Generated $Description is stale: $Destination"
+        }
+        return
+    }
+
+    [System.IO.Directory]::CreateDirectory((Split-Path -Parent $Destination)) | Out-Null
+    Copy-Item -LiteralPath $Source -Destination $Destination -Force
+}
+
 function Get-CategoryInfo {
     param([string] $Category)
 
@@ -499,6 +585,7 @@ for ($seat = 1; $seat -le 15; $seat++) {
     $personalPrepare.Add(('data modify storage botc_patch:buffet ui.personal_grimoire.p{0}_unknown set value "?"' -f $seat))
     $personalPrepare.Add(('data modify storage botc_patch:buffet ui.personal_grimoire.p{0}_glyph set value ""' -f $seat))
     $personalPrepare.Add(('data modify storage botc_patch:buffet ui.personal_grimoire.p{0}_role set value "Unknown"' -f $seat))
+    $personalPrepare.Add(('data modify storage botc_patch:buffet ui.personal_grimoire.p{0}_ability_role set value "none"' -f $seat))
     $personalPrepare.Add(('data modify storage botc_patch:buffet ui.personal_grimoire.p{0}_color set value "#aaaaaa"' -f $seat))
     $personalPrepare.Add(('data modify storage botc_patch:buffet action.personal_grimoire set value {{seat:{0},role:0}}' -f $seat))
     $personalPrepare.Add(('execute store result storage botc_patch:buffet action.personal_grimoire.role int 1 run scoreboard players get @s botc_bg_s{0}' -f $seat))
@@ -506,15 +593,21 @@ for ($seat = 1; $seat -le 15; $seat++) {
 }
 Write-GeneratedFile "personal_grimoire/prepare.mcfunction" $personalPrepare
 
-Write-GeneratedFile "personal_grimoire/prepare_role.mcfunction" (
-    (New-Header "Resolve one trusted role for the acting player's Personal Grimoire list.") +
-    @(
-        '$data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_unknown set value ""',
-        '$data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_glyph set from storage botc_patch:buffet catalog.s$(role).glyph',
-        '$data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_role set from storage botc_patch:buffet catalog.s$(role).name',
-        '$data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_color set from storage botc_patch:buffet catalog.s$(role).color'
-    )
-)
+$personalPrepareRole = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Resolve one trusted role for the acting player's Personal Grimoire list.") {
+    $personalPrepareRole.Add($line)
+}
+$personalPrepareRole.Add('$data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_unknown set value ""')
+$personalPrepareRole.Add('$data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_glyph set from storage botc_patch:buffet catalog.s$(role).glyph')
+$personalPrepareRole.Add('$data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_role set from storage botc_patch:buffet catalog.s$(role).name')
+$personalPrepareRole.Add('$data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_ability_role set from storage botc_patch:buffet catalog.s$(role).id')
+$personalPrepareRole.Add('$data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_color set from storage botc_patch:buffet catalog.s$(role).color')
+foreach ($override in $greedyAbilityOverrides) {
+    $roleName = [string] $override.role
+    $roleId = [int] $roleByName[$roleName].Id
+    $personalPrepareRole.Add(('$execute if score buffet_mode botc_patch matches 1 if data storage botc_patch:buffet action.personal_grimoire{{role:{0}}} run data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_ability_role set value "greedy_{1}"' -f $roleId, $roleName))
+}
+Write-GeneratedFile "personal_grimoire/prepare_role.mcfunction" $personalPrepareRole
 
 $personalOpen = [System.Collections.Generic.List[string]]::new()
 foreach ($line in New-Header "Open one Buffet player's private Personal Grimoire without exposing the real setup.") {
@@ -534,7 +627,7 @@ Write-GeneratedFile "personal_grimoire/open.mcfunction" $personalOpen
 for ($count = 5; $count -le 15; $count++) {
     $actions = @()
     for ($seat = 1; $seat -le $count; $seat++) {
-        $actions += '{label:{text:"$(p' + $seat + '_unknown)",font:"minecraft:default",color:"gray",extra:[{text:"$(p' + $seat + '_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" ' + $SeatSuperscripts[$seat] + ' $(p' + $seat + '_name)",font:"minecraft:default",color:"white"},{text:" - $(p' + $seat + '_role)",font:"minecraft:default",color:"$(p' + $seat + '_color)"}]},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + ($PersonalGrimoireSeatBase + $seat) + '"}}'
+        $actions += '{label:{text:"$(p' + $seat + '_unknown)",font:"minecraft:default",color:"gray",extra:[{text:"$(p' + $seat + '_glyph)",font:"botc_patch:role_icons",color:"white"},{text:" ' + $SeatSuperscripts[$seat] + ' $(p' + $seat + '_name)",font:"minecraft:default",color:"white"},{text:" - $(p' + $seat + '_role)",font:"minecraft:default",color:"$(p' + $seat + '_color)"}]},tooltip:{translate:"clocktower.role.$(p' + $seat + '_ability_role).desc",fallback:"Character unknown",color:"gray"},action:{type:"run_command",command:"/trigger botc_buffet_action set ' + ($PersonalGrimoireSeatBase + $seat) + '"}}'
     }
     $publicCounts = $standardCounts[$count]
     $countLine = '{text:"' + $Bullet + ' Townsfolk: ' + $publicCounts[0] + '",color:"#55aaff",extra:[{text:"  ' + $Bullet + ' Outsiders: ' + $publicCounts[1] + '",color:"#55ffff"},{text:"  ' + $Bullet + ' Minions: ' + $publicCounts[2] + '",color:"#ffaa00"},{text:"  ' + $Bullet + ' Demons: ' + $publicCounts[3] + '",color:"#ff5555"}]}'
@@ -894,6 +987,7 @@ $clearLines.Add("scoreboard players set buffet_selected_seat botc_patch 0")
 $clearLines.Add("scoreboard players set buffet_hard_valid botc_patch 0")
 $clearLines.Add("scoreboard players set buffet_soft_warning botc_patch 0")
 $clearLines.Add("scoreboard players set buffet_draft_ready botc_patch 0")
+$clearLines.Add("scoreboard players set buffet_greedy_hud_ready botc_patch 0")
 $clearLines.Add("scoreboard players set draft_ready botc_patch 0")
 $clearLines.Add("scoreboard players set draft_manual_override botc_patch 0")
 $clearLines.Add("scoreboard players set draft_current_seat botc_patch 0")
@@ -906,6 +1000,7 @@ $clearLines.Add("data remove storage botc_patch:buffet modifier")
 $clearLines.Add("data remove storage botc_patch:buffet personal_grimoire_reminders")
 $clearLines.Add("data remove storage botc_patch:buffet ui")
 $clearLines.Add("data remove storage botc_patch:buffet action")
+$clearLines.Add("execute as @a[tag=botc_buffet_roster,tag=!storyteller] run fmvariable set role false none")
 $clearLines.Add("team leave @a[tag=botc_buffet_roster]")
 $clearLines.Add("tag @a remove botc_buffet_roster")
 $clearLines.Add("tag @a remove botc_buffet_action_used")
@@ -926,6 +1021,7 @@ $clearLines.Add("scoreboard players reset @a botc_buffet_role")
 $clearLines.Add("scoreboard players reset @a botc_buffet_perceived")
 $clearLines.Add("scoreboard players reset @a botc_buffet_alignment")
 $clearLines.Add("scoreboard players reset @a botc_buffet_perceived_alignment")
+$clearLines.Add("scoreboard players reset @a botc_greedy_hud_seen")
 $clearLines.Add("scoreboard players reset @a botc_buffet_seat")
 $clearLines.Add("scoreboard players reset @a botc_buffet_total")
 $clearLines.Add("scoreboard players reset @a botc_buffet_town")
@@ -2282,6 +2378,25 @@ Write-GeneratedFile "roles/apply_hidden_grim.mcfunction" (
     )
 )
 
+# FancyMenu builds both the HUD translation key and ct: icon path from its
+# client-local role variable. Greedy aliases keep the real role score and base
+# icon intact while selecting only the supplied Greedy ability descriptions.
+$greedyHudLines = [System.Collections.Generic.List[string]]::new()
+foreach ($line in New-Header "Synchronize Greedy-only HUD aliases without changing gameplay role scores.") {
+    $greedyHudLines.Add($line)
+}
+$greedyHudLines.Add('execute unless score buffet_mode botc_patch matches 1 run return 0')
+foreach ($role in $roles) {
+    $greedyHudLines.Add(('execute if score @s botc_buffet_perceived matches {0} run fmvariable set role false {1}' -f [int] $role.Id, [string] $role.Role))
+}
+foreach ($override in $greedyAbilityOverrides) {
+    $roleName = [string] $override.role
+    $greedyHudLines.Add(('execute if score @s botc_buffet_perceived matches {0} run fmvariable set role false greedy_{1}' -f [int] $roleByName[$roleName].Id, $roleName))
+}
+$greedyHudLines.Add('execute unless score @s botc_leave_game matches -2147483648..2147483647 run scoreboard players set @s botc_leave_game 0')
+$greedyHudLines.Add('scoreboard players operation @s botc_greedy_hud_seen = @s botc_leave_game')
+Write-GeneratedFile "roles/sync_greedy_hud.mcfunction" $greedyHudLines
+
 # Player-facing role announcement uses perceived roles without changing the
 # actual role score used by gameplay and the public Reveal Grimoire.
 $announceLines = [System.Collections.Generic.List[string]]::new()
@@ -2294,6 +2409,8 @@ foreach ($role in $roles) {
     $announceLines.Add(('execute as @a[tag=botc_buffet_roster,scores={{botc_buffet_perceived={0}}}] run title @s title {{"text":"The {1}","color":"{2}"}}' -f [int] $role.Id, [string] $role.Name, [string] $role.Color))
     $announceLines.Add(('execute as @a[tag=botc_buffet_roster,scores={{botc_buffet_perceived={0}}}] run fmvariable set role false {1}' -f [int] $role.Id, [string] $role.Role))
 }
+$announceLines.Add('execute if score buffet_mode botc_patch matches 1 as @a[tag=botc_buffet_roster,tag=!storyteller] run function botc_patch:buffet/roles/sync_greedy_hud')
+$announceLines.Add('execute if score buffet_mode botc_patch matches 1 run scoreboard players set buffet_greedy_hud_ready botc_patch 1')
 $announceLines.Add('execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived_alignment=1}] run title @s subtitle {"text":"(Good)","color":"#55aaff"}')
 $announceLines.Add('execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived_alignment=1}] run fmvariable set team_color false #55aaff')
 $announceLines.Add('execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived_alignment=2}] run title @s subtitle {"text":"(Evil)","color":"#ff5555"}')
@@ -2306,6 +2423,7 @@ Write-GeneratedFile "roles/announce_perceived.mcfunction" $announceLines
 Write-GeneratedFile "roles/you_are.mcfunction" (
     (New-Header "Begin the Buffet perceived-role announcement sequence.") +
     @(
+        'execute if score buffet_mode botc_patch matches 1 run scoreboard players set buffet_greedy_hud_ready botc_patch 0',
         'title @a[tag=botc_buffet_roster] subtitle " "',
         'title @a[tag=botc_buffet_roster] title "You are..."',
         'title @a[tag=storyteller] subtitle " "',
@@ -2313,6 +2431,37 @@ Write-GeneratedFile "roles/you_are.mcfunction" (
         'schedule function botc_patch:buffet/roles/announce_perceived 4s replace'
     )
 )
+
+$greedyLanguage = [ordered]@{}
+$expectedGreedyTextures = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+foreach ($override in $greedyAbilityOverrides) {
+    $roleName = [string] $override.role
+    $alias = "greedy_$roleName"
+    $greedyLanguage["clocktower.role.$alias.name"] = [string] $roleByName[$roleName].Name
+    $greedyLanguage["clocktower.role.$alias.desc"] = [string] $override.ability
+
+    $textureName = "$alias.png"
+    [void] $expectedGreedyTextures.Add($textureName)
+    Sync-GeneratedBinaryFile `
+        -Source (Join-Path $SybillianRoleTextureRoot "$roleName.png") `
+        -Destination (Join-Path $GreedyRoleTextureRoot $textureName) `
+        -Description "Greedy HUD role icon alias for $roleName"
+}
+$greedyLanguageContent = (($greedyLanguage | ConvertTo-Json -Depth 3).Replace("`r`n", "`n") + "`n")
+Write-GeneratedTextFile -Path $GreedyLanguagePath -Content $greedyLanguageContent -Description "Greedy HUD language file"
+
+$unexpectedGreedyTextures = @(
+    Get-ChildItem -LiteralPath $GreedyRoleTextureRoot -File -Filter "greedy_*.png" -ErrorAction SilentlyContinue |
+        Where-Object { -not $expectedGreedyTextures.Contains($_.Name) }
+)
+if ($unexpectedGreedyTextures.Count -gt 0) {
+    if ($Check) {
+        throw "Unexpected generated Greedy HUD role icon alias(es): $($unexpectedGreedyTextures.Name -join ', ')"
+    }
+    foreach ($unexpectedTexture in $unexpectedGreedyTextures) {
+        Remove-Item -LiteralPath $unexpectedTexture.FullName -Force
+    }
+}
 
 if (-not $Check) {
     Write-Host "Generated Buffet mode functions from $($roles.Count) trusted roles."

@@ -193,6 +193,32 @@
                       "itemModel":  "botc_patch:item/role/slayer"
                   },
                   {
+                      "id":  "fun_paint_gun",
+                      "modelString":  "botc_fun_paint_gun",
+                      "item":  "minecraft:carrot_on_a_stick",
+                      "resourceModel":  "botc_patch:item/fun/paint_gun",
+                      "label":  "Paint Gun",
+                      "owner":  "assigned player",
+                      "phase":  "any",
+                      "slot":  "inventory",
+                      "source":  "fun/paint_gun/* and loot_table/fun/paint_gun.json",
+                      "status":  "active",
+                      "itemModel":  "botc_patch:item/fun/paint_gun"
+                  },
+                  {
+                      "id":  "fun_rainbow_paint_gun",
+                      "modelString":  "botc_fun_rainbow_paint_gun",
+                      "item":  "minecraft:carrot_on_a_stick",
+                      "resourceModel":  "botc_patch:item/fun/rainbow_paint_gun",
+                      "label":  "Rainbow Paint Gun",
+                      "owner":  "player",
+                      "phase":  "any",
+                      "slot":  "inventory",
+                      "source":  "fun/paint_gun/* and loot_table/fun/rainbow_paint_gun.json",
+                      "status":  "active",
+                      "itemModel":  "botc_patch:item/fun/rainbow_paint_gun"
+                  },
+                  {
                       "id":  "fun_boomdandy",
                       "modelString":  "botc_fun_boomdandy",
                       "item":  "minecraft:carrot_on_a_stick",

@@ -191,6 +191,8 @@ $buffetRoleCatalog = Read-RequiredFile (Join-Path $BuffetRoot "roles/init.mcfunc
 $buffetBlockSelf = Read-RequiredFile (Join-Path $BuffetRoot "attention/block_self.mcfunction")
 $buffetBlockStorytellers = Read-RequiredFile (Join-Path $BuffetRoot "attention/block_storytellers.mcfunction")
 $personalGrimoireDialog = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/dialog/count_5.mcfunction")
+$personalGrimoirePrepare = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/prepare.mcfunction")
+$personalGrimoirePrepareRole = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/prepare_role.mcfunction")
 $personalGrimoireDialogs = @{}
 foreach ($count in 5..15) {
     $personalGrimoireDialogs[$count] = Read-RequiredFile (Join-Path $BuffetRoot "personal_grimoire/dialog/count_$count.mcfunction")
@@ -227,6 +229,9 @@ Assert-Contains $sharedHandleAction 'buffet_mode botc_patch matches 1.*tag=story
 Assert-Contains $tick 'buffet_mode botc_patch matches 2.*tag=botc_buffet_roster,tag=!storyteller.*weapon\.offhand.*botc_buffet_choices.*function botc_patch:buffet/draft/open_choices' "every Draft player's offhand choice item routes through private state-aware handling"
 Assert-Contains $tick 'buffet_mode botc_patch matches 2.*tag=storyteller.*function botc_patch:buffet/draft/review/open' "Draft review is Storyteller-only"
 Assert-Contains $selectGreedy 'function botc_patch:buffet/item_checks' "Greedy immediately installs its setup tools"
+Assert-Contains $selectGreedy 'Some characters abilities have been adjusted, you can view them here: ' "Greedy setup explains that some character abilities differ"
+Assert-Contains $selectGreedy 'click_event":\{"action":"open_url","url":"https://greedy\.antihype\.space/#section-greedy-characters"\}' "Greedy setup links directly to the adjusted character reference"
+Assert-NotContains $selectDraft 'greedy\.antihype\.space' "Draft setup does not show the Greedy character reference"
 Assert-Contains $draftRouteStartReady 'function botc_patch:buffet/item_checks' "Draft installs its setup tools only after the private route is ready"
 Assert-Contains $itemChecks 'buffet_mode botc_patch matches 1\.\.2 as @a\[tag=storyteller\] run clear @s.*strings:\["ct_bag"\]' "Buffet removes Sybillian's setup bag from the Storyteller"
 Assert-Contains $itemChecks 'buffet_mode botc_patch matches 1\.\.2 as @a\[tag=storyteller\] run clear @s.*strings:\["setup_wall_bag"\]' "Buffet removes Jay's setup bag from the Storyteller"
@@ -280,6 +285,7 @@ Assert-Contains $sharedHandleAction 'matches 8022 run function botc_patch:buffet
 Assert-Contains $sharedHandleAction 'matches 8101\.\.8425 run function botc_patch:buffet/personal_grimoire/select_character' "Personal Grimoire character choices are restricted to trusted catalog action ids"
 Assert-Contains $sharedHandleAction 'matches 8500 run function botc_patch:buffet/personal_grimoire/reminders/slots[\s\S]*matches 8501\.\.8506 run function botc_patch:buffet/personal_grimoire/reminders/select_slot[\s\S]*matches 8511\.\.8515 run function botc_patch:buffet/personal_grimoire/reminders/select_category[\s\S]*matches 9000\.\.9999 run function botc_patch:buffet/personal_grimoire/reminders/select' "only Buffet players can route the bounded Personal Grimoire reminder editor"
 Assert-Contains $personalGrimoireDialog 'body:\[.*click_event:\{action:"run_command",command:"/trigger botc_buffet_action set 8022"\}.*Open Grimoire View.*actions:\[' "the Jay dialog keeps a clickable Grimoire-view bridge above the player grid"
+Assert-Contains $personalGrimoireDialog 'tooltip:\{translate:"clocktower\.role\.\$\(p1_ability_role\)\.desc",fallback:"Character unknown",color:"gray"\}' "the Personal Grimoire shows the noted character ability on hover"
 Assert-NotContains $personalGrimoireDialog 'actions:\[[^\r\n]*Open Grimoire View' "the Grimoire-view bridge cannot consume a player-button grid position"
 Assert-Contains $personalGrimoireDialog 'exit_action:\{label:"Close"\}' "the Personal Grimoire overview has an explicit bottom Close button"
 Assert-NotContains $personalGrimoireDialog 'after_action:"wait_for_response"' "the Personal Grimoire Close button cannot fall through to Minecraft's Waiting for Server screen"
@@ -301,7 +307,10 @@ foreach ($count in 5..15) {
     $dialog = $personalGrimoireDialogs[$count]
     Assert-Contains $dialog ('Townsfolk: {0}.*Outsiders: {1}.*Minions: {2}.*Demons: {3}' -f $expected[0], $expected[1], $expected[2], $expected[3]) "the $count-player Personal Grimoire shows only its standard public setup distribution"
     Assert-NotContains $dialog 'draft\.(?:target|seats)|greedy\.seats|botc_buffet_role|draft_(?:target|assigned)_' "the $count-player public count header cannot reveal private assignments or modified targets"
+    Assert-Contains $dialog 'tooltip:\{translate:"clocktower\.role\.\$\(p1_ability_role\)\.desc",fallback:"Character unknown",color:"gray"\}' "the $count-player Personal Grimoire keeps ability tooltips"
 }
+Assert-Contains $personalGrimoirePrepare 'ui\.personal_grimoire\.p1_ability_role set value "none"' "unknown Personal Grimoire notes use the safe tooltip fallback"
+Assert-Contains $personalGrimoirePrepareRole 'p\$\(seat\)_ability_role set from storage botc_patch:buffet catalog\.s\$\(role\)\.id' "Personal Grimoire notes use official ability translation keys by default"
 Assert-Contains $personalGrimoireCategories 'Townsfolk.*Outsiders.*Minions.*Demons' "the Personal Grimoire offers all four trusted character categories"
 Assert-Contains $personalGrimoireCategories 'Reminder Tokens.*set 8500' "each private player entry exposes the Jay-owned reminder-token editor"
 Assert-Contains $personalGrimoireCategories 'dynamic\.body\.contents\.extra\[0\]\.text set from storage botc_patch:buffet ui\.personal_grimoire_target[\s\S]*personal_grimoire/show_dynamic' "the character editor renders the selected player's prepared name instead of an unsupported storage-NBT text component"
@@ -656,6 +665,70 @@ foreach ($role in $roles) {
     $roleIds[[string] $role.Role] = [int] $role.Id
     $roleByName[[string] $role.Role] = $role
 }
+
+$greedyAbilityPath = Join-Path $PatchRoot "greedy-ability-overrides.json"
+$greedyLanguagePath = Join-Path $PatchRoot "resourcepack/assets/botc_patch_greedy/lang/en_us.json"
+$greedyTextureRoot = Join-Path $PatchRoot "resourcepack/assets/ct/textures/role"
+$sybillianTextureRoot = Join-Path $RepoRoot "data/resources/resourcepack/required/Blood on the Clocktower/assets/ct/textures/role"
+$greedyAbilityDocument = Get-Content -LiteralPath $greedyAbilityPath -Raw -Encoding UTF8 | ConvertFrom-Json
+$expectedGreedyAbilityRoles = @(
+    "courtier", "cult_leader", "engineer", "hatter", "heretic", "hermit", "huntsman", "kazali",
+    "lunatic", "mayor", "philosopher", "pit_hag", "poppy_grower", "psychopath", "recluse", "snitch",
+    "soldier", "summoner", "sweetheart", "wizard"
+)
+$actualGreedyAbilityRoles = @($greedyAbilityDocument.overrides.role | Sort-Object)
+$greedyAbilityRoleDifference = Compare-Object -ReferenceObject $expectedGreedyAbilityRoles -DifferenceObject $actualGreedyAbilityRoles
+if ([int] $greedyAbilityDocument.schemaVersion -ne 1 -or [int] $greedyAbilityDocument.expectedOverrideCount -ne 20 -or $greedyAbilityRoleDifference) {
+    throw "Greedy ability overrides must remain exactly the 20 Ω-marked characters from the supplied script."
+}
+if (@($greedyAbilityDocument.overrides.sourceId | Sort-Object -Unique).Count -ne 20) {
+    throw "Greedy ability override source ids must be unique."
+}
+
+$greedyLanguage = Get-Content -LiteralPath $greedyLanguagePath -Raw -Encoding UTF8 | ConvertFrom-Json
+if (@($greedyLanguage.PSObject.Properties).Count -ne 40) {
+    throw "Greedy HUD language output must contain one unchanged name and one adjusted description for each of 20 roles."
+}
+foreach ($override in $greedyAbilityDocument.overrides) {
+    $roleName = [string] $override.role
+    $alias = "greedy_$roleName"
+    $nameKey = "clocktower.role.$alias.name"
+    $descriptionKey = "clocktower.role.$alias.desc"
+    if ([string] $greedyLanguage.$nameKey -cne [string] $roleByName[$roleName].Name) {
+        throw "Greedy HUD alias '$alias' changed the character name instead of only the ability text."
+    }
+    if ([string] $greedyLanguage.$descriptionKey -cne [string] $override.ability) {
+        throw "Greedy HUD alias '$alias' does not match the reviewed ability source."
+    }
+
+    $baseTexture = Join-Path $sybillianTextureRoot "$roleName.png"
+    $aliasTexture = Join-Path $greedyTextureRoot "$alias.png"
+    if (-not (Test-Path -LiteralPath $aliasTexture -PathType Leaf)) {
+        throw "Missing Greedy HUD compatibility icon: $aliasTexture"
+    }
+    if ((Get-FileHash -Algorithm SHA256 -LiteralPath $baseTexture).Hash -cne (Get-FileHash -Algorithm SHA256 -LiteralPath $aliasTexture).Hash) {
+        throw "Greedy HUD compatibility icon '$alias' differs from its standard Sybillian icon."
+    }
+    $roleId = [int] $roleIds[$roleName]
+    $expectedTooltipRoute = '$execute if score buffet_mode botc_patch matches 1 if data storage botc_patch:buffet action.personal_grimoire{role:' + $roleId + '} run data modify storage botc_patch:buffet ui.personal_grimoire.p$(seat)_ability_role set value "greedy_' + $roleName + '"'
+    Assert-Contains $personalGrimoirePrepareRole ([regex]::Escape($expectedTooltipRoute)) "Greedy Personal Grimoire ability route for $roleName"
+}
+
+$greedyHudSync = Read-RequiredFile (Join-Path $BuffetRoot "roles/sync_greedy_hud.mcfunction")
+$greedyHudAnnounce = Read-RequiredFile (Join-Path $BuffetRoot "roles/announce_perceived.mcfunction")
+$greedyHudYouAre = Read-RequiredFile (Join-Path $BuffetRoot "roles/you_are.mcfunction")
+Assert-Contains $greedyHudSync 'unless score buffet_mode botc_patch matches 1 run return 0' "the Greedy HUD synchronizer refuses Draft and ordinary games"
+Assert-NotContains $greedyHudSync 'greedy_wraith' "the unmarked Wraith keeps the global official ability text"
+foreach ($override in $greedyAbilityDocument.overrides) {
+    $roleName = [string] $override.role
+    Assert-Contains $greedyHudSync ("botc_buffet_perceived matches {0} run fmvariable set role false greedy_{1}" -f $roleIds[$roleName], $roleName) "Greedy applies the reviewed $roleName HUD alias"
+}
+Assert-Contains $greedyHudAnnounce 'buffet_mode botc_patch matches 1 as @a\[tag=botc_buffet_roster,tag=!storyteller\] run function botc_patch:buffet/roles/sync_greedy_hud' "only Greedy applies adjusted ability text after the role reveal"
+Assert-Contains $greedyHudYouAre 'buffet_mode botc_patch matches 1 run scoreboard players set buffet_greedy_hud_ready botc_patch 0' "Greedy reconnect synchronization waits until the role reveal"
+Assert-Contains $tick 'phase game_data matches 1\.\. if score buffet_mode botc_patch matches 1 if score buffet_greedy_hud_ready botc_patch matches 1.*unless score @s botc_greedy_hud_seen = @s botc_leave_game.*sync_greedy_hud' "a rejoining Greedy player gets the correct HUD text again"
+Assert-Contains $buffetLoad 'scoreboard objectives add botc_greedy_hud_seen dummy' "Buffet registers Greedy HUD reconnect state"
+Assert-Contains $cleanup 'fmvariable set role false none' "Buffet cleanup removes a Greedy-only HUD alias"
+Assert-Contains $cleanup 'scoreboard players reset @a botc_greedy_hud_seen' "Buffet cleanup clears Greedy HUD reconnect state"
 
 $draftInitPool = Read-RequiredFile (Join-Path $DraftRoot "init_pool.mcfunction")
 $draftInitConflicts = Read-RequiredFile (Join-Path $DraftRoot "init_conflicts.mcfunction")

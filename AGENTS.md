@@ -56,6 +56,26 @@ Do not claim that this instruction, the project configuration, a model, a
 worker or a check was loaded or executed without evidence from the applicable
 run.
 
+## Test scope
+
+- Before running a test, check, generator verification, baseline validation,
+  package validation, or live verification, reason about whether it can catch a
+  failure relevant to the current change or its delivery boundary. Do not run a
+  check merely because it exists or is normally available. A required delivery
+  gate is itself a relevant reason, but do not separately rerun its members.
+- During investigation and implementation, run the smallest targeted checks
+  that cover the changed behavior and its direct integration points.
+- Run the full source test suite only when publishing, deploying, or rebuilding
+  the public package. Run it once at that delivery boundary, after targeted
+  checks pass.
+- If the reviewed publish, deploy, or package workflow already runs the full
+  suite, that run counts. Do not run the full suite again unless files changed
+  afterward or the first run failed in a way that requires a fresh complete
+  result.
+- Do not rebuild the public package merely to validate a small local change.
+  Rebuild it only when the task includes publishing, deployment, or an explicit
+  package rebuild.
+
 ## Project boundaries
 
 - Prefer calling or wrapping Sybillian-owned `ct:` behavior instead of editing

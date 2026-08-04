@@ -5,6 +5,7 @@ $RepoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $PatchRoot = Join-Path $RepoRoot "Jays-Patch"
 $DatapackDataRoot = Join-Path $PatchRoot "datapack/data"
 $ResourcepackAssetsRoot = Join-Path $PatchRoot "resourcepack/assets"
+$GreedyAbilityOverridesPath = Join-Path $PatchRoot "greedy-ability-overrides.json"
 $CommandSourceRoot = Join-Path $PatchRoot "melius-commands/commands"
 $FancyMenuSourceRoot = Join-Path $PatchRoot "fancymenu"
 $YawpCompatibilityContract = Join-Path $PatchRoot "yawp-compatibility.json"
@@ -48,6 +49,7 @@ function Assert-TextDoesNotContain {
 
 Assert-PathExists $DatapackDataRoot "Jay's Patch datapack data folder"
 Assert-PathExists $ResourcepackAssetsRoot "Jay's Patch resource-pack assets folder"
+Assert-PathExists $GreedyAbilityOverridesPath "Greedy ability override source"
 Assert-PathExists $CommandSourceRoot "Jay's Patch Melius command source folder"
 Assert-PathExists $YawpCompatibilityContract "YAWP compatibility contract"
 Assert-PathExists $ComposeFile "Docker compose file"
@@ -86,7 +88,27 @@ if ($ctPathDifference) {
 
 $copiedCtAssets = Join-Path $ResourcepackAssetsRoot "ct"
 if (Test-Path -LiteralPath $copiedCtAssets) {
-    throw "Jay's Patch should reference Sybillian ct:role textures, not copy ct assets into $copiedCtAssets"
+    # FancyMenu derives its fixed ct: icon path and translation key from the
+    # same role variable. These generated, prefixed aliases are the narrow
+    # compatibility bridge that lets Greedy select different text while
+    # retaining the byte-identical Sybillian icon.
+    $greedyAbilityOverrides = Get-Content -LiteralPath $GreedyAbilityOverridesPath -Raw | ConvertFrom-Json
+    $allowedCtAssetPaths = @(
+        $greedyAbilityOverrides.overrides |
+            ForEach-Object { "textures/role/greedy_$($_.role).png" } |
+            Sort-Object -Unique
+    )
+    $ctAssetPaths = @(
+        Get-ChildItem -LiteralPath $copiedCtAssets -File -Recurse |
+            ForEach-Object {
+                $_.FullName.Substring($copiedCtAssets.Length).TrimStart('\', '/').Replace('\', '/')
+            } |
+            Sort-Object
+    )
+    $unexpectedCtAssets = Compare-Object -ReferenceObject $allowedCtAssetPaths -DifferenceObject $ctAssetPaths
+    if ($unexpectedCtAssets) {
+        throw "Jay's Patch ct: resource compatibility assets differ from the Greedy ability allow-list. Found: $($ctAssetPaths -join ', ')"
+    }
 }
 
 $composeText = Get-Content -LiteralPath $ComposeFile -Raw

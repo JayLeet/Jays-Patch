@@ -1,0 +1,10 @@
+{
+  "fun.ralsei_splat": {
+    "sounds": [
+      {
+        "name": "botc_patch:fun/ralsei_splat",
+        "stream": false
+      }
+    ]
+  }
+}

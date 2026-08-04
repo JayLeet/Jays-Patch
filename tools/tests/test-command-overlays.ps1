@@ -14,6 +14,8 @@ $publicCommands = [System.Collections.Generic.HashSet[string]]::new([System.Stri
     "function botc_patch:fun/boomdandy/give",
     "function botc_patch:fun/hot_potato/start",
     "function botc_patch:fun/dice_roll/start",
+    "function botc_patch:fun/paint_gun/give",
+    "function botc_patch:fun/paint_gun/give_rainbow",
     "function botc_patch:fun/entrance/king/give",
     "function botc_patch:fun/slayer/give",
     "function botc_patch:queue/join",

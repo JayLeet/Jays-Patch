@@ -54,6 +54,16 @@ scoreboard objectives add botc_fun_hot_immunity dummy
 scoreboard objectives add botc_fun_hot_generation dummy
 scoreboard objectives add botc_fun_king_seen dummy
 scoreboard objectives add botc_fun_dice_cooldown dummy
+scoreboard objectives add botc_fun_paint_range dummy
+scoreboard objectives add botc_fun_paint_cooldown dummy
+scoreboard objectives add botc_fun_paint_color dummy
+scoreboard objectives add botc_fun_paint_roll dummy
+scoreboard objectives add botc_fun_paint_count dummy
+scoreboard objectives add botc_fun_paint_existing dummy
+scoreboard objectives add botc_fun_paint_age dummy
+scoreboard objectives add botc_fun_paint_id dummy
+scoreboard objectives add botc_fun_paint_owner dummy
+scoreboard objectives add botc_fun_paint_light dummy
 scoreboard objectives add botc_fun_silly_use minecraft.used:minecraft.potion
 scoreboard objectives add botc_fun_silly_timer dummy
 scoreboard objectives add botc_fun_silly_event dummy
