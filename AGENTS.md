@@ -3,6 +3,17 @@
 This repository owns its code, documentation and project rules. The Document
 Library is optional reading only when Jay explicitly asks for it.
 
+## Understand before editing
+
+Before any edit, read and apply the managed complete local copy at
+`docs/UNDERSTAND_BEFORE_EDITING.md`. Use its fast path for bounded, low-risk
+work and its full method when ownership, flow, scope, safety or proof is
+unclear. Apply it with this project's source/output ownership, live-state
+boundaries, routing, and current code and runtime evidence as the authority
+for this repository. It does not require the external Document Library at
+runtime. Keep project-specific additions in this root `AGENTS.md`; do not edit
+or fork the managed guide locally.
+
 ## Start here
 
 1. Inspect the current Git state and preserve unrelated work, live server data
