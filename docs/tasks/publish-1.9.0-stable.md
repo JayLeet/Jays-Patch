@@ -1,7 +1,7 @@
 # Publish Jay's Patch v1.9.0 Stable
 
-- Status: `verifying`
-- Updated: `2026-08-21 00:23 CEST`
+- Status: `complete`
+- Updated: `2026-08-21 00:28 CEST`
 - Owner: Sol
 - Workflow decision: `use Sol/Luna workflow`
 - Workflow reason: `This task changes the default-branch model, stable version identity, generated public package, Git tag, GitHub release, and branch retention. A durable release and rollback record is worth the journal cost.`
@@ -110,11 +110,11 @@
 
 ## Current blocker
 
-`None. This final release record still needs its documentation-only commit fast-forwarded to main.`
+`None.`
 
 ## Exact next step
 
-`Commit this final journal update, fast-forward it to main, and confirm main/release/remote branch state once more.`
+`None. Release and branch promotion are complete.`
 
 ## Final outcome
 
