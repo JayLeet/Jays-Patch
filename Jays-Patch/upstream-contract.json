@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "modpack": "Blood on the Clocktower",
+  "modpackVersion": "1.5.4",
+  "minecraftVersion": "1.21.10",
+  "roleCount": 137,
+  "roleCatalogSha256": "d4dea54772309a580a6c34fc8374b0ce854c7e4383a8bef54b6dcdd497383f05",
+  "disabledRoles": [
+    {
+      "role": "organ_grinder",
+      "reason": "Unsupported by Sybillian 1.5.4."
+    }
+  ],
+  "requiredObjectives": [
+    "vote",
+    "game_id",
+    "game_data",
+    "role",
+    "id"
+  ],
+  "requiredSourceTokens": [
+    "storage ct:players",
+    "storage ct:script",
+    "storage ct:roles",
+    "tag @s add storyteller",
+    "tag @s add spectator",
+    "tag=vote_marker",
+    "tag=house_head"
+  ],
+  "requiredDataFiles": [
+    "data/ct/tags/block/house_marker.json",
+    "data/ct/tags/block/vc_marker.json"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "expectedOverrideCount": 20,
+  "source": {
+    "name": "Greedy Whalebuffet+ v2.1-rc8 (edited by Sai)",
+    "editor": "Sai",
+    "selectionRule": "Only characters marked Ω in the supplied source JSON have Greedy-specific ability text."
+  },
+  "overrides": [
+    {
+      "role": "courtier",
+      "sourceId": "courtier_popppp",
+      "ability": "Twice per game, at night, choose a different character: they are drunk for 3 nights & 3 days."
+    },
+    {
+      "role": "cult_leader",
+      "sourceId": "cultleader_popppp",
+      "ability": "Each night, you become the alignment of an alive neighbour. If all good players choose to join your cult, your team wins. If you die at night, become good."
+    },
+    {
+      "role": "engineer",
+      "sourceId": "asdasd_ultimate",
+      "ability": "Once per game, during the day, visit the Storyteller to learn a number of in play Minion or Demon characters equal to the Day."
+    },
+    {
+      "role": "huntsman",
+      "sourceId": "huntsman_popppp",
+      "ability": "You start knowing an in play Outsider. They can't change character from other abilities. Once per game, at night, choose a player: that Outsider, if chosen, becomes a not in play good Townsfolk. [+0 or +1 Outsider]"
+    },
+    {
+      "role": "mayor",
+      "sourceId": "mayor_mayor",
+      "ability": "If only 3 players live (travellers don't count) & no execution occurs, your team wins. If you die at night, another player might die instead."
+    },
+    {
+      "role": "philosopher",
+      "sourceId": "philosopher_ultimate",
+      "ability": "Once per game, at night, choose a good character: gain that ability. You may be told to reconsider. If you pick a character that's not helpful to your team or ruins the games balance 3 times, you become Drunk."
+    },
+    {
+      "role": "poppy_grower",
+      "sourceId": "poppygrower_popppp",
+      "ability": "Minions & Demons do not know each other. If you die, even if drunk or poisoned, they learn who each other are at night."
+    },
+    {
+      "role": "soldier",
+      "sourceId": "soldier_popppp",
+      "ability": "You are safe from the Demon. Each night, if your ability protected you from the Demon, wake and learn this."
+    },
+    {
+      "role": "hatter",
+      "sourceId": "hatter_popppp",
+      "ability": "If you die, at night, choose Minions or Demons. All players of the type you chose picks new characters of the same type to be."
+    },
+    {
+      "role": "heretic",
+      "sourceId": "heretic_popppp",
+      "ability": "Whoever wins, loses, & whoever loses, wins. If only evil players are alive, evil wins (therefore good wins). This ability works even if you are dead."
+    },
+    {
+      "role": "hermit",
+      "sourceId": "hermit_popppp",
+      "ability": "You have 3 Outsider abilities. You know each, even if drunk or poisoned. [-0 or -1 Outsiders]"
+    },
+    {
+      "role": "lunatic",
+      "sourceId": "lunatic_popppp",
+      "ability": "You think you are a Demon, but you are not. The Demon knows who you are & who you choose at night."
+    },
+    {
+      "role": "recluse",
+      "sourceId": "recluse_wewew",
+      "ability": "You might register as any character, alignment, or living status, even if dead."
+    },
+    {
+      "role": "snitch",
+      "sourceId": "snitch_wewew",
+      "ability": "Each Minion starts knowing a different in-play good character."
+    },
+    {
+      "role": "sweetheart",
+      "sourceId": "sweetheart_wewew",
+      "ability": "When you die, 1 player is drunk from now on. When dead, you may guess (once) which. If correct, all players learn you are the Sweetheart tonight."
+    },
+    {
+      "role": "pit_hag",
+      "sourceId": "pithag_ultimate",
+      "ability": "Each other night*, you may choose a player & character they become (if not in play). If a potential evil-making character or Demon is made, deaths tonight are arbitrary."
+    },
+    {
+      "role": "psychopath",
+      "sourceId": "psychopath_ultimate",
+      "ability": "If there are 5 or more alive players (not including travellers), each day, before nominations, you may publicly choose a player: they die. If executed, you only die if you lose roshambo."
+    },
+    {
+      "role": "summoner",
+      "sourceId": "summoner_popppp",
+      "ability": "On the 3rd night, choose a player: they become an evil Demon of your choice. [No Demon]"
+    },
+    {
+      "role": "wizard",
+      "sourceId": "wizard_popppp",
+      "ability": "Once per game, choose to make a wish. If granted, it might have a price & leave a clue as to its nature. If you propose a declined wish for your team 3 times, you turn into a character of the same type."
+    },
+    {
+      "role": "kazali",
+      "sourceId": "kazali_popppp",
+      "ability": "Each night*, choose a player: they die. [You choose which players are which Minions, your Minion choices may be denied. -? to +? Outsiders]"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# Editable launcher and server branding.
+#
+# Edit only the text after each = sign.
+# Do not add quotes around the text.
+#
+# Logo:
+#   The logo is Minecraft's normal server icon:
+#   data/server-icon.png
+#
+# Notes:
+#   short = short label shown in the console and MOTD
+#   name = full server name shown in the console and MOTD
+#   patch = name shown in the resource-pack prompt
+#   motd.subtitle = second line in the Minecraft server list
+#   resourcepack.message = second line in the resource-pack prompt
+
+short=BOTC
+name=Jay's Clocktower
+patch=Jay's Patch
+motd.subtitle=Come in, get comfy, and take a seat
+resourcepack.message=Jay's Patch resource pack

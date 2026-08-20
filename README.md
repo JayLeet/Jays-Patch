@@ -1,184 +1,331 @@
-# Jay's Patch
+# BOTC Minecraft Server
 
-Jay's Patch is my unofficial server-side add-on for
-[Sybillian's Blood on the Clocktower modpack](https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4).
-It adds new ways to build games, quicker Storyteller controls, character-specific
-moments and more things to mess around with between games. Players also sit in a
-proper circle, and Night Chat lets people speak privately during the night.
+This folder starts a Blood on the Clocktower Minecraft server.
 
-I made it for **Sybillian's modpack 1.5.4** on
-**Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
+You do not need to code to use this. You mostly need to install Docker, edit one
+small settings file, and double-click `BOTC.exe`.
 
-**[Download Jay's Patch v1.9.0-beta.4](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.4/Jay.s.Patch.v1.9.0-beta.4.zip)**
+## What The Files Are
 
-## What does it add?
+- `BOTC.exe`: double-click this. If the server is offline, it starts it. If the
+  server is already online, it opens the console only.
+- `Start.bat`: compatibility wrapper for `BOTC.exe`.
+- `Console.bat`: compatibility wrapper for `BOTC.exe`.
+- `launcher/`: internal launcher source and config. You normally do not open this.
+- `launcher/exe/BotcLauncher.cs`: source code used to build the standalone
+  `BOTC.exe`.
+- `launcher/compose.yml`: tells Docker what Minecraft server to create.
+- `launcher/branding.txt`: editable server name, MOTD, and resource-pack prompt.
+- `data/server-icon.png`: the normal Minecraft server icon. The launcher
+  also uses this file as the EXE icon source when rebuilt.
+- `Jays-Patch`: Jay's server-side add-on. Custom BOTC behavior goes here.
+- `launcher/local-settings.example.properties`: example settings file.
+- `launcher/local-settings.properties`: your private settings file. You create this yourself.
 
-### 🪑 A Town Square that fits the game
+## What You Need To Install
 
-No more conga lines. From 1 to 15 players are seated in a circle that adjusts
-while everyone joins and locks when the game starts.
+### Docker Desktop
 
-### 🎲 More ways to build a game
+Docker Desktop is the app that runs the Minecraft server in a container.
 
-The private setup room gives the Storyteller a wall of character icons for
-**Trouble Brewing**, **Sects and Violets**, **Bad Moon Rising** or an imported
-custom script. Right-click characters to change the setup, then start the game
-from the items in your hotbar.
+A container is just a boxed-off app. It lets this server run without you manually
+installing Java, Fabric, and every server file yourself.
 
-- **Greedy Whalebuffet** lets everyone privately submit their favourite
-  characters at the same time or choose Dealer's Choice. Greedy's adjusted
-  character abilities appear in role displays and Grimoire dialogs.
-- **Draft Buffet** gives each player a private turn to choose from 3, then 2,
-  then 1 character while the game changes around earlier picks.
+Install Docker Desktop:
 
-### 🎭 Quicker Storyteller controls
+1. Go to `https://www.docker.com/products/docker-desktop/`.
+2. Download Docker Desktop for Windows.
+3. Install it.
+4. Open Docker Desktop once.
+5. Wait until it says Docker is running.
 
-Use hotbar items or server-side dialog menus to advance the phase, set timers,
-kill or revive players, manage nominations, return everyone to their seats and
-teleport around the game. **Storyteller Tools** keeps the most useful controls
-together in one item.
+After that first setup, `BOTC.exe` can open Docker Desktop for you if it is
+installed but not running yet.
 
-Storyteller's Passage lets the Storyteller move and teleport as a spectator,
-then returns them safely when they enter or re-enter a private voice area.
+### playit.gg
 
-Use item mode, dialog mode or Sybillian's original setup bag. Pick the option
-that feels best for you.
+playit.gg lets people outside your house join your server.
 
-### 📖 Grimoire Reveal
+Without playit.gg, the server may only work for people on your own network.
 
-Reveal every player's character and alignment one seat at a time, with sounds,
-particles and a spotlight moving around the circle. The Storyteller can correct
-a displayed character or alignment before the reveal starts and cancel an
-accidental reveal before anything is shown.
+Install playit.gg:
 
-Good and Evil each get their own winner reveal with a short suspense sequence,
-titles, fireworks and matching heads for the winners.
+1. Go to `https://playit.gg/`.
+2. Make an account.
+3. Install the Windows app.
+4. Follow playit.gg setup until your agent is connected.
 
-### 🎙️ Talk privately at night
+You need two playit tunnels:
 
-Night Chat backports Sybillian's 1.6.0 beta feature for servers using modpack
-1.5.4. During the night, seated players inside a house receive a microphone in
-their second hotbar slot. Hold it to speak with anyone else holding one.
+- Minecraft Java tunnel
+  - local address: `127.0.0.1`
+  - local port: `25565`
+  - protocol: TCP
+- Simple Voice Chat tunnel
+  - local address: `127.0.0.1`
+  - local port: `24454`
+  - protocol: UDP
 
-### 👻 Character changes and the addition of Wraith
+playit.gg will give you public addresses. The Simple Voice Chat address is the
+one you put in `BOTC_VOICE_HOST`.
 
-- **Wraith** players can keep their eyes closed, peek from home or sneak out
-  with the Storyteller at night.
-- **Spy and Widow** players can privately see the true Grimoire.
-- Character tools help the Storyteller handle Fearmonger announcements,
-  Banshee votes, Al-Hadikhia targets, Cerenovus executions and Boomdandy
-  finales.
-- A Boomdandy execution can lead into a unique Final Three or use Sybillian's
-  normal execution so the game continues.
-- Rock Paper Scissors starts Sybillian's original two-player countdown after
-  both players choose, and notification badges tell the Storyteller when an
-  in-play character has an action available.
+## First Setup
 
-### 🎉 More to do around the game
+1. Open this folder.
+2. Open the `launcher` folder.
+3. Make a copy of `local-settings.example.properties`.
+4. Rename the copy to `local-settings.properties`.
+5. Open `local-settings.properties` in Notepad.
+6. Fill in your settings.
+7. Save the file.
+8. Go back to the main folder.
+9. Double-click `BOTC.exe`.
 
-- Choose personal night music from the Minecraft music catalog, including
-  random playback and lower-pitched versions. It stays off by default.
-- Raise or lower your hand, join the Storyteller queue and start a votekick.
-- Fire colourful Paint Guns, starpass the Imp in Hot Potato, drink Silly Juice, or
-  roll a d20.
-- Use `/botc help` whenever you need the full command list.
+## Local Settings
 
-### 🏡 A world built for the patch
-
-The included world has a dedicated setup room, changes to the inn and several
-interior and exterior touch-ups. These changes are why installation replaces
-your existing world folder.
-
-## Installation
-
-I've included a prepared world, config files, the datapack and a resource pack.
-Do not install only the `jays_patch` datapack folder.
-
-### Requirements
-
-- [Sybillian's Blood on the Clocktower 1.5.4](https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4)
-- Minecraft Java Edition 1.21.10
-
-Organ Grinder is disabled because Sybillian 1.5.4 does not support it.
-
-### Back up your server
-
-> [!WARNING]
-> My datapack replaces your world folder. Back up your current `world` and
-> `config` folders if they contain anything you want to keep.
-
-### First-time install
-
-1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
-2. Start the server once, then stop it completely.
-3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.9.0-beta.4](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.4/Jay.s.Patch.v1.9.0-beta.4.zip) and extract it.
-5. Replace your server's `world` folder with the included `world` folder.
-6. Copy the included `config` folder into your server folder. Merge it with the
-   existing `config` folder and replace files when asked.
-7. Open your existing `server.properties` file and change only the values shown below.
-8. Start the server and wait for it to finish loading.
-9. Join the server and accept the Jay's Patch resource pack when asked.
-
-### Required `server.properties` values
+Your `launcher/local-settings.properties` file should look like this:
 
 ```properties
-function-permission-level=3
-spawn-protection=0
-resource-pack=https://download.mc-packs.net/pack/4c20eb69b74e8138d55d1ddeb29dc79722335d8d.zip
-resource-pack-id=d469daa3-17aa-4f4f-8e61-e4dcde432776
-resource-pack-prompt={"text"\:"","extra"\:[{"text"\:"BOTC","color"\:"dark_red","bold"\:true},{"text"\:" | ","color"\:"dark_gray","bold"\:false},{"text"\:"Jay's Patch Resource Pack","color"\:"gold","bold"\:false},{"text"\:"\\nAccept this pack to see Jay's Patch's custom icons.","color"\:"gray","bold"\:false}]}
-resource-pack-sha1=4c20eb69b74e8138d55d1ddeb29dc79722335d8d
+BOTC_MANAGE_DOCKER=true
+BOTC_DOCKER_START_TIMEOUT_SECONDS=180
+BOTC_DOCKER_NETWORK_TIMEOUT_SECONDS=90
+BOTC_DOCKER_DESKTOP_EXE=
+BOTC_MANAGE_PLAYIT=true
+BOTC_PLAYIT_SERVICE=playitd
+BOTC_VOICE_HOST=your-playit-voice-address-here
+BOTC_VOICE_PORT=24454
+BOTC_VOICE_BIND_ADDRESS=*
 ```
 
-If the hosted resource pack stops working, upload
-[`resourcepack/Jays-Patch-resourcepack.zip`](resourcepack/Jays-Patch-resourcepack.zip)
-to a Minecraft resource-pack host. Replace the resource-pack URL, SHA-1 and ID
-with the values provided by the host.
+Use `BOTC_MANAGE_DOCKER=true` if you want `BOTC.exe` to open Docker Desktop
+when Docker is installed but not running yet.
 
-The included [`HOW TO INSTALL.txt`](HOW%20TO%20INSTALL.txt) contains the same
-installation steps in a plain text file.
+`BOTC_DOCKER_NETWORK_TIMEOUT_SECONDS` controls how long the launcher waits for
+the Minecraft Compose network to gain DNS access before starting the Modrinth
+install.
 
-## Useful commands
+Leave `BOTC_DOCKER_DESKTOP_EXE` blank unless Docker Desktop is installed in an
+unusual folder.
 
-Run `/botc help` in game to see the full command list.
+Use `BOTC_MANAGE_PLAYIT=true` if you installed playit.gg on Windows and want the
+server launcher to start and stop it for you.
 
-### Fun commands
+Use `BOTC_MANAGE_PLAYIT=false` if you do not use playit.gg, or if you want to
+open playit.gg yourself.
 
-| Command | What it does |
-| --- | --- |
-| `/botc fun sillyjuice` | Gives you Silly Juice, which adds Slowness I and two minutes of strange personal sounds and particles. |
-| `/botc fun boomdandy` | Gives you a single-use party popper with a short countdown and fireworks. |
-| `/botc fun hot_potato` | Starts hot potato with the Imp. Right-click another player to pass it before it pops. |
-| `/botc fun dice_roll` | Publicly rolls a 20-sided die. You can use it once per minute. |
-| `/botc fun paint_gun` | Gives you a temporary Paint Gun that fires your seat colour. |
-| `/botc fun rainbow_paint_gun` | Gives you a temporary Paint Gun that splashes connected blocks with bright random colours. |
-| `/botc slayer [player]` | Gives you a Slayer's Bow. Only the Storyteller can give one to another player. |
-| `/botc king` | Gives you a King entrance item. Use it in the Town Square to make your claim. |
-| `/botc vizier <player>` | Lets the Storyteller reveal the selected player's Vizier entrance. |
+`BOTC_VOICE_HOST` must be the public address for the playit.gg Simple Voice Chat
+tunnel. It should look like a host and port, for example:
 
-## Found a problem?
+```properties
+BOTC_VOICE_HOST=example.playit.gg:12345
+```
 
-If something isn't working, [open an issue](https://github.com/JayLeet/Jays-Patch/issues)
-and explain what happened. Include your Jay's Patch version and the steps that
-caused it if you can.
+Do not use someone else's value here. Everyone has their own playit address.
 
-## Credits
+## Brand And Logo
 
-I built my datapack on top of Sybillian's Blood on the Clocktower modpack. It
-includes a modified copy of Sybillian's world, datapack and resource-pack
-assets. Sybillian gave me permission to release this add-on publicly as long as
-I link back to the original project and name the supported version.
+Edit `launcher/branding.txt` in Notepad to change the visible server name,
+server-list MOTD, and resource-pack prompt.
 
-- [Sybillian's Blood on the Clocktower 1.5.4](https://modrinth.com/modpack/blood-on-the-clocktower/version/1.5.4)
-- [Sybillian's source code](https://github.com/Sybillian/minecraft-botc)
-- [Blood on the Clocktower](https://bloodontheclocktower.com/)
+Edit `data/server-icon.png` to change the logo. This is Minecraft's normal
+server icon file. Use a square PNG, preferably 64x64.
 
-Read [`CREDITS.md`](Legal/CREDITS.md) for the full list of credits. License
-and ownership details are in [`LICENSE`](LICENSE),
-[`ASSET_LICENSE.md`](Legal/ASSET_LICENSE.md),
-[`BRANDING.md`](Legal/BRANDING.md) and
-[`THIRD-PARTY-LICENSES`](Legal/THIRD-PARTY-LICENSES/).
+If `data/server-icon.png` is missing, Minecraft uses its default server icon.
+If you rebuild `BOTC.exe` while that file is missing, Windows uses the default
+application icon.
 
-My datapack is free and unofficial. It is not endorsed by Sybillian, The
-Pandemonium Institute, Mojang Studios or Microsoft.
+After changing the text or logo, restart the server for Minecraft clients to see
+the updated server-list branding. Rebuild `BOTC.exe` only when you also want the
+Windows EXE icon to update.
+
+## Starting The Server
+
+Double-click:
+
+```text
+BOTC.exe
+```
+
+A styled console window opens. That is the server console.
+
+The console is the control window for the server. You can type server commands
+there.
+
+If the server is offline, the launcher will:
+
+1. Deploy `Jays-Patch` into the server runtime folder.
+2. Open Docker Desktop if Docker is installed but not running.
+3. Start the Docker Minecraft server.
+4. Start playit.gg if enabled.
+5. Wait until Minecraft is ready.
+6. Sync `Jays-Patch` again, then reload required commands and regions.
+7. Show the `BOTC >` command prompt.
+
+If the server is already online, `BOTC.exe` skips startup and opens the console
+without restarting or updating the server.
+
+The Minecraft startup row uses the SMP-style centered progress bar. Its percent
+is based on elapsed time learned from recent successful BOTC startups, while log
+stages provide minimum progress evidence. The detail and stats rows show the
+current stage, ETA, and elapsed time without scrolling repeated status lines.
+
+The normal backup point is now when you stop the server. Type:
+
+```text
+stop
+```
+
+The launcher asks whether to create/update `backups/standard` before stopping.
+If you answer `Y`, Minecraft saves are flushed, `backups/standard` is replaced
+atomically after the new backup is complete, and then the server stops. If you
+answer `N`, the server stops without changing backups.
+
+After Minecraft stops, the launcher also stops helper services that it recorded
+starting itself. That means it stops the playit.gg service only if BOTC started
+it, and it closes Docker Desktop only if BOTC opened it and no other Docker
+containers are still running.
+
+When you see this, the server is ready:
+
+```text
+BOTC >
+```
+
+## Console Commands
+
+Type commands without the `/`.
+Type `help` to see the console-only commands.
+
+Examples:
+
+```text
+op YourMinecraftName
+say Hello everyone
+reload
+```
+
+Special launcher commands:
+
+- `help`: show help.
+- `backup`: safely flush saves and replace `backups/standard` without stopping
+  the server.
+- `restart`: ask for confirmation, then restart only Minecraft while leaving
+  Playit and Docker Desktop running; BOTC's final patch sync runs afterward.
+- `cls`: clear the window.
+- `botc help`: show Jay's Patch BOTC commands in Minecraft.
+- `exit`: close the console window but leave the Minecraft server running.
+- `stop`: ask whether to update `backups/standard`, stop the Minecraft server,
+  stop launcher-started helper services, then close the console window.
+
+## Resetting The Game
+
+Use the normal Storyteller reset flow through `/botc reset_game` or the
+Storyteller menu.
+
+Jay's Patch does this in-place:
+
+1. Run Sybillian's normal game reset behavior.
+2. Clear Jay's Patch grimoire reveal visuals.
+3. Return every online user to normal player state.
+4. Keep the server running so another player can become Storyteller next.
+
+`Jays-Patch/world-template` is still the clean world template for sharing the
+patch or for manual recovery if the live world gets damaged. Normal game resets
+do not restore that template, stop the server, or restart Docker.
+
+## License
+
+Jay-owned source code in this project is licensed under the MIT License.
+
+Jay-owned handmade resource-pack art is licensed under CC BY 4.0.
+
+The included world template is a modified version of Sybillian's Blood on the
+Clocktower world. Jay's Patch does not claim ownership of Sybillian's original
+world, datapack, resource-pack assets, role icons, menus, or modpack content.
+The world template is included so the server package works, but it is not
+licensed as a separate Jay-owned reusable asset.
+
+The Jay's Patch name, logo, and branding are reserved by Jay. Forks and
+modified versions should not present themselves as the official Jay's Patch.
+
+See `LICENSE` and `Jays-Patch/public-package/Legal` for the package-facing
+license and credit details.
+
+## Giving Yourself Admin
+
+After the server starts, type this in the console:
+
+```text
+op YourMinecraftName
+```
+
+Replace `YourMinecraftName` with your real Minecraft name.
+
+This gives you server admin powers.
+
+## Stopping The Server
+
+Type this in the console:
+
+```text
+stop
+```
+
+Do not just close Docker Desktop while the server is running. Use `stop` first
+so Minecraft can save properly.
+
+## What Not To Share
+
+Do not share these files or folders from a live server. The live server data
+folder is `data` from this folder.
+
+- `launcher/local-settings.properties`
+- `backups`
+- `data/logs`
+- `data/world`
+- `data/ops.json`
+- `data/usercache.json`
+- `data/server.properties`
+- `data/.rcon-cli.env`
+- `data/.rcon-cli.yaml`
+- files ending in `.bak-*`
+- private planning notes
+
+These can contain private IP addresses, player names, player UUIDs, chat logs,
+server passwords, OP lists, or world data.
+
+## If Something Does Not Work
+
+If `BOTC.exe` closes instantly:
+
+1. Read the error shown in the launcher window.
+2. If it says Docker Desktop was not found, install Docker Desktop or fill in
+   `BOTC_DOCKER_DESKTOP_EXE`.
+3. If it says Docker did not become ready in time, wait until Docker Desktop is
+   fully started, then double-click `BOTC.exe` again.
+4. If it says Docker containers cannot resolve `api.modrinth.com`, Docker's
+   network is still starting or unavailable. The launcher waits automatically;
+   if the timeout expires, restart Docker Desktop and try again.
+
+If stopping says the standard backup could not read a locked file:
+
+1. Close any editor, sync app, or tool that may be using the named file.
+2. Try `stop` again.
+
+The server is not stopped when the approved backup fails, so you can fix the
+named issue and try again.
+
+If friends can join Minecraft but voice chat does not work:
+
+1. Check your playit.gg Simple Voice Chat tunnel.
+2. Make sure it points to local UDP port `24454`.
+3. Copy that tunnel's public address into `BOTC_VOICE_HOST`.
+4. Save `launcher/local-settings.properties`.
+5. Type `stop` in the server console.
+6. Start the server again.
+
+If you are not admin:
+
+1. Open the server console.
+2. Type `op YourMinecraftName`.
+3. Press Enter.

@@ -1,0 +1,28 @@
+# Private local settings
+local-settings.properties
+launcher/local-settings.properties
+
+# Private runtime files
+.botc-startup-history.json
+launcher/.botc-startup-history.json
+launcher/.botc-managed-services.state
+launcher/.jays-patch-command-ownership.txt
+/data/
+
+# Local backups
+*.bak-*
+backups/
+
+# Generated binaries and Jay's Patch packages
+BOTC.exe
+Jays-Patch/dist/
+
+# World state is released through the validated public package and protected by
+# explicit backups, not committed as ordinary Git source.
+Jays-Patch/world-template/
+
+# Local audit and investigation output
+audit_results/
+.codex_audit_*
+.tmp_*
+temp_import_sanity.txt
