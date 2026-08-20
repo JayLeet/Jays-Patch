@@ -1,0 +1,2 @@
+# The real King receives one entrance on the first day; role score 66 is only read, never changed.
+execute if score phase game_data matches 1..2 if score current_day game_data matches 1 if score active_game game_id matches -2147483648..2147483647 as @a[tag=!storyteller,tag=!spectator,scores={role=66}] unless score @s botc_fun_king_seen = active_game game_id run function botc_patch:fun/entrance/king/auto_give

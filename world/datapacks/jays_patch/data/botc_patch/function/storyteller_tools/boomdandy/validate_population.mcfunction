@@ -8,7 +8,7 @@ execute as @a[tag=!storyteller,tag=!spectator,scores={id=1..15}] run scoreboard 
 execute as @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=1..15}] run scoreboard players add boomdandy_alive botc_patch 1
 scoreboard players operation boomdandy_expected botc_patch = seat_layout_locked_count botc_patch
 execute if score boomdandy_expected botc_patch matches 0 run scoreboard players operation boomdandy_expected botc_patch = player_count game_data
-execute unless score boomdandy_online botc_patch = boomdandy_expected botc_patch run tellraw @s [{text:"Every seated player must be online before resolving Boomdandy.",color:"red"}]
+execute unless score boomdandy_online botc_patch = boomdandy_expected botc_patch run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Every seated player must be online before resolving Boomdandy.",color:"gray",bold:false}]
 execute unless score boomdandy_online botc_patch = boomdandy_expected botc_patch run scoreboard players set boomdandy_population_ok botc_patch 0
-execute unless score boomdandy_alive botc_patch matches 3.. run tellraw @s [{text:"Boomdandy needs at least three living players.",color:"red"}]
+execute unless score boomdandy_alive botc_patch matches 3.. run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Boomdandy needs at least three living players.",color:"gray",bold:false}]
 execute unless score boomdandy_alive botc_patch matches 3.. run scoreboard players set boomdandy_population_ok botc_patch 0

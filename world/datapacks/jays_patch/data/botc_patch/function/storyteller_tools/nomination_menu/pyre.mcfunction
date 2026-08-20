@@ -3,4 +3,4 @@
 # Lights Sybillian's pyre for the currently marked player.
 tag @s add botc_st_tool_used
 execute if entity @a[tag=marked_for_execution,limit=1] as @a[tag=marked_for_execution,limit=1] run function ct:kill/execute/light_pyre
-execute unless entity @a[tag=marked_for_execution,limit=1] run tellraw @s [{text:"No player is marked for execution.",color:"red"}]
+execute unless entity @a[tag=marked_for_execution,limit=1] run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No player is marked for execution.",color:"gray",bold:false}]

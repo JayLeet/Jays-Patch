@@ -38,6 +38,8 @@ tag @s remove botc_st_post_execution
 tag @s remove botc_st_post_kill_resolved
 tag @s remove botc_st_last_executed
 tag @s remove botc_st_post_kill_done
+tag @s remove botc_boomdandy_pyre_owner
+tag @s remove botc_boomdandy_execution_pending
 tag @s remove botc_st_menu_owner
 tag @s remove botc_st_passage
 tag @s remove botc_st_passage_wait_exit
@@ -91,6 +93,6 @@ scoreboard players reset @s botc_st_kill_page
 scoreboard players reset @s botc_st_nom_page
 scoreboard players reset @s botc_st_menu_slot
 scoreboard players reset @s botc_st_nom_items
-scoreboard players reset @s botc_st_gen
+scoreboard players operation @s botc_st_gen = storyteller_generation botc_patch
 scoreboard players reset @s botc_outsider_seen
 function ct:admin/give_script

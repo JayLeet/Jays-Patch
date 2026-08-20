@@ -17,5 +17,6 @@ execute unless entity @s[tag=botc_buffet_claimed] if data storage botc_patch:buf
 execute unless entity @s[tag=botc_buffet_claimed] if data storage botc_patch:buffet draft.seats.s13{active:0b} run function botc_patch:buffet/draft/roster/claim_13
 execute unless entity @s[tag=botc_buffet_claimed] if data storage botc_patch:buffet draft.seats.s14{active:0b} run function botc_patch:buffet/draft/roster/claim_14
 execute unless entity @s[tag=botc_buffet_claimed] if data storage botc_patch:buffet draft.seats.s15{active:0b} run function botc_patch:buffet/draft/roster/claim_15
+execute unless entity @s[tag=botc_buffet_claimed] run function botc_patch:buffet/attention/block_self
 execute unless entity @s[tag=botc_buffet_claimed] run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"There is no available seat right now.","color":"gray","bold":false}]
 tag @s remove botc_buffet_claimed

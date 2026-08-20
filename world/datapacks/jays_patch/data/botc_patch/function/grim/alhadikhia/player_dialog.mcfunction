@@ -3,13 +3,13 @@
 # Shows the Al-Hadikhia public-target picker from Sybillian's game-start player snapshot.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 4 run return run tellraw @s {"text":"You can only announce an Al-Hadikhia target during the night.","color":"red"}
-execute if score grim_editor_reveal_started botc_patch matches 1 run return run tellraw @s {"text":"You can only announce the target before Reveal Grimoire begins.","color":"red"}
-execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=128}] run return run tellraw @s {"text":"Al-Hadikhia isn't in play.","color":"red"}
+execute unless score phase game_data matches 4 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You can only announce an ","color":"gray","bold":false},{"text":"Al-Hadikhia","color":"dark_red","bold":true},{"text":" target during the night.","color":"gray","bold":false}]
+execute if score grim_editor_reveal_started botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Announce the target before ","color":"gray","bold":false},{"text":"Reveal Grimoire","color":"gold","bold":true},{"text":" begins.","color":"gray","bold":false}]
+execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=128}] run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Al-Hadikhia","color":"dark_red","bold":true},{"text":" is not in play.","color":"gray","bold":false}]
 scoreboard players set grim_notice_alhadikhia_done botc_patch 1
 scoreboard players set botc_item_maintenance_pending botc_patch 1
 execute unless score grim_editor_game_captured botc_patch matches 1 run function botc_patch:grim/editor/capture_game
-execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s {"text":"The player list from the start of the game isn't available yet.","color":"red"}
+execute unless score grim_editor_game_captured botc_patch matches 1 run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"The player list from the start of the game is not available yet.","color":"gray","bold":false}]
 function botc_patch:grim/editor/refresh_live_roles
 function botc_patch:grim/editor/player_labels/prepare
 execute if score grim_editor_dialog_size botc_patch matches 0 run function botc_patch:grim/alhadikhia/player_dialog/count_0 with storage botc_patch:grim editor.player_labels

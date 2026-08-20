@@ -6,8 +6,9 @@ tag @s remove spectator
 tag @s add botc_buffet_roster
 team join 03_yellow @s
 scoreboard players set @s id 3
+scoreboard players set @s botc_buffet_seat 3
 scoreboard players operation @s botc_buffet_seat_gen = buffet_seat_3_generation botc_patch
-data modify storage botc_patch:buffet greedy.seats.s3 set value {active:1b,name:"Seat 3",status:0,submitted:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
+data modify storage botc_patch:buffet greedy.seats.s3 set value {active:1b,name:"Seat 3",status:0,submitted:0b,resubmit_requested:0b,dealer:0b,role:0,perceived:0,alignment:0,perceived_alignment:0,override:0b,choices:{}}
 execute if score buffet_roster_count botc_patch matches ..2 run scoreboard players set buffet_roster_count botc_patch 3
 scoreboard players operation player_count game_data = buffet_roster_count botc_patch
 scoreboard players operation seat_layout_target_count botc_patch = buffet_roster_count botc_patch

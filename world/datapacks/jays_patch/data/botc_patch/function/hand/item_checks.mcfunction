@@ -27,10 +27,10 @@ execute if score phase game_data matches 3 as @a[tag=!storyteller,tag=!spectator
 
 execute as @a[tag=botc_hand_repair] run clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["raise_hand"]}]
 execute as @a[tag=botc_hand_repair] run clear @s minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["lower_hand"]}]
-execute if score phase game_data matches 3 as @a[tag=!storyteller,tag=!spectator,tag=!botc_hand_slot_protected,tag=!raising_hand,tag=botc_hand_repair] run item replace entity @s hotbar.4 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["raise_hand"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Raise your hand",color:"yellow",bold:true,italic:false}]]
+execute if score phase game_data matches 3 as @a[tag=!storyteller,tag=!spectator,tag=!botc_hand_slot_protected,tag=!raising_hand,tag=botc_hand_repair] run item replace entity @s hotbar.4 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["raise_hand"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Raise your hand",color:"yellow",bold:false,italic:false}]]
 # If slot 4 is protected, place the hand item in the first empty fallback slot instead of overwriting gameplay tools.
 execute if score phase game_data matches 3 as @a[tag=!storyteller,tag=!spectator,tag=botc_hand_slot_protected,tag=!raising_hand,tag=botc_hand_repair] run function botc_patch:hand/give_raise_fallback
-execute if score phase game_data matches 3 as @a[tag=!storyteller,tag=!spectator,tag=!botc_hand_slot_protected,tag=raising_hand,tag=botc_hand_repair] run item replace entity @s hotbar.4 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["lower_hand"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Lower your hand",color:"yellow",bold:true,italic:false}]]
+execute if score phase game_data matches 3 as @a[tag=!storyteller,tag=!spectator,tag=!botc_hand_slot_protected,tag=raising_hand,tag=botc_hand_repair] run item replace entity @s hotbar.4 with minecraft:carrot_on_a_stick[minecraft:custom_model_data={strings:["lower_hand"]},minecraft:custom_data={botc_patch_tool:1b},custom_name=[{text:"Lower your hand",color:"yellow",bold:false,italic:false}]]
 execute if score phase game_data matches 3 as @a[tag=!storyteller,tag=!spectator,tag=botc_hand_slot_protected,tag=raising_hand,tag=botc_hand_repair] run function botc_patch:hand/give_lower_fallback
 tag @a remove botc_hand_repair
 tag @a remove botc_hand_slot_protected

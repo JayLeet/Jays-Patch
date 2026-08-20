@@ -6,6 +6,7 @@ $execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r$(role
 $data remove storage botc_patch:buffet greedy.seats.s$(seat).choices.r$(role)
 $execute unless data storage botc_patch:buffet action{was_set:1b} run data modify storage botc_patch:buffet greedy.seats.s$(seat).choices.r$(role) set value 1b
 $data modify storage botc_patch:buffet greedy.seats.s$(seat).submitted set value 0b
+scoreboard players set buffet_start_confirmed botc_patch 0
 $scoreboard players set @s botc_buffet_page $(page)
 function botc_patch:buffet/greedy/recount
 function botc_patch:buffet/greedy/open_current_page

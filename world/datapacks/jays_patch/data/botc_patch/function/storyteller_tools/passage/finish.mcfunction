@@ -20,6 +20,6 @@ tag @s remove botc_st_passage_prev_adventure
 tag @s remove botc_st_passage_prev_creative
 tag @s remove botc_st_passage_prev_spectator
 execute if score phase game_data matches 1.. if score patch_items_enabled botc_patch matches 1 as @s[tag=storyteller] run function botc_patch:storyteller_tools/replace_items
-tellraw @s [{"text":"Storyteller's Passage closed.","color":"green"}]
-title @s actionbar [{"text":"Storyteller's Passage closed.","color":"green"}]
+tellraw @s [{"text":"\u2714 ","color":"green","bold":true},{"text":"Storyteller's Passage","color":"gold","bold":true},{"text":" closed.","color":"gray","bold":false}]
+title @s actionbar [{"text":"\u2714 ","color":"green","bold":true},{"text":"Storyteller's Passage","color":"gold","bold":true},{"text":" closed.","color":"gray","bold":false}]
 playsound minecraft:entity.enderman.teleport voice @s ~ ~ ~ 0.8 0.9

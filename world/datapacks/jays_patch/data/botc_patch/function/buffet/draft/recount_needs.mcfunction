@@ -11,3 +11,7 @@ scoreboard players operation draft_need_demon botc_patch = draft_target_demon bo
 scoreboard players operation draft_need_demon botc_patch -= draft_assigned_demon botc_patch
 scoreboard players operation draft_need_total botc_patch = buffet_roster_count botc_patch
 scoreboard players operation draft_need_total botc_patch -= draft_assigned_total botc_patch
+execute store result storage botc_patch:buffet draft.target.town int 1 run scoreboard players get draft_target_town botc_patch
+execute store result storage botc_patch:buffet draft.target.outsider int 1 run scoreboard players get draft_target_outsider botc_patch
+execute store result storage botc_patch:buffet draft.target.minion int 1 run scoreboard players get draft_target_minion botc_patch
+execute store result storage botc_patch:buffet draft.target.demon int 1 run scoreboard players get draft_target_demon botc_patch

@@ -39,8 +39,8 @@ not affiliated with or endorsed by Mojang Studios or Microsoft.
 ## My work
 
 I created the Jay's Patch datapack behavior, command-overlay configuration,
-handmade resource-pack art, setup room, inn edits and other Jay-owned
-additions.
+handmade resource-pack art, the Paint Gun player-hit sound, setup room, inn
+edits and other Jay-owned additions.
 
 ## License boundaries
 

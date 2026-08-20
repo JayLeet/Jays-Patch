@@ -2,3 +2,5 @@
 # Do not hand-edit this file; update the generator or Jays-Patch/buffet-rules.json.
 # Copy the selected seat's perceived role into private review storage.
 $execute if data storage botc_patch:buffet catalog.s$(role).name run data modify storage botc_patch:buffet ui.shown set from storage botc_patch:buffet catalog.s$(role).name
+$execute if data storage botc_patch:buffet catalog.s$(role).glyph run data modify storage botc_patch:buffet ui.shown_glyph set from storage botc_patch:buffet catalog.s$(role).glyph
+$execute if data storage botc_patch:buffet catalog.s$(role).color run data modify storage botc_patch:buffet ui.shown_color set from storage botc_patch:buffet catalog.s$(role).color

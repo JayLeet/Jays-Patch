@@ -1,0 +1,16 @@
+# Resolve the player's stable seat ID to its persistent circular-layout marker.
+execute if score @s id matches 1 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=1},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 2 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=2},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 3 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=3},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 4 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=4},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 5 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=5},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 6 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=6},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 7 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=7},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 8 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=8},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 9 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=9},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 10 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=10},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 11 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=11},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 12 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=12},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 13 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=13},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 14 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=14},limit=1] run function botc_patch:seat_guide/render
+execute if score @s id matches 15 at @e[type=minecraft:item_display,tag=vote_marker,scores={id=15},limit=1] run function botc_patch:seat_guide/render

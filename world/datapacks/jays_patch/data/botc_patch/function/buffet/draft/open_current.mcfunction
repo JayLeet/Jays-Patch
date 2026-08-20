@@ -2,4 +2,8 @@
 # Do not hand-edit this file; update the generator or Jays-Patch/buffet-rules.json.
 # Reopen the acting player's current private Draft choices.
 execute unless entity @s[tag=botc_buffet_draft_current] run return 0
-function botc_patch:buffet/draft/dialog/prepare
+execute store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
+execute if entity @s[tag=botc_buffet_draft_route_atheist] run return run function botc_patch:buffet/draft/atheist/reopen with storage botc_patch:buffet action
+execute if entity @s[tag=botc_buffet_draft_fake_atheist] run return run function botc_patch:buffet/draft/atheist/reopen with storage botc_patch:buffet action
+execute if score draft_special_active botc_patch matches 1 run return run function botc_patch:buffet/draft/special/reopen with storage botc_patch:buffet action
+function botc_patch:buffet/draft/dialog/prepare with storage botc_patch:buffet action
