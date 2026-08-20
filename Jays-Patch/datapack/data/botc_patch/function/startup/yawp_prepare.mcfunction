@@ -1,1 +1,1 @@
-data modify storage botc_patch:startup yawp set value {deny:"Denied",allow:"Allowed",false_value:"false",delete:"delete",create:"create",cuboid:"Cuboid",overworld:"minecraft:overworld",global:"global",remove:"remove"}
+data modify storage botc_patch:startup yawp set value {deny:"Denied",allow:"Allowed",false_value:"false",true_value:"true",delete:"delete",create:"create",cuboid:"Cuboid",overworld:"minecraft:overworld",global:"global",remove:"remove"}
