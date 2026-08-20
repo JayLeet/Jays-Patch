@@ -2,8 +2,8 @@
 # Do not hand-edit this file; update the generator and regenerate.
 # Starts Sybillian RPS between the stored first player and ready player in seat 7.
 dialog clear @s
-execute unless entity @a[tag=botc_rps_first,tag=!storyteller,tag=!spectator,tag=!dead,scores={id=1..15,rps=1..3},limit=1] run return run tellraw @s [{text:"The first RPS player is no longer available. Start again.",color:"red"}]
-execute unless entity @a[tag=!botc_rps_first,tag=!storyteller,tag=!spectator,tag=!dead,scores={id=7,rps=1..3},limit=1] run return run tellraw @s [{text:"That opponent is no longer available for RPS.",color:"red"}]
+execute unless entity @a[tag=botc_rps_first,tag=!storyteller,tag=!spectator,tag=!dead,scores={id=1..15,rps=1..3},limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"The first RPS player is no longer available. Start again.",color:"gray",bold:false}]
+execute unless entity @a[tag=!botc_rps_first,tag=!storyteller,tag=!spectator,tag=!dead,scores={id=7,rps=1..3},limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That opponent is no longer available for RPS.",color:"gray",bold:false}]
 tag @a remove playing_rps
 tag @a[tag=botc_rps_first,tag=!storyteller,tag=!spectator,tag=!dead,scores={id=1..15,rps=1..3},limit=1] add playing_rps
 tag @a[tag=!botc_rps_first,tag=!storyteller,tag=!spectator,tag=!dead,scores={id=7,rps=1..3},limit=1] add playing_rps

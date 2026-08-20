@@ -1,5 +1,5 @@
 # Add a player or spectator to the persistent Storyteller queue.
-execute if entity @s[tag=storyteller] run return run tellraw @s [{"text":"! ","color":"yellow","bold":true},{"text":"You are already the Storyteller.","color":"gray","bold":false}]
+execute if entity @s[tag=storyteller] run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"You are already the ","color":"gray","bold":false},{"text":"Storyteller","color":"gold","bold":true},{"text":".","color":"gray","bold":false}]
 
 tag @s remove botc_queue_joined_now
 execute if entity @a[tag=storyteller] unless entity @s[tag=botc_queue] run tag @s add botc_queue_joined_now

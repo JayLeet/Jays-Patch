@@ -4,6 +4,6 @@
 execute if score @s botc_buffet_role matches 66 if score draft_required_king botc_patch matches 1.. run scoreboard players set draft_required_king botc_patch 0
 execute if score @s botc_buffet_role matches 87 if score draft_required_damsel botc_patch matches 1.. run scoreboard players set draft_required_damsel botc_patch 0
 execute if score @s botc_buffet_role matches 130 if score draft_required_legion botc_patch matches 1.. run scoreboard players remove draft_required_legion botc_patch 1
-execute if score @s botc_buffet_role matches 136 if score draft_required_riot botc_patch matches 1.. run scoreboard players remove draft_required_riot botc_patch 1
 execute if score @s botc_buffet_role matches 78 if score draft_required_vi botc_patch matches 1.. run scoreboard players remove draft_required_vi botc_patch 1
 tag @s remove botc_buffet_draft_forced
+tag @s remove botc_buffet_draft_forced_legion

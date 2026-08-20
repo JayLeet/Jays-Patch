@@ -3,5 +3,5 @@
 # Kills the currently alive player in seat 2 through Sybillian.
 tag @s add botc_st_tool_used
 dialog clear @s
-execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=2},limit=1] run return run tellraw @s [{text:"That player is not available to kill.",color:"red"}]
+execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=2},limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That player is not available to kill.",color:"gray",bold:false}]
 execute as @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=2},limit=1] run function ct:kill/die

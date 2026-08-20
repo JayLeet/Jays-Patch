@@ -85,7 +85,6 @@ execute if score phase game_data matches 0 if score noble role_list matches 1 at
 execute if score phase game_data matches 0 if score ogre role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_ogre,limit=1] run function botc_patch:setup_wall/particles_good
 execute if score phase game_data matches 0 if score ojo role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_ojo,limit=1] run function botc_patch:setup_wall/particles_evil
 execute if score phase game_data matches 0 if score oracle role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_oracle,limit=1] run function botc_patch:setup_wall/particles_good
-execute if score phase game_data matches 0 if score organ_grinder role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_organ_grinder,limit=1] run function botc_patch:setup_wall/particles_evil
 execute if score phase game_data matches 0 if score pacifist role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_pacifist,limit=1] run function botc_patch:setup_wall/particles_good
 execute if score phase game_data matches 0 if score philosopher role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_philosopher,limit=1] run function botc_patch:setup_wall/particles_good
 execute if score phase game_data matches 0 if score pit_hag role_list matches 1 at @e[type=minecraft:item_display,tag=botc_setup_wall_pit_hag,limit=1] run function botc_patch:setup_wall/particles_evil

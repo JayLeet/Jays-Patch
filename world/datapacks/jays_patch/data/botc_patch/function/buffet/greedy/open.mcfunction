@@ -3,8 +3,8 @@
 # Prepare Greedy player overview counters.
 function botc_patch:buffet/greedy/recount
 execute store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-data modify storage botc_patch:buffet ui.dealer_label set value "Dealer's Choice: Off"
-data modify storage botc_patch:buffet ui.dealer_color set value "gray"
+data modify storage botc_patch:buffet ui.dealer_mark set value "✗"
+data modify storage botc_patch:buffet ui.dealer_mark_color set value "#ff5555"
 function botc_patch:buffet/greedy/prepare_dealer with storage botc_patch:buffet action
 execute store result storage botc_patch:buffet ui.total int 1 run scoreboard players get @s botc_buffet_total
 execute store result storage botc_patch:buffet ui.town int 1 run scoreboard players get @s botc_buffet_town

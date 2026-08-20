@@ -1,0 +1,99 @@
+{
+  "type": "minecraft:command",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:potion",
+          "functions": [
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "text": "Silly Juice",
+                "color": "gold",
+                "bold": true,
+                "italic": false
+              }
+            },
+            {
+              "function": "minecraft:set_lore",
+              "mode": "replace_all",
+              "lore": [
+                {
+                  "text": "Slowness I (2:00)",
+                  "color": "gray",
+                  "italic": false
+                },
+                {
+                  "text": "Side effects may include giggling.",
+                  "color": "yellow",
+                  "italic": true
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:custom_model_data": {
+                  "strings": [
+                    "botc_fun_drunk_full"
+                  ]
+                },
+                "minecraft:potion_contents": {
+                  "custom_color": 15105570,
+                  "custom_effects": [
+                    {
+                      "id": "minecraft:slowness",
+                      "amplifier": 0,
+                      "duration": 2400,
+                      "ambient": false,
+                      "show_particles": true,
+                      "show_icon": true
+                    }
+                  ]
+                },
+                "minecraft:consumable": {
+                  "consume_seconds": 1.6,
+                  "animation": "drink",
+                  "sound": "minecraft:entity.generic.drink",
+                  "has_consume_particles": true,
+                  "on_consume_effects": [
+                    {
+                      "type": "minecraft:play_sound",
+                      "sound": "minecraft:entity.player.burp"
+                    }
+                  ]
+                },
+                "minecraft:use_remainder": {
+                  "id": "minecraft:glass_bottle",
+                  "count": 1,
+                  "components": {
+                    "minecraft:custom_model_data": {
+                      "strings": [
+                        "botc_fun_drunk_empty"
+                      ]
+                    },
+                    "minecraft:custom_name": {
+                      "text": "Empty Mug",
+                      "color": "gray",
+                      "italic": false
+                    },
+                    "minecraft:lore": [
+                      {
+                        "text": "Not a drop left.",
+                        "color": "dark_gray",
+                        "italic": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

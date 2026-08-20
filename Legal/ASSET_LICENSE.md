@@ -18,6 +18,8 @@ Patch, including:
 This license does not cover:
 
 - Jay's Patch source code, which is covered by [`LICENSE`](../LICENSE);
+- the Paint Gun player-hit sound, which I created and permit Jay's Patch to
+  distribute but do not license under this visual-art license;
 - documentation;
 - the included world template or Jay's edits inside that world template;
 - Sybillian's original Blood on the Clocktower world, datapack, resource-pack

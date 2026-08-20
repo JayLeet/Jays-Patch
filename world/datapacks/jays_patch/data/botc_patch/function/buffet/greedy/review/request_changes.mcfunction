@@ -1,8 +1,3 @@
-# Keep the prior assignment visible but flag the seat until it is reviewed again.
+# Capture the selected seat before entering the macro-backed update.
 execute store result storage botc_patch:buffet action.seat int 1 run scoreboard players get buffet_selected_seat botc_patch
-$data modify storage botc_patch:buffet greedy.seats.s$(seat).submitted set value 0b
-$data modify storage botc_patch:buffet greedy.seats.s$(seat).override set value 0b
-$execute if data storage botc_patch:buffet greedy.seats.s$(seat){role:0} run data modify storage botc_patch:buffet greedy.seats.s$(seat).status set value 0
-$execute unless data storage botc_patch:buffet greedy.seats.s$(seat){role:0} run data modify storage botc_patch:buffet greedy.seats.s$(seat).status set value 3
-$tellraw @a[tag=botc_buffet_roster,scores={id=$(seat)},limit=1] [{"text":"The Storyteller is asking you to reconsider your character choices.","color":"yellow"}]
-function botc_patch:buffet/greedy/review/open
+function botc_patch:buffet/greedy/review/request_changes_apply with storage botc_patch:buffet action

@@ -3,9 +3,9 @@
 # Validates a selected seat before showing the irreversible execution confirmation.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Executions are only available during nominations.",color:"red"}]
-execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=100}] run return run tellraw @s [{text:"No Cerenovus is in play.",color:"red"}]
-$execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=$(seat)},limit=1] run return run tellraw @s [{text:"That player is no longer available to execute.",color:"red"}]
+execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Executions are only available during nominations.",color:"gray",bold:false}]
+execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=100}] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Cerenovus is in play.",color:"gray",bold:false}]
+$execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=$(seat)},limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That player is no longer available to execute.",color:"gray",bold:false}]
 $data modify storage botc_patch:dialogs madness_execution_confirm.name set from storage botc_patch:grim editor.player_labels.p$(seat)_name
 $data modify storage botc_patch:dialogs madness_execution_confirm.role set from storage botc_patch:grim editor.player_labels.p$(seat)_role
 $data modify storage botc_patch:dialogs madness_execution_confirm.glyph set from storage botc_patch:grim editor.player_labels.p$(seat)_glyph

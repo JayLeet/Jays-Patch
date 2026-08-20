@@ -3,211 +3,206 @@
 # Prepare the count-specific Storyteller Draft dashboard.
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:90,stage:0} run return run function botc_patch:buffet/draft/modifier/hermit/show_delta
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:90,stage:1} run return run function botc_patch:buffet/draft/modifier/hermit/open_abilities
+execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{kind:"alchemist_summoner"} run return run function botc_patch:buffet/draft/topology/alchemist_summoner/show
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:54} run return run function botc_patch:buffet/draft/modifier/balloonist/show
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:102} run return run function botc_patch:buffet/draft/modifier/godfather/show
 execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:119} run return run function botc_patch:buffet/draft/modifier/xaan/show
-execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:129} run return run function botc_patch:buffet/draft/modifier/kazali/show
-execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:134} run return run function botc_patch:buffet/draft/modifier/lord_of_typhon/show
-execute if score draft_modifier_pending botc_patch matches 1 if data storage botc_patch:buffet modifier{role:130} run return run function botc_patch:buffet/draft/modifier/legion/show
-execute if score draft_recycling botc_patch matches 0 run data modify storage botc_patch:buffet ui.recycle_label set value "Recycling: Off"
-execute if score draft_recycling botc_patch matches 0 run data modify storage botc_patch:buffet ui.recycle_color set value "gray"
-execute if score draft_recycling botc_patch matches 1 run data modify storage botc_patch:buffet ui.recycle_label set value "Recycling: On"
-execute if score draft_recycling botc_patch matches 1 run data modify storage botc_patch:buffet ui.recycle_color set value "green"
+scoreboard players set buffet_start_confirmed botc_patch 0
 data modify storage botc_patch:buffet ui.p1_name set from storage botc_patch:buffet draft.seats.s1.name
-data modify storage botc_patch:buffet ui.p1_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p1_status set value "●"
 data modify storage botc_patch:buffet ui.p1_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p1_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p1_name_color set value "white"
+data modify storage botc_patch:buffet ui.p1_role_open set value ""
+data modify storage botc_patch:buffet ui.p1_role_close set value ""
 data modify storage botc_patch:buffet ui.p1_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s1{active:0b} run data modify storage botc_patch:buffet ui.p1_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s1{status:1} run data modify storage botc_patch:buffet ui.p1_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s1{active:1b} run data modify storage botc_patch:buffet ui.p1_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s1{status:1} run data modify storage botc_patch:buffet ui.p1_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s1{status:2} run data modify storage botc_patch:buffet ui.p1_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s1{status:2} run data modify storage botc_patch:buffet ui.p1_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 1
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s1.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p2_name set from storage botc_patch:buffet draft.seats.s2.name
-data modify storage botc_patch:buffet ui.p2_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p2_status set value "●"
 data modify storage botc_patch:buffet ui.p2_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p2_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p2_name_color set value "white"
+data modify storage botc_patch:buffet ui.p2_role_open set value ""
+data modify storage botc_patch:buffet ui.p2_role_close set value ""
 data modify storage botc_patch:buffet ui.p2_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s2{active:0b} run data modify storage botc_patch:buffet ui.p2_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s2{status:1} run data modify storage botc_patch:buffet ui.p2_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s2{active:1b} run data modify storage botc_patch:buffet ui.p2_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s2{status:1} run data modify storage botc_patch:buffet ui.p2_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s2{status:2} run data modify storage botc_patch:buffet ui.p2_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s2{status:2} run data modify storage botc_patch:buffet ui.p2_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 2
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s2.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p3_name set from storage botc_patch:buffet draft.seats.s3.name
-data modify storage botc_patch:buffet ui.p3_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p3_status set value "●"
 data modify storage botc_patch:buffet ui.p3_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p3_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p3_name_color set value "white"
+data modify storage botc_patch:buffet ui.p3_role_open set value ""
+data modify storage botc_patch:buffet ui.p3_role_close set value ""
 data modify storage botc_patch:buffet ui.p3_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s3{active:0b} run data modify storage botc_patch:buffet ui.p3_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s3{status:1} run data modify storage botc_patch:buffet ui.p3_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s3{active:1b} run data modify storage botc_patch:buffet ui.p3_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s3{status:1} run data modify storage botc_patch:buffet ui.p3_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s3{status:2} run data modify storage botc_patch:buffet ui.p3_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s3{status:2} run data modify storage botc_patch:buffet ui.p3_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 3
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s3.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p4_name set from storage botc_patch:buffet draft.seats.s4.name
-data modify storage botc_patch:buffet ui.p4_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p4_status set value "●"
 data modify storage botc_patch:buffet ui.p4_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p4_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p4_name_color set value "white"
+data modify storage botc_patch:buffet ui.p4_role_open set value ""
+data modify storage botc_patch:buffet ui.p4_role_close set value ""
 data modify storage botc_patch:buffet ui.p4_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s4{active:0b} run data modify storage botc_patch:buffet ui.p4_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s4{status:1} run data modify storage botc_patch:buffet ui.p4_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s4{active:1b} run data modify storage botc_patch:buffet ui.p4_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s4{status:1} run data modify storage botc_patch:buffet ui.p4_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s4{status:2} run data modify storage botc_patch:buffet ui.p4_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s4{status:2} run data modify storage botc_patch:buffet ui.p4_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 4
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s4.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p5_name set from storage botc_patch:buffet draft.seats.s5.name
-data modify storage botc_patch:buffet ui.p5_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p5_status set value "●"
 data modify storage botc_patch:buffet ui.p5_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p5_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p5_name_color set value "white"
+data modify storage botc_patch:buffet ui.p5_role_open set value ""
+data modify storage botc_patch:buffet ui.p5_role_close set value ""
 data modify storage botc_patch:buffet ui.p5_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s5{active:0b} run data modify storage botc_patch:buffet ui.p5_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s5{status:1} run data modify storage botc_patch:buffet ui.p5_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s5{active:1b} run data modify storage botc_patch:buffet ui.p5_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s5{status:1} run data modify storage botc_patch:buffet ui.p5_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s5{status:2} run data modify storage botc_patch:buffet ui.p5_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s5{status:2} run data modify storage botc_patch:buffet ui.p5_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 5
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s5.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p6_name set from storage botc_patch:buffet draft.seats.s6.name
-data modify storage botc_patch:buffet ui.p6_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p6_status set value "●"
 data modify storage botc_patch:buffet ui.p6_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p6_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p6_name_color set value "white"
+data modify storage botc_patch:buffet ui.p6_role_open set value ""
+data modify storage botc_patch:buffet ui.p6_role_close set value ""
 data modify storage botc_patch:buffet ui.p6_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s6{active:0b} run data modify storage botc_patch:buffet ui.p6_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s6{status:1} run data modify storage botc_patch:buffet ui.p6_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s6{active:1b} run data modify storage botc_patch:buffet ui.p6_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s6{status:1} run data modify storage botc_patch:buffet ui.p6_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s6{status:2} run data modify storage botc_patch:buffet ui.p6_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s6{status:2} run data modify storage botc_patch:buffet ui.p6_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 6
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s6.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p7_name set from storage botc_patch:buffet draft.seats.s7.name
-data modify storage botc_patch:buffet ui.p7_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p7_status set value "●"
 data modify storage botc_patch:buffet ui.p7_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p7_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p7_name_color set value "white"
+data modify storage botc_patch:buffet ui.p7_role_open set value ""
+data modify storage botc_patch:buffet ui.p7_role_close set value ""
 data modify storage botc_patch:buffet ui.p7_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s7{active:0b} run data modify storage botc_patch:buffet ui.p7_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s7{status:1} run data modify storage botc_patch:buffet ui.p7_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s7{active:1b} run data modify storage botc_patch:buffet ui.p7_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s7{status:1} run data modify storage botc_patch:buffet ui.p7_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s7{status:2} run data modify storage botc_patch:buffet ui.p7_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s7{status:2} run data modify storage botc_patch:buffet ui.p7_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 7
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s7.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p8_name set from storage botc_patch:buffet draft.seats.s8.name
-data modify storage botc_patch:buffet ui.p8_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p8_status set value "●"
 data modify storage botc_patch:buffet ui.p8_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p8_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p8_name_color set value "white"
+data modify storage botc_patch:buffet ui.p8_role_open set value ""
+data modify storage botc_patch:buffet ui.p8_role_close set value ""
 data modify storage botc_patch:buffet ui.p8_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s8{active:0b} run data modify storage botc_patch:buffet ui.p8_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s8{status:1} run data modify storage botc_patch:buffet ui.p8_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s8{active:1b} run data modify storage botc_patch:buffet ui.p8_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s8{status:1} run data modify storage botc_patch:buffet ui.p8_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s8{status:2} run data modify storage botc_patch:buffet ui.p8_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s8{status:2} run data modify storage botc_patch:buffet ui.p8_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 8
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s8.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p9_name set from storage botc_patch:buffet draft.seats.s9.name
-data modify storage botc_patch:buffet ui.p9_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p9_status set value "●"
 data modify storage botc_patch:buffet ui.p9_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p9_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p9_name_color set value "white"
+data modify storage botc_patch:buffet ui.p9_role_open set value ""
+data modify storage botc_patch:buffet ui.p9_role_close set value ""
 data modify storage botc_patch:buffet ui.p9_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s9{active:0b} run data modify storage botc_patch:buffet ui.p9_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s9{status:1} run data modify storage botc_patch:buffet ui.p9_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s9{active:1b} run data modify storage botc_patch:buffet ui.p9_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s9{status:1} run data modify storage botc_patch:buffet ui.p9_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s9{status:2} run data modify storage botc_patch:buffet ui.p9_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s9{status:2} run data modify storage botc_patch:buffet ui.p9_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 9
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s9.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p10_name set from storage botc_patch:buffet draft.seats.s10.name
-data modify storage botc_patch:buffet ui.p10_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p10_status set value "●"
 data modify storage botc_patch:buffet ui.p10_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p10_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p10_name_color set value "white"
+data modify storage botc_patch:buffet ui.p10_role_open set value ""
+data modify storage botc_patch:buffet ui.p10_role_close set value ""
 data modify storage botc_patch:buffet ui.p10_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s10{active:0b} run data modify storage botc_patch:buffet ui.p10_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s10{status:1} run data modify storage botc_patch:buffet ui.p10_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s10{active:1b} run data modify storage botc_patch:buffet ui.p10_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s10{status:1} run data modify storage botc_patch:buffet ui.p10_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s10{status:2} run data modify storage botc_patch:buffet ui.p10_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s10{status:2} run data modify storage botc_patch:buffet ui.p10_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 10
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s10.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p11_name set from storage botc_patch:buffet draft.seats.s11.name
-data modify storage botc_patch:buffet ui.p11_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p11_status set value "●"
 data modify storage botc_patch:buffet ui.p11_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p11_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p11_name_color set value "white"
+data modify storage botc_patch:buffet ui.p11_role_open set value ""
+data modify storage botc_patch:buffet ui.p11_role_close set value ""
 data modify storage botc_patch:buffet ui.p11_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s11{active:0b} run data modify storage botc_patch:buffet ui.p11_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s11{status:1} run data modify storage botc_patch:buffet ui.p11_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s11{active:1b} run data modify storage botc_patch:buffet ui.p11_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s11{status:1} run data modify storage botc_patch:buffet ui.p11_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s11{status:2} run data modify storage botc_patch:buffet ui.p11_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s11{status:2} run data modify storage botc_patch:buffet ui.p11_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 11
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s11.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p12_name set from storage botc_patch:buffet draft.seats.s12.name
-data modify storage botc_patch:buffet ui.p12_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p12_status set value "●"
 data modify storage botc_patch:buffet ui.p12_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p12_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p12_name_color set value "white"
+data modify storage botc_patch:buffet ui.p12_role_open set value ""
+data modify storage botc_patch:buffet ui.p12_role_close set value ""
 data modify storage botc_patch:buffet ui.p12_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s12{active:0b} run data modify storage botc_patch:buffet ui.p12_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s12{status:1} run data modify storage botc_patch:buffet ui.p12_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s12{active:1b} run data modify storage botc_patch:buffet ui.p12_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s12{status:1} run data modify storage botc_patch:buffet ui.p12_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s12{status:2} run data modify storage botc_patch:buffet ui.p12_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s12{status:2} run data modify storage botc_patch:buffet ui.p12_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 12
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s12.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p13_name set from storage botc_patch:buffet draft.seats.s13.name
-data modify storage botc_patch:buffet ui.p13_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p13_status set value "●"
 data modify storage botc_patch:buffet ui.p13_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p13_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p13_name_color set value "white"
+data modify storage botc_patch:buffet ui.p13_role_open set value ""
+data modify storage botc_patch:buffet ui.p13_role_close set value ""
 data modify storage botc_patch:buffet ui.p13_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s13{active:0b} run data modify storage botc_patch:buffet ui.p13_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s13{status:1} run data modify storage botc_patch:buffet ui.p13_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s13{active:1b} run data modify storage botc_patch:buffet ui.p13_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s13{status:1} run data modify storage botc_patch:buffet ui.p13_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s13{status:2} run data modify storage botc_patch:buffet ui.p13_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s13{status:2} run data modify storage botc_patch:buffet ui.p13_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 13
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s13.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p14_name set from storage botc_patch:buffet draft.seats.s14.name
-data modify storage botc_patch:buffet ui.p14_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p14_status set value "●"
 data modify storage botc_patch:buffet ui.p14_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p14_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p14_name_color set value "white"
+data modify storage botc_patch:buffet ui.p14_role_open set value ""
+data modify storage botc_patch:buffet ui.p14_role_close set value ""
 data modify storage botc_patch:buffet ui.p14_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s14{active:0b} run data modify storage botc_patch:buffet ui.p14_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s14{status:1} run data modify storage botc_patch:buffet ui.p14_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s14{active:1b} run data modify storage botc_patch:buffet ui.p14_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s14{status:1} run data modify storage botc_patch:buffet ui.p14_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s14{status:2} run data modify storage botc_patch:buffet ui.p14_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s14{status:2} run data modify storage botc_patch:buffet ui.p14_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 14
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s14.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p15_name set from storage botc_patch:buffet draft.seats.s15.name
-data modify storage botc_patch:buffet ui.p15_status set value "Waiting"
+data modify storage botc_patch:buffet ui.p15_status set value "●"
 data modify storage botc_patch:buffet ui.p15_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p15_role set value "No final choice"
+data modify storage botc_patch:buffet ui.p15_name_color set value "white"
+data modify storage botc_patch:buffet ui.p15_role_open set value ""
+data modify storage botc_patch:buffet ui.p15_role_close set value ""
 data modify storage botc_patch:buffet ui.p15_glyph set value ""
-execute if data storage botc_patch:buffet draft.seats.s15{active:0b} run data modify storage botc_patch:buffet ui.p15_status set value "Open Seat"
-execute if data storage botc_patch:buffet draft.seats.s15{status:1} run data modify storage botc_patch:buffet ui.p15_status set value "Choosing"
+execute if data storage botc_patch:buffet draft.seats.s15{active:1b} run data modify storage botc_patch:buffet ui.p15_color set value "#ff5555"
 execute if data storage botc_patch:buffet draft.seats.s15{status:1} run data modify storage botc_patch:buffet ui.p15_color set value "#ffff55"
-execute if data storage botc_patch:buffet draft.seats.s15{status:2} run data modify storage botc_patch:buffet ui.p15_status set value "Complete"
 execute if data storage botc_patch:buffet draft.seats.s15{status:2} run data modify storage botc_patch:buffet ui.p15_color set value "#55ff55"
 data modify storage botc_patch:buffet action.seat set value 15
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s15.actual
-function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2} run function botc_patch:buffet/draft/review/prepare_role with storage botc_patch:buffet action
 execute if score buffet_roster_count botc_patch matches 5 run function botc_patch:buffet/draft/review/dashboard_5 with storage botc_patch:buffet ui
 execute if score buffet_roster_count botc_patch matches 6 run function botc_patch:buffet/draft/review/dashboard_6 with storage botc_patch:buffet ui
 execute if score buffet_roster_count botc_patch matches 7 run function botc_patch:buffet/draft/review/dashboard_7 with storage botc_patch:buffet ui

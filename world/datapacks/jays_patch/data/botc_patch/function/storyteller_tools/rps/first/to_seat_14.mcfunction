@@ -2,7 +2,7 @@
 # Do not hand-edit this file; update the generator and regenerate.
 # Stores the ready RPS participant in seat 14 and opens the opponent picker.
 dialog clear @s
-execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=14,rps=1..3},limit=1] run return run tellraw @s [{text:"That player is no longer available for RPS.",color:"red"}]
+execute unless entity @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=14,rps=1..3},limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That player is no longer available for RPS.",color:"gray",bold:false}]
 tag @a remove botc_rps_first
 tag @a[tag=!storyteller,tag=!spectator,tag=!dead,scores={id=14,rps=1..3},limit=1] add botc_rps_first
 function botc_patch:storyteller_tools/rps/second/dialog

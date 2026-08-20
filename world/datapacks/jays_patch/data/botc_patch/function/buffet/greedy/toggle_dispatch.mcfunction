@@ -2,272 +2,538 @@
 # Do not hand-edit this file; update the generator or Jays-Patch/buffet-rules.json.
 # Allow only catalogued Greedy role toggle actions.
 execute if score @s botc_buffet_action matches 1001 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1001 run function botc_patch:buffet/greedy/toggle {role:1,page:1}
+execute if score @s botc_buffet_action matches 1001 run data modify storage botc_patch:buffet action.role set value 1
+execute if score @s botc_buffet_action matches 1001 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1001 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1002 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1002 run function botc_patch:buffet/greedy/toggle {role:2,page:1}
+execute if score @s botc_buffet_action matches 1002 run data modify storage botc_patch:buffet action.role set value 2
+execute if score @s botc_buffet_action matches 1002 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1002 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1003 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1003 run function botc_patch:buffet/greedy/toggle {role:3,page:1}
+execute if score @s botc_buffet_action matches 1003 run data modify storage botc_patch:buffet action.role set value 3
+execute if score @s botc_buffet_action matches 1003 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1003 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1004 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1004 run function botc_patch:buffet/greedy/toggle {role:4,page:1}
+execute if score @s botc_buffet_action matches 1004 run data modify storage botc_patch:buffet action.role set value 4
+execute if score @s botc_buffet_action matches 1004 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1004 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1005 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1005 run function botc_patch:buffet/greedy/toggle {role:5,page:1}
+execute if score @s botc_buffet_action matches 1005 run data modify storage botc_patch:buffet action.role set value 5
+execute if score @s botc_buffet_action matches 1005 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1005 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1006 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1006 run function botc_patch:buffet/greedy/toggle {role:6,page:1}
+execute if score @s botc_buffet_action matches 1006 run data modify storage botc_patch:buffet action.role set value 6
+execute if score @s botc_buffet_action matches 1006 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1006 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1007 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1007 run function botc_patch:buffet/greedy/toggle {role:7,page:1}
+execute if score @s botc_buffet_action matches 1007 run data modify storage botc_patch:buffet action.role set value 7
+execute if score @s botc_buffet_action matches 1007 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1007 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1008 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1008 run function botc_patch:buffet/greedy/toggle {role:8,page:1}
+execute if score @s botc_buffet_action matches 1008 run data modify storage botc_patch:buffet action.role set value 8
+execute if score @s botc_buffet_action matches 1008 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1008 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1009 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1009 run function botc_patch:buffet/greedy/toggle {role:9,page:1}
+execute if score @s botc_buffet_action matches 1009 run data modify storage botc_patch:buffet action.role set value 9
+execute if score @s botc_buffet_action matches 1009 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1009 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1010 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1010 run function botc_patch:buffet/greedy/toggle {role:10,page:1}
+execute if score @s botc_buffet_action matches 1010 run data modify storage botc_patch:buffet action.role set value 10
+execute if score @s botc_buffet_action matches 1010 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1010 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1011 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1011 run function botc_patch:buffet/greedy/toggle {role:11,page:1}
+execute if score @s botc_buffet_action matches 1011 run data modify storage botc_patch:buffet action.role set value 11
+execute if score @s botc_buffet_action matches 1011 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1011 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1012 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1012 run function botc_patch:buffet/greedy/toggle {role:12,page:1}
+execute if score @s botc_buffet_action matches 1012 run data modify storage botc_patch:buffet action.role set value 12
+execute if score @s botc_buffet_action matches 1012 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1012 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1013 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1013 run function botc_patch:buffet/greedy/toggle {role:13,page:1}
+execute if score @s botc_buffet_action matches 1013 run data modify storage botc_patch:buffet action.role set value 13
+execute if score @s botc_buffet_action matches 1013 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1013 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1014 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1014 run function botc_patch:buffet/greedy/toggle {role:14,page:2}
+execute if score @s botc_buffet_action matches 1014 run data modify storage botc_patch:buffet action.role set value 14
+execute if score @s botc_buffet_action matches 1014 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1014 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1015 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1015 run function botc_patch:buffet/greedy/toggle {role:15,page:2}
+execute if score @s botc_buffet_action matches 1015 run data modify storage botc_patch:buffet action.role set value 15
+execute if score @s botc_buffet_action matches 1015 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1015 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1016 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1016 run function botc_patch:buffet/greedy/toggle {role:16,page:2}
+execute if score @s botc_buffet_action matches 1016 run data modify storage botc_patch:buffet action.role set value 16
+execute if score @s botc_buffet_action matches 1016 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1016 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1018 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1018 run function botc_patch:buffet/greedy/toggle {role:18,page:3}
+execute if score @s botc_buffet_action matches 1018 run data modify storage botc_patch:buffet action.role set value 18
+execute if score @s botc_buffet_action matches 1018 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1018 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1019 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1019 run function botc_patch:buffet/greedy/toggle {role:19,page:3}
+execute if score @s botc_buffet_action matches 1019 run data modify storage botc_patch:buffet action.role set value 19
+execute if score @s botc_buffet_action matches 1019 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1019 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1020 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1020 run function botc_patch:buffet/greedy/toggle {role:20,page:3}
+execute if score @s botc_buffet_action matches 1020 run data modify storage botc_patch:buffet action.role set value 20
+execute if score @s botc_buffet_action matches 1020 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1020 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1021 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1021 run function botc_patch:buffet/greedy/toggle {role:21,page:3}
+execute if score @s botc_buffet_action matches 1021 run data modify storage botc_patch:buffet action.role set value 21
+execute if score @s botc_buffet_action matches 1021 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1021 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1022 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1022 run function botc_patch:buffet/greedy/toggle {role:22,page:4}
+execute if score @s botc_buffet_action matches 1022 run data modify storage botc_patch:buffet action.role set value 22
+execute if score @s botc_buffet_action matches 1022 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1022 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1023 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1023 run function botc_patch:buffet/greedy/toggle {role:23,page:1}
+execute if score @s botc_buffet_action matches 1023 run data modify storage botc_patch:buffet action.role set value 23
+execute if score @s botc_buffet_action matches 1023 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1023 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1024 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1024 run function botc_patch:buffet/greedy/toggle {role:24,page:1}
+execute if score @s botc_buffet_action matches 1024 run data modify storage botc_patch:buffet action.role set value 24
+execute if score @s botc_buffet_action matches 1024 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1024 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1025 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1025 run function botc_patch:buffet/greedy/toggle {role:25,page:1}
+execute if score @s botc_buffet_action matches 1025 run data modify storage botc_patch:buffet action.role set value 25
+execute if score @s botc_buffet_action matches 1025 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1025 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1026 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1026 run function botc_patch:buffet/greedy/toggle {role:26,page:1}
+execute if score @s botc_buffet_action matches 1026 run data modify storage botc_patch:buffet action.role set value 26
+execute if score @s botc_buffet_action matches 1026 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1026 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1027 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1027 run function botc_patch:buffet/greedy/toggle {role:27,page:1}
+execute if score @s botc_buffet_action matches 1027 run data modify storage botc_patch:buffet action.role set value 27
+execute if score @s botc_buffet_action matches 1027 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1027 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1028 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1028 run function botc_patch:buffet/greedy/toggle {role:28,page:1}
+execute if score @s botc_buffet_action matches 1028 run data modify storage botc_patch:buffet action.role set value 28
+execute if score @s botc_buffet_action matches 1028 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1028 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1029 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1029 run function botc_patch:buffet/greedy/toggle {role:29,page:1}
+execute if score @s botc_buffet_action matches 1029 run data modify storage botc_patch:buffet action.role set value 29
+execute if score @s botc_buffet_action matches 1029 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1029 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1030 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1030 run function botc_patch:buffet/greedy/toggle {role:30,page:1}
+execute if score @s botc_buffet_action matches 1030 run data modify storage botc_patch:buffet action.role set value 30
+execute if score @s botc_buffet_action matches 1030 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1030 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1031 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1031 run function botc_patch:buffet/greedy/toggle {role:31,page:1}
+execute if score @s botc_buffet_action matches 1031 run data modify storage botc_patch:buffet action.role set value 31
+execute if score @s botc_buffet_action matches 1031 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1031 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1032 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1032 run function botc_patch:buffet/greedy/toggle {role:32,page:1}
+execute if score @s botc_buffet_action matches 1032 run data modify storage botc_patch:buffet action.role set value 32
+execute if score @s botc_buffet_action matches 1032 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1032 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1033 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1033 run function botc_patch:buffet/greedy/toggle {role:33,page:1}
+execute if score @s botc_buffet_action matches 1033 run data modify storage botc_patch:buffet action.role set value 33
+execute if score @s botc_buffet_action matches 1033 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1033 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1034 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1034 run function botc_patch:buffet/greedy/toggle {role:34,page:1}
+execute if score @s botc_buffet_action matches 1034 run data modify storage botc_patch:buffet action.role set value 34
+execute if score @s botc_buffet_action matches 1034 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1034 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1035 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1035 run function botc_patch:buffet/greedy/toggle {role:35,page:1}
+execute if score @s botc_buffet_action matches 1035 run data modify storage botc_patch:buffet action.role set value 35
+execute if score @s botc_buffet_action matches 1035 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1035 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1036 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1036 run function botc_patch:buffet/greedy/toggle {role:36,page:1}
+execute if score @s botc_buffet_action matches 1036 run data modify storage botc_patch:buffet action.role set value 36
+execute if score @s botc_buffet_action matches 1036 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1036 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1037 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1037 run function botc_patch:buffet/greedy/toggle {role:37,page:1}
+execute if score @s botc_buffet_action matches 1037 run data modify storage botc_patch:buffet action.role set value 37
+execute if score @s botc_buffet_action matches 1037 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1037 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1038 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1038 run function botc_patch:buffet/greedy/toggle {role:38,page:1}
+execute if score @s botc_buffet_action matches 1038 run data modify storage botc_patch:buffet action.role set value 38
+execute if score @s botc_buffet_action matches 1038 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1038 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1039 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1039 run function botc_patch:buffet/greedy/toggle {role:39,page:1}
+execute if score @s botc_buffet_action matches 1039 run data modify storage botc_patch:buffet action.role set value 39
+execute if score @s botc_buffet_action matches 1039 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1039 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1040 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1040 run function botc_patch:buffet/greedy/toggle {role:40,page:1}
+execute if score @s botc_buffet_action matches 1040 run data modify storage botc_patch:buffet action.role set value 40
+execute if score @s botc_buffet_action matches 1040 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1040 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1041 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1041 run function botc_patch:buffet/greedy/toggle {role:41,page:1}
+execute if score @s botc_buffet_action matches 1041 run data modify storage botc_patch:buffet action.role set value 41
+execute if score @s botc_buffet_action matches 1041 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1041 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1042 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1042 run function botc_patch:buffet/greedy/toggle {role:42,page:1}
+execute if score @s botc_buffet_action matches 1042 run data modify storage botc_patch:buffet action.role set value 42
+execute if score @s botc_buffet_action matches 1042 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1042 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1043 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1043 run function botc_patch:buffet/greedy/toggle {role:43,page:1}
+execute if score @s botc_buffet_action matches 1043 run data modify storage botc_patch:buffet action.role set value 43
+execute if score @s botc_buffet_action matches 1043 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1043 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1044 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1044 run function botc_patch:buffet/greedy/toggle {role:44,page:1}
+execute if score @s botc_buffet_action matches 1044 run data modify storage botc_patch:buffet action.role set value 44
+execute if score @s botc_buffet_action matches 1044 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1044 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1045 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1045 run function botc_patch:buffet/greedy/toggle {role:45,page:1}
+execute if score @s botc_buffet_action matches 1045 run data modify storage botc_patch:buffet action.role set value 45
+execute if score @s botc_buffet_action matches 1045 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1045 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1046 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1046 run function botc_patch:buffet/greedy/toggle {role:46,page:1}
+execute if score @s botc_buffet_action matches 1046 run data modify storage botc_patch:buffet action.role set value 46
+execute if score @s botc_buffet_action matches 1046 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1046 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1047 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1047 run function botc_patch:buffet/greedy/toggle {role:47,page:1}
+execute if score @s botc_buffet_action matches 1047 run data modify storage botc_patch:buffet action.role set value 47
+execute if score @s botc_buffet_action matches 1047 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1047 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1048 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1048 run function botc_patch:buffet/greedy/toggle {role:48,page:1}
+execute if score @s botc_buffet_action matches 1048 run data modify storage botc_patch:buffet action.role set value 48
+execute if score @s botc_buffet_action matches 1048 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1048 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1049 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1049 run function botc_patch:buffet/greedy/toggle {role:49,page:1}
+execute if score @s botc_buffet_action matches 1049 run data modify storage botc_patch:buffet action.role set value 49
+execute if score @s botc_buffet_action matches 1049 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1049 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1050 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1050 run function botc_patch:buffet/greedy/toggle {role:50,page:1}
+execute if score @s botc_buffet_action matches 1050 run data modify storage botc_patch:buffet action.role set value 50
+execute if score @s botc_buffet_action matches 1050 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1050 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1051 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1051 run function botc_patch:buffet/greedy/toggle {role:51,page:1}
+execute if score @s botc_buffet_action matches 1051 run data modify storage botc_patch:buffet action.role set value 51
+execute if score @s botc_buffet_action matches 1051 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1051 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1052 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1052 run function botc_patch:buffet/greedy/toggle {role:52,page:1}
+execute if score @s botc_buffet_action matches 1052 run data modify storage botc_patch:buffet action.role set value 52
+execute if score @s botc_buffet_action matches 1052 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1052 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1053 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1053 run function botc_patch:buffet/greedy/toggle {role:53,page:1}
+execute if score @s botc_buffet_action matches 1053 run data modify storage botc_patch:buffet action.role set value 53
+execute if score @s botc_buffet_action matches 1053 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1053 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1054 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1054 run function botc_patch:buffet/greedy/toggle {role:54,page:1}
+execute if score @s botc_buffet_action matches 1054 run data modify storage botc_patch:buffet action.role set value 54
+execute if score @s botc_buffet_action matches 1054 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1054 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1055 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1055 run function botc_patch:buffet/greedy/toggle {role:55,page:1}
+execute if score @s botc_buffet_action matches 1055 run data modify storage botc_patch:buffet action.role set value 55
+execute if score @s botc_buffet_action matches 1055 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1055 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1056 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1056 run function botc_patch:buffet/greedy/toggle {role:56,page:1}
+execute if score @s botc_buffet_action matches 1056 run data modify storage botc_patch:buffet action.role set value 56
+execute if score @s botc_buffet_action matches 1056 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1056 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1057 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1057 run function botc_patch:buffet/greedy/toggle {role:57,page:1}
+execute if score @s botc_buffet_action matches 1057 run data modify storage botc_patch:buffet action.role set value 57
+execute if score @s botc_buffet_action matches 1057 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1057 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1058 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1058 run function botc_patch:buffet/greedy/toggle {role:58,page:1}
+execute if score @s botc_buffet_action matches 1058 run data modify storage botc_patch:buffet action.role set value 58
+execute if score @s botc_buffet_action matches 1058 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1058 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1059 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1059 run function botc_patch:buffet/greedy/toggle {role:59,page:1}
+execute if score @s botc_buffet_action matches 1059 run data modify storage botc_patch:buffet action.role set value 59
+execute if score @s botc_buffet_action matches 1059 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1059 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1060 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1060 run function botc_patch:buffet/greedy/toggle {role:60,page:1}
+execute if score @s botc_buffet_action matches 1060 run data modify storage botc_patch:buffet action.role set value 60
+execute if score @s botc_buffet_action matches 1060 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1060 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1061 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1061 run function botc_patch:buffet/greedy/toggle {role:61,page:1}
+execute if score @s botc_buffet_action matches 1061 run data modify storage botc_patch:buffet action.role set value 61
+execute if score @s botc_buffet_action matches 1061 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1061 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1062 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1062 run function botc_patch:buffet/greedy/toggle {role:62,page:1}
+execute if score @s botc_buffet_action matches 1062 run data modify storage botc_patch:buffet action.role set value 62
+execute if score @s botc_buffet_action matches 1062 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1062 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1063 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1063 run function botc_patch:buffet/greedy/toggle {role:63,page:1}
+execute if score @s botc_buffet_action matches 1063 run data modify storage botc_patch:buffet action.role set value 63
+execute if score @s botc_buffet_action matches 1063 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1063 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1064 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1064 run function botc_patch:buffet/greedy/toggle {role:64,page:1}
+execute if score @s botc_buffet_action matches 1064 run data modify storage botc_patch:buffet action.role set value 64
+execute if score @s botc_buffet_action matches 1064 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1064 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1065 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1065 run function botc_patch:buffet/greedy/toggle {role:65,page:1}
+execute if score @s botc_buffet_action matches 1065 run data modify storage botc_patch:buffet action.role set value 65
+execute if score @s botc_buffet_action matches 1065 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1065 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1066 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1066 run function botc_patch:buffet/greedy/toggle {role:66,page:1}
+execute if score @s botc_buffet_action matches 1066 run data modify storage botc_patch:buffet action.role set value 66
+execute if score @s botc_buffet_action matches 1066 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1066 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1067 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1067 run function botc_patch:buffet/greedy/toggle {role:67,page:1}
+execute if score @s botc_buffet_action matches 1067 run data modify storage botc_patch:buffet action.role set value 67
+execute if score @s botc_buffet_action matches 1067 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1067 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1068 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1068 run function botc_patch:buffet/greedy/toggle {role:68,page:1}
+execute if score @s botc_buffet_action matches 1068 run data modify storage botc_patch:buffet action.role set value 68
+execute if score @s botc_buffet_action matches 1068 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1068 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1069 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1069 run function botc_patch:buffet/greedy/toggle {role:69,page:1}
+execute if score @s botc_buffet_action matches 1069 run data modify storage botc_patch:buffet action.role set value 69
+execute if score @s botc_buffet_action matches 1069 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1069 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1070 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1070 run function botc_patch:buffet/greedy/toggle {role:70,page:1}
+execute if score @s botc_buffet_action matches 1070 run data modify storage botc_patch:buffet action.role set value 70
+execute if score @s botc_buffet_action matches 1070 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1070 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1071 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1071 run function botc_patch:buffet/greedy/toggle {role:71,page:1}
+execute if score @s botc_buffet_action matches 1071 run data modify storage botc_patch:buffet action.role set value 71
+execute if score @s botc_buffet_action matches 1071 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1071 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1072 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1072 run function botc_patch:buffet/greedy/toggle {role:72,page:1}
+execute if score @s botc_buffet_action matches 1072 run data modify storage botc_patch:buffet action.role set value 72
+execute if score @s botc_buffet_action matches 1072 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1072 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1073 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1073 run function botc_patch:buffet/greedy/toggle {role:73,page:1}
+execute if score @s botc_buffet_action matches 1073 run data modify storage botc_patch:buffet action.role set value 73
+execute if score @s botc_buffet_action matches 1073 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1073 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1074 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1074 run function botc_patch:buffet/greedy/toggle {role:74,page:1}
+execute if score @s botc_buffet_action matches 1074 run data modify storage botc_patch:buffet action.role set value 74
+execute if score @s botc_buffet_action matches 1074 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1074 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1075 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1075 run function botc_patch:buffet/greedy/toggle {role:75,page:1}
+execute if score @s botc_buffet_action matches 1075 run data modify storage botc_patch:buffet action.role set value 75
+execute if score @s botc_buffet_action matches 1075 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1075 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1076 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1076 run function botc_patch:buffet/greedy/toggle {role:76,page:1}
+execute if score @s botc_buffet_action matches 1076 run data modify storage botc_patch:buffet action.role set value 76
+execute if score @s botc_buffet_action matches 1076 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1076 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1077 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1077 run function botc_patch:buffet/greedy/toggle {role:77,page:1}
+execute if score @s botc_buffet_action matches 1077 run data modify storage botc_patch:buffet action.role set value 77
+execute if score @s botc_buffet_action matches 1077 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1077 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1078 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1078 run function botc_patch:buffet/greedy/toggle {role:78,page:1}
+execute if score @s botc_buffet_action matches 1078 run data modify storage botc_patch:buffet action.role set value 78
+execute if score @s botc_buffet_action matches 1078 run data modify storage botc_patch:buffet action.page set value 1
+execute if score @s botc_buffet_action matches 1078 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1079 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1079 run function botc_patch:buffet/greedy/toggle {role:79,page:2}
+execute if score @s botc_buffet_action matches 1079 run data modify storage botc_patch:buffet action.role set value 79
+execute if score @s botc_buffet_action matches 1079 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1079 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1080 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1080 run function botc_patch:buffet/greedy/toggle {role:80,page:2}
+execute if score @s botc_buffet_action matches 1080 run data modify storage botc_patch:buffet action.role set value 80
+execute if score @s botc_buffet_action matches 1080 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1080 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1081 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1081 run function botc_patch:buffet/greedy/toggle {role:81,page:2}
+execute if score @s botc_buffet_action matches 1081 run data modify storage botc_patch:buffet action.role set value 81
+execute if score @s botc_buffet_action matches 1081 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1081 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1082 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1082 run function botc_patch:buffet/greedy/toggle {role:82,page:2}
+execute if score @s botc_buffet_action matches 1082 run data modify storage botc_patch:buffet action.role set value 82
+execute if score @s botc_buffet_action matches 1082 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1082 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1083 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1083 run function botc_patch:buffet/greedy/toggle {role:83,page:2}
+execute if score @s botc_buffet_action matches 1083 run data modify storage botc_patch:buffet action.role set value 83
+execute if score @s botc_buffet_action matches 1083 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1083 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1085 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1085 run function botc_patch:buffet/greedy/toggle {role:85,page:2}
+execute if score @s botc_buffet_action matches 1085 run data modify storage botc_patch:buffet action.role set value 85
+execute if score @s botc_buffet_action matches 1085 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1085 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1086 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1086 run function botc_patch:buffet/greedy/toggle {role:86,page:2}
+execute if score @s botc_buffet_action matches 1086 run data modify storage botc_patch:buffet action.role set value 86
+execute if score @s botc_buffet_action matches 1086 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1086 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1087 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1087 run function botc_patch:buffet/greedy/toggle {role:87,page:2}
+execute if score @s botc_buffet_action matches 1087 run data modify storage botc_patch:buffet action.role set value 87
+execute if score @s botc_buffet_action matches 1087 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1087 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1088 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1088 run function botc_patch:buffet/greedy/toggle {role:88,page:2}
+execute if score @s botc_buffet_action matches 1088 run data modify storage botc_patch:buffet action.role set value 88
+execute if score @s botc_buffet_action matches 1088 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1088 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1089 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1089 run function botc_patch:buffet/greedy/toggle {role:89,page:2}
+execute if score @s botc_buffet_action matches 1089 run data modify storage botc_patch:buffet action.role set value 89
+execute if score @s botc_buffet_action matches 1089 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1089 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1090 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1090 run function botc_patch:buffet/greedy/toggle {role:90,page:2}
+execute if score @s botc_buffet_action matches 1090 run data modify storage botc_patch:buffet action.role set value 90
+execute if score @s botc_buffet_action matches 1090 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1090 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1091 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1091 run function botc_patch:buffet/greedy/toggle {role:91,page:2}
+execute if score @s botc_buffet_action matches 1091 run data modify storage botc_patch:buffet action.role set value 91
+execute if score @s botc_buffet_action matches 1091 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1091 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1092 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1092 run function botc_patch:buffet/greedy/toggle {role:92,page:2}
+execute if score @s botc_buffet_action matches 1092 run data modify storage botc_patch:buffet action.role set value 92
+execute if score @s botc_buffet_action matches 1092 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1092 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1093 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1093 run function botc_patch:buffet/greedy/toggle {role:93,page:2}
+execute if score @s botc_buffet_action matches 1093 run data modify storage botc_patch:buffet action.role set value 93
+execute if score @s botc_buffet_action matches 1093 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1093 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1094 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1094 run function botc_patch:buffet/greedy/toggle {role:94,page:2}
+execute if score @s botc_buffet_action matches 1094 run data modify storage botc_patch:buffet action.role set value 94
+execute if score @s botc_buffet_action matches 1094 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1094 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1095 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1095 run function botc_patch:buffet/greedy/toggle {role:95,page:2}
+execute if score @s botc_buffet_action matches 1095 run data modify storage botc_patch:buffet action.role set value 95
+execute if score @s botc_buffet_action matches 1095 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1095 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1096 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1096 run function botc_patch:buffet/greedy/toggle {role:96,page:2}
+execute if score @s botc_buffet_action matches 1096 run data modify storage botc_patch:buffet action.role set value 96
+execute if score @s botc_buffet_action matches 1096 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1096 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1097 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1097 run function botc_patch:buffet/greedy/toggle {role:97,page:2}
+execute if score @s botc_buffet_action matches 1097 run data modify storage botc_patch:buffet action.role set value 97
+execute if score @s botc_buffet_action matches 1097 run data modify storage botc_patch:buffet action.page set value 2
+execute if score @s botc_buffet_action matches 1097 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1098 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1098 run function botc_patch:buffet/greedy/toggle {role:98,page:3}
+execute if score @s botc_buffet_action matches 1098 run data modify storage botc_patch:buffet action.role set value 98
+execute if score @s botc_buffet_action matches 1098 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1098 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1099 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1099 run function botc_patch:buffet/greedy/toggle {role:99,page:3}
+execute if score @s botc_buffet_action matches 1099 run data modify storage botc_patch:buffet action.role set value 99
+execute if score @s botc_buffet_action matches 1099 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1099 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1100 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1100 run function botc_patch:buffet/greedy/toggle {role:100,page:3}
+execute if score @s botc_buffet_action matches 1100 run data modify storage botc_patch:buffet action.role set value 100
+execute if score @s botc_buffet_action matches 1100 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1100 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1101 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1101 run function botc_patch:buffet/greedy/toggle {role:101,page:3}
+execute if score @s botc_buffet_action matches 1101 run data modify storage botc_patch:buffet action.role set value 101
+execute if score @s botc_buffet_action matches 1101 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1101 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1102 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1102 run function botc_patch:buffet/greedy/toggle {role:102,page:3}
+execute if score @s botc_buffet_action matches 1102 run data modify storage botc_patch:buffet action.role set value 102
+execute if score @s botc_buffet_action matches 1102 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1102 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1103 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1103 run function botc_patch:buffet/greedy/toggle {role:103,page:3}
+execute if score @s botc_buffet_action matches 1103 run data modify storage botc_patch:buffet action.role set value 103
+execute if score @s botc_buffet_action matches 1103 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1103 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1104 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1104 run function botc_patch:buffet/greedy/toggle {role:104,page:3}
+execute if score @s botc_buffet_action matches 1104 run data modify storage botc_patch:buffet action.role set value 104
+execute if score @s botc_buffet_action matches 1104 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1104 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1105 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1105 run function botc_patch:buffet/greedy/toggle {role:105,page:3}
+execute if score @s botc_buffet_action matches 1105 run data modify storage botc_patch:buffet action.role set value 105
+execute if score @s botc_buffet_action matches 1105 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1105 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1106 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1106 run function botc_patch:buffet/greedy/toggle {role:106,page:3}
+execute if score @s botc_buffet_action matches 1106 run data modify storage botc_patch:buffet action.role set value 106
+execute if score @s botc_buffet_action matches 1106 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1106 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1107 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1107 run function botc_patch:buffet/greedy/toggle {role:107,page:3}
+execute if score @s botc_buffet_action matches 1107 run data modify storage botc_patch:buffet action.role set value 107
+execute if score @s botc_buffet_action matches 1107 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1107 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1108 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1108 run function botc_patch:buffet/greedy/toggle {role:108,page:3}
+execute if score @s botc_buffet_action matches 1108 run data modify storage botc_patch:buffet action.role set value 108
+execute if score @s botc_buffet_action matches 1108 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1108 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1109 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1109 run function botc_patch:buffet/greedy/toggle {role:109,page:3}
+execute if score @s botc_buffet_action matches 1109 run data modify storage botc_patch:buffet action.role set value 109
+execute if score @s botc_buffet_action matches 1109 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1109 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1110 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1110 run function botc_patch:buffet/greedy/toggle {role:110,page:3}
+execute if score @s botc_buffet_action matches 1110 run data modify storage botc_patch:buffet action.role set value 110
+execute if score @s botc_buffet_action matches 1110 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1110 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1112 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1112 run function botc_patch:buffet/greedy/toggle {role:112,page:3}
-execute if score @s botc_buffet_action matches 1113 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1113 run function botc_patch:buffet/greedy/toggle {role:113,page:3}
+execute if score @s botc_buffet_action matches 1112 run data modify storage botc_patch:buffet action.role set value 112
+execute if score @s botc_buffet_action matches 1112 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1112 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1114 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1114 run function botc_patch:buffet/greedy/toggle {role:114,page:3}
+execute if score @s botc_buffet_action matches 1114 run data modify storage botc_patch:buffet action.role set value 114
+execute if score @s botc_buffet_action matches 1114 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1114 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1115 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1115 run function botc_patch:buffet/greedy/toggle {role:115,page:3}
+execute if score @s botc_buffet_action matches 1115 run data modify storage botc_patch:buffet action.role set value 115
+execute if score @s botc_buffet_action matches 1115 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1115 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1116 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1116 run function botc_patch:buffet/greedy/toggle {role:116,page:3}
+execute if score @s botc_buffet_action matches 1116 run data modify storage botc_patch:buffet action.role set value 116
+execute if score @s botc_buffet_action matches 1116 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1116 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1117 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1117 run function botc_patch:buffet/greedy/toggle {role:117,page:3}
+execute if score @s botc_buffet_action matches 1117 run data modify storage botc_patch:buffet action.role set value 117
+execute if score @s botc_buffet_action matches 1117 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1117 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1118 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1118 run function botc_patch:buffet/greedy/toggle {role:118,page:3}
+execute if score @s botc_buffet_action matches 1118 run data modify storage botc_patch:buffet action.role set value 118
+execute if score @s botc_buffet_action matches 1118 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1118 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1119 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1119 run function botc_patch:buffet/greedy/toggle {role:119,page:3}
+execute if score @s botc_buffet_action matches 1119 run data modify storage botc_patch:buffet action.role set value 119
+execute if score @s botc_buffet_action matches 1119 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1119 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1120 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1120 run function botc_patch:buffet/greedy/toggle {role:120,page:4}
+execute if score @s botc_buffet_action matches 1120 run data modify storage botc_patch:buffet action.role set value 120
+execute if score @s botc_buffet_action matches 1120 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1120 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1121 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1121 run function botc_patch:buffet/greedy/toggle {role:121,page:4}
+execute if score @s botc_buffet_action matches 1121 run data modify storage botc_patch:buffet action.role set value 121
+execute if score @s botc_buffet_action matches 1121 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1121 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1122 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1122 run function botc_patch:buffet/greedy/toggle {role:122,page:4}
+execute if score @s botc_buffet_action matches 1122 run data modify storage botc_patch:buffet action.role set value 122
+execute if score @s botc_buffet_action matches 1122 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1122 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1123 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1123 run function botc_patch:buffet/greedy/toggle {role:123,page:4}
+execute if score @s botc_buffet_action matches 1123 run data modify storage botc_patch:buffet action.role set value 123
+execute if score @s botc_buffet_action matches 1123 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1123 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1124 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1124 run function botc_patch:buffet/greedy/toggle {role:124,page:4}
+execute if score @s botc_buffet_action matches 1124 run data modify storage botc_patch:buffet action.role set value 124
+execute if score @s botc_buffet_action matches 1124 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1124 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1125 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1125 run function botc_patch:buffet/greedy/toggle {role:125,page:4}
+execute if score @s botc_buffet_action matches 1125 run data modify storage botc_patch:buffet action.role set value 125
+execute if score @s botc_buffet_action matches 1125 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1125 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1126 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1126 run function botc_patch:buffet/greedy/toggle {role:126,page:4}
+execute if score @s botc_buffet_action matches 1126 run data modify storage botc_patch:buffet action.role set value 126
+execute if score @s botc_buffet_action matches 1126 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1126 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1127 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1127 run function botc_patch:buffet/greedy/toggle {role:127,page:4}
+execute if score @s botc_buffet_action matches 1127 run data modify storage botc_patch:buffet action.role set value 127
+execute if score @s botc_buffet_action matches 1127 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1127 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1128 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1128 run function botc_patch:buffet/greedy/toggle {role:128,page:4}
+execute if score @s botc_buffet_action matches 1128 run data modify storage botc_patch:buffet action.role set value 128
+execute if score @s botc_buffet_action matches 1128 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1128 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1129 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1129 run function botc_patch:buffet/greedy/toggle {role:129,page:4}
+execute if score @s botc_buffet_action matches 1129 run data modify storage botc_patch:buffet action.role set value 129
+execute if score @s botc_buffet_action matches 1129 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1129 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1130 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1130 run function botc_patch:buffet/greedy/toggle {role:130,page:4}
+execute if score @s botc_buffet_action matches 1130 run data modify storage botc_patch:buffet action.role set value 130
+execute if score @s botc_buffet_action matches 1130 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1130 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1131 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1131 run function botc_patch:buffet/greedy/toggle {role:131,page:4}
+execute if score @s botc_buffet_action matches 1131 run data modify storage botc_patch:buffet action.role set value 131
+execute if score @s botc_buffet_action matches 1131 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1131 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1132 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1132 run function botc_patch:buffet/greedy/toggle {role:132,page:4}
+execute if score @s botc_buffet_action matches 1132 run data modify storage botc_patch:buffet action.role set value 132
+execute if score @s botc_buffet_action matches 1132 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1132 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1133 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1133 run function botc_patch:buffet/greedy/toggle {role:133,page:4}
+execute if score @s botc_buffet_action matches 1133 run data modify storage botc_patch:buffet action.role set value 133
+execute if score @s botc_buffet_action matches 1133 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1133 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1134 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1134 run function botc_patch:buffet/greedy/toggle {role:134,page:4}
+execute if score @s botc_buffet_action matches 1134 run data modify storage botc_patch:buffet action.role set value 134
+execute if score @s botc_buffet_action matches 1134 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1134 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1135 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1135 run function botc_patch:buffet/greedy/toggle {role:135,page:4}
+execute if score @s botc_buffet_action matches 1135 run data modify storage botc_patch:buffet action.role set value 135
+execute if score @s botc_buffet_action matches 1135 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1135 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1136 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1136 run function botc_patch:buffet/greedy/toggle {role:136,page:4}
+execute if score @s botc_buffet_action matches 1136 run data modify storage botc_patch:buffet action.role set value 136
+execute if score @s botc_buffet_action matches 1136 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1136 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1137 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1137 run function botc_patch:buffet/greedy/toggle {role:137,page:4}
+execute if score @s botc_buffet_action matches 1137 run data modify storage botc_patch:buffet action.role set value 137
+execute if score @s botc_buffet_action matches 1137 run data modify storage botc_patch:buffet action.page set value 4
+execute if score @s botc_buffet_action matches 1137 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action
 execute if score @s botc_buffet_action matches 1325 store result storage botc_patch:buffet action.seat int 1 run scoreboard players get @s id
-execute if score @s botc_buffet_action matches 1325 run function botc_patch:buffet/greedy/toggle {role:325,page:3}
+execute if score @s botc_buffet_action matches 1325 run data modify storage botc_patch:buffet action.role set value 325
+execute if score @s botc_buffet_action matches 1325 run data modify storage botc_patch:buffet action.page set value 3
+execute if score @s botc_buffet_action matches 1325 run function botc_patch:buffet/greedy/toggle with storage botc_patch:buffet action

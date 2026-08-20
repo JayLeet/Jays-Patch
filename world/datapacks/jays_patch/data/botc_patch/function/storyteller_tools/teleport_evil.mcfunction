@@ -4,7 +4,7 @@
 tag @s add botc_st_tool_used
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 4 run return run tellraw @s {text:"You can only teleport the evil team at night.",color:"red"}
+execute unless score phase game_data matches 4 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"You can only teleport the evil team at night.",color:"gray",bold:false}]
 function botc_patch:grim/editor/refresh_live_roles
 function botc_patch:grim/editor/player_labels/prepare
 data remove storage botc_patch:dialogs teleport_evil

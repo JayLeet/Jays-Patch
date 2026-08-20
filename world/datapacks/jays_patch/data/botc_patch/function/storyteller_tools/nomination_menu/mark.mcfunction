@@ -2,8 +2,8 @@
 # Do not hand-edit this file; update the generator and regenerate.
 # Toggles the completed nominee's execution mark in place so it can be changed again without rerunning the vote.
 tag @s add botc_st_tool_used
-execute unless entity @s[tag=botc_st_nom_vote_finished] run return run tellraw @s [{text:"Finish the nomination vote before marking a player.",color:"red"}]
-execute unless entity @a[tag=botc_st_nom_selected,tag=last_nom,limit=1] run return run tellraw @s [{text:"That nominee is no longer available.",color:"red"}]
+execute unless entity @s[tag=botc_st_nom_vote_finished] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Finish the nomination vote before marking a player.",color:"gray",bold:false}]
+execute unless entity @a[tag=botc_st_nom_selected,tag=last_nom,limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That nominee is no longer available.",color:"gray",bold:false}]
 tag @s remove botc_st_nom_clear_mark
 execute if entity @a[tag=botc_st_nom_selected,tag=last_nom,tag=marked_for_execution,limit=1] run tag @s add botc_st_nom_clear_mark
 execute if entity @s[tag=botc_st_nom_clear_mark] run function ct:kill/execute/remove_mark

@@ -10,6 +10,10 @@ data modify storage botc_patch:buffet ui.r1o2 set value "-"
 data modify storage botc_patch:buffet ui.r2o1 set value "-"
 data modify storage botc_patch:buffet ui.chosen set value "-"
 data modify storage botc_patch:buffet ui.shown set value "-"
+data modify storage botc_patch:buffet ui.chosen_glyph set value ""
+data modify storage botc_patch:buffet ui.shown_glyph set value ""
+data modify storage botc_patch:buffet ui.chosen_color set value "gray"
+data modify storage botc_patch:buffet ui.shown_color set value "gray"
 execute if data storage botc_patch:buffet draft.seats.s10.history.r0.o1.name run data modify storage botc_patch:buffet ui.r0o1 set from storage botc_patch:buffet draft.seats.s10.history.r0.o1.name
 execute if data storage botc_patch:buffet draft.seats.s10.history.r0.o2.name run data modify storage botc_patch:buffet ui.r0o2 set from storage botc_patch:buffet draft.seats.s10.history.r0.o2.name
 execute if data storage botc_patch:buffet draft.seats.s10.history.r0.o3.name run data modify storage botc_patch:buffet ui.r0o3 set from storage botc_patch:buffet draft.seats.s10.history.r0.o3.name
@@ -20,4 +24,5 @@ execute store result storage botc_patch:buffet action.role int 1 run data get st
 function botc_patch:buffet/draft/review/prepare_selected_role with storage botc_patch:buffet action
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet draft.seats.s10.perceived
 function botc_patch:buffet/draft/review/prepare_selected_perceived with storage botc_patch:buffet action
+execute if score draft_ready botc_patch matches 1 run return run function botc_patch:buffet/draft/review/show_selected_editable with storage botc_patch:buffet ui
 function botc_patch:buffet/draft/review/show_selected with storage botc_patch:buffet ui

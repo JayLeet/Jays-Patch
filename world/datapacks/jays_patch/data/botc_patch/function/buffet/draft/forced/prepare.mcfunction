@@ -2,10 +2,11 @@
 # Do not hand-edit this file; update the generator or Jays-Patch/buffet-rules.json.
 # Assign one pending required role to one future online Draft player.
 tag @a remove botc_buffet_draft_forced
+tag @a remove botc_buffet_draft_forced_legion
 scoreboard players set draft_forced_role botc_patch 0
-execute if score draft_required_king botc_patch matches 1 run scoreboard players set draft_forced_role botc_patch 66
+execute if score draft_required_legion botc_patch matches 1.. run scoreboard players set draft_forced_role botc_patch 130
+execute if score draft_forced_role botc_patch matches 0 if score draft_required_king botc_patch matches 1 run scoreboard players set draft_forced_role botc_patch 66
 execute if score draft_forced_role botc_patch matches 0 if score draft_required_damsel botc_patch matches 1 run scoreboard players set draft_forced_role botc_patch 87
-execute if score draft_forced_role botc_patch matches 0 if score draft_required_legion botc_patch matches 1.. run scoreboard players set draft_forced_role botc_patch 130
-execute if score draft_forced_role botc_patch matches 0 if score draft_required_riot botc_patch matches 1.. run scoreboard players set draft_forced_role botc_patch 136
 execute if score draft_forced_role botc_patch matches 0 if score draft_required_vi botc_patch matches 1.. run scoreboard players set draft_forced_role botc_patch 78
 execute if score draft_forced_role botc_patch matches 1.. as @r[tag=botc_buffet_draft_waiting] run tag @s add botc_buffet_draft_forced
+execute if score draft_forced_role botc_patch matches 130 as @a[tag=botc_buffet_draft_forced] run tag @s add botc_buffet_draft_forced_legion

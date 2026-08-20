@@ -1,0 +1,58 @@
+{
+  "type": "minecraft:command",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:carrot_on_a_stick",
+          "functions": [
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "text": "",
+                "bold": true,
+                "italic": false,
+                "extra": [
+                  {"text": "R", "color": "red"},
+                  {"text": "a", "color": "gold"},
+                  {"text": "i", "color": "yellow"},
+                  {"text": "n", "color": "green"},
+                  {"text": "b", "color": "aqua"},
+                  {"text": "o", "color": "blue"},
+                  {"text": "w", "color": "light_purple"},
+                  {"text": " "},
+                  {"text": "P", "color": "red"},
+                  {"text": "a", "color": "gold"},
+                  {"text": "i", "color": "yellow"},
+                  {"text": "n", "color": "green"},
+                  {"text": "t", "color": "aqua"},
+                  {"text": " "},
+                  {"text": "G", "color": "blue"},
+                  {"text": "u", "color": "light_purple"},
+                  {"text": "n", "color": "red"}
+                ]
+              }
+            },
+            {
+              "function": "minecraft:set_lore",
+              "mode": "replace_all",
+              "lore": [
+                {"text": "Right-click to fire a random bright colour.", "color": "yellow", "italic": false},
+                {"text": "Paints up to 5 full blocks for 20 seconds.", "color": "gray", "italic": false}
+              ]
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:custom_model_data": {"strings": ["botc_fun_rainbow_paint_gun"]},
+                "minecraft:enchantment_glint_override": false
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

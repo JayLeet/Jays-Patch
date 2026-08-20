@@ -3,21 +3,15 @@
 # Reject official in-play-exclusion jinx pairs during final Draft validation.
 function botc_patch:buffet/draft/jinx/rebuild_presence
 scoreboard players set draft_jinx_exclusion_count botc_patch 0
-execute if score draft_present_20 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_20 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_20 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_20 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Baron","color":"yellow","bold":true},{"text":" and ","color":"gray","bold":false},{"text":"Heretic","color":"yellow","bold":true},{"text":" cannot both be in play.","color":"gray","bold":false}]
-execute if score draft_present_102 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_102 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_102 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_102 botc_patch matches 1 if score draft_present_91 botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Godfather","color":"yellow","bold":true},{"text":" and ","color":"gray","bold":false},{"text":"Heretic","color":"yellow","bold":true},{"text":" cannot both be in play.","color":"gray","bold":false}]
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_133 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_91 botc_patch matches 1 if score draft_present_133 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_91 botc_patch matches 1 if score draft_present_133 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_133 botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Heretic","color":"yellow","bold":true},{"text":" and ","color":"gray","bold":false},{"text":"Lleech","color":"yellow","bold":true},{"text":" cannot both be in play.","color":"gray","bold":false}]
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_101 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_91 botc_patch matches 1 if score draft_present_101 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_91 botc_patch matches 1 if score draft_present_101 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_101 botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Heretic","color":"yellow","bold":true},{"text":" and ","color":"gray","bold":false},{"text":"Pit-Hag","color":"yellow","bold":true},{"text":" cannot both be in play.","color":"gray","bold":false}]
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_19 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_91 botc_patch matches 1 if score draft_present_19 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_91 botc_patch matches 1 if score draft_present_19 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_19 botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Heretic","color":"yellow","bold":true},{"text":" and ","color":"gray","bold":false},{"text":"Spy","color":"yellow","bold":true},{"text":" cannot both be in play.","color":"gray","bold":false}]
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_117 botc_patch matches 1 run scoreboard players set buffet_hard_valid botc_patch 0
+execute if score draft_present_91 botc_patch matches 1 if score draft_present_117 botc_patch matches 1 run scoreboard players set buffet_soft_warning botc_patch 1
 execute if score draft_present_91 botc_patch matches 1 if score draft_present_117 botc_patch matches 1 run scoreboard players add draft_jinx_exclusion_count botc_patch 1
-execute if score draft_present_91 botc_patch matches 1 if score draft_present_117 botc_patch matches 1 run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Heretic","color":"yellow","bold":true},{"text":" and ","color":"gray","bold":false},{"text":"Widow","color":"yellow","bold":true},{"text":" cannot both be in play.","color":"gray","bold":false}]

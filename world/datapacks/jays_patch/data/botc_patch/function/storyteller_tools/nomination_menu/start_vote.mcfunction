@@ -2,10 +2,10 @@
 # Do not hand-edit this file; update the generator and regenerate.
 # Starts or safely restarts Sybillian's vote and waits for last_nom before exposing Mark.
 tag @s add botc_st_tool_used
-execute unless entity @a[tag=botc_st_nom_selected,limit=1] run return run tellraw @s [{text:"The selected player is no longer available.",color:"red"}]
+execute unless entity @a[tag=botc_st_nom_selected,limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"The selected player is no longer available.",color:"gray",bold:false}]
 execute if entity @s[tag=botc_st_nom_vote_started] run function botc_patch:storyteller_tools/nomination_menu/cancel_vote
 execute if entity @s[tag=botc_st_nom_vote_started] as @a[tag=botc_st_nom_selected,limit=1] run function ct:admin/nomination
-execute unless entity @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run return run tellraw @s [{text:"That player couldn't be nominated.",color:"red"}]
+execute unless entity @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"That player couldn't be nominated.",color:"gray",bold:false}]
 execute as @a[tag=botc_st_nom_selected,tag=nominee,limit=1] run function botc_patch:seat_layout/sync_nominee_name
 tag @s add botc_st_nom_vote_started
 tag @s remove botc_st_nom_vote_finished
