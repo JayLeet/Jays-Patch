@@ -2,6 +2,11 @@
 local-settings.properties
 launcher/local-settings.properties
 
+# Local Codex instructions and private engineering documentation
+/.codex/
+/AGENTS.md
+/docs/
+
 # Private runtime files
 .botc-startup-history.json
 launcher/.botc-startup-history.json

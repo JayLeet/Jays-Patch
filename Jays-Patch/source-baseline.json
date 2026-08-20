@@ -15438,6 +15438,11 @@
                       "sha256":  "34e19728d7e93043ab9c400c94e0b76e1daa1b09160cbee5af6a23197111c31d"
                   },
                   {
+                      "path":  "tools/tests/test-public-repository-hygiene.ps1",
+                      "bytes":  1008,
+                      "sha256":  "3d87a445e77eff252ea7bd89d7d28cdb7038aaca23c1d054e31706299051a789"
+                  },
+                  {
                       "path":  "tools/tests/test-resourcepack-mappings.ps1",
                       "bytes":  14141,
                       "sha256":  "99cdb2042ff503017e12b9b7b8a2bebc9446fc5abb7fff7a9e5ecab9d39c268b"
@@ -15454,8 +15459,8 @@
                   },
                   {
                       "path":  "tools/tests/test-source-safety.ps1",
-                      "bytes":  22698,
-                      "sha256":  "fcd75ea231f0e83a09730af2111fe52f8516c3989547957748808d078c967c4d"
+                      "bytes":  23094,
+                      "sha256":  "b87fe5f839b571045da5f1b12df78dfdcd5bb364cf8a3d72c11f01759c7e1805"
                   },
                   {
                       "path":  "tools/tests/test-spy-widow-grimoire.ps1",
