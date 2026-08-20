@@ -9494,8 +9494,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/startup/yawp_dev_mode_entry.mcfunction",
-                      "bytes":  120,
-                      "sha256":  "ade32f7554e7d9f55e70e2214200a086c2988beb8f0d7b50d08b81c1dfa798fd"
+                      "bytes":  206,
+                      "sha256":  "c24c4187c5c6f9c14efa989e58fc8fc9248ac005ba574fbf06a05cf80c72bf34"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/startup/yawp_flags.mcfunction",
@@ -9504,8 +9504,8 @@
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/startup/yawp_init.mcfunction",
-                      "bytes":  736,
-                      "sha256":  "e6cdde8a20825a12efb98ff4e30b92220dbe1f835c8a30a07c848f0ff592522c"
+                      "bytes":  883,
+                      "sha256":  "1c336a554217cbf9364126fa56d3dcea2175bac071a64a30edfab175cc205e46"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/startup/yawp_prepare.mcfunction",
@@ -9531,6 +9531,16 @@
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/startup/yawp_reset_entry.mcfunction",
                       "bytes":  117,
                       "sha256":  "11038fe1b29094112fbf4662dd4ac4b2b139b94163a7ccfb0b35a8177a48eb6d"
+                  },
+                  {
+                      "path":  "Jays-Patch/datapack/data/botc_patch/function/startup/yawp_safety_dev_mode.mcfunction",
+                      "bytes":  386,
+                      "sha256":  "45088f65c9157287c98adb316f283c0dd326ed02c8f625a5b1c24f12545e76c7"
+                  },
+                  {
+                      "path":  "Jays-Patch/datapack/data/botc_patch/function/startup/yawp_safety_flags.mcfunction",
+                      "bytes":  563,
+                      "sha256":  "40cfad9ecd1eac0cc0fc8584c74f095d17fb2e02902710b4bbde45258370b7ac"
                   },
                   {
                       "path":  "Jays-Patch/datapack/data/botc_patch/function/storyteller_tools/advance_phase.mcfunction",
@@ -15014,8 +15024,8 @@
                   },
                   {
                       "path":  "Jays-Patch/server-config/yawp-common.toml",
-                      "bytes":  1358,
-                      "sha256":  "0c52bb6a5369872b3b11072788005c74ce216ae408e6d0ea7a8f2bc745fbe1b2"
+                      "bytes":  1456,
+                      "sha256":  "e60f07f8521bd644fba098f6c00ace5180b6778aeb1f2de2a0bbbfa66a80781f"
                   },
                   {
                       "path":  "Jays-Patch/tool-items.json",
@@ -15519,8 +15529,8 @@
                   },
                   {
                       "path":  "tools/tests/test-yawp-startup-compatibility.ps1",
-                      "bytes":  6825,
-                      "sha256":  "9eeb352cdec08474d883b2074f396cee793c030958d03fbd885755567683fd1b"
+                      "bytes":  10405,
+                      "sha256":  "029e346e3276c3304804603b1611e9136b686f26d404e821aef3342506f41989"
                   },
                   {
                       "path":  "tools/update-buffet-jinx-catalog.ps1",
