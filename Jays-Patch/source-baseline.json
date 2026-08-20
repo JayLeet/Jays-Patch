@@ -1,6 +1,6 @@
 {
     "schema":  1,
-    "version":  "1.9.0-beta.4",
+    "version":  "1.9.0",
     "files":  [
                   {
                       "path":  ".gitattributes",
@@ -12874,8 +12874,8 @@
                   },
                   {
                       "path":  "Jays-Patch/public-package/README.md",
-                      "bytes":  8765,
-                      "sha256":  "efa253e5d2df9d3963e75dc13f80b4d52391d81068c9237dc517c926020b5933"
+                      "bytes":  8723,
+                      "sha256":  "bfb2141c79f66d8b7cfe2994a5876cfdfe7e95c9589f09d527a6f721b49e12e3"
                   },
                   {
                       "path":  "Jays-Patch/resourcepack/assets/botc_patch/font/role_icons.json",
@@ -15039,13 +15039,13 @@
                   },
                   {
                       "path":  "Jays-Patch/version.txt",
-                      "bytes":  13,
-                      "sha256":  "18f8b37f3174faa008eee14c86082568714d1b5f17d094ae7582fd8da8c5f09f"
+                      "bytes":  6,
+                      "sha256":  "30f4611383aa30a15753789f40effde81332f2f8714e6d3b2940bf0fc4592377"
                   },
                   {
                       "path":  "Jays-Patch/world-template-manifest.json",
-                      "bytes":  17550,
-                      "sha256":  "978ebca4352b8dfc16da7ca61f7835941641610894c3bc9094152f5a476ef09d"
+                      "bytes":  17543,
+                      "sha256":  "de7c529266686fa93bc61b7c86d920838bcca7b3634a8d76ced4363be0f7a35a"
                   },
                   {
                       "path":  "Jays-Patch/yawp-compatibility.json",

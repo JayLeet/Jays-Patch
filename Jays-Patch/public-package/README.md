@@ -9,7 +9,7 @@ proper circle, and Night Chat lets people speak privately during the night.
 I made it for **Sybillian's modpack 1.5.4** on
 **Minecraft Java Edition 1.21.10**. It is not a standalone server pack.
 
-**[Download Jay's Patch v1.9.0-beta.4](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.4/Jay.s.Patch.v1.9.0-beta.4.zip)**
+**[Download Jay's Patch v1.9.0](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0/Jay.s.Patch.v1.9.0.zip)**
 
 ## What does it add?
 
@@ -112,7 +112,7 @@ Organ Grinder is disabled because Sybillian 1.5.4 does not support it.
 1. Install Sybillian's Blood on the Clocktower **1.5.4** on your server.
 2. Start the server once, then stop it completely.
 3. Back up your current `world` and `config` folders.
-4. [Download Jay's Patch v1.9.0-beta.4](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0-beta.4/Jay.s.Patch.v1.9.0-beta.4.zip) and extract it.
+4. [Download Jay's Patch v1.9.0](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0/Jay.s.Patch.v1.9.0.zip) and extract it.
 5. Replace your server's `world` folder with the included `world` folder.
 6. Copy the included `config` folder into your server folder. Merge it with the
    existing `config` folder and replace files when asked.

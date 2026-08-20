@@ -1,6 +1,6 @@
 # Buffet Gamemodes Design Journal
 
-Last updated: 2026-08-02
+Last updated: 2026-08-20
 
 ## Purpose
 
@@ -22,10 +22,9 @@ When sources disagree:
 ## Status
 
 - The design below is approved unless a section says **Open**.
-- Source implementation is in progress.
-- Nothing in this journal proves either mode is ready for deployment.
-- Neither mode should enter a public package until static checks and live QA
-  pass.
+- Source implementation, static checks, expanded live QA, and deployment are
+  complete.
+- Both modes are included in Jay's Patch 1.9.0.
 
 ## Shared Entry Point
 
@@ -861,8 +860,7 @@ ordinary Normal games, at least ten games for each guaranteed-real special,
 two Atheist games for every Outsider target `0..14`, and 2,000 natural Normal
 route rolls passed their live auditor and separate offline replay. Unsupported
 or newly changed upstream jinxes still fail closed rather than guessing their
-setup behavior. Both modes remain beta while packaging and public presentation
-work continue.
+setup behavior. Both modes passed the reviewed packaging and release gates.
 
 # Change Log
 
