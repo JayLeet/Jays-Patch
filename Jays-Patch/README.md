@@ -359,8 +359,7 @@ Current owned behavior:
   consume `buffet-rules.json` and the versioned official jinx snapshot instead
   of duplicating character data. Expanded live Draft QA covers thirty ordinary
   games, at least ten of each real special result, every Atheist Outsider target
-  twice, and 2,000 natural route rolls. Public Djinn-sheet presentation remains
-  a beta limitation.
+  twice, and 2,000 natural route rolls.
 - A versioned one-time configuration migration that establishes the documented
   fresh-install toggle state without overwriting later user choices on reload.
 - In-place reset and online player-state cleanup. A supported 5-15 player game
