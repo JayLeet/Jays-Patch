@@ -1,7 +1,7 @@
 # Publish Jay's Patch v1.9.0 Stable
 
 - Status: `verifying`
-- Updated: `2026-08-21 00:10 CEST`
+- Updated: `2026-08-21 00:14 CEST`
 - Owner: Sol
 - Workflow decision: `use Sol/Luna workflow`
 - Workflow reason: `This task changes the default-branch model, stable version identity, generated public package, Git tag, GitHub release, and branch retention. A durable release and rollback record is worth the journal cost.`
@@ -75,6 +75,8 @@
 - `The complete source-baseline promotion gate passed and refreshed the known-good 1.9.0 baseline for 3,110 owned files.`
 - `The reviewed builder produced the stable 73,285,230-byte package with SHA-256 afed592ce8c99777c0ac670d9e4871c59a9bacb08e27fa250f4a7c8122334747, 2,646 ZIP entries, and a 2,645-file version 1.9.0 manifest.`
 - `The staging tree contains no 1.9.0 beta version or Djinn-sheet beta-limitation wording.`
+- `Stable source commit c1f96e8 was created from the reviewed nine-file release scope.`
+- `A history-preserving ours-strategy merge joined origin/main 07ff1439 as the second parent while retaining the exact stable source tree.`
 
 ## Active Luna assignments
 
@@ -95,6 +97,8 @@
 | `tools/update-source-baseline.ps1` | `pass` | `Every source suite passed and the stable baseline was promoted for 3,110 owned files.` |
 | `tools/build-public-package.ps1` | `pass` | `The complete publication gate passed and built Jay's Patch v1.9.0.zip with the exact hosted resource-pack SHA-1.` |
 | `stable archive inspection` | `pass` | `73,285,230 bytes; SHA-256 afed592ce8c99777c0ac670d9e4871c59a9bacb08e27fa250f4a7c8122334747; 2,646 ZIP entries; manifest version 1.9.0 with 2,645 files; zero forbidden current beta/Djinn references.` |
+| `stable source commit scope` | `pass` | `c1f96e8 contains only the nine reviewed release-owned source and documentation files.` |
+| `history join` | `pass` | `The merge has parents c1f96e8 and origin/main 07ff1439; its tree exactly matches the stable source tree before the merge.` |
 
 ## Current blocker
 
@@ -102,7 +106,7 @@
 
 ## Exact next step
 
-`Stage and commit only the stable-release source changes, then join origin/main as a second parent while retaining this source tree.`
+`Commit this journal milestone, push the promotion branch, create one ready PR to main, and verify its exact tree and mergeability.`
 
 ## Final outcome
 
