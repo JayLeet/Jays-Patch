@@ -1,0 +1,8 @@
+{
+  "seatCount": 15,
+  "ticksPerSeat": 3,
+  "ticksPerSeatPattern": [5, 4],
+  "tailLength": 2,
+  "lightTrailLength": 8,
+  "lightLevels": [14, 12, 10, 8, 6, 4, 2, 1]
+}
