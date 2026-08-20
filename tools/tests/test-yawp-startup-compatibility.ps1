@@ -6,6 +6,7 @@ $PatchRoot = Join-Path $RepoRoot "Jays-Patch"
 $ContractPath = Join-Path $PatchRoot "yawp-compatibility.json"
 $PatchCtRoot = Join-Path $PatchRoot "datapack/data/ct/function"
 $StartupRoot = Join-Path $PatchRoot "datapack/data/botc_patch/function/startup"
+$ServerConfigPath = Join-Path $PatchRoot "server-config/yawp-common.toml"
 $UpstreamRoot = Join-Path $RepoRoot "data/resources/datapack/required/ct/data/ct/function"
 
 function Assert-PathExists {
@@ -32,6 +33,7 @@ function Assert-TextContains {
 }
 
 Assert-PathExists $ContractPath "YAWP compatibility contract"
+Assert-PathExists $ServerConfigPath "YAWP server permission config"
 $contract = Get-Content -LiteralPath $ContractPath -Raw | ConvertFrom-Json
 
 if ($contract.schema -ne 1 -or $contract.status -cne "active") {
@@ -40,6 +42,12 @@ if ($contract.schema -ne 1 -or $contract.status -cne "active") {
 if ($contract.modpackVersion -cne "1.5.4" -or $contract.minecraftVersion -cne "1.21.10") {
     throw "YAWP compatibility shims are pinned to Sybillian 1.5.4 on Minecraft 1.21.10."
 }
+
+$serverConfig = Get-Content -LiteralPath $ServerConfigPath -Raw
+Assert-TextContains $serverConfig '(?m)^\s*command_op_level\s*=\s*4\s*$' "YAWP level-4 command permission"
+Assert-TextContains $serverConfig '(?m)^\s*disable_cmd_for_non_op\s*=\s*true\s*$' "YAWP non-OP command denial"
+Assert-TextContains $serverConfig '(?m)^\s*op_bypass_flags\s*=\s*true\s*$' "YAWP OP flag bypass"
+Assert-TextContains $serverConfig '(?m)^\s*players_with_permission\s*=\s*\[\s*\]\s*$' "empty public YAWP permission UUID list"
 
 $macroValues = @{
     deny        = "Denied"
@@ -134,9 +142,70 @@ foreach ($entryName in @("yawp_reset", "yawp_regions", "yawp_dev_mode")) {
     Assert-TextContains $entryText "(?m)^function botc_patch:startup/$entryName with storage botc_patch:startup yawp$" "$entryName deferred dispatch"
 }
 
+$safetyFlagsPath = Join-Path $StartupRoot "yawp_safety_flags.mcfunction"
+$safetyDevModePath = Join-Path $StartupRoot "yawp_safety_dev_mode.mcfunction"
+Assert-PathExists $safetyFlagsPath "Jay-owned YAWP safety flags"
+Assert-PathExists $safetyDevModePath "Jay-owned YAWP safety dev-mode cleanup"
+
+$safetyFlagCommands = @(
+    Get-Content -LiteralPath $safetyFlagsPath |
+        ForEach-Object { $_.Trim() } |
+        Where-Object { $_.StartsWith('$') }
+)
+$expectedSafetyFlagCommands = @(
+    '$yawp global add flag place-blocks $(deny)',
+    '$yawp global add flag place-fluids $(deny)',
+    '$yawp global add flag scoop-fluids $(deny)',
+    '$yawp global add flag strip-wood $(deny)',
+    '$yawp global add flag shovel-path $(deny)',
+    '$yawp global add flag use-bonemeal $(deny)',
+    '$yawp global add flag no-sign-edit $(deny)'
+)
+if ($safetyFlagCommands.Count -ne $expectedSafetyFlagCommands.Count) {
+    throw "Jay-owned YAWP safety flag command count changed."
+}
+for ($index = 0; $index -lt $expectedSafetyFlagCommands.Count; $index++) {
+    if ($safetyFlagCommands[$index] -cne $expectedSafetyFlagCommands[$index]) {
+        throw "Jay-owned YAWP safety flag command differs at command $($index + 1)."
+    }
+}
+
+foreach ($nonBypassableFlag in @('tools-secondary', 'till-farmland', 'ignite-explosives')) {
+    if ($safetyFlagCommands -contains "`$yawp global add flag $nonBypassableFlag `$(deny)") {
+        throw "YAWP 0.6.2 does not let trusted members/owners of the effective region bypass '$nonBypassableFlag'."
+    }
+}
+
+$safetyDevModeCommands = @(
+    Get-Content -LiteralPath $safetyDevModePath |
+        ForEach-Object { $_.Trim() } |
+        Where-Object { $_.StartsWith('$') }
+)
+$expectedSafetyDevModeCommands = @(
+    '$yawp $(global) $(remove) flag place-blocks',
+    '$yawp $(global) $(remove) flag place-fluids',
+    '$yawp $(global) $(remove) flag scoop-fluids',
+    '$yawp $(global) $(remove) flag strip-wood',
+    '$yawp $(global) $(remove) flag shovel-path',
+    '$yawp $(global) $(remove) flag use-bonemeal',
+    '$yawp $(global) $(remove) flag no-sign-edit'
+)
+if ($safetyDevModeCommands.Count -ne $expectedSafetyDevModeCommands.Count) {
+    throw "Jay-owned YAWP safety dev-mode command count changed."
+}
+for ($index = 0; $index -lt $expectedSafetyDevModeCommands.Count; $index++) {
+    if ($safetyDevModeCommands[$index] -cne $expectedSafetyDevModeCommands[$index]) {
+        throw "Jay-owned YAWP safety dev-mode command differs at command $($index + 1)."
+    }
+}
+
+$devModeEntryText = Get-Content -LiteralPath (Join-Path $StartupRoot "yawp_dev_mode_entry.mcfunction") -Raw
+Assert-TextContains $devModeEntryText '(?m)^function botc_patch:startup/yawp_safety_dev_mode with storage botc_patch:startup yawp$' "Jay-owned YAWP safety dev-mode dispatch"
+
 $initText = Get-Content -LiteralPath (Join-Path $StartupRoot "yawp_init.mcfunction") -Raw
 Assert-TextContains $initText 'run function botc_patch:startup/yawp_prepare' "central YAWP macro preparation"
 Assert-TextContains $initText 'run function botc_patch:startup/yawp_flags with storage botc_patch:startup yawp' "YAWP flag dispatch"
+Assert-TextContains $initText 'run function botc_patch:startup/yawp_safety_flags with storage botc_patch:startup yawp' "Jay-owned YAWP safety flag dispatch"
 Assert-TextContains $initText 'run function botc_patch:startup/yawp_reset with storage botc_patch:startup yawp' "YAWP reset dispatch"
 Assert-TextContains $initText 'run function botc_patch:startup/yawp_regions with storage botc_patch:startup yawp' "YAWP region dispatch"
 
