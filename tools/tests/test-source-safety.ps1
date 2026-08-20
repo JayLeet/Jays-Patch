@@ -111,6 +111,7 @@ $publicPackageResourcepackTest = Join-Path $PSScriptRoot "test-public-package-re
 $toolItemRegistryTest = Join-Path $PSScriptRoot "test-tool-item-registry.ps1"
 $worldTemplateManifestTest = Join-Path $PSScriptRoot "test-world-template-manifest.ps1"
 $publicConfigHygieneTest = Join-Path $PSScriptRoot "test-public-config-hygiene.ps1"
+$publicRepositoryHygieneTest = Join-Path $PSScriptRoot "test-public-repository-hygiene.ps1"
 $toolItemGenerator = Join-Path $RepoRoot "tools/generate-tool-items.ps1"
 $codeLibraryGenerator = Join-Path $RepoRoot "tools/update-code-library.ps1"
 $sourceBaseline = Join-Path $RepoRoot "tools/update-source-baseline.ps1"
@@ -123,6 +124,7 @@ $commandsRoot = Join-Path $RepoRoot "Jays-Patch/melius-commands/commands"
 $resourceItemsRoot = Join-Path $RepoRoot "Jays-Patch/resourcepack/assets/minecraft/items"
 $roleIconsFile = Join-Path $RepoRoot "Jays-Patch/role-icons.json"
 $generatedRoot = Join-Path $RepoRoot "docs/code-library/generated"
+$hasPrivateDocs = Test-Path -LiteralPath (Join-Path $RepoRoot "docs") -PathType Container
 $datapackFunctionRoot = Join-Path $RepoRoot "Jays-Patch/datapack/data/botc_patch/function"
 $tickFunction = Join-Path $datapackFunctionRoot "tick.mcfunction"
 $loadFunction = Join-Path $datapackFunctionRoot "load.mcfunction"
@@ -170,12 +172,15 @@ Assert-FileExists $publicPackageResourcepackTest "public package resource-pack s
 Assert-FileExists $toolItemRegistryTest "tool item registry test"
 Assert-FileExists $worldTemplateManifestTest "world-template release manifest test"
 Assert-FileExists $publicConfigHygieneTest "public configuration hygiene test"
+Assert-FileExists $publicRepositoryHygieneTest "public repository hygiene test"
 Assert-FileExists $toolItemGenerator "tool item generator"
 Assert-FileExists $codeLibraryGenerator "generated code-library updater"
 Assert-FileExists $sourceBaseline "known-good source baseline tool"
 Assert-FileExists $ownershipTest "source ownership test"
-Assert-FileExists $todoFile "Jay's Patch TODO"
-Assert-FileExists $featureMap "code-library feature map"
+if ($hasPrivateDocs) {
+    Assert-FileExists $todoFile "Jay's Patch TODO"
+    Assert-FileExists $featureMap "code-library feature map"
+}
 Assert-FileExists $launcherSource "standalone launcher source"
 Assert-FileExists $composeFile "Docker compose file"
 Assert-FileExists $roleIconsFile "role icon source table"
@@ -265,9 +270,12 @@ if ($env:BOTC_SKIP_PUBLIC_PACKAGE -ne "1") {
 }
 & $toolItemRegistryTest
 & $toolItemGenerator -Check
-& $codeLibraryGenerator -Check
+if ($hasPrivateDocs) {
+    & $codeLibraryGenerator -Check
+}
 & $worldTemplateManifestTest
 & $publicConfigHygieneTest
+& $publicRepositoryHygieneTest
 if ($env:BOTC_SKIP_SOURCE_BASELINE -ne "1") {
     & $sourceBaseline -Check
 }
@@ -440,9 +448,11 @@ $requiredGeneratedFiles = @(
     "resourcepack-index.md"
 )
 
-foreach ($fileName in $requiredGeneratedFiles) {
-    $path = Join-Path $generatedRoot $fileName
-    Assert-FileExists $path "generated code-library index"
+if ($hasPrivateDocs) {
+    foreach ($fileName in $requiredGeneratedFiles) {
+        $path = Join-Path $generatedRoot $fileName
+        Assert-FileExists $path "generated code-library index"
+    }
 }
 
 Write-Host "Source-only safety checks passed." -ForegroundColor Green
