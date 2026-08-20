@@ -3,6 +3,6 @@
 # Lets the Storyteller correct the final three before confirmation.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"No Boomdandy final-three selection is active.",color:"red"}]
+execute unless score boomdandy_stage botc_patch matches 1 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Boomdandy Final Three selection is active.",color:"gray",bold:false}]
 function botc_patch:storyteller_tools/boomdandy/reset_selection
 function botc_patch:storyteller_tools/boomdandy/dialog

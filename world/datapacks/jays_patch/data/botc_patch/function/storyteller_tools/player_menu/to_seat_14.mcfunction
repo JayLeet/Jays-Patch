@@ -6,4 +6,4 @@ dialog clear @s
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=14},limit=1] run tellraw @s {"text":"Teleporting...","color":"gray"}
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=14},limit=1] run tp @s @a[tag=!storyteller,tag=!spectator,scores={id=14},limit=1]
 execute if entity @a[tag=!storyteller,tag=!spectator,scores={id=14},limit=1] run function botc_patch:storyteller_tools/teleport_sound
-execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=14},limit=1] run tellraw @s {"text":"That player is no longer available.","color":"red"}
+execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=14},limit=1] run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That player is no longer available.","color":"gray","bold":false}]

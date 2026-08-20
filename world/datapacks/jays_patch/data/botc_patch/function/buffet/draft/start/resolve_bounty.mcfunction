@@ -19,7 +19,7 @@ execute if data storage botc_patch:buffet draft.seats.s13{status:2,category:1} u
 execute if data storage botc_patch:buffet draft.seats.s14{status:2,category:1} unless data storage botc_patch:buffet draft.seats.s14{actual:56} run scoreboard players add draft_bounty_pool botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s15{status:2,category:1} unless data storage botc_patch:buffet draft.seats.s15{actual:56} run scoreboard players add draft_bounty_pool botc_patch 1
 execute unless score draft_bounty_pool botc_patch matches 1.. run return 0
-execute store result score draft_bounty_pick botc_patch run random value 0..2147483647
+execute store result score draft_bounty_pick botc_patch run random value 0..2147483646
 scoreboard players operation draft_bounty_pick botc_patch %= draft_bounty_pool botc_patch
 scoreboard players add draft_bounty_pick botc_patch 1
 scoreboard players set draft_bounty_cursor botc_patch 0

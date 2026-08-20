@@ -3,6 +3,10 @@
 # Build the normalized Draft script plus exact per-seat actual role list.
 data modify storage botc_patch:setup import_payload set value [{id:"_meta",name:"Draft Buffet",author:"Jay's Patch"}]
 data modify storage ct:roles roles set value []
+scoreboard players set draft_script_count_town botc_patch 0
+scoreboard players set draft_script_count_outsider botc_patch 0
+scoreboard players set draft_script_count_minion botc_patch 0
+scoreboard players set draft_script_count_demon botc_patch 0
 scoreboard players set buffet_role_seen_1 botc_patch 0
 scoreboard players set buffet_role_seen_2 botc_patch 0
 scoreboard players set buffet_role_seen_3 botc_patch 0
@@ -142,65 +146,67 @@ scoreboard players set buffet_role_seen_136 botc_patch 0
 scoreboard players set buffet_role_seen_137 botc_patch 0
 scoreboard players set buffet_role_seen_325 botc_patch 0
 execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s1.actual
-execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s1.perceived
-execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s2.actual
-execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s2.perceived
-execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s2{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s3.actual
-execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s3.perceived
-execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s3{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s4.actual
-execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s4.perceived
-execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s4{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s5.actual
-execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s5.perceived
-execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s5{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s6.actual
-execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s6.perceived
-execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s6{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s7.actual
-execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s7.perceived
-execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s7{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s8.actual
-execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s8.perceived
-execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s8{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s9.actual
-execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s9.perceived
-execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s9{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s10.actual
-execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s10.perceived
-execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s10{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s11.actual
-execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s11.perceived
-execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s11{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s12.actual
-execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s12.perceived
-execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s12{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s13.actual
-execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s13.perceived
-execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s13{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s14.actual
-execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s14.perceived
-execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s14{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s15.actual
-execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s15.perceived
-execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2} run function botc_patch:buffet/greedy/start/append_import_role with storage botc_patch:buffet action
+execute if data storage botc_patch:buffet draft.seats.s15{active:1b,status:2} run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
+execute if score draft_lil_monsta_active botc_patch matches 1 run data modify storage botc_patch:buffet action.role set value 132
+execute if score draft_lil_monsta_active botc_patch matches 1 run function botc_patch:buffet/draft/start/append_import_role with storage botc_patch:buffet action
 function botc_patch:setup/import/commit
 data modify storage ct:roles roles set value []
 execute if data storage botc_patch:buffet draft.seats.s1{active:1b,status:2} run data modify storage botc_patch:buffet action.role set from storage botc_patch:buffet draft.seats.s1.actual

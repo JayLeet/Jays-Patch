@@ -279,7 +279,12 @@ execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived=137}] run tit
 execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived=137}] run fmvariable set role false yaggababble
 execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived=325}] run title @s title {"text":"The Wraith","color":"#ffaa00"}
 execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived=325}] run fmvariable set role false wraith
+execute if score buffet_mode botc_patch matches 1 as @a[tag=botc_buffet_roster,tag=!storyteller] run function botc_patch:buffet/roles/sync_greedy_hud
+execute if score buffet_mode botc_patch matches 1 run scoreboard players set buffet_greedy_hud_ready botc_patch 1
 execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived_alignment=1}] run title @s subtitle {"text":"(Good)","color":"#55aaff"}
 execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived_alignment=1}] run fmvariable set team_color false #55aaff
 execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived_alignment=2}] run title @s subtitle {"text":"(Evil)","color":"#ff5555"}
 execute as @a[tag=botc_buffet_roster,scores={botc_buffet_perceived_alignment=2}] run fmvariable set team_color false #ff5555
+execute as @a[tag=storyteller] run title @s subtitle {"text":"Neutral"}
+execute as @a[tag=storyteller] run title @s title {"text":"The Storyteller","color":"yellow"}
+execute as @a[tag=storyteller] run fmvariable set role false none

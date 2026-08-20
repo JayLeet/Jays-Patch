@@ -1,0 +1,44 @@
+# First sample the complete 5x5 floor layer beneath the player.
+execute positioned ~-2 ~-1 ~-2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~-2 ~-1 ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~-2 ~-1 ~ if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~-2 ~-1 ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~-2 ~-1 ~2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~-1 ~-1 ~-2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~-1 ~-1 ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~-1 ~-1 ~ if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~-1 ~-1 ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~-1 ~-1 ~2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~ ~-1 ~-2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~ ~-1 ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~ ~-1 ~ if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~ ~-1 ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~ ~-1 ~2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~1 ~-1 ~-2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~1 ~-1 ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~1 ~-1 ~ if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~1 ~-1 ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~1 ~-1 ~2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~2 ~-1 ~-2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~2 ~-1 ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~2 ~-1 ~ if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~2 ~-1 ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+execute positioned ~2 ~-1 ~2 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_preferred"]}
+
+# Nearby wall blocks at foot and body height are fallback candidates.
+execute positioned ~-1 ~ ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~-1 ~ ~ if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~-1 ~ ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~ ~ ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~ ~ ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~1 ~ ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~1 ~ ~ if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~1 ~ ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~-1 ~1 ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~-1 ~1 ~ if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~-1 ~1 ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~ ~1 ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~ ~1 ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~1 ~1 ~-1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~1 ~1 ~ if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}
+execute positioned ~1 ~1 ~1 if block ~ ~ ~ #botc_patch:paintable_full_cube run summon minecraft:marker ~ ~ ~ {Tags:["botc_fun_paint_candidate","botc_fun_paint_fallback"]}

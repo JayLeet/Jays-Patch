@@ -4,7 +4,6 @@
 execute if score draft_forced_role botc_patch matches 66 run function botc_patch:buffet/draft/pick/role/66
 execute if score draft_forced_role botc_patch matches 87 run function botc_patch:buffet/draft/pick/role/87
 execute if score draft_forced_role botc_patch matches 130 run function botc_patch:buffet/draft/pick/role/130
-execute if score draft_forced_role botc_patch matches 136 run function botc_patch:buffet/draft/pick/role/136
 execute if score draft_forced_role botc_patch matches 78 run function botc_patch:buffet/draft/pick/role/78
 $data modify storage botc_patch:buffet action.picked.seat set value $(seat)
 $data modify storage botc_patch:buffet action.picked.option set value $(option)

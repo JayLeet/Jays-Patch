@@ -5,10 +5,8 @@ scoreboard players set draft_required_king botc_patch 0
 scoreboard players set draft_required_damsel botc_patch 0
 scoreboard players set draft_required_vi botc_patch 0
 scoreboard players set draft_required_legion botc_patch 0
-scoreboard players set draft_required_riot botc_patch 0
 scoreboard players set draft_vi_assigned botc_patch 0
 scoreboard players set draft_legion_assigned botc_patch 0
-scoreboard players set draft_riot_assigned botc_patch 0
 scoreboard players set draft_has_choirboy botc_patch 0
 scoreboard players set draft_has_huntsman botc_patch 0
 scoreboard players set draft_has_king botc_patch 0
@@ -21,7 +19,6 @@ execute if data storage botc_patch:buffet draft.seats.s1{actual:66} run scoreboa
 execute if data storage botc_patch:buffet draft.seats.s1{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s1{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s1{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s1{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s1{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 1 if data storage botc_patch:buffet draft.seats.s1{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s2{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -30,7 +27,6 @@ execute if data storage botc_patch:buffet draft.seats.s2{actual:66} run scoreboa
 execute if data storage botc_patch:buffet draft.seats.s2{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s2{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s2{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s2{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s2{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 2 if data storage botc_patch:buffet draft.seats.s2{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s3{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -39,7 +35,6 @@ execute if data storage botc_patch:buffet draft.seats.s3{actual:66} run scoreboa
 execute if data storage botc_patch:buffet draft.seats.s3{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s3{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s3{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s3{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s3{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 3 if data storage botc_patch:buffet draft.seats.s3{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s4{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -48,7 +43,6 @@ execute if data storage botc_patch:buffet draft.seats.s4{actual:66} run scoreboa
 execute if data storage botc_patch:buffet draft.seats.s4{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s4{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s4{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s4{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s4{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 4 if data storage botc_patch:buffet draft.seats.s4{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s5{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -57,7 +51,6 @@ execute if data storage botc_patch:buffet draft.seats.s5{actual:66} run scoreboa
 execute if data storage botc_patch:buffet draft.seats.s5{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s5{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s5{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s5{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s5{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 5 if data storage botc_patch:buffet draft.seats.s5{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s6{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -66,7 +59,6 @@ execute if data storage botc_patch:buffet draft.seats.s6{actual:66} run scoreboa
 execute if data storage botc_patch:buffet draft.seats.s6{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s6{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s6{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s6{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s6{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 6 if data storage botc_patch:buffet draft.seats.s6{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s7{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -75,7 +67,6 @@ execute if data storage botc_patch:buffet draft.seats.s7{actual:66} run scoreboa
 execute if data storage botc_patch:buffet draft.seats.s7{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s7{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s7{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s7{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s7{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 7 if data storage botc_patch:buffet draft.seats.s7{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s8{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -84,7 +75,6 @@ execute if data storage botc_patch:buffet draft.seats.s8{actual:66} run scoreboa
 execute if data storage botc_patch:buffet draft.seats.s8{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s8{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s8{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s8{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s8{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 8 if data storage botc_patch:buffet draft.seats.s8{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s9{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -93,7 +83,6 @@ execute if data storage botc_patch:buffet draft.seats.s9{actual:66} run scoreboa
 execute if data storage botc_patch:buffet draft.seats.s9{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s9{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s9{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s9{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s9{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 9 if data storage botc_patch:buffet draft.seats.s9{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s10{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -102,7 +91,6 @@ execute if data storage botc_patch:buffet draft.seats.s10{actual:66} run scorebo
 execute if data storage botc_patch:buffet draft.seats.s10{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s10{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s10{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s10{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s10{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 10 if data storage botc_patch:buffet draft.seats.s10{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s11{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -111,7 +99,6 @@ execute if data storage botc_patch:buffet draft.seats.s11{actual:66} run scorebo
 execute if data storage botc_patch:buffet draft.seats.s11{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s11{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s11{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s11{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s11{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 11 if data storage botc_patch:buffet draft.seats.s11{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s12{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -120,7 +107,6 @@ execute if data storage botc_patch:buffet draft.seats.s12{actual:66} run scorebo
 execute if data storage botc_patch:buffet draft.seats.s12{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s12{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s12{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s12{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s12{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 12 if data storage botc_patch:buffet draft.seats.s12{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s13{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -129,7 +115,6 @@ execute if data storage botc_patch:buffet draft.seats.s13{actual:66} run scorebo
 execute if data storage botc_patch:buffet draft.seats.s13{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s13{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s13{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s13{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s13{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 13 if data storage botc_patch:buffet draft.seats.s13{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s14{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -138,7 +123,6 @@ execute if data storage botc_patch:buffet draft.seats.s14{actual:66} run scorebo
 execute if data storage botc_patch:buffet draft.seats.s14{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s14{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s14{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s14{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s14{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 14 if data storage botc_patch:buffet draft.seats.s14{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s15{actual:58} run scoreboard players set draft_has_choirboy botc_patch 1
@@ -147,7 +131,6 @@ execute if data storage botc_patch:buffet draft.seats.s15{actual:66} run scorebo
 execute if data storage botc_patch:buffet draft.seats.s15{actual:87} run scoreboard players set draft_has_damsel botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s15{actual:78} run scoreboard players add draft_vi_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s15{actual:130} run scoreboard players add draft_legion_assigned botc_patch 1
-execute if data storage botc_patch:buffet draft.seats.s15{actual:136} run scoreboard players add draft_riot_assigned botc_patch 1
 execute if data storage botc_patch:buffet draft.seats.s15{status:2,actual:56} run scoreboard players set draft_bounty_present botc_patch 1
 execute if score draft_bounty_target_seat botc_patch matches 15 if data storage botc_patch:buffet draft.seats.s15{status:2,category:1} run scoreboard players set draft_bounty_target_valid botc_patch 1
 execute unless score draft_has_choirboy botc_patch matches 1 run scoreboard players set draft_king_offer_consumed botc_patch 0
@@ -160,8 +143,6 @@ execute if score draft_vi_initialized botc_patch matches 1 run scoreboard player
 execute if score draft_vi_initialized botc_patch matches 1 run scoreboard players operation draft_required_vi botc_patch -= draft_vi_assigned botc_patch
 execute if score draft_legion_active botc_patch matches 1 run scoreboard players operation draft_required_legion botc_patch = draft_legion_count botc_patch
 execute if score draft_legion_active botc_patch matches 1 run scoreboard players operation draft_required_legion botc_patch -= draft_legion_assigned botc_patch
-execute if score draft_riot_active botc_patch matches 1 run scoreboard players operation draft_required_riot botc_patch = draft_riot_total botc_patch
-execute if score draft_riot_active botc_patch matches 1 run scoreboard players operation draft_required_riot botc_patch -= draft_riot_assigned botc_patch
 execute if score draft_bounty_resolved botc_patch matches 1 unless score draft_bounty_present botc_patch matches 1 run function botc_patch:buffet/draft/start/reset_bounty_target
 execute if score draft_bounty_resolved botc_patch matches 1 unless score draft_bounty_target_valid botc_patch matches 1 run function botc_patch:buffet/draft/start/reset_bounty_target
 execute unless score draft_bounty_present botc_patch matches 1 run scoreboard players set draft_bounty_pending botc_patch 0

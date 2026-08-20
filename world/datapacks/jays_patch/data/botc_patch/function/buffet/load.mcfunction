@@ -11,7 +11,31 @@ scoreboard objectives add botc_buffet_town dummy
 scoreboard objectives add botc_buffet_outsider dummy
 scoreboard objectives add botc_buffet_minion dummy
 scoreboard objectives add botc_buffet_demon dummy
+scoreboard objectives add botc_buffet_seat dummy
 scoreboard objectives add botc_buffet_seat_gen dummy
+scoreboard objectives add botc_greedy_hud_seen dummy
+scoreboard objectives add botc_bg_target dummy
+scoreboard objectives add botc_bg_rslot dummy
+scoreboard objectives add botc_bg_rcat dummy
+scoreboard objectives add botc_bg_rpage dummy
+scoreboard objectives add botc_bg_s1 dummy
+scoreboard objectives add botc_bg_s2 dummy
+scoreboard objectives add botc_bg_s3 dummy
+scoreboard objectives add botc_bg_s4 dummy
+scoreboard objectives add botc_bg_s5 dummy
+scoreboard objectives add botc_bg_s6 dummy
+scoreboard objectives add botc_bg_s7 dummy
+scoreboard objectives add botc_bg_s8 dummy
+scoreboard objectives add botc_bg_s9 dummy
+scoreboard objectives add botc_bg_s10 dummy
+scoreboard objectives add botc_bg_s11 dummy
+scoreboard objectives add botc_bg_s12 dummy
+scoreboard objectives add botc_bg_s13 dummy
+scoreboard objectives add botc_bg_s14 dummy
+scoreboard objectives add botc_bg_s15 dummy
+
+# One-time upgrade path for an already-running Buffet setup.
+execute as @a[tag=botc_buffet_roster] unless score @s botc_buffet_seat matches 1..15 if score @s id matches 1..15 run scoreboard players operation @s botc_buffet_seat = @s id
 
 execute unless score buffet_mode botc_patch matches 0..2 run scoreboard players set buffet_mode botc_patch 0
 execute unless score buffet_roster_count botc_patch matches 0..15 run scoreboard players set buffet_roster_count botc_patch 0
@@ -26,6 +50,8 @@ execute unless score buffet_hard_valid botc_patch matches 0..1 run scoreboard pl
 execute unless score buffet_soft_warning botc_patch matches 0..1 run scoreboard players set buffet_soft_warning botc_patch 0
 execute unless score buffet_start_confirmed botc_patch matches 0..1 run scoreboard players set buffet_start_confirmed botc_patch 0
 execute unless score buffet_draft_ready botc_patch matches 0..1 run scoreboard players set buffet_draft_ready botc_patch 0
+execute unless score buffet_greedy_hud_ready botc_patch matches 0..1 run scoreboard players set buffet_greedy_hud_ready botc_patch 0
+execute if score buffet_mode botc_patch matches 1 if score phase game_data matches 1.. run scoreboard players set buffet_greedy_hud_ready botc_patch 1
 execute unless score draft_current_seat botc_patch matches 0..15 run scoreboard players set draft_current_seat botc_patch 0
 execute unless score buffet_seat_1_generation botc_patch matches 0.. run scoreboard players set buffet_seat_1_generation botc_patch 0
 execute unless score buffet_seat_2_generation botc_patch matches 0.. run scoreboard players set buffet_seat_2_generation botc_patch 0

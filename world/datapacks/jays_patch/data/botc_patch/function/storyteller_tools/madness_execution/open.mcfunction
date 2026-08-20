@@ -3,8 +3,8 @@
 # Opens the Cerenovus-only madness execution player picker.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 3 run return run tellraw @s [{text:"Executions are only available during nominations.",color:"red"}]
-execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=100}] run return run tellraw @s [{text:"No Cerenovus is in play.",color:"red"}]
+execute unless score phase game_data matches 3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"Executions are only available during nominations.",color:"gray",bold:false}]
+execute unless entity @a[tag=!storyteller,tag=!spectator,scores={id=1..15,role=100}] run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No Cerenovus is in play.",color:"gray",bold:false}]
 scoreboard players set grim_notice_madness_done botc_patch 1
 scoreboard players set botc_item_maintenance_pending botc_patch 1
 function botc_patch:storyteller_tools/madness_execution/dialog

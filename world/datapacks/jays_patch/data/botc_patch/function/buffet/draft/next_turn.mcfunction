@@ -3,10 +3,22 @@
 # Choose the next online waiting Draft player without revealing the order publicly.
 execute if score draft_modifier_pending botc_patch matches 1 run return 0
 function botc_patch:buffet/draft/recount_needs
+scoreboard players set draft_ready botc_patch 0
+execute if score draft_current_seat botc_patch matches 1.. run return 0
+function botc_patch:buffet/draft/atheist/maybe_fake
+execute as @a[tag=botc_buffet_draft_waiting,tag=botc_buffet_draft_fake_atheist,limit=1] run function botc_patch:buffet/draft/begin_fake_atheist
+execute if score draft_current_seat botc_patch matches 1.. run return 0
+execute as @a[tag=botc_buffet_draft_waiting,tag=botc_buffet_draft_route_atheist,limit=1] run function botc_patch:buffet/draft/begin_atheist
+execute if score draft_current_seat botc_patch matches 1.. run return 0
+execute if score draft_route_kind botc_patch matches 2 if score draft_topology_status botc_patch matches 0 unless score draft_need_town botc_patch matches 1.. unless score draft_need_outsider botc_patch matches 1.. as @a[tag=botc_buffet_draft_waiting,tag=botc_buffet_draft_route_special,limit=1] run function botc_patch:buffet/draft/begin_special
 execute if score draft_current_seat botc_patch matches 1.. run return 0
 function botc_patch:buffet/draft/forced/prepare
+execute as @a[tag=botc_buffet_draft_waiting,tag=botc_buffet_draft_forced,limit=1] run function botc_patch:buffet/draft/begin_turn
+execute if score draft_current_seat botc_patch matches 1.. run return 0
 execute as @r[tag=botc_buffet_draft_waiting] run function botc_patch:buffet/draft/begin_turn
+execute if score draft_assigned_total botc_patch = buffet_roster_count botc_patch if score draft_lord_of_typhon_active botc_patch matches 1 if score draft_topology_status botc_patch matches 2 run function botc_patch:buffet/draft/topology/lord_of_typhon/prepare_assignments
 execute if score draft_assigned_total botc_patch = buffet_roster_count botc_patch run scoreboard players set draft_ready botc_patch 1
 execute if score draft_assigned_total botc_patch = buffet_roster_count botc_patch run tellraw @a[tag=storyteller] [{"text":"Draft complete. ","color":"green","bold":true},{"text":"Review the assignments, then use Start Game when ready.","color":"gray","bold":false}]
+execute unless score draft_assigned_total botc_patch = buffet_roster_count botc_patch unless entity @a[tag=botc_buffet_draft_waiting] if score draft_wait_notice botc_patch matches 0 run function botc_patch:buffet/attention/block_storytellers
 execute unless score draft_assigned_total botc_patch = buffet_roster_count botc_patch unless entity @a[tag=botc_buffet_draft_waiting] if score draft_wait_notice botc_patch matches 0 run tellraw @a[tag=storyteller] [{"text":"The current drafter is offline. The draft will continue when they return.","color":"gray"}]
 execute unless score draft_assigned_total botc_patch = buffet_roster_count botc_patch unless entity @a[tag=botc_buffet_draft_waiting] run scoreboard players set draft_wait_notice botc_patch 1

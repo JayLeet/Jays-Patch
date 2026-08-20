@@ -224,8 +224,6 @@ $execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r110:1b
 $execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r110:1b} run scoreboard players add @s botc_buffet_minion 1
 $execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r112:1b} run scoreboard players add @s botc_buffet_total 1
 $execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r112:1b} run scoreboard players add @s botc_buffet_minion 1
-$execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r113:1b} run scoreboard players add @s botc_buffet_total 1
-$execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r113:1b} run scoreboard players add @s botc_buffet_minion 1
 $execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r114:1b} run scoreboard players add @s botc_buffet_total 1
 $execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r114:1b} run scoreboard players add @s botc_buffet_minion 1
 $execute if data storage botc_patch:buffet greedy.seats.s$(seat).choices{r115:1b} run scoreboard players add @s botc_buffet_total 1

@@ -3,5 +3,5 @@
 # Validates a dialog seat before dispatching to its fixed Kill function.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1..3 run return run tellraw @s [{text:"You can only kill players during the day or nominations.",color:"red"}]
+execute unless score phase game_data matches 1..3 run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"You can only kill players during the day or nominations.",color:"gray",bold:false}]
 $function botc_patch:storyteller_tools/kill_menu/to_seat_$(seat)

@@ -2,141 +2,285 @@
 # Do not hand-edit this file; update the generator or Jays-Patch/buffet-rules.json.
 # Build the trusted Buffet role catalog from Sybillian's role table.
 data remove storage botc_patch:buffet catalog
-data modify storage botc_patch:buffet catalog.s1 set value {id:"librarian",name:"Librarian",score:1,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:1,name:"Librarian"}}
-data modify storage botc_patch:buffet catalog.s2 set value {id:"washerwoman",name:"Washerwoman",score:2,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:2,name:"Washerwoman"}}
-data modify storage botc_patch:buffet catalog.s3 set value {id:"investigator",name:"Investigator",score:3,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:3,name:"Investigator"}}
-data modify storage botc_patch:buffet catalog.s4 set value {id:"chef",name:"Chef",score:4,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:4,name:"Chef"}}
-data modify storage botc_patch:buffet catalog.s5 set value {id:"empath",name:"Empath",score:5,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:5,name:"Empath"}}
-data modify storage botc_patch:buffet catalog.s6 set value {id:"fortune_teller",name:"Fortune Teller",score:6,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:6,name:"Fortune Teller"}}
-data modify storage botc_patch:buffet catalog.s7 set value {id:"undertaker",name:"Undertaker",score:7,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:7,name:"Undertaker"}}
-data modify storage botc_patch:buffet catalog.s8 set value {id:"monk",name:"Monk",score:8,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:8,name:"Monk"}}
-data modify storage botc_patch:buffet catalog.s9 set value {id:"ravenkeeper",name:"Ravenkeeper",score:9,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:9,name:"Ravenkeeper"}}
-data modify storage botc_patch:buffet catalog.s10 set value {id:"virgin",name:"Virgin",score:10,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:10,name:"Virgin"}}
-data modify storage botc_patch:buffet catalog.s11 set value {id:"slayer",name:"Slayer",score:11,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:11,name:"Slayer"}}
-data modify storage botc_patch:buffet catalog.s12 set value {id:"soldier",name:"Soldier",score:12,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:12,name:"Soldier"}}
-data modify storage botc_patch:buffet catalog.s13 set value {id:"mayor",name:"Mayor",score:13,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:13,name:"Mayor"}}
-data modify storage botc_patch:buffet catalog.s14 set value {id:"butler",name:"Butler",score:14,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:14,name:"Butler"}}
-data modify storage botc_patch:buffet catalog.s15 set value {id:"saint",name:"Saint",score:15,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:15,name:"Saint"}}
-data modify storage botc_patch:buffet catalog.s16 set value {id:"recluse",name:"Recluse",score:16,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:16,name:"Recluse"}}
-data modify storage botc_patch:buffet catalog.s17 set value {id:"drunk",name:"Drunk",score:17,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:17,name:"Drunk"}}
-data modify storage botc_patch:buffet catalog.s18 set value {id:"poisoner",name:"Poisoner",score:18,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:18,name:"Poisoner"}}
-data modify storage botc_patch:buffet catalog.s19 set value {id:"spy",name:"Spy",score:19,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:19,name:"Spy"}}
-data modify storage botc_patch:buffet catalog.s20 set value {id:"baron",name:"Baron",score:20,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:20,name:"Baron"}}
-data modify storage botc_patch:buffet catalog.s21 set value {id:"scarlet_woman",name:"Scarlet Woman",score:21,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:21,name:"Scarlet Woman"}}
-data modify storage botc_patch:buffet catalog.s22 set value {id:"imp",name:"Imp",score:22,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:22,name:"Imp"}}
-data modify storage botc_patch:buffet catalog.s23 set value {id:"clockmaker",name:"Clockmaker",score:23,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:23,name:"Clockmaker"}}
-data modify storage botc_patch:buffet catalog.s24 set value {id:"dreamer",name:"Dreamer",score:24,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:24,name:"Dreamer"}}
-data modify storage botc_patch:buffet catalog.s25 set value {id:"snake_charmer",name:"Snake Charmer",score:25,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:25,name:"Snake Charmer"}}
-data modify storage botc_patch:buffet catalog.s26 set value {id:"mathematician",name:"Mathematician",score:26,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:26,name:"Mathematician"}}
-data modify storage botc_patch:buffet catalog.s27 set value {id:"flowergirl",name:"Flowergirl",score:27,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:27,name:"Flowergirl"}}
-data modify storage botc_patch:buffet catalog.s28 set value {id:"town_crier",name:"Town Crier",score:28,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:28,name:"Town Crier"}}
-data modify storage botc_patch:buffet catalog.s29 set value {id:"oracle",name:"Oracle",score:29,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:29,name:"Oracle"}}
-data modify storage botc_patch:buffet catalog.s30 set value {id:"savant",name:"Savant",score:30,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:30,name:"Savant"}}
-data modify storage botc_patch:buffet catalog.s31 set value {id:"seamstress",name:"Seamstress",score:31,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:31,name:"Seamstress"}}
-data modify storage botc_patch:buffet catalog.s32 set value {id:"philosopher",name:"Philosopher",score:32,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:32,name:"Philosopher"}}
-data modify storage botc_patch:buffet catalog.s33 set value {id:"artist",name:"Artist",score:33,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:33,name:"Artist"}}
-data modify storage botc_patch:buffet catalog.s34 set value {id:"juggler",name:"Juggler",score:34,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:34,name:"Juggler"}}
-data modify storage botc_patch:buffet catalog.s35 set value {id:"sage",name:"Sage",score:35,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:35,name:"Sage"}}
-data modify storage botc_patch:buffet catalog.s36 set value {id:"grandmother",name:"Grandmother",score:36,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:36,name:"Grandmother"}}
-data modify storage botc_patch:buffet catalog.s37 set value {id:"sailor",name:"Sailor",score:37,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:37,name:"Sailor"}}
-data modify storage botc_patch:buffet catalog.s38 set value {id:"chambermaid",name:"Chambermaid",score:38,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:38,name:"Chambermaid"}}
-data modify storage botc_patch:buffet catalog.s39 set value {id:"exorcist",name:"Exorcist",score:39,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:39,name:"Exorcist"}}
-data modify storage botc_patch:buffet catalog.s40 set value {id:"innkeeper",name:"Innkeeper",score:40,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:40,name:"Innkeeper"}}
-data modify storage botc_patch:buffet catalog.s41 set value {id:"gambler",name:"Gambler",score:41,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:41,name:"Gambler"}}
-data modify storage botc_patch:buffet catalog.s42 set value {id:"gossip",name:"Gossip",score:42,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:42,name:"Gossip"}}
-data modify storage botc_patch:buffet catalog.s43 set value {id:"courtier",name:"Courtier",score:43,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:43,name:"Courtier"}}
-data modify storage botc_patch:buffet catalog.s44 set value {id:"professor",name:"Professor",score:44,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:44,name:"Professor"}}
-data modify storage botc_patch:buffet catalog.s45 set value {id:"minstrel",name:"Minstrel",score:45,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:45,name:"Minstrel"}}
-data modify storage botc_patch:buffet catalog.s46 set value {id:"tea_lady",name:"Tea Lady",score:46,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:46,name:"Tea Lady"}}
-data modify storage botc_patch:buffet catalog.s47 set value {id:"pacifist",name:"Pacifist",score:47,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:47,name:"Pacifist"}}
-data modify storage botc_patch:buffet catalog.s48 set value {id:"fool",name:"Fool",score:48,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:48,name:"Fool"}}
-data modify storage botc_patch:buffet catalog.s49 set value {id:"acrobat",name:"Acrobat",score:49,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:49,name:"Acrobat"}}
-data modify storage botc_patch:buffet catalog.s50 set value {id:"alchemist",name:"Alchemist",score:50,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:50,name:"Alchemist"}}
-data modify storage botc_patch:buffet catalog.s51 set value {id:"alsaahir",name:"Alsaahir",score:51,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:51,name:"Alsaahir"}}
-data modify storage botc_patch:buffet catalog.s52 set value {id:"amnesiac",name:"Amnesiac",score:52,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:52,name:"Amnesiac"}}
-data modify storage botc_patch:buffet catalog.s53 set value {id:"atheist",name:"Atheist",score:53,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:53,name:"Atheist"}}
-data modify storage botc_patch:buffet catalog.s54 set value {id:"balloonist",name:"Balloonist",score:54,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:54,name:"Balloonist"}}
-data modify storage botc_patch:buffet catalog.s55 set value {id:"banshee",name:"Banshee",score:55,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:55,name:"Banshee"}}
-data modify storage botc_patch:buffet catalog.s56 set value {id:"bounty_hunter",name:"Bounty Hunter",score:56,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:56,name:"Bounty Hunter"}}
-data modify storage botc_patch:buffet catalog.s57 set value {id:"cannibal",name:"Cannibal",score:57,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:57,name:"Cannibal"}}
-data modify storage botc_patch:buffet catalog.s58 set value {id:"choirboy",name:"Choirboy",score:58,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:58,name:"Choirboy"}}
-data modify storage botc_patch:buffet catalog.s59 set value {id:"cult_leader",name:"Cult Leader",score:59,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:59,name:"Cult Leader"}}
-data modify storage botc_patch:buffet catalog.s60 set value {id:"engineer",name:"Engineer",score:60,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:60,name:"Engineer"}}
-data modify storage botc_patch:buffet catalog.s61 set value {id:"farmer",name:"Farmer",score:61,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:61,name:"Farmer"}}
-data modify storage botc_patch:buffet catalog.s62 set value {id:"fisherman",name:"Fisherman",score:62,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:62,name:"Fisherman"}}
-data modify storage botc_patch:buffet catalog.s63 set value {id:"general",name:"General",score:63,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:63,name:"General"}}
-data modify storage botc_patch:buffet catalog.s64 set value {id:"high_priestess",name:"High Priestess",score:64,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:64,name:"High Priestess"}}
-data modify storage botc_patch:buffet catalog.s65 set value {id:"huntsman",name:"Huntsman",score:65,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:65,name:"Huntsman"}}
-data modify storage botc_patch:buffet catalog.s66 set value {id:"king",name:"King",score:66,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:66,name:"King"}}
-data modify storage botc_patch:buffet catalog.s67 set value {id:"knight",name:"Knight",score:67,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:67,name:"Knight"}}
-data modify storage botc_patch:buffet catalog.s68 set value {id:"lycanthrope",name:"Lycanthrope",score:68,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:68,name:"Lycanthrope"}}
-data modify storage botc_patch:buffet catalog.s69 set value {id:"magician",name:"Magician",score:69,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:69,name:"Magician"}}
-data modify storage botc_patch:buffet catalog.s70 set value {id:"nightwatchman",name:"Nightwatchman",score:70,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:70,name:"Nightwatchman"}}
-data modify storage botc_patch:buffet catalog.s71 set value {id:"noble",name:"Noble",score:71,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:71,name:"Noble"}}
-data modify storage botc_patch:buffet catalog.s72 set value {id:"pixie",name:"Pixie",score:72,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:72,name:"Pixie"}}
-data modify storage botc_patch:buffet catalog.s73 set value {id:"poppy_grower",name:"Poppy Grower",score:73,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:73,name:"Poppy Grower"}}
-data modify storage botc_patch:buffet catalog.s74 set value {id:"princess",name:"Princess",score:74,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:74,name:"Princess"}}
-data modify storage botc_patch:buffet catalog.s75 set value {id:"preacher",name:"Preacher",score:75,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:75,name:"Preacher"}}
-data modify storage botc_patch:buffet catalog.s76 set value {id:"shugenja",name:"Shugenja",score:76,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:76,name:"Shugenja"}}
-data modify storage botc_patch:buffet catalog.s77 set value {id:"steward",name:"Steward",score:77,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:77,name:"Steward"}}
-data modify storage botc_patch:buffet catalog.s78 set value {id:"village_idiot",name:"Village Idiot",score:78,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:78,name:"Village Idiot"}}
-data modify storage botc_patch:buffet catalog.s79 set value {id:"mutant",name:"Mutant",score:79,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:79,name:"Mutant"}}
-data modify storage botc_patch:buffet catalog.s80 set value {id:"sweetheart",name:"Sweetheart",score:80,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:80,name:"Sweetheart"}}
-data modify storage botc_patch:buffet catalog.s81 set value {id:"barber",name:"Barber",score:81,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:81,name:"Barber"}}
-data modify storage botc_patch:buffet catalog.s82 set value {id:"klutz",name:"Klutz",score:82,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:82,name:"Klutz"}}
-data modify storage botc_patch:buffet catalog.s83 set value {id:"goon",name:"Goon",score:83,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:83,name:"Goon"}}
-data modify storage botc_patch:buffet catalog.s84 set value {id:"lunatic",name:"Lunatic",score:84,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:84,name:"Lunatic"}}
-data modify storage botc_patch:buffet catalog.s85 set value {id:"tinker",name:"Tinker",score:85,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:85,name:"Tinker"}}
-data modify storage botc_patch:buffet catalog.s86 set value {id:"moonchild",name:"Moonchild",score:86,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:86,name:"Moonchild"}}
-data modify storage botc_patch:buffet catalog.s87 set value {id:"damsel",name:"Damsel",score:87,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:87,name:"Damsel"}}
-data modify storage botc_patch:buffet catalog.s88 set value {id:"golem",name:"Golem",score:88,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:88,name:"Golem"}}
-data modify storage botc_patch:buffet catalog.s89 set value {id:"hatter",name:"Hatter",score:89,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:89,name:"Hatter"}}
-data modify storage botc_patch:buffet catalog.s90 set value {id:"hermit",name:"Hermit",score:90,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:90,name:"Hermit"}}
-data modify storage botc_patch:buffet catalog.s91 set value {id:"heretic",name:"Heretic",score:91,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:91,name:"Heretic"}}
-data modify storage botc_patch:buffet catalog.s92 set value {id:"ogre",name:"Ogre",score:92,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:92,name:"Ogre"}}
-data modify storage botc_patch:buffet catalog.s93 set value {id:"plague_doctor",name:"Plague Doctor",score:93,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:93,name:"Plague Doctor"}}
-data modify storage botc_patch:buffet catalog.s94 set value {id:"politician",name:"Politician",score:94,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:94,name:"Politician"}}
-data modify storage botc_patch:buffet catalog.s95 set value {id:"puzzlemaster",name:"Puzzlemaster",score:95,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:95,name:"Puzzlemaster"}}
-data modify storage botc_patch:buffet catalog.s96 set value {id:"snitch",name:"Snitch",score:96,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:96,name:"Snitch"}}
-data modify storage botc_patch:buffet catalog.s97 set value {id:"zealot",name:"Zealot",score:97,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:97,name:"Zealot"}}
-data modify storage botc_patch:buffet catalog.s98 set value {id:"evil_twin",name:"Evil Twin",score:98,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:98,name:"Evil Twin"}}
-data modify storage botc_patch:buffet catalog.s99 set value {id:"witch",name:"Witch",score:99,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:99,name:"Witch"}}
-data modify storage botc_patch:buffet catalog.s100 set value {id:"cerenovus",name:"Cerenovus",score:100,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:100,name:"Cerenovus"}}
-data modify storage botc_patch:buffet catalog.s101 set value {id:"pit_hag",name:"Pit-Hag",score:101,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:101,name:"Pit-Hag"}}
-data modify storage botc_patch:buffet catalog.s102 set value {id:"godfather",name:"Godfather",score:102,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:102,name:"Godfather"}}
-data modify storage botc_patch:buffet catalog.s103 set value {id:"devils_advocate",name:"Devil's Advocate",score:103,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:103,name:"Devil's Advocate"}}
-data modify storage botc_patch:buffet catalog.s104 set value {id:"assassin",name:"Assassin",score:104,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:104,name:"Assassin"}}
-data modify storage botc_patch:buffet catalog.s105 set value {id:"mastermind",name:"Mastermind",score:105,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:105,name:"Mastermind"}}
-data modify storage botc_patch:buffet catalog.s106 set value {id:"boffin",name:"Boffin",score:106,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:106,name:"Boffin"}}
-data modify storage botc_patch:buffet catalog.s107 set value {id:"boomdandy",name:"Boomdandy",score:107,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:107,name:"Boomdandy"}}
-data modify storage botc_patch:buffet catalog.s108 set value {id:"fearmonger",name:"Fearmonger",score:108,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:108,name:"Fearmonger"}}
-data modify storage botc_patch:buffet catalog.s109 set value {id:"goblin",name:"Goblin",score:109,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:109,name:"Goblin"}}
-data modify storage botc_patch:buffet catalog.s110 set value {id:"harpy",name:"Harpy",score:110,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:110,name:"Harpy"}}
-data modify storage botc_patch:buffet catalog.s111 set value {id:"marionette",name:"Marionette",score:111,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:111,name:"Marionette"}}
-data modify storage botc_patch:buffet catalog.s112 set value {id:"mezepheles",name:"Mezepheles",score:112,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:112,name:"Mezepheles"}}
-data modify storage botc_patch:buffet catalog.s113 set value {id:"organ_grinder",name:"Organ Grinder",score:113,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:113,name:"Organ Grinder"}}
-data modify storage botc_patch:buffet catalog.s114 set value {id:"psychopath",name:"Psychopath",score:114,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:114,name:"Psychopath"}}
-data modify storage botc_patch:buffet catalog.s115 set value {id:"summoner",name:"Summoner",score:115,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:115,name:"Summoner"}}
-data modify storage botc_patch:buffet catalog.s116 set value {id:"vizier",name:"Vizier",score:116,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:116,name:"Vizier"}}
-data modify storage botc_patch:buffet catalog.s117 set value {id:"widow",name:"Widow",score:117,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:117,name:"Widow"}}
-data modify storage botc_patch:buffet catalog.s118 set value {id:"wizard",name:"Wizard",score:118,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:118,name:"Wizard"}}
-data modify storage botc_patch:buffet catalog.s119 set value {id:"xaan",name:"Xaan",score:119,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:119,name:"Xaan"}}
-data modify storage botc_patch:buffet catalog.s120 set value {id:"fang_gu",name:"Fang Gu",score:120,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:120,name:"Fang Gu"}}
-data modify storage botc_patch:buffet catalog.s121 set value {id:"vigormortis",name:"Vigormortis",score:121,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:121,name:"Vigormortis"}}
-data modify storage botc_patch:buffet catalog.s122 set value {id:"no_dashii",name:"No Dashii",score:122,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:122,name:"No Dashii"}}
-data modify storage botc_patch:buffet catalog.s123 set value {id:"vortox",name:"Vortox",score:123,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:123,name:"Vortox"}}
-data modify storage botc_patch:buffet catalog.s124 set value {id:"zombuul",name:"Zombuul",score:124,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:124,name:"Zombuul"}}
-data modify storage botc_patch:buffet catalog.s125 set value {id:"pukka",name:"Pukka",score:125,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:125,name:"Pukka"}}
-data modify storage botc_patch:buffet catalog.s126 set value {id:"shabaloth",name:"Shabaloth",score:126,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:126,name:"Shabaloth"}}
-data modify storage botc_patch:buffet catalog.s127 set value {id:"po",name:"Po",score:127,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:127,name:"Po"}}
-data modify storage botc_patch:buffet catalog.s128 set value {id:"al_hadikhia",name:"Al-Hadikhia",score:128,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:128,name:"Al-Hadikhia"}}
-data modify storage botc_patch:buffet catalog.s129 set value {id:"kazali",name:"Kazali",score:129,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:129,name:"Kazali"}}
-data modify storage botc_patch:buffet catalog.s130 set value {id:"legion",name:"Legion",score:130,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:130,name:"Legion"}}
-data modify storage botc_patch:buffet catalog.s131 set value {id:"leviathan",name:"Leviathan",score:131,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:131,name:"Leviathan"}}
-data modify storage botc_patch:buffet catalog.s132 set value {id:"lil_monsta",name:"Lil' Monsta",score:132,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:132,name:"Lil' Monsta"}}
-data modify storage botc_patch:buffet catalog.s133 set value {id:"lleech",name:"Lleech",score:133,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:133,name:"Lleech"}}
-data modify storage botc_patch:buffet catalog.s134 set value {id:"lord_of_typhon",name:"Lord of Typhon",score:134,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:134,name:"Lord of Typhon"}}
-data modify storage botc_patch:buffet catalog.s135 set value {id:"ojo",name:"Ojo",score:135,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:135,name:"Ojo"}}
-data modify storage botc_patch:buffet catalog.s136 set value {id:"riot",name:"Riot",score:136,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:136,name:"Riot"}}
-data modify storage botc_patch:buffet catalog.s137 set value {id:"yaggababble",name:"Yaggababble",score:137,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:137,name:"Yaggababble"}}
-data modify storage botc_patch:buffet catalog.s325 set value {id:"wraith",name:"Wraith",score:325,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:325,name:"Wraith"}}
+data modify storage botc_patch:buffet catalog.s1 set value {id:"librarian",script_id:"librarian",name:"Librarian",score:1,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:1,name:"Librarian"}}
+data modify storage botc_patch:buffet catalog.s2 set value {id:"washerwoman",script_id:"washerwoman",name:"Washerwoman",score:2,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:2,name:"Washerwoman"}}
+data modify storage botc_patch:buffet catalog.s3 set value {id:"investigator",script_id:"investigator",name:"Investigator",score:3,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:3,name:"Investigator"}}
+data modify storage botc_patch:buffet catalog.s4 set value {id:"chef",script_id:"chef",name:"Chef",score:4,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:4,name:"Chef"}}
+data modify storage botc_patch:buffet catalog.s5 set value {id:"empath",script_id:"empath",name:"Empath",score:5,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:5,name:"Empath"}}
+data modify storage botc_patch:buffet catalog.s6 set value {id:"fortune_teller",script_id:"fortuneteller",name:"Fortune Teller",score:6,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:6,name:"Fortune Teller"}}
+data modify storage botc_patch:buffet catalog.s7 set value {id:"undertaker",script_id:"undertaker",name:"Undertaker",score:7,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:7,name:"Undertaker"}}
+data modify storage botc_patch:buffet catalog.s8 set value {id:"monk",script_id:"monk",name:"Monk",score:8,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:8,name:"Monk"}}
+data modify storage botc_patch:buffet catalog.s9 set value {id:"ravenkeeper",script_id:"ravenkeeper",name:"Ravenkeeper",score:9,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:9,name:"Ravenkeeper"}}
+data modify storage botc_patch:buffet catalog.s10 set value {id:"virgin",script_id:"virgin",name:"Virgin",score:10,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:10,name:"Virgin"}}
+data modify storage botc_patch:buffet catalog.s11 set value {id:"slayer",script_id:"slayer",name:"Slayer",score:11,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:11,name:"Slayer"}}
+data modify storage botc_patch:buffet catalog.s12 set value {id:"soldier",script_id:"soldier",name:"Soldier",score:12,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:12,name:"Soldier"}}
+data modify storage botc_patch:buffet catalog.s13 set value {id:"mayor",script_id:"mayor",name:"Mayor",score:13,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:13,name:"Mayor"}}
+data modify storage botc_patch:buffet catalog.s14 set value {id:"butler",script_id:"butler",name:"Butler",score:14,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:14,name:"Butler"}}
+data modify storage botc_patch:buffet catalog.s15 set value {id:"saint",script_id:"saint",name:"Saint",score:15,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:15,name:"Saint"}}
+data modify storage botc_patch:buffet catalog.s16 set value {id:"recluse",script_id:"recluse",name:"Recluse",score:16,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:16,name:"Recluse"}}
+data modify storage botc_patch:buffet catalog.s17 set value {id:"drunk",script_id:"drunk",name:"Drunk",score:17,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:17,name:"Drunk"}}
+data modify storage botc_patch:buffet catalog.s18 set value {id:"poisoner",script_id:"poisoner",name:"Poisoner",score:18,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:18,name:"Poisoner"}}
+data modify storage botc_patch:buffet catalog.s19 set value {id:"spy",script_id:"spy",name:"Spy",score:19,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:19,name:"Spy"}}
+data modify storage botc_patch:buffet catalog.s20 set value {id:"baron",script_id:"baron",name:"Baron",score:20,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:20,name:"Baron"}}
+data modify storage botc_patch:buffet catalog.s21 set value {id:"scarlet_woman",script_id:"scarletwoman",name:"Scarlet Woman",score:21,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:21,name:"Scarlet Woman"}}
+data modify storage botc_patch:buffet catalog.s22 set value {id:"imp",script_id:"imp",name:"Imp",score:22,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:22,name:"Imp"}}
+data modify storage botc_patch:buffet catalog.s23 set value {id:"clockmaker",script_id:"clockmaker",name:"Clockmaker",score:23,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:23,name:"Clockmaker"}}
+data modify storage botc_patch:buffet catalog.s24 set value {id:"dreamer",script_id:"dreamer",name:"Dreamer",score:24,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:24,name:"Dreamer"}}
+data modify storage botc_patch:buffet catalog.s25 set value {id:"snake_charmer",script_id:"snakecharmer",name:"Snake Charmer",score:25,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:25,name:"Snake Charmer"}}
+data modify storage botc_patch:buffet catalog.s26 set value {id:"mathematician",script_id:"mathematician",name:"Mathematician",score:26,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:26,name:"Mathematician"}}
+data modify storage botc_patch:buffet catalog.s27 set value {id:"flowergirl",script_id:"flowergirl",name:"Flowergirl",score:27,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:27,name:"Flowergirl"}}
+data modify storage botc_patch:buffet catalog.s28 set value {id:"town_crier",script_id:"towncrier",name:"Town Crier",score:28,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:28,name:"Town Crier"}}
+data modify storage botc_patch:buffet catalog.s29 set value {id:"oracle",script_id:"oracle",name:"Oracle",score:29,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:29,name:"Oracle"}}
+data modify storage botc_patch:buffet catalog.s30 set value {id:"savant",script_id:"savant",name:"Savant",score:30,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:30,name:"Savant"}}
+data modify storage botc_patch:buffet catalog.s31 set value {id:"seamstress",script_id:"seamstress",name:"Seamstress",score:31,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:31,name:"Seamstress"}}
+data modify storage botc_patch:buffet catalog.s32 set value {id:"philosopher",script_id:"philosopher",name:"Philosopher",score:32,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:32,name:"Philosopher"}}
+data modify storage botc_patch:buffet catalog.s33 set value {id:"artist",script_id:"artist",name:"Artist",score:33,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:33,name:"Artist"}}
+data modify storage botc_patch:buffet catalog.s34 set value {id:"juggler",script_id:"juggler",name:"Juggler",score:34,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:34,name:"Juggler"}}
+data modify storage botc_patch:buffet catalog.s35 set value {id:"sage",script_id:"sage",name:"Sage",score:35,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:35,name:"Sage"}}
+data modify storage botc_patch:buffet catalog.s36 set value {id:"grandmother",script_id:"grandmother",name:"Grandmother",score:36,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:36,name:"Grandmother"}}
+data modify storage botc_patch:buffet catalog.s37 set value {id:"sailor",script_id:"sailor",name:"Sailor",score:37,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:37,name:"Sailor"}}
+data modify storage botc_patch:buffet catalog.s38 set value {id:"chambermaid",script_id:"chambermaid",name:"Chambermaid",score:38,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:38,name:"Chambermaid"}}
+data modify storage botc_patch:buffet catalog.s39 set value {id:"exorcist",script_id:"exorcist",name:"Exorcist",score:39,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:39,name:"Exorcist"}}
+data modify storage botc_patch:buffet catalog.s40 set value {id:"innkeeper",script_id:"innkeeper",name:"Innkeeper",score:40,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:40,name:"Innkeeper"}}
+data modify storage botc_patch:buffet catalog.s41 set value {id:"gambler",script_id:"gambler",name:"Gambler",score:41,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:41,name:"Gambler"}}
+data modify storage botc_patch:buffet catalog.s42 set value {id:"gossip",script_id:"gossip",name:"Gossip",score:42,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:42,name:"Gossip"}}
+data modify storage botc_patch:buffet catalog.s43 set value {id:"courtier",script_id:"courtier",name:"Courtier",score:43,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:43,name:"Courtier"}}
+data modify storage botc_patch:buffet catalog.s44 set value {id:"professor",script_id:"professor",name:"Professor",score:44,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:44,name:"Professor"}}
+data modify storage botc_patch:buffet catalog.s45 set value {id:"minstrel",script_id:"minstrel",name:"Minstrel",score:45,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:45,name:"Minstrel"}}
+data modify storage botc_patch:buffet catalog.s46 set value {id:"tea_lady",script_id:"tealady",name:"Tea Lady",score:46,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:46,name:"Tea Lady"}}
+data modify storage botc_patch:buffet catalog.s47 set value {id:"pacifist",script_id:"pacifist",name:"Pacifist",score:47,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:47,name:"Pacifist"}}
+data modify storage botc_patch:buffet catalog.s48 set value {id:"fool",script_id:"fool",name:"Fool",score:48,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:48,name:"Fool"}}
+data modify storage botc_patch:buffet catalog.s49 set value {id:"acrobat",script_id:"acrobat",name:"Acrobat",score:49,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:49,name:"Acrobat"}}
+data modify storage botc_patch:buffet catalog.s50 set value {id:"alchemist",script_id:"alchemist",name:"Alchemist",score:50,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:50,name:"Alchemist"}}
+data modify storage botc_patch:buffet catalog.s51 set value {id:"alsaahir",script_id:"alsaahir",name:"Alsaahir",score:51,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:51,name:"Alsaahir"}}
+data modify storage botc_patch:buffet catalog.s52 set value {id:"amnesiac",script_id:"amnesiac",name:"Amnesiac",score:52,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:52,name:"Amnesiac"}}
+data modify storage botc_patch:buffet catalog.s53 set value {id:"atheist",script_id:"atheist",name:"Atheist",score:53,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:53,name:"Atheist"}}
+data modify storage botc_patch:buffet catalog.s54 set value {id:"balloonist",script_id:"balloonist",name:"Balloonist",score:54,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:54,name:"Balloonist"}}
+data modify storage botc_patch:buffet catalog.s55 set value {id:"banshee",script_id:"banshee",name:"Banshee",score:55,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:55,name:"Banshee"}}
+data modify storage botc_patch:buffet catalog.s56 set value {id:"bounty_hunter",script_id:"bountyhunter",name:"Bounty Hunter",score:56,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:56,name:"Bounty Hunter"}}
+data modify storage botc_patch:buffet catalog.s57 set value {id:"cannibal",script_id:"cannibal",name:"Cannibal",score:57,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:57,name:"Cannibal"}}
+data modify storage botc_patch:buffet catalog.s58 set value {id:"choirboy",script_id:"choirboy",name:"Choirboy",score:58,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:58,name:"Choirboy"}}
+data modify storage botc_patch:buffet catalog.s59 set value {id:"cult_leader",script_id:"cultleader",name:"Cult Leader",score:59,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:59,name:"Cult Leader"}}
+data modify storage botc_patch:buffet catalog.s60 set value {id:"engineer",script_id:"engineer",name:"Engineer",score:60,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:60,name:"Engineer"}}
+data modify storage botc_patch:buffet catalog.s61 set value {id:"farmer",script_id:"farmer",name:"Farmer",score:61,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:61,name:"Farmer"}}
+data modify storage botc_patch:buffet catalog.s62 set value {id:"fisherman",script_id:"fisherman",name:"Fisherman",score:62,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:62,name:"Fisherman"}}
+data modify storage botc_patch:buffet catalog.s63 set value {id:"general",script_id:"general",name:"General",score:63,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:63,name:"General"}}
+data modify storage botc_patch:buffet catalog.s64 set value {id:"high_priestess",script_id:"highpriestess",name:"High Priestess",score:64,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:64,name:"High Priestess"}}
+data modify storage botc_patch:buffet catalog.s65 set value {id:"huntsman",script_id:"huntsman",name:"Huntsman",score:65,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:65,name:"Huntsman"}}
+data modify storage botc_patch:buffet catalog.s66 set value {id:"king",script_id:"king",name:"King",score:66,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:66,name:"King"}}
+data modify storage botc_patch:buffet catalog.s67 set value {id:"knight",script_id:"knight",name:"Knight",score:67,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:67,name:"Knight"}}
+data modify storage botc_patch:buffet catalog.s68 set value {id:"lycanthrope",script_id:"lycanthrope",name:"Lycanthrope",score:68,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:68,name:"Lycanthrope"}}
+data modify storage botc_patch:buffet catalog.s69 set value {id:"magician",script_id:"magician",name:"Magician",score:69,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:69,name:"Magician"}}
+data modify storage botc_patch:buffet catalog.s70 set value {id:"nightwatchman",script_id:"nightwatchman",name:"Nightwatchman",score:70,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:70,name:"Nightwatchman"}}
+data modify storage botc_patch:buffet catalog.s71 set value {id:"noble",script_id:"noble",name:"Noble",score:71,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:71,name:"Noble"}}
+data modify storage botc_patch:buffet catalog.s72 set value {id:"pixie",script_id:"pixie",name:"Pixie",score:72,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:72,name:"Pixie"}}
+data modify storage botc_patch:buffet catalog.s73 set value {id:"poppy_grower",script_id:"poppygrower",name:"Poppy Grower",score:73,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:73,name:"Poppy Grower"}}
+data modify storage botc_patch:buffet catalog.s74 set value {id:"princess",script_id:"princess",name:"Princess",score:74,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:74,name:"Princess"}}
+data modify storage botc_patch:buffet catalog.s75 set value {id:"preacher",script_id:"preacher",name:"Preacher",score:75,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:75,name:"Preacher"}}
+data modify storage botc_patch:buffet catalog.s76 set value {id:"shugenja",script_id:"shugenja",name:"Shugenja",score:76,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:76,name:"Shugenja"}}
+data modify storage botc_patch:buffet catalog.s77 set value {id:"steward",script_id:"steward",name:"Steward",score:77,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:77,name:"Steward"}}
+data modify storage botc_patch:buffet catalog.s78 set value {id:"village_idiot",script_id:"villageidiot",name:"Village Idiot",score:78,category:"town",alignment:1,color:"#55aaff",glyph:"",ct:{id:78,name:"Village Idiot"}}
+data modify storage botc_patch:buffet catalog.s79 set value {id:"mutant",script_id:"mutant",name:"Mutant",score:79,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:79,name:"Mutant"}}
+data modify storage botc_patch:buffet catalog.s80 set value {id:"sweetheart",script_id:"sweetheart",name:"Sweetheart",score:80,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:80,name:"Sweetheart"}}
+data modify storage botc_patch:buffet catalog.s81 set value {id:"barber",script_id:"barber",name:"Barber",score:81,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:81,name:"Barber"}}
+data modify storage botc_patch:buffet catalog.s82 set value {id:"klutz",script_id:"klutz",name:"Klutz",score:82,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:82,name:"Klutz"}}
+data modify storage botc_patch:buffet catalog.s83 set value {id:"goon",script_id:"goon",name:"Goon",score:83,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:83,name:"Goon"}}
+data modify storage botc_patch:buffet catalog.s84 set value {id:"lunatic",script_id:"lunatic",name:"Lunatic",score:84,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:84,name:"Lunatic"}}
+data modify storage botc_patch:buffet catalog.s85 set value {id:"tinker",script_id:"tinker",name:"Tinker",score:85,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:85,name:"Tinker"}}
+data modify storage botc_patch:buffet catalog.s86 set value {id:"moonchild",script_id:"moonchild",name:"Moonchild",score:86,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:86,name:"Moonchild"}}
+data modify storage botc_patch:buffet catalog.s87 set value {id:"damsel",script_id:"damsel",name:"Damsel",score:87,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:87,name:"Damsel"}}
+data modify storage botc_patch:buffet catalog.s88 set value {id:"golem",script_id:"golem",name:"Golem",score:88,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:88,name:"Golem"}}
+data modify storage botc_patch:buffet catalog.s89 set value {id:"hatter",script_id:"hatter",name:"Hatter",score:89,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:89,name:"Hatter"}}
+data modify storage botc_patch:buffet catalog.s90 set value {id:"hermit",script_id:"hermit",name:"Hermit",score:90,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:90,name:"Hermit"}}
+data modify storage botc_patch:buffet catalog.s91 set value {id:"heretic",script_id:"heretic",name:"Heretic",score:91,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:91,name:"Heretic"}}
+data modify storage botc_patch:buffet catalog.s92 set value {id:"ogre",script_id:"ogre",name:"Ogre",score:92,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:92,name:"Ogre"}}
+data modify storage botc_patch:buffet catalog.s93 set value {id:"plague_doctor",script_id:"plaguedoctor",name:"Plague Doctor",score:93,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:93,name:"Plague Doctor"}}
+data modify storage botc_patch:buffet catalog.s94 set value {id:"politician",script_id:"politician",name:"Politician",score:94,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:94,name:"Politician"}}
+data modify storage botc_patch:buffet catalog.s95 set value {id:"puzzlemaster",script_id:"puzzlemaster",name:"Puzzlemaster",score:95,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:95,name:"Puzzlemaster"}}
+data modify storage botc_patch:buffet catalog.s96 set value {id:"snitch",script_id:"snitch",name:"Snitch",score:96,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:96,name:"Snitch"}}
+data modify storage botc_patch:buffet catalog.s97 set value {id:"zealot",script_id:"zealot",name:"Zealot",score:97,category:"outsider",alignment:1,color:"#55ffff",glyph:"",ct:{id:97,name:"Zealot"}}
+data modify storage botc_patch:buffet catalog.s98 set value {id:"evil_twin",script_id:"eviltwin",name:"Evil Twin",score:98,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:98,name:"Evil Twin"}}
+data modify storage botc_patch:buffet catalog.s99 set value {id:"witch",script_id:"witch",name:"Witch",score:99,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:99,name:"Witch"}}
+data modify storage botc_patch:buffet catalog.s100 set value {id:"cerenovus",script_id:"cerenovus",name:"Cerenovus",score:100,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:100,name:"Cerenovus"}}
+data modify storage botc_patch:buffet catalog.s101 set value {id:"pit_hag",script_id:"pithag",name:"Pit-Hag",score:101,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:101,name:"Pit-Hag"}}
+data modify storage botc_patch:buffet catalog.s102 set value {id:"godfather",script_id:"godfather",name:"Godfather",score:102,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:102,name:"Godfather"}}
+data modify storage botc_patch:buffet catalog.s103 set value {id:"devils_advocate",script_id:"devilsadvocate",name:"Devil's Advocate",score:103,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:103,name:"Devil's Advocate"}}
+data modify storage botc_patch:buffet catalog.s104 set value {id:"assassin",script_id:"assassin",name:"Assassin",score:104,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:104,name:"Assassin"}}
+data modify storage botc_patch:buffet catalog.s105 set value {id:"mastermind",script_id:"mastermind",name:"Mastermind",score:105,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:105,name:"Mastermind"}}
+data modify storage botc_patch:buffet catalog.s106 set value {id:"boffin",script_id:"boffin",name:"Boffin",score:106,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:106,name:"Boffin"}}
+data modify storage botc_patch:buffet catalog.s107 set value {id:"boomdandy",script_id:"boomdandy",name:"Boomdandy",score:107,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:107,name:"Boomdandy"}}
+data modify storage botc_patch:buffet catalog.s108 set value {id:"fearmonger",script_id:"fearmonger",name:"Fearmonger",score:108,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:108,name:"Fearmonger"}}
+data modify storage botc_patch:buffet catalog.s109 set value {id:"goblin",script_id:"goblin",name:"Goblin",score:109,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:109,name:"Goblin"}}
+data modify storage botc_patch:buffet catalog.s110 set value {id:"harpy",script_id:"harpy",name:"Harpy",score:110,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:110,name:"Harpy"}}
+data modify storage botc_patch:buffet catalog.s111 set value {id:"marionette",script_id:"marionette",name:"Marionette",score:111,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:111,name:"Marionette"}}
+data modify storage botc_patch:buffet catalog.s112 set value {id:"mezepheles",script_id:"mezepheles",name:"Mezepheles",score:112,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:112,name:"Mezepheles"}}
+data modify storage botc_patch:buffet catalog.s113 set value {id:"organ_grinder",script_id:"organgrinder",name:"Organ Grinder",score:113,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:113,name:"Organ Grinder"}}
+data modify storage botc_patch:buffet catalog.s114 set value {id:"psychopath",script_id:"psychopath",name:"Psychopath",score:114,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:114,name:"Psychopath"}}
+data modify storage botc_patch:buffet catalog.s115 set value {id:"summoner",script_id:"summoner",name:"Summoner",score:115,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:115,name:"Summoner"}}
+data modify storage botc_patch:buffet catalog.s116 set value {id:"vizier",script_id:"vizier",name:"Vizier",score:116,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:116,name:"Vizier"}}
+data modify storage botc_patch:buffet catalog.s117 set value {id:"widow",script_id:"widow",name:"Widow",score:117,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:117,name:"Widow"}}
+data modify storage botc_patch:buffet catalog.s118 set value {id:"wizard",script_id:"wizard",name:"Wizard",score:118,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:118,name:"Wizard"}}
+data modify storage botc_patch:buffet catalog.s119 set value {id:"xaan",script_id:"xaan",name:"Xaan",score:119,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:119,name:"Xaan"}}
+data modify storage botc_patch:buffet catalog.s120 set value {id:"fang_gu",script_id:"fanggu",name:"Fang Gu",score:120,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:120,name:"Fang Gu"}}
+data modify storage botc_patch:buffet catalog.s121 set value {id:"vigormortis",script_id:"vigormortis",name:"Vigormortis",score:121,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:121,name:"Vigormortis"}}
+data modify storage botc_patch:buffet catalog.s122 set value {id:"no_dashii",script_id:"nodashii",name:"No Dashii",score:122,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:122,name:"No Dashii"}}
+data modify storage botc_patch:buffet catalog.s123 set value {id:"vortox",script_id:"vortox",name:"Vortox",score:123,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:123,name:"Vortox"}}
+data modify storage botc_patch:buffet catalog.s124 set value {id:"zombuul",script_id:"zombuul",name:"Zombuul",score:124,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:124,name:"Zombuul"}}
+data modify storage botc_patch:buffet catalog.s125 set value {id:"pukka",script_id:"pukka",name:"Pukka",score:125,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:125,name:"Pukka"}}
+data modify storage botc_patch:buffet catalog.s126 set value {id:"shabaloth",script_id:"shabaloth",name:"Shabaloth",score:126,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:126,name:"Shabaloth"}}
+data modify storage botc_patch:buffet catalog.s127 set value {id:"po",script_id:"po",name:"Po",score:127,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:127,name:"Po"}}
+data modify storage botc_patch:buffet catalog.s128 set value {id:"al_hadikhia",script_id:"alhadikhia",name:"Al-Hadikhia",score:128,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:128,name:"Al-Hadikhia"}}
+data modify storage botc_patch:buffet catalog.s129 set value {id:"kazali",script_id:"kazali",name:"Kazali",score:129,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:129,name:"Kazali"}}
+data modify storage botc_patch:buffet catalog.s130 set value {id:"legion",script_id:"legion",name:"Legion",score:130,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:130,name:"Legion"}}
+data modify storage botc_patch:buffet catalog.s131 set value {id:"leviathan",script_id:"leviathan",name:"Leviathan",score:131,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:131,name:"Leviathan"}}
+data modify storage botc_patch:buffet catalog.s132 set value {id:"lil_monsta",script_id:"lilmonsta",name:"Lil' Monsta",score:132,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:132,name:"Lil' Monsta"}}
+data modify storage botc_patch:buffet catalog.s133 set value {id:"lleech",script_id:"lleech",name:"Lleech",score:133,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:133,name:"Lleech"}}
+data modify storage botc_patch:buffet catalog.s134 set value {id:"lord_of_typhon",script_id:"lordoftyphon",name:"Lord of Typhon",score:134,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:134,name:"Lord of Typhon"}}
+data modify storage botc_patch:buffet catalog.s135 set value {id:"ojo",script_id:"ojo",name:"Ojo",score:135,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:135,name:"Ojo"}}
+data modify storage botc_patch:buffet catalog.s136 set value {id:"riot",script_id:"riot",name:"Riot",score:136,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:136,name:"Riot"}}
+data modify storage botc_patch:buffet catalog.s137 set value {id:"yaggababble",script_id:"yaggababble",name:"Yaggababble",score:137,category:"demon",alignment:2,color:"#ff5555",glyph:"",ct:{id:137,name:"Yaggababble"}}
+data modify storage botc_patch:buffet catalog.s325 set value {id:"wraith",script_id:"wraith",name:"Wraith",score:325,category:"minion",alignment:2,color:"#ffaa00",glyph:"",ct:{id:325,name:"Wraith"}}
+data remove storage botc_patch:buffet reminder_catalog
+data modify storage botc_patch:buffet reminder_catalog.i0 set value {label:"Empty",glyph:"",color:"gray"}
+data modify storage botc_patch:buffet reminder_catalog.i1 set value {label:"Good",glyph:"",color:"#55ff55"}
+data modify storage botc_patch:buffet reminder_catalog.i2 set value {label:"Evil",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i3 set value {label:"Acrobat: Dead",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i4 set value {label:"Alchemist: Is the Alchemist",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i5 set value {label:"Al-Hadikhia: 1st selection",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i6 set value {label:"Al-Hadikhia: 2nd selection",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i7 set value {label:"Al-Hadikhia: 3rd selection",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i8 set value {label:"Al-Hadikhia: Chose death",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i9 set value {label:"Al-Hadikhia: Chose life",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i10 set value {label:"Amnesiac: ?",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i11 set value {label:"Artist: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i12 set value {label:"Assassin: Dead",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i13 set value {label:"Assassin: No ability",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i14 set value {label:"Balloonist: Seen",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i15 set value {label:"Banshee: Has ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i16 set value {label:"Barber: Haircuts tonight",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i17 set value {label:"Bounty Hunter: Known",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i18 set value {label:"Butler: Master",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i19 set value {label:"Cannibal: Poisoned",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i20 set value {label:"Cannibal: Lunch",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i21 set value {label:"Cerenovus: Mad",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i22 set value {label:"Courtier: Drunk 1",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i23 set value {label:"Courtier: Drunk 2",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i24 set value {label:"Courtier: Drunk 3",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i25 set value {label:"Courtier: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i26 set value {label:"Damsel: Guess used",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i27 set value {label:"Devil\u0027s Advocate: Survives execution",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i28 set value {label:"Drunk: Drunk",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i29 set value {label:"Evil Twin: Good Twin",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i30 set value {label:"Exorcist: Chosen",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i31 set value {label:"Fang Gu: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i32 set value {label:"Fang Gu: Already jumped",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i33 set value {label:"Fearmonger: Fear",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i34 set value {label:"Fisherman: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i35 set value {label:"Flowergirl: Demon voted",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i36 set value {label:"Flowergirl: Demon did not vote",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i37 set value {label:"Fool: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i38 set value {label:"Fortune Teller: Red herring",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i39 set value {label:"Gambler: Dead",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i40 set value {label:"Goblin: Claimed",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i41 set value {label:"Godfather: Died today",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i42 set value {label:"Godfather: Dead",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i43 set value {label:"Golem: Cannot nominate",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i44 set value {label:"Goon: Drunk",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i45 set value {label:"Gossip: Dead",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i46 set value {label:"Grandmother: Grandchild",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i47 set value {label:"Harpy: Mad",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i48 set value {label:"Harpy: 2nd",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i49 set value {label:"Hatter: Tea Party",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i50 set value {label:"Hermit: 1",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i51 set value {label:"Hermit: 2",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i52 set value {label:"Hermit: 3",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i53 set value {label:"Huntsman: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i54 set value {label:"Imp: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i55 set value {label:"Innkeeper: Protected",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i56 set value {label:"Innkeeper: Drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i57 set value {label:"Investigator: Minion",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i58 set value {label:"Investigator: Wrong",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i59 set value {label:"Juggler: Correct",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i60 set value {label:"Kazali: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i61 set value {label:"Knight: Know",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i62 set value {label:"Legion: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i63 set value {label:"Legion: About to die",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i64 set value {label:"Leviathan: Good player executed",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i65 set value {label:"Librarian: Outsider",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i66 set value {label:"Librarian: Wrong",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i67 set value {label:"Lil\u0027 Monsta: Is the Demon",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i68 set value {label:"Lil\u0027 Monsta: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i69 set value {label:"Lleech: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i70 set value {label:"Lleech: Poisoned",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i71 set value {label:"Lord of Typhon: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i72 set value {label:"Lunatic: Attack",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i73 set value {label:"Lunatic: Attack 2",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i74 set value {label:"Lunatic: Minion",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i75 set value {label:"Lycanthrope: Dead",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i76 set value {label:"Lycanthrope: Faux paw",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i77 set value {label:"Marionette: Is the Marionette",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i78 set value {label:"Mathematician: Worked abnormally",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i79 set value {label:"Mezepheles: Turns evil",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i80 set value {label:"Mezepheles: No ability",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i81 set value {label:"Minstrel: Everyone drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i82 set value {label:"Monk: Protected",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i83 set value {label:"Moonchild: Dead",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i84 set value {label:"Nightwatchman: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i85 set value {label:"Noble: Seen",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i86 set value {label:"No Dashii: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i87 set value {label:"No Dashii: Poisoned",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i88 set value {label:"Ogre: Friend",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i89 set value {label:"Ojo: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i90 set value {label:"Organ Grinder: Drunk",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i91 set value {label:"Organ Grinder: About to die",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i92 set value {label:"Philosopher: Is the Philosopher",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i93 set value {label:"Philosopher: Drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i94 set value {label:"Pixie: Mad",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i95 set value {label:"Pixie: Has ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i96 set value {label:"Plague Doctor: Storyteller ability",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i97 set value {label:"Po: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i98 set value {label:"Po: 3 attacks",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i99 set value {label:"Poisoner: Poisoned",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i100 set value {label:"Poppy Grower: Evil wakes",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i101 set value {label:"Preacher: At a sermon",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i102 set value {label:"Princess: Doesn\u0027t Kill",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i103 set value {label:"Professor: Alive",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i104 set value {label:"Professor: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i105 set value {label:"Pukka: Poisoned",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i106 set value {label:"Pukka: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i107 set value {label:"Puzzlemaster: Drunk",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i108 set value {label:"Puzzlemaster: Guess used",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i109 set value {label:"Sailor: Drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i110 set value {label:"Seamstress: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i111 set value {label:"Shabaloth: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i112 set value {label:"Shabaloth: Alive",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i113 set value {label:"Slayer: No ability",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i114 set value {label:"Snake Charmer: Poisoned",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i115 set value {label:"Steward: Know",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i116 set value {label:"Summoner: Night 1",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i117 set value {label:"Summoner: Night 2",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i118 set value {label:"Summoner: Night 3",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i119 set value {label:"Sweetheart: Drunk",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i120 set value {label:"Tea Lady: Cannot die",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i121 set value {label:"Tinker: Dead",glyph:"",color:"#55ffff"}
+data modify storage botc_patch:buffet reminder_catalog.i122 set value {label:"Town Crier: Minions did not nominate",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i123 set value {label:"Town Crier: Minions nominated",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i124 set value {label:"Undertaker: Executed",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i125 set value {label:"Vigormortis: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i126 set value {label:"Vigormortis: Has ability",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i127 set value {label:"Vigormortis: Poisoned",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i128 set value {label:"Village Idiot: Drunk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i129 set value {label:"Vortox: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i130 set value {label:"Washerwoman: Townsfolk",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i131 set value {label:"Washerwoman: Wrong",glyph:"",color:"#55aaff"}
+data modify storage botc_patch:buffet reminder_catalog.i132 set value {label:"Widow: Knows",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i133 set value {label:"Widow: Poisoned",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i134 set value {label:"Witch: Cursed",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i135 set value {label:"Wizard: ?",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i136 set value {label:"Xaan: Night 1",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i137 set value {label:"Xaan: Night 2",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i138 set value {label:"Xaan: Night 3",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i139 set value {label:"Xaan: X",glyph:"",color:"#ffaa00"}
+data modify storage botc_patch:buffet reminder_catalog.i140 set value {label:"Yaggababble: Dead",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i141 set value {label:"Zombuul: Died today",glyph:"",color:"#ff5555"}
+data modify storage botc_patch:buffet reminder_catalog.i142 set value {label:"Zombuul: Dead",glyph:"",color:"#ff5555"}

@@ -9,14 +9,20 @@ scoreboard players set buffet_selected_seat botc_patch 0
 scoreboard players set buffet_hard_valid botc_patch 0
 scoreboard players set buffet_soft_warning botc_patch 0
 scoreboard players set buffet_draft_ready botc_patch 0
+scoreboard players set buffet_greedy_hud_ready botc_patch 0
 scoreboard players set draft_ready botc_patch 0
+scoreboard players set draft_manual_override botc_patch 0
 scoreboard players set draft_current_seat botc_patch 0
+function botc_patch:buffet/draft/clear_state
+execute as @a[tag=botc_buffet_roster,tag=!storyteller] run function botc_patch:buffet/personal_grimoire/reset_player
 data remove storage botc_patch:buffet roster
 data remove storage botc_patch:buffet greedy
 data remove storage botc_patch:buffet draft
 data remove storage botc_patch:buffet modifier
+data remove storage botc_patch:buffet personal_grimoire_reminders
 data remove storage botc_patch:buffet ui
 data remove storage botc_patch:buffet action
+execute as @a[tag=botc_buffet_roster,tag=!storyteller] run fmvariable set role false none
 team leave @a[tag=botc_buffet_roster]
 tag @a remove botc_buffet_roster
 tag @a remove botc_buffet_action_used
@@ -24,6 +30,10 @@ tag @a remove botc_buffet_had_choice
 tag @a remove botc_buffet_draft_waiting
 tag @a remove botc_buffet_draft_current
 tag @a remove botc_buffet_draft_forced
+tag @a remove botc_buffet_draft_forced_legion
+tag @a remove botc_buffet_draft_fake_atheist
+tag @a remove botc_buffet_draft_route_atheist
+tag @a remove botc_buffet_draft_route_special
 tag @a remove botc_buffet_claimed
 tag @a remove botc_buffet_emptied
 scoreboard players reset @a botc_buffet_action
@@ -33,9 +43,12 @@ scoreboard players reset @a botc_buffet_role
 scoreboard players reset @a botc_buffet_perceived
 scoreboard players reset @a botc_buffet_alignment
 scoreboard players reset @a botc_buffet_perceived_alignment
+scoreboard players reset @a botc_greedy_hud_seen
+scoreboard players reset @a botc_buffet_seat
 scoreboard players reset @a botc_buffet_total
 scoreboard players reset @a botc_buffet_town
 scoreboard players reset @a botc_buffet_outsider
 scoreboard players reset @a botc_buffet_minion
 scoreboard players reset @a botc_buffet_demon
+clear @a minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_personal_grimoire:1b}]
 clear @a minecraft:carrot_on_a_stick[minecraft:custom_data~{botc_buffet_tool:1b}]

@@ -3,7 +3,7 @@
 # Compacts only currently eligible seated players into a bounded Player (Role) dialog.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"RPS can only start during an active game.",color:"red"}]
+execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"RPS can only start during an active game.",color:"gray",bold:false}]
 function botc_patch:grim/editor/refresh_live_roles
 function botc_patch:grim/editor/player_labels/prepare
 data remove storage botc_patch:dialogs rps_first
