@@ -53,6 +53,7 @@ $macroValues = @{
     deny        = "Denied"
     allow       = "Allowed"
     false_value = "false"
+    true_value  = "true"
     delete      = "delete"
     create      = "create"
     cuboid      = "Cuboid"
@@ -153,13 +154,33 @@ $safetyFlagCommands = @(
         Where-Object { $_.StartsWith('$') }
 )
 $expectedSafetyFlagCommands = @(
+    '$yawp $(global) $(remove) flag trample-farmland',
+    '$yawp global add flag trample-farmland-player $(deny)',
+    '$yawp global add flag trample-farmland-other $(deny)',
     '$yawp global add flag place-blocks $(deny)',
     '$yawp global add flag place-fluids $(deny)',
     '$yawp global add flag scoop-fluids $(deny)',
     '$yawp global add flag strip-wood $(deny)',
     '$yawp global add flag shovel-path $(deny)',
     '$yawp global add flag use-bonemeal $(deny)',
-    '$yawp global add flag no-sign-edit $(deny)'
+    '$yawp global add flag no-sign-edit $(deny)',
+    '$yawp global add flag tools-secondary $(deny)',
+    '$yawp global add flag till-farmland $(deny)',
+    '$yawp global add flag ignite-explosives $(deny)',
+    '$yawp flag global break-blocks override $(true_value)',
+    '$yawp flag global use-blocks override $(true_value)',
+    '$yawp flag global trample-farmland-player override $(true_value)',
+    '$yawp flag global trample-farmland-other override $(true_value)',
+    '$yawp flag global place-blocks override $(true_value)',
+    '$yawp flag global place-fluids override $(true_value)',
+    '$yawp flag global scoop-fluids override $(true_value)',
+    '$yawp flag global strip-wood override $(true_value)',
+    '$yawp flag global shovel-path override $(true_value)',
+    '$yawp flag global use-bonemeal override $(true_value)',
+    '$yawp flag global no-sign-edit override $(true_value)',
+    '$yawp flag global tools-secondary override $(true_value)',
+    '$yawp flag global till-farmland override $(true_value)',
+    '$yawp flag global ignite-explosives override $(true_value)'
 )
 if ($safetyFlagCommands.Count -ne $expectedSafetyFlagCommands.Count) {
     throw "Jay-owned YAWP safety flag command count changed."
@@ -170,25 +191,24 @@ for ($index = 0; $index -lt $expectedSafetyFlagCommands.Count; $index++) {
     }
 }
 
-foreach ($nonBypassableFlag in @('tools-secondary', 'till-farmland', 'ignite-explosives')) {
-    if ($safetyFlagCommands -contains "`$yawp global add flag $nonBypassableFlag `$(deny)") {
-        throw "YAWP 0.6.2 does not let trusted members/owners of the effective region bypass '$nonBypassableFlag'."
-    }
-}
-
 $safetyDevModeCommands = @(
     Get-Content -LiteralPath $safetyDevModePath |
         ForEach-Object { $_.Trim() } |
         Where-Object { $_.StartsWith('$') }
 )
 $expectedSafetyDevModeCommands = @(
+    '$yawp $(global) $(remove) flag trample-farmland-player',
+    '$yawp $(global) $(remove) flag trample-farmland-other',
     '$yawp $(global) $(remove) flag place-blocks',
     '$yawp $(global) $(remove) flag place-fluids',
     '$yawp $(global) $(remove) flag scoop-fluids',
     '$yawp $(global) $(remove) flag strip-wood',
     '$yawp $(global) $(remove) flag shovel-path',
     '$yawp $(global) $(remove) flag use-bonemeal',
-    '$yawp $(global) $(remove) flag no-sign-edit'
+    '$yawp $(global) $(remove) flag no-sign-edit',
+    '$yawp $(global) $(remove) flag tools-secondary',
+    '$yawp $(global) $(remove) flag till-farmland',
+    '$yawp $(global) $(remove) flag ignite-explosives'
 )
 if ($safetyDevModeCommands.Count -ne $expectedSafetyDevModeCommands.Count) {
     throw "Jay-owned YAWP safety dev-mode command count changed."
