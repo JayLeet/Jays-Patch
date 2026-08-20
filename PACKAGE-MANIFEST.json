@@ -9649,8 +9649,8 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/startup/yawp_prepare.mcfunction",
-                      "bytes":  218,
-                      "sha256":  "542cce6fa917e16ff4cd63098104330952bc8a3bc3f449ba27b13f730a0be1cf"
+                      "bytes":  236,
+                      "sha256":  "34f6640b06031dfc2cb959638695fbcee5dc5c25a2a63b21da58db5e314e9a12"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/startup/yawp_regions.mcfunction",
@@ -9674,13 +9674,13 @@
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/startup/yawp_safety_dev_mode.mcfunction",
-                      "bytes":  386,
-                      "sha256":  "45088f65c9157287c98adb316f283c0dd326ed02c8f625a5b1c24f12545e76c7"
+                      "bytes":  632,
+                      "sha256":  "184e188a76dfe334b224f634cdd293bbfd69b76d716a24b8dbedf2e9e321b81b"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/startup/yawp_safety_flags.mcfunction",
-                      "bytes":  563,
-                      "sha256":  "40cfad9ecd1eac0cc0fc8584c74f095d17fb2e02902710b4bbde45258370b7ac"
+                      "bytes":  1759,
+                      "sha256":  "b2cdbd0bbb0030c9c876cd8fde1ec80906e35086881808b6115d0f72e49d8a92"
                   },
                   {
                       "path":  "world/datapacks/jays_patch/data/botc_patch/function/storyteller_tools/advance_phase.mcfunction",
