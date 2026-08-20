@@ -1,7 +1,7 @@
 # Publish Jay's Patch v1.9.0 Stable
 
 - Status: `verifying`
-- Updated: `2026-08-21 00:14 CEST`
+- Updated: `2026-08-21 00:23 CEST`
 - Owner: Sol
 - Workflow decision: `use Sol/Luna workflow`
 - Workflow reason: `This task changes the default-branch model, stable version identity, generated public package, Git tag, GitHub release, and branch retention. A durable release and rollback record is worth the journal cost.`
@@ -55,7 +55,7 @@
 
 1. [x] `Update stable version metadata and remove the upstream Djinn limitation wording in maintained source.`
 2. [x] `Refresh generated documentation and baselines, then run focused checks and the reviewed stable package build.`
-3. [ ] `Join the package and source histories, merge the complete source tree to main, publish and independently verify v1.9.0, then prune only proven-redundant branches.`
+3. [x] `Join the package and source histories, merge the complete source tree to main, publish and independently verify v1.9.0, then prune only proven-redundant branches.`
 
 ## Delivery tracking
 
@@ -77,6 +77,10 @@
 - `The staging tree contains no 1.9.0 beta version or Djinn-sheet beta-limitation wording.`
 - `Stable source commit c1f96e8 was created from the reviewed nine-file release scope.`
 - `A history-preserving ours-strategy merge joined origin/main 07ff1439 as the second parent while retaining the exact stable source tree.`
+- `PR #11 merged the exact stable source tree to main at 4d75780e without force-pushing or dropping either history.`
+- `GitHub release v1.9.0 is public, marked stable, targets the exact main commit, and owns one independently downloaded package matching the reviewed local SHA-256 and byte size.`
+- `The remote recovery and package-sync branches were deleted only after reachability checks proved both tips are ancestors of new main; origin now exposes only main.`
+- `Local snapshot 64783da1 and legacy Sol/Luna commit 6996ad8b are not reachable from main and remain preserved. The original dirty recovery checkout and its local branch also remain untouched.`
 
 ## Active Luna assignments
 
@@ -99,15 +103,19 @@
 | `stable archive inspection` | `pass` | `73,285,230 bytes; SHA-256 afed592ce8c99777c0ac670d9e4871c59a9bacb08e27fa250f4a7c8122334747; 2,646 ZIP entries; manifest version 1.9.0 with 2,645 files; zero forbidden current beta/Djinn references.` |
 | `stable source commit scope` | `pass` | `c1f96e8 contains only the nine reviewed release-owned source and documentation files.` |
 | `history join` | `pass` | `The merge has parents c1f96e8 and origin/main 07ff1439; its tree exactly matches the stable source tree before the merge.` |
+| `PR #11 merge and tree verification` | `pass` | `Remote main is 4d75780e and its tree exactly matches the reviewed stable source branch.` |
+| `GitHub v1.9.0 release verification` | `pass` | `Tag and main both point to 4d75780e; release is not a draft or prerelease; its single 73,285,230-byte asset independently downloads with SHA-256 afed592ce8c99777c0ac670d9e4871c59a9bacb08e27fa250f4a7c8122334747 and the same GitHub API digest.` |
+| `remote branch reachability and cleanup` | `pass` | `Recovery 22541cbf and package-sync dd5e5408 were ancestors of main before deletion; origin now has only main.` |
+| `local branch preservation audit` | `pass` | `Two local-only tips are not reachable from main and were retained; the dirty original checkout was not switched, reset, staged, or cleaned.` |
 
 ## Current blocker
 
-`None.`
+`None. This final release record still needs its documentation-only commit fast-forwarded to main.`
 
 ## Exact next step
 
-`Commit this journal milestone, push the promotion branch, create one ready PR to main, and verify its exact tree and mergeability.`
+`Commit this final journal update, fast-forward it to main, and confirm main/release/remote branch state once more.`
 
 ## Final outcome
 
-`Pending.`
+`Jay's Patch v1.9.0 is the verified current stable release. Main now contains the complete maintained source and both former histories. Only redundant remote branches were removed; unique local history and unrelated dirty work remain preserved.`
