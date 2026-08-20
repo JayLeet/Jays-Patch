@@ -1,5 +1,6 @@
 function botc_patch:reset/tick
 function botc_patch:seat_layout/tick
+function botc_patch:seat_guide/tick
 function botc_patch:nomination_markers/tick
 execute if score phase game_data matches 1.. if score active_game game_id matches -2147483648..2147483647 as @a[tag=!storyteller] unless score @s game_id = active_game game_id unless score @s botc_outsider_seen = active_game game_id run function botc_patch:reset/active_game_outsider_state
 scoreboard players add botc_owner_refresh botc_patch 1
@@ -21,6 +22,7 @@ execute if score patch_items_enabled botc_patch matches 1 run function botc_patc
 function botc_patch:grim/tick
 function botc_patch:wraith/tick
 function botc_patch:night_chat/tick
+function botc_patch:fun/tick
 execute unless score patch_items_enabled botc_patch matches 1 run scoreboard players set @a[scores={botc_hand_use=1..}] botc_hand_use 0
 execute unless score patch_items_enabled botc_patch matches 1 run scoreboard players set @a[scores={botc_music_use=1..}] botc_music_use 0
 execute if score patch_items_enabled botc_patch matches 1 if entity @a[scores={botc_hand_use=1..}] run function botc_patch:hand/tick

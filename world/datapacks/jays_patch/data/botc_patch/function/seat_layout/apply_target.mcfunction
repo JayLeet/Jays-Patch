@@ -1,4 +1,6 @@
 # Generated count dispatch. Counts above Sybillian's maximum are capped at 15.
+# Temporarily remove Sybillian's team prefix so resolved sign components contain only player names.
+function ct:util/color_names
 execute if score seat_layout_target_count botc_patch matches 16.. run scoreboard players set seat_layout_target_count botc_patch 15
 execute if score seat_layout_target_count botc_patch matches 0 run function botc_patch:seat_layout/apply/0
 execute if score seat_layout_target_count botc_patch matches 1 run function botc_patch:seat_layout/apply/1
@@ -16,3 +18,4 @@ execute if score seat_layout_target_count botc_patch matches 12 run function bot
 execute if score seat_layout_target_count botc_patch matches 13 run function botc_patch:seat_layout/apply/13
 execute if score seat_layout_target_count botc_patch matches 14 run function botc_patch:seat_layout/apply/14
 execute if score seat_layout_target_count botc_patch matches 15 run function botc_patch:seat_layout/apply/15
+function ct:util/color_prefixes

@@ -8,6 +8,7 @@ scoreboard players reset @a botc_grim_edit_seat
 scoreboard players reset @a botc_grim_edit_role
 scoreboard players reset @a botc_grim_edit_alignment
 scoreboard players reset @a botc_grim_edit_valid
+scoreboard players reset @a botc_grim_edit_mode
 data remove storage botc_patch:grim editor.roles
 data remove storage botc_patch:grim editor.dialog
 data remove storage botc_patch:grim editor.player_labels

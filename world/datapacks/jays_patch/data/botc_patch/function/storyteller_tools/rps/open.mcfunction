@@ -3,7 +3,7 @@
 # Opens the first RPS participant picker from players who already made a choice.
 dialog clear @s
 execute unless entity @s[tag=storyteller] run return 0
-execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"RPS can only start during an active game.",color:"red"}]
-execute if score cd rps matches 1.. run return run tellraw @s [{text:"An RPS countdown is already running.",color:"red"}]
+execute unless score phase game_data matches 1.. run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"RPS can only start during an active game.",color:"gray",bold:false}]
+execute if score cd rps matches 1.. run return run tellraw @s [{text:"! ",color:"red",bold:true},{text:"An RPS countdown is already running.",color:"gray",bold:false}]
 tag @a remove botc_rps_first
 function botc_patch:storyteller_tools/rps/first/dialog

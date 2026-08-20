@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:command",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:carrot_on_a_stick",
+          "functions": [
+            {
+              "function": "minecraft:set_name",
+              "name": {"text": "Boomdandy Party Popper", "color": "gold", "bold": true, "italic": false}
+            },
+            {
+              "function": "minecraft:set_lore",
+              "mode": "replace_all",
+              "lore": [
+                {"text": "Right-click, then stand well back.", "color": "yellow", "italic": false},
+                {"text": "Entirely harmless. Probably.", "color": "gray", "italic": true}
+              ]
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:custom_model_data": {"strings": ["botc_fun_boomdandy"]},
+                "minecraft:enchantment_glint_override": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

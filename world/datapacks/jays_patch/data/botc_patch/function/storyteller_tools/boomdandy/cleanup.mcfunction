@@ -21,6 +21,7 @@ tag @a remove botc_boomdandy_finalist
 tag @a remove botc_boomdandy_eliminate
 tag @a remove botc_boomdandy_current_voter
 tag @a remove botc_boomdandy_majority_target
+tag @a remove botc_boomdandy_execution_pending
 tag @e[type=minecraft:item_display,tag=vote_marker] remove botc_boomdandy_finalist_seat
 data remove storage botc_patch:dialogs boomdandy
 data remove storage botc_patch:dialogs boomdandy_selection

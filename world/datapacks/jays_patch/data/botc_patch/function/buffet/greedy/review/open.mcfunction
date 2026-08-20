@@ -2,160 +2,251 @@
 # Do not hand-edit this file; update the generator or Jays-Patch/buffet-rules.json.
 # Prepare the Storyteller's Greedy review dashboard.
 data remove storage botc_patch:buffet greedy.hermit_pending
-execute if score buffet_duplicates botc_patch matches 0 run data modify storage botc_patch:buffet ui.duplicate_label set value "Duplicates: Off"
-execute if score buffet_duplicates botc_patch matches 0 run data modify storage botc_patch:buffet ui.duplicate_color set value "gray"
-execute if score buffet_duplicates botc_patch matches 1 run data modify storage botc_patch:buffet ui.duplicate_label set value "Duplicates: On"
+scoreboard players set buffet_start_confirmed botc_patch 0
+execute if score buffet_duplicates botc_patch matches 0 run data modify storage botc_patch:buffet ui.duplicate_state set value "✗"
+execute if score buffet_duplicates botc_patch matches 0 run data modify storage botc_patch:buffet ui.duplicate_color set value "red"
+execute if score buffet_duplicates botc_patch matches 1 run data modify storage botc_patch:buffet ui.duplicate_state set value "✓"
 execute if score buffet_duplicates botc_patch matches 1 run data modify storage botc_patch:buffet ui.duplicate_color set value "green"
 data modify storage botc_patch:buffet ui.p1_name set from storage botc_patch:buffet greedy.seats.s1.name
 data modify storage botc_patch:buffet ui.p1_status set value "●"
 data modify storage botc_patch:buffet ui.p1_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p1_role set value ""
+data modify storage botc_patch:buffet ui.p1_name_color set value "white"
+data modify storage botc_patch:buffet ui.p1_role_open set value ""
+data modify storage botc_patch:buffet ui.p1_role_close set value ""
 data modify storage botc_patch:buffet ui.p1_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s1{status:1} run data modify storage botc_patch:buffet ui.p1_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s1{status:2} run data modify storage botc_patch:buffet ui.p1_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s1{status:3} run data modify storage botc_patch:buffet ui.p1_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s1{active:1b} run data modify storage botc_patch:buffet ui.p1_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s1{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p1_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s1{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s1{role:0} run data modify storage botc_patch:buffet ui.p1_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s1{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s1{role:0} run data modify storage botc_patch:buffet ui.p1_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s1{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s1{submitted:1b} run data modify storage botc_patch:buffet ui.p1_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s1{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=1},limit=1] run data modify storage botc_patch:buffet ui.p1_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s1.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:1} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 1
+execute if data storage botc_patch:buffet greedy.seats.s1{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p2_name set from storage botc_patch:buffet greedy.seats.s2.name
 data modify storage botc_patch:buffet ui.p2_status set value "●"
 data modify storage botc_patch:buffet ui.p2_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p2_role set value ""
+data modify storage botc_patch:buffet ui.p2_name_color set value "white"
+data modify storage botc_patch:buffet ui.p2_role_open set value ""
+data modify storage botc_patch:buffet ui.p2_role_close set value ""
 data modify storage botc_patch:buffet ui.p2_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s2{status:1} run data modify storage botc_patch:buffet ui.p2_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s2{status:2} run data modify storage botc_patch:buffet ui.p2_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s2{status:3} run data modify storage botc_patch:buffet ui.p2_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s2{active:1b} run data modify storage botc_patch:buffet ui.p2_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s2{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p2_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s2{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s2{role:0} run data modify storage botc_patch:buffet ui.p2_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s2{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s2{role:0} run data modify storage botc_patch:buffet ui.p2_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s2{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s2{submitted:1b} run data modify storage botc_patch:buffet ui.p2_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s2{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=2},limit=1] run data modify storage botc_patch:buffet ui.p2_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s2.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:2} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 2
+execute if data storage botc_patch:buffet greedy.seats.s2{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p3_name set from storage botc_patch:buffet greedy.seats.s3.name
 data modify storage botc_patch:buffet ui.p3_status set value "●"
 data modify storage botc_patch:buffet ui.p3_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p3_role set value ""
+data modify storage botc_patch:buffet ui.p3_name_color set value "white"
+data modify storage botc_patch:buffet ui.p3_role_open set value ""
+data modify storage botc_patch:buffet ui.p3_role_close set value ""
 data modify storage botc_patch:buffet ui.p3_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s3{status:1} run data modify storage botc_patch:buffet ui.p3_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s3{status:2} run data modify storage botc_patch:buffet ui.p3_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s3{status:3} run data modify storage botc_patch:buffet ui.p3_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s3{active:1b} run data modify storage botc_patch:buffet ui.p3_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s3{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p3_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s3{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s3{role:0} run data modify storage botc_patch:buffet ui.p3_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s3{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s3{role:0} run data modify storage botc_patch:buffet ui.p3_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s3{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s3{submitted:1b} run data modify storage botc_patch:buffet ui.p3_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s3{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=3},limit=1] run data modify storage botc_patch:buffet ui.p3_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s3.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:3} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 3
+execute if data storage botc_patch:buffet greedy.seats.s3{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p4_name set from storage botc_patch:buffet greedy.seats.s4.name
 data modify storage botc_patch:buffet ui.p4_status set value "●"
 data modify storage botc_patch:buffet ui.p4_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p4_role set value ""
+data modify storage botc_patch:buffet ui.p4_name_color set value "white"
+data modify storage botc_patch:buffet ui.p4_role_open set value ""
+data modify storage botc_patch:buffet ui.p4_role_close set value ""
 data modify storage botc_patch:buffet ui.p4_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s4{status:1} run data modify storage botc_patch:buffet ui.p4_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s4{status:2} run data modify storage botc_patch:buffet ui.p4_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s4{status:3} run data modify storage botc_patch:buffet ui.p4_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s4{active:1b} run data modify storage botc_patch:buffet ui.p4_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s4{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p4_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s4{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s4{role:0} run data modify storage botc_patch:buffet ui.p4_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s4{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s4{role:0} run data modify storage botc_patch:buffet ui.p4_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s4{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s4{submitted:1b} run data modify storage botc_patch:buffet ui.p4_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s4{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=4},limit=1] run data modify storage botc_patch:buffet ui.p4_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s4.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:4} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 4
+execute if data storage botc_patch:buffet greedy.seats.s4{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p5_name set from storage botc_patch:buffet greedy.seats.s5.name
 data modify storage botc_patch:buffet ui.p5_status set value "●"
 data modify storage botc_patch:buffet ui.p5_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p5_role set value ""
+data modify storage botc_patch:buffet ui.p5_name_color set value "white"
+data modify storage botc_patch:buffet ui.p5_role_open set value ""
+data modify storage botc_patch:buffet ui.p5_role_close set value ""
 data modify storage botc_patch:buffet ui.p5_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s5{status:1} run data modify storage botc_patch:buffet ui.p5_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s5{status:2} run data modify storage botc_patch:buffet ui.p5_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s5{status:3} run data modify storage botc_patch:buffet ui.p5_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s5{active:1b} run data modify storage botc_patch:buffet ui.p5_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s5{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p5_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s5{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s5{role:0} run data modify storage botc_patch:buffet ui.p5_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s5{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s5{role:0} run data modify storage botc_patch:buffet ui.p5_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s5{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s5{submitted:1b} run data modify storage botc_patch:buffet ui.p5_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s5{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=5},limit=1] run data modify storage botc_patch:buffet ui.p5_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s5.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:5} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 5
+execute if data storage botc_patch:buffet greedy.seats.s5{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p6_name set from storage botc_patch:buffet greedy.seats.s6.name
 data modify storage botc_patch:buffet ui.p6_status set value "●"
 data modify storage botc_patch:buffet ui.p6_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p6_role set value ""
+data modify storage botc_patch:buffet ui.p6_name_color set value "white"
+data modify storage botc_patch:buffet ui.p6_role_open set value ""
+data modify storage botc_patch:buffet ui.p6_role_close set value ""
 data modify storage botc_patch:buffet ui.p6_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s6{status:1} run data modify storage botc_patch:buffet ui.p6_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s6{status:2} run data modify storage botc_patch:buffet ui.p6_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s6{status:3} run data modify storage botc_patch:buffet ui.p6_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s6{active:1b} run data modify storage botc_patch:buffet ui.p6_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s6{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p6_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s6{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s6{role:0} run data modify storage botc_patch:buffet ui.p6_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s6{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s6{role:0} run data modify storage botc_patch:buffet ui.p6_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s6{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s6{submitted:1b} run data modify storage botc_patch:buffet ui.p6_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s6{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=6},limit=1] run data modify storage botc_patch:buffet ui.p6_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s6.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:6} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 6
+execute if data storage botc_patch:buffet greedy.seats.s6{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p7_name set from storage botc_patch:buffet greedy.seats.s7.name
 data modify storage botc_patch:buffet ui.p7_status set value "●"
 data modify storage botc_patch:buffet ui.p7_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p7_role set value ""
+data modify storage botc_patch:buffet ui.p7_name_color set value "white"
+data modify storage botc_patch:buffet ui.p7_role_open set value ""
+data modify storage botc_patch:buffet ui.p7_role_close set value ""
 data modify storage botc_patch:buffet ui.p7_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s7{status:1} run data modify storage botc_patch:buffet ui.p7_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s7{status:2} run data modify storage botc_patch:buffet ui.p7_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s7{status:3} run data modify storage botc_patch:buffet ui.p7_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s7{active:1b} run data modify storage botc_patch:buffet ui.p7_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s7{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p7_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s7{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s7{role:0} run data modify storage botc_patch:buffet ui.p7_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s7{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s7{role:0} run data modify storage botc_patch:buffet ui.p7_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s7{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s7{submitted:1b} run data modify storage botc_patch:buffet ui.p7_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s7{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=7},limit=1] run data modify storage botc_patch:buffet ui.p7_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s7.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:7} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 7
+execute if data storage botc_patch:buffet greedy.seats.s7{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p8_name set from storage botc_patch:buffet greedy.seats.s8.name
 data modify storage botc_patch:buffet ui.p8_status set value "●"
 data modify storage botc_patch:buffet ui.p8_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p8_role set value ""
+data modify storage botc_patch:buffet ui.p8_name_color set value "white"
+data modify storage botc_patch:buffet ui.p8_role_open set value ""
+data modify storage botc_patch:buffet ui.p8_role_close set value ""
 data modify storage botc_patch:buffet ui.p8_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s8{status:1} run data modify storage botc_patch:buffet ui.p8_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s8{status:2} run data modify storage botc_patch:buffet ui.p8_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s8{status:3} run data modify storage botc_patch:buffet ui.p8_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s8{active:1b} run data modify storage botc_patch:buffet ui.p8_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s8{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p8_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s8{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s8{role:0} run data modify storage botc_patch:buffet ui.p8_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s8{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s8{role:0} run data modify storage botc_patch:buffet ui.p8_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s8{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s8{submitted:1b} run data modify storage botc_patch:buffet ui.p8_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s8{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=8},limit=1] run data modify storage botc_patch:buffet ui.p8_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s8.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:8} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 8
+execute if data storage botc_patch:buffet greedy.seats.s8{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p9_name set from storage botc_patch:buffet greedy.seats.s9.name
 data modify storage botc_patch:buffet ui.p9_status set value "●"
 data modify storage botc_patch:buffet ui.p9_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p9_role set value ""
+data modify storage botc_patch:buffet ui.p9_name_color set value "white"
+data modify storage botc_patch:buffet ui.p9_role_open set value ""
+data modify storage botc_patch:buffet ui.p9_role_close set value ""
 data modify storage botc_patch:buffet ui.p9_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s9{status:1} run data modify storage botc_patch:buffet ui.p9_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s9{status:2} run data modify storage botc_patch:buffet ui.p9_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s9{status:3} run data modify storage botc_patch:buffet ui.p9_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s9{active:1b} run data modify storage botc_patch:buffet ui.p9_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s9{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p9_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s9{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s9{role:0} run data modify storage botc_patch:buffet ui.p9_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s9{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s9{role:0} run data modify storage botc_patch:buffet ui.p9_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s9{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s9{submitted:1b} run data modify storage botc_patch:buffet ui.p9_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s9{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=9},limit=1] run data modify storage botc_patch:buffet ui.p9_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s9.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:9} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 9
+execute if data storage botc_patch:buffet greedy.seats.s9{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p10_name set from storage botc_patch:buffet greedy.seats.s10.name
 data modify storage botc_patch:buffet ui.p10_status set value "●"
 data modify storage botc_patch:buffet ui.p10_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p10_role set value ""
+data modify storage botc_patch:buffet ui.p10_name_color set value "white"
+data modify storage botc_patch:buffet ui.p10_role_open set value ""
+data modify storage botc_patch:buffet ui.p10_role_close set value ""
 data modify storage botc_patch:buffet ui.p10_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s10{status:1} run data modify storage botc_patch:buffet ui.p10_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s10{status:2} run data modify storage botc_patch:buffet ui.p10_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s10{status:3} run data modify storage botc_patch:buffet ui.p10_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s10{active:1b} run data modify storage botc_patch:buffet ui.p10_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s10{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p10_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s10{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s10{role:0} run data modify storage botc_patch:buffet ui.p10_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s10{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s10{role:0} run data modify storage botc_patch:buffet ui.p10_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s10{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s10{submitted:1b} run data modify storage botc_patch:buffet ui.p10_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s10{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=10},limit=1] run data modify storage botc_patch:buffet ui.p10_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s10.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:10} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 10
+execute if data storage botc_patch:buffet greedy.seats.s10{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p11_name set from storage botc_patch:buffet greedy.seats.s11.name
 data modify storage botc_patch:buffet ui.p11_status set value "●"
 data modify storage botc_patch:buffet ui.p11_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p11_role set value ""
+data modify storage botc_patch:buffet ui.p11_name_color set value "white"
+data modify storage botc_patch:buffet ui.p11_role_open set value ""
+data modify storage botc_patch:buffet ui.p11_role_close set value ""
 data modify storage botc_patch:buffet ui.p11_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s11{status:1} run data modify storage botc_patch:buffet ui.p11_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s11{status:2} run data modify storage botc_patch:buffet ui.p11_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s11{status:3} run data modify storage botc_patch:buffet ui.p11_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s11{active:1b} run data modify storage botc_patch:buffet ui.p11_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s11{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p11_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s11{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s11{role:0} run data modify storage botc_patch:buffet ui.p11_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s11{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s11{role:0} run data modify storage botc_patch:buffet ui.p11_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s11{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s11{submitted:1b} run data modify storage botc_patch:buffet ui.p11_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s11{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=11},limit=1] run data modify storage botc_patch:buffet ui.p11_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s11.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:11} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 11
+execute if data storage botc_patch:buffet greedy.seats.s11{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p12_name set from storage botc_patch:buffet greedy.seats.s12.name
 data modify storage botc_patch:buffet ui.p12_status set value "●"
 data modify storage botc_patch:buffet ui.p12_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p12_role set value ""
+data modify storage botc_patch:buffet ui.p12_name_color set value "white"
+data modify storage botc_patch:buffet ui.p12_role_open set value ""
+data modify storage botc_patch:buffet ui.p12_role_close set value ""
 data modify storage botc_patch:buffet ui.p12_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s12{status:1} run data modify storage botc_patch:buffet ui.p12_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s12{status:2} run data modify storage botc_patch:buffet ui.p12_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s12{status:3} run data modify storage botc_patch:buffet ui.p12_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s12{active:1b} run data modify storage botc_patch:buffet ui.p12_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s12{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p12_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s12{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s12{role:0} run data modify storage botc_patch:buffet ui.p12_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s12{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s12{role:0} run data modify storage botc_patch:buffet ui.p12_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s12{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s12{submitted:1b} run data modify storage botc_patch:buffet ui.p12_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s12{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=12},limit=1] run data modify storage botc_patch:buffet ui.p12_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s12.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:12} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 12
+execute if data storage botc_patch:buffet greedy.seats.s12{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p13_name set from storage botc_patch:buffet greedy.seats.s13.name
 data modify storage botc_patch:buffet ui.p13_status set value "●"
 data modify storage botc_patch:buffet ui.p13_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p13_role set value ""
+data modify storage botc_patch:buffet ui.p13_name_color set value "white"
+data modify storage botc_patch:buffet ui.p13_role_open set value ""
+data modify storage botc_patch:buffet ui.p13_role_close set value ""
 data modify storage botc_patch:buffet ui.p13_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s13{status:1} run data modify storage botc_patch:buffet ui.p13_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s13{status:2} run data modify storage botc_patch:buffet ui.p13_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s13{status:3} run data modify storage botc_patch:buffet ui.p13_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s13{active:1b} run data modify storage botc_patch:buffet ui.p13_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s13{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p13_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s13{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s13{role:0} run data modify storage botc_patch:buffet ui.p13_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s13{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s13{role:0} run data modify storage botc_patch:buffet ui.p13_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s13{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s13{submitted:1b} run data modify storage botc_patch:buffet ui.p13_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s13{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=13},limit=1] run data modify storage botc_patch:buffet ui.p13_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s13.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:13} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 13
+execute if data storage botc_patch:buffet greedy.seats.s13{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p14_name set from storage botc_patch:buffet greedy.seats.s14.name
 data modify storage botc_patch:buffet ui.p14_status set value "●"
 data modify storage botc_patch:buffet ui.p14_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p14_role set value ""
+data modify storage botc_patch:buffet ui.p14_name_color set value "white"
+data modify storage botc_patch:buffet ui.p14_role_open set value ""
+data modify storage botc_patch:buffet ui.p14_role_close set value ""
 data modify storage botc_patch:buffet ui.p14_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s14{status:1} run data modify storage botc_patch:buffet ui.p14_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s14{status:2} run data modify storage botc_patch:buffet ui.p14_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s14{status:3} run data modify storage botc_patch:buffet ui.p14_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s14{active:1b} run data modify storage botc_patch:buffet ui.p14_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s14{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p14_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s14{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s14{role:0} run data modify storage botc_patch:buffet ui.p14_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s14{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s14{role:0} run data modify storage botc_patch:buffet ui.p14_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s14{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s14{submitted:1b} run data modify storage botc_patch:buffet ui.p14_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s14{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=14},limit=1] run data modify storage botc_patch:buffet ui.p14_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s14.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:14} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 14
+execute if data storage botc_patch:buffet greedy.seats.s14{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 data modify storage botc_patch:buffet ui.p15_name set from storage botc_patch:buffet greedy.seats.s15.name
 data modify storage botc_patch:buffet ui.p15_status set value "●"
 data modify storage botc_patch:buffet ui.p15_color set value "#aaaaaa"
-data modify storage botc_patch:buffet ui.p15_role set value ""
+data modify storage botc_patch:buffet ui.p15_name_color set value "white"
+data modify storage botc_patch:buffet ui.p15_role_open set value ""
+data modify storage botc_patch:buffet ui.p15_role_close set value ""
 data modify storage botc_patch:buffet ui.p15_glyph set value ""
-execute if data storage botc_patch:buffet greedy.seats.s15{status:1} run data modify storage botc_patch:buffet ui.p15_color set value "#ffff55"
-execute if data storage botc_patch:buffet greedy.seats.s15{status:2} run data modify storage botc_patch:buffet ui.p15_color set value "#55ff55"
-execute if data storage botc_patch:buffet greedy.seats.s15{status:3} run data modify storage botc_patch:buffet ui.p15_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s15{active:1b} run data modify storage botc_patch:buffet ui.p15_color set value "#ff5555"
+execute if data storage botc_patch:buffet greedy.seats.s15{active:1b,submitted:1b,role:0} run data modify storage botc_patch:buffet ui.p15_color set value "#ffaa00"
+execute if data storage botc_patch:buffet greedy.seats.s15{active:1b,submitted:1b,status:3} unless data storage botc_patch:buffet greedy.seats.s15{role:0} run data modify storage botc_patch:buffet ui.p15_color set value "#ff55ff"
+execute if data storage botc_patch:buffet greedy.seats.s15{active:1b,submitted:1b,status:2} unless data storage botc_patch:buffet greedy.seats.s15{role:0} run data modify storage botc_patch:buffet ui.p15_color set value "#55ff55"
+execute if data storage botc_patch:buffet greedy.seats.s15{active:1b,resubmit_requested:1b} unless data storage botc_patch:buffet greedy.seats.s15{submitted:1b} run data modify storage botc_patch:buffet ui.p15_color set value "#ffff55"
+execute if data storage botc_patch:buffet greedy.seats.s15{active:1b} unless entity @a[tag=botc_buffet_roster,scores={botc_buffet_seat=15},limit=1] run data modify storage botc_patch:buffet ui.p15_color set value "#555555"
 execute store result storage botc_patch:buffet action.role int 1 run data get storage botc_patch:buffet greedy.seats.s15.role
-function botc_patch:buffet/greedy/review/prepare_role {seat:15} with storage botc_patch:buffet action
+data modify storage botc_patch:buffet action.seat set value 15
+execute if data storage botc_patch:buffet greedy.seats.s15{active:1b} run function botc_patch:buffet/greedy/review/prepare_role with storage botc_patch:buffet action
 execute if score buffet_roster_count botc_patch matches 5 run function botc_patch:buffet/greedy/review/dashboard_5 with storage botc_patch:buffet ui
 execute if score buffet_roster_count botc_patch matches 6 run function botc_patch:buffet/greedy/review/dashboard_6 with storage botc_patch:buffet ui
 execute if score buffet_roster_count botc_patch matches 7 run function botc_patch:buffet/greedy/review/dashboard_7 with storage botc_patch:buffet ui

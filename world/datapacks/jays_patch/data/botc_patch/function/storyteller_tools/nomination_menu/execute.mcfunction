@@ -2,12 +2,17 @@
 # Do not hand-edit this file; update the generator and regenerate.
 # Executes the marked player while preserving the post-execution target.
 tag @s add botc_st_tool_used
+execute if score boomdandy_pyre_state botc_patch matches 1..2 run return run tellraw @s [{text:"Boomdandy\u0027s pyre execution is still resolving.",color:"yellow"}]
+execute if entity @s[tag=botc_boomdandy_execution_pending] run return run function botc_patch:storyteller_tools/boomdandy/show_execution_choice
+execute if entity @a[tag=storyteller,tag=botc_boomdandy_execution_pending,limit=1] run return run tellraw @s [{text:"Another Storyteller is already choosing how to execute the Boomdandy.",color:"yellow"}]
 tag @s remove botc_st_nom_execute_done
 tag @s remove botc_st_post_kill_resolved
+tag @a remove botc_boomdandy_pyre_owner
 tag @a remove botc_st_last_executed
 execute if entity @a[tag=marked_for_execution,limit=1] run tag @s add botc_st_nom_execute_done
 execute if entity @s[tag=botc_st_nom_execute_done] run tag @a[tag=marked_for_execution,limit=1] add botc_st_last_executed
-execute if entity @s[tag=botc_st_nom_execute_done] as @a[tag=botc_st_last_executed,limit=1] run function ct:kill/execute/execute
+execute if entity @s[tag=botc_st_nom_execute_done] if entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] run return run function botc_patch:storyteller_tools/boomdandy/prepare_execution_choice
+execute if entity @s[tag=botc_st_nom_execute_done] unless entity @a[tag=botc_st_last_executed,scores={id=1..15,role=107},limit=1] as @a[tag=botc_st_last_executed,limit=1] run function ct:kill/execute/execute
 execute if entity @s[tag=botc_st_nom_execute_done] run function botc_patch:storyteller_tools/post_execution/replace_items
-execute unless entity @s[tag=botc_st_nom_execute_done] run tellraw @s [{text:"No player is marked for execution.",color:"red"}]
+execute unless entity @s[tag=botc_st_nom_execute_done] run tellraw @s [{text:"! ",color:"red",bold:true},{text:"No player is marked for execution.",color:"gray",bold:false}]
 tag @s remove botc_st_nom_execute_done

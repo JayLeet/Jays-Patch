@@ -7,9 +7,10 @@ tag @s add botc_buffet_roster
 tag @s add botc_buffet_draft_waiting
 team join 15_black @s
 scoreboard players set @s id 15
+scoreboard players set @s botc_buffet_seat 15
 scoreboard players operation @s botc_buffet_seat_gen = buffet_seat_15_generation botc_patch
 scoreboard players set @s botc_buffet_status 0
-data modify storage botc_patch:buffet draft.seats.s15 set value {active:1b,name:"Seat 15",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{},seen:{},history:{}}
+data modify storage botc_patch:buffet draft.seats.s15 set value {active:1b,name:"Seat 15",status:0,round:0,actual:0,perceived:0,alignment:0,perceived_alignment:0,category:0,forced_category:0,modifier_owner:0b,protected_outsider:0,delta_town:0,delta_outsider:0,delta_minion:0,delta_demon:0,offers:{},seen:{},history:{}}
 function ct:start_game/apply_labels
 execute if score buffet_roster_count botc_patch matches 5 run function botc_patch:buffet/roster/snapshot_names/5
 execute if score buffet_roster_count botc_patch matches 6 run function botc_patch:buffet/roster/snapshot_names/6
@@ -24,4 +25,4 @@ execute if score buffet_roster_count botc_patch matches 14 run function botc_pat
 execute if score buffet_roster_count botc_patch matches 15 run function botc_patch:buffet/roster/snapshot_names/15
 function botc_patch:buffet/item_checks
 function botc_patch:buffet/draft/next_turn
-tellraw @s [{"text":"✓ ","color":"green","bold":true},{"text":"You claimed the seat.","color":"gray","bold":false}]
+tellraw @s [{"text":"✔ ","color":"green","bold":true},{"text":"You claimed the seat.","color":"gray","bold":false}]

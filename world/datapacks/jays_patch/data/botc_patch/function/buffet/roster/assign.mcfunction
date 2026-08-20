@@ -5,48 +5,63 @@ team leave @a[tag=!storyteller,tag=!spectator]
 tag @a[tag=!storyteller,tag=!spectator] add botc_buffet_roster
 execute if score buffet_roster_count botc_patch matches 1.. run team join 01_red @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=01_red] id 1
+scoreboard players set @a[tag=botc_buffet_roster,team=01_red] botc_buffet_seat 1
 scoreboard players operation @a[tag=botc_buffet_roster,team=01_red] botc_buffet_seat_gen = buffet_seat_1_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 2.. run team join 02_orange @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=02_orange] id 2
+scoreboard players set @a[tag=botc_buffet_roster,team=02_orange] botc_buffet_seat 2
 scoreboard players operation @a[tag=botc_buffet_roster,team=02_orange] botc_buffet_seat_gen = buffet_seat_2_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 3.. run team join 03_yellow @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=03_yellow] id 3
+scoreboard players set @a[tag=botc_buffet_roster,team=03_yellow] botc_buffet_seat 3
 scoreboard players operation @a[tag=botc_buffet_roster,team=03_yellow] botc_buffet_seat_gen = buffet_seat_3_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 4.. run team join 04_lime @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=04_lime] id 4
+scoreboard players set @a[tag=botc_buffet_roster,team=04_lime] botc_buffet_seat 4
 scoreboard players operation @a[tag=botc_buffet_roster,team=04_lime] botc_buffet_seat_gen = buffet_seat_4_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 5.. run team join 05_green @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=05_green] id 5
+scoreboard players set @a[tag=botc_buffet_roster,team=05_green] botc_buffet_seat 5
 scoreboard players operation @a[tag=botc_buffet_roster,team=05_green] botc_buffet_seat_gen = buffet_seat_5_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 6.. run team join 06_mint @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=06_mint] id 6
+scoreboard players set @a[tag=botc_buffet_roster,team=06_mint] botc_buffet_seat 6
 scoreboard players operation @a[tag=botc_buffet_roster,team=06_mint] botc_buffet_seat_gen = buffet_seat_6_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 7.. run team join 07_cyan @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=07_cyan] id 7
+scoreboard players set @a[tag=botc_buffet_roster,team=07_cyan] botc_buffet_seat 7
 scoreboard players operation @a[tag=botc_buffet_roster,team=07_cyan] botc_buffet_seat_gen = buffet_seat_7_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 8.. run team join 08_blue @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=08_blue] id 8
+scoreboard players set @a[tag=botc_buffet_roster,team=08_blue] botc_buffet_seat 8
 scoreboard players operation @a[tag=botc_buffet_roster,team=08_blue] botc_buffet_seat_gen = buffet_seat_8_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 9.. run team join 09_navy @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=09_navy] id 9
+scoreboard players set @a[tag=botc_buffet_roster,team=09_navy] botc_buffet_seat 9
 scoreboard players operation @a[tag=botc_buffet_roster,team=09_navy] botc_buffet_seat_gen = buffet_seat_9_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 10.. run team join 10_purple @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=10_purple] id 10
+scoreboard players set @a[tag=botc_buffet_roster,team=10_purple] botc_buffet_seat 10
 scoreboard players operation @a[tag=botc_buffet_roster,team=10_purple] botc_buffet_seat_gen = buffet_seat_10_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 11.. run team join 11_magenta @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=11_magenta] id 11
+scoreboard players set @a[tag=botc_buffet_roster,team=11_magenta] botc_buffet_seat 11
 scoreboard players operation @a[tag=botc_buffet_roster,team=11_magenta] botc_buffet_seat_gen = buffet_seat_11_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 12.. run team join 12_lavender @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=12_lavender] id 12
+scoreboard players set @a[tag=botc_buffet_roster,team=12_lavender] botc_buffet_seat 12
 scoreboard players operation @a[tag=botc_buffet_roster,team=12_lavender] botc_buffet_seat_gen = buffet_seat_12_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 13.. run team join 13_white @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=13_white] id 13
+scoreboard players set @a[tag=botc_buffet_roster,team=13_white] botc_buffet_seat 13
 scoreboard players operation @a[tag=botc_buffet_roster,team=13_white] botc_buffet_seat_gen = buffet_seat_13_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 14.. run team join 14_gray @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=14_gray] id 14
+scoreboard players set @a[tag=botc_buffet_roster,team=14_gray] botc_buffet_seat 14
 scoreboard players operation @a[tag=botc_buffet_roster,team=14_gray] botc_buffet_seat_gen = buffet_seat_14_generation botc_patch
 execute if score buffet_roster_count botc_patch matches 15.. run team join 15_black @r[tag=botc_buffet_roster,team=]
 scoreboard players set @a[tag=botc_buffet_roster,team=15_black] id 15
+scoreboard players set @a[tag=botc_buffet_roster,team=15_black] botc_buffet_seat 15
 scoreboard players operation @a[tag=botc_buffet_roster,team=15_black] botc_buffet_seat_gen = buffet_seat_15_generation botc_patch
 scoreboard players operation player_count game_data = buffet_roster_count botc_patch
 scoreboard players operation seat_layout_target_count botc_patch = buffet_roster_count botc_patch

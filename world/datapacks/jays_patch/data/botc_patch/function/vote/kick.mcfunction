@@ -1,5 +1,5 @@
 # Start or cast a votekick for one online target.
-execute if score @s botc_vote_cd matches 1.. run return run tellraw @s [{"text":"! ","color":"yellow","bold":true},{"text":"Wait a moment before voting again.","color":"gray","bold":false}]
+execute if score @s botc_vote_cd matches 1.. run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"Wait a moment before voting again.","color":"gray","bold":false}]
 tag @a remove botc_vote_selected
 $tag $(target) add botc_vote_selected
 execute unless entity @a[tag=botc_vote_selected] run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That player is not online.","color":"gray","bold":false}]

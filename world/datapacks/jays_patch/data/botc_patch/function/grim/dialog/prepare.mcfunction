@@ -4,6 +4,7 @@
 data remove storage botc_patch:grim reveal_dialog
 data modify storage botc_patch:grim reveal_dialog.p1_name set value "Seat 1"
 data modify storage botc_patch:grim reveal_dialog.p1_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p1_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p1_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p1_color set value "#aaaaaa"
 execute if score grim_seat_1_occupied botc_patch matches 1 if score grim_seat_1_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p1_color set value "#55aaff"
@@ -14,6 +15,7 @@ execute if score grim_seat_1_occupied botc_patch matches 1 store result storage 
 execute if score grim_seat_1_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p2_name set value "Seat 2"
 data modify storage botc_patch:grim reveal_dialog.p2_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p2_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p2_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p2_color set value "#aaaaaa"
 execute if score grim_seat_2_occupied botc_patch matches 1 if score grim_seat_2_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p2_color set value "#55aaff"
@@ -24,6 +26,7 @@ execute if score grim_seat_2_occupied botc_patch matches 1 store result storage 
 execute if score grim_seat_2_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p3_name set value "Seat 3"
 data modify storage botc_patch:grim reveal_dialog.p3_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p3_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p3_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p3_color set value "#aaaaaa"
 execute if score grim_seat_3_occupied botc_patch matches 1 if score grim_seat_3_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p3_color set value "#55aaff"
@@ -34,6 +37,7 @@ execute if score grim_seat_3_occupied botc_patch matches 1 store result storage 
 execute if score grim_seat_3_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p4_name set value "Seat 4"
 data modify storage botc_patch:grim reveal_dialog.p4_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p4_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p4_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p4_color set value "#aaaaaa"
 execute if score grim_seat_4_occupied botc_patch matches 1 if score grim_seat_4_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p4_color set value "#55aaff"
@@ -44,6 +48,7 @@ execute if score grim_seat_4_occupied botc_patch matches 1 store result storage 
 execute if score grim_seat_4_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p5_name set value "Seat 5"
 data modify storage botc_patch:grim reveal_dialog.p5_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p5_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p5_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p5_color set value "#aaaaaa"
 execute if score grim_seat_5_occupied botc_patch matches 1 if score grim_seat_5_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p5_color set value "#55aaff"
@@ -54,6 +59,7 @@ execute if score grim_seat_5_occupied botc_patch matches 1 store result storage 
 execute if score grim_seat_5_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p6_name set value "Seat 6"
 data modify storage botc_patch:grim reveal_dialog.p6_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p6_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p6_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p6_color set value "#aaaaaa"
 execute if score grim_seat_6_occupied botc_patch matches 1 if score grim_seat_6_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p6_color set value "#55aaff"
@@ -64,6 +70,7 @@ execute if score grim_seat_6_occupied botc_patch matches 1 store result storage 
 execute if score grim_seat_6_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p7_name set value "Seat 7"
 data modify storage botc_patch:grim reveal_dialog.p7_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p7_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p7_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p7_color set value "#aaaaaa"
 execute if score grim_seat_7_occupied botc_patch matches 1 if score grim_seat_7_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p7_color set value "#55aaff"
@@ -74,6 +81,7 @@ execute if score grim_seat_7_occupied botc_patch matches 1 store result storage 
 execute if score grim_seat_7_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p8_name set value "Seat 8"
 data modify storage botc_patch:grim reveal_dialog.p8_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p8_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p8_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p8_color set value "#aaaaaa"
 execute if score grim_seat_8_occupied botc_patch matches 1 if score grim_seat_8_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p8_color set value "#55aaff"
@@ -84,6 +92,7 @@ execute if score grim_seat_8_occupied botc_patch matches 1 store result storage 
 execute if score grim_seat_8_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p9_name set value "Seat 9"
 data modify storage botc_patch:grim reveal_dialog.p9_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p9_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p9_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p9_color set value "#aaaaaa"
 execute if score grim_seat_9_occupied botc_patch matches 1 if score grim_seat_9_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p9_color set value "#55aaff"
@@ -94,6 +103,7 @@ execute if score grim_seat_9_occupied botc_patch matches 1 store result storage 
 execute if score grim_seat_9_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p10_name set value "Seat 10"
 data modify storage botc_patch:grim reveal_dialog.p10_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p10_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p10_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p10_color set value "#aaaaaa"
 execute if score grim_seat_10_occupied botc_patch matches 1 if score grim_seat_10_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p10_color set value "#55aaff"
@@ -104,6 +114,7 @@ execute if score grim_seat_10_occupied botc_patch matches 1 store result storage
 execute if score grim_seat_10_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p11_name set value "Seat 11"
 data modify storage botc_patch:grim reveal_dialog.p11_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p11_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p11_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p11_color set value "#aaaaaa"
 execute if score grim_seat_11_occupied botc_patch matches 1 if score grim_seat_11_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p11_color set value "#55aaff"
@@ -114,6 +125,7 @@ execute if score grim_seat_11_occupied botc_patch matches 1 store result storage
 execute if score grim_seat_11_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p12_name set value "Seat 12"
 data modify storage botc_patch:grim reveal_dialog.p12_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p12_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p12_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p12_color set value "#aaaaaa"
 execute if score grim_seat_12_occupied botc_patch matches 1 if score grim_seat_12_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p12_color set value "#55aaff"
@@ -124,6 +136,7 @@ execute if score grim_seat_12_occupied botc_patch matches 1 store result storage
 execute if score grim_seat_12_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p13_name set value "Seat 13"
 data modify storage botc_patch:grim reveal_dialog.p13_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p13_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p13_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p13_color set value "#aaaaaa"
 execute if score grim_seat_13_occupied botc_patch matches 1 if score grim_seat_13_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p13_color set value "#55aaff"
@@ -134,6 +147,7 @@ execute if score grim_seat_13_occupied botc_patch matches 1 store result storage
 execute if score grim_seat_13_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p14_name set value "Seat 14"
 data modify storage botc_patch:grim reveal_dialog.p14_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p14_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p14_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p14_color set value "#aaaaaa"
 execute if score grim_seat_14_occupied botc_patch matches 1 if score grim_seat_14_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p14_color set value "#55aaff"
@@ -144,6 +158,7 @@ execute if score grim_seat_14_occupied botc_patch matches 1 store result storage
 execute if score grim_seat_14_occupied botc_patch matches 1 run function botc_patch:grim/dialog/prepare_role with storage botc_patch:grim reveal_lookup
 data modify storage botc_patch:grim reveal_dialog.p15_name set value "Seat 15"
 data modify storage botc_patch:grim reveal_dialog.p15_role set value "Unknown"
+data modify storage botc_patch:grim reveal_dialog.p15_ability_role set value "none"
 data modify storage botc_patch:grim reveal_dialog.p15_glyph set value ""
 data modify storage botc_patch:grim reveal_dialog.p15_color set value "#aaaaaa"
 execute if score grim_seat_15_occupied botc_patch matches 1 if score grim_seat_15_alignment botc_patch matches 1 run data modify storage botc_patch:grim reveal_dialog.p15_color set value "#55aaff"

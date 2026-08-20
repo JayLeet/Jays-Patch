@@ -6,7 +6,9 @@ scoreboard players operation draft_candidate_outsider botc_patch = draft_target_
 scoreboard players operation draft_candidate_outsider botc_patch += draft_target_delta botc_patch
 scoreboard players operation draft_candidate_town botc_patch = draft_target_town botc_patch
 scoreboard players operation draft_candidate_town botc_patch -= draft_target_delta botc_patch
+execute if score draft_candidate_outsider botc_patch < draft_assigned_outsider botc_patch run function botc_patch:buffet/attention/block_self
 execute if score draft_candidate_outsider botc_patch < draft_assigned_outsider botc_patch run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That setup change would remove an already-assigned Outsider slot.","color":"gray","bold":false}]
+execute if score draft_candidate_town botc_patch < draft_assigned_town botc_patch run function botc_patch:buffet/attention/block_self
 execute if score draft_candidate_town botc_patch < draft_assigned_town botc_patch run return run tellraw @s [{"text":"! ","color":"red","bold":true},{"text":"That setup change would remove an already-assigned Townsfolk slot.","color":"gray","bold":false}]
 scoreboard players operation draft_target_outsider botc_patch = draft_candidate_outsider botc_patch
 scoreboard players operation draft_target_town botc_patch = draft_candidate_town botc_patch
@@ -16,5 +18,8 @@ scoreboard players operation draft_seat_delta_town botc_patch -= draft_target_de
 scoreboard players operation draft_seat_delta_outsider botc_patch += draft_target_delta botc_patch
 $execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_town int 1 run scoreboard players get draft_seat_delta_town botc_patch
 $execute store result storage botc_patch:buffet draft.seats.s$(seat).delta_outsider int 1 run scoreboard players get draft_seat_delta_outsider botc_patch
+scoreboard players set draft_protected_outsider_delta botc_patch 0
+execute if score draft_target_delta botc_patch matches 1.. run scoreboard players operation draft_protected_outsider_delta botc_patch = draft_target_delta botc_patch
+$execute store result storage botc_patch:buffet draft.seats.s$(seat).protected_outsider int 1 run scoreboard players get draft_protected_outsider_delta botc_patch
 $data modify storage botc_patch:buffet draft.seats.s$(seat).modifier_owner set value 1b
 function botc_patch:buffet/draft/modifier/finish

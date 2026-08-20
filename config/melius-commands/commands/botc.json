@@ -159,6 +159,136 @@
                                       ]
                      },
                      {
+                         "id":  "fun",
+                         "literals":  [
+                                          {
+                                              "id":  "sillyjuice",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "function botc_patch:fun/sillyjuice/give",
+                                                                   "as_console":  true,
+                                                                   "silent":  false,
+                                                                   "op_level":  2
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "boomdandy",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "function botc_patch:fun/boomdandy/give",
+                                                                   "as_console":  true,
+                                                                   "silent":  false,
+                                                                   "op_level":  2
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "hot_potato",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "function botc_patch:fun/hot_potato/start",
+                                                                   "as_console":  true,
+                                                                   "silent":  false,
+                                                                   "op_level":  2
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "dice_roll",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "function botc_patch:fun/dice_roll/start",
+                                                                   "as_console":  true,
+                                                                   "silent":  false,
+                                                                   "op_level":  2
+                                                                   }
+                                                               ]
+                                          },
+                                          {
+                                              "id":  "paint_gun",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "function botc_patch:fun/paint_gun/give",
+                                                                   "as_console":  true,
+                                                                   "silent":  false,
+                                                                   "op_level":  2
+                                                               }
+                                                           ]
+                                          },
+                                          {
+                                              "id":  "rainbow_paint_gun",
+                                              "executes":  [
+                                                               {
+                                                                   "command":  "function botc_patch:fun/paint_gun/give_rainbow",
+                                                                   "as_console":  true,
+                                                                   "silent":  false,
+                                                                   "op_level":  2
+                                                               }
+                                                           ]
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "slayer",
+                         "arguments":  [
+                                           {
+                                               "id":  "target",
+                                               "type":  "minecraft:entity player",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute if entity @s[tag=storyteller] as ${target} run function botc_patch:fun/slayer/give",
+                                                                    "as_console":  true,
+                                                                    "silent":  false,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ],
+                         "executes":  [
+                                          {
+                                              "command":  "function botc_patch:fun/slayer/give",
+                                              "as_console":  true,
+                                              "silent":  false,
+                                              "op_level":  2
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "king",
+                         "executes":  [
+                                          {
+                                              "command":  "function botc_patch:fun/entrance/king/give",
+                                              "as_console":  true,
+                                              "silent":  false,
+                                              "op_level":  2
+                                          }
+                                      ]
+                     },
+                     {
+                         "id":  "vizier",
+                         "arguments":  [
+                                           {
+                                               "id":  "target",
+                                               "type":  "minecraft:entity player",
+                                               "executes":  [
+                                                                {
+                                                                    "command":  "execute if entity @s[tag=storyteller] if score fun_entrance_active botc_patch matches 1 run tellraw @s [{\"text\":\"! \",\"color\":\"red\",\"bold\":true},{\"text\":\"A dramatic entrance is already playing.\",\"color\":\"gray\",\"bold\":false}]",
+                                                                    "as_console":  true,
+                                                                    "silent":  false,
+                                                                    "op_level":  4
+                                                                },
+                                                                {
+                                                                    "command":  "execute if entity @s[tag=storyteller] unless score fun_entrance_active botc_patch matches 1 as ${target} at @s run function botc_patch:fun/entrance/vizier/start",
+                                                                    "as_console":  true,
+                                                                    "silent":  false,
+                                                                    "op_level":  4
+                                                                }
+                                                            ]
+                                           }
+                                       ]
+                     },
+                     {
                          "id":  "queue",
                          "literals":  [
                                           {
@@ -290,19 +420,30 @@
                                                                }
                                                            ]
                                           },
-                                          {
-                                              "id":  "change_characters",
-                                              "executes":  [
+                                           {
+                                               "id":  "change_characters",
+                                               "executes":  [
                                                                {
                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/editor/change_characters",
                                                                    "as_console":  true,
                                                                    "silent":  true,
                                                                    "op_level":  4
                                                                }
+                                                            ]
+                                           },
+                                           {
+                                               "id":  "choose_demon",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/editor/demon/begin",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
                                                            ]
-                                          },
-                                          {
-                                              "id":  "announce_fearmonger",
+                                           },
+                                           {
+                                               "id":  "announce_fearmonger",
                                               "executes":  [
                                                                {
                                                                    "command":  "execute as @s[tag=storyteller] run function botc_patch:grim/announce_fearmonger",
@@ -936,8 +1077,30 @@
                                                                     "as_console":  true,
                                                                     "silent":  true,
                                                                     "op_level":  4
-                                                                }
-                                                            ]
+                                                                    }
+                                                                ]
+                                           },
+                                           {
+                                               "id":  "execute_unique",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] if entity @s[tag=botc_boomdandy_execution_pending] run function botc_patch:storyteller_tools/boomdandy/execute_unique",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
+                                           },
+                                           {
+                                               "id":  "execute_normal",
+                                               "executes":  [
+                                                               {
+                                                                   "command":  "execute as @s[tag=storyteller] if entity @s[tag=botc_boomdandy_execution_pending] run function botc_patch:storyteller_tools/boomdandy/execute_normal",
+                                                                   "as_console":  true,
+                                                                   "silent":  true,
+                                                                   "op_level":  4
+                                                               }
+                                                           ]
                                            }
                                        ]
                       },
