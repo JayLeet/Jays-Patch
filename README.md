@@ -15,7 +15,7 @@ I made it for **Sybillian's modpack 1.5.4** on
 
 Jay's Patch is an AI-assisted project. AI has been used for code,
 documentation, testing, and repository and release maintenance. This project
-should not be presented as AI-free.
+is not AI-free.
 
 ## What does it add?
 
