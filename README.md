@@ -11,6 +11,12 @@ I made it for **Sybillian's modpack 1.5.4** on
 
 **[Download Jay's Patch v1.9.0](https://github.com/JayLeet/Jays-Patch/releases/download/v1.9.0/Jay.s.Patch.v1.9.0.zip)**
 
+## AI disclosure
+
+Jay's Patch is an AI-assisted project. AI has been used for code,
+documentation, testing, and repository and release maintenance. This project
+should not be presented as AI-free.
+
 ## What does it add?
 
 ### 🪑 A Town Square that fits the game
